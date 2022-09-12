@@ -82,6 +82,8 @@ type Msg
     | Collapse TypeClassId
     | ExpandAll
     | CollapseAll
+    | HideAll
+    | ShowAll
     | Switch PackageId
     | SwitchStateControl
     | SwitchConnections
@@ -123,6 +125,14 @@ update msg state =
         ExpandAll ->
             { state
             | collapsed = AllExpanded
+            }
+        HideAll ->
+            { state
+            | packagesShown = state.packagesShown |> (Dict.map <| always <| always False)
+            }
+        ShowAll ->
+            { state
+            | packagesShown = state.packagesShown |> (Dict.map <| always <| always True)
             }
         SwitchStateControl ->
             { state

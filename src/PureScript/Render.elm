@@ -645,6 +645,14 @@ stateControl state =
                         State.AllCollapsed -> True
                         _ -> False
                 ]
+        showHideAllClasses =
+            Html.div
+                []
+                [ button_ "Show All" ShowAll
+                    <| not <| List.any not <| Dict.values state.packagesShown
+                , button_ "Hide All" HideAll
+                    <| not <| List.any identity <| Dict.values state.packagesShown
+                ]
         expandCollapseStateButton =
             Html.span
                 [ Html.style "position" "absolute"
@@ -675,6 +683,7 @@ stateControl state =
             ]
             [ expandCollapseStateButton
             , expandCollapseClasses
+            , showHideAllClasses
             , packageSwitchers
             , Html.hr [] []
             , whatToDisplayControls
