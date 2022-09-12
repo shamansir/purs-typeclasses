@@ -1,2 +1,2 @@
 #!/bin/sh
-http-server ./data-src --port 8042 --cors
+http-server ./gen --port 8042 --cors

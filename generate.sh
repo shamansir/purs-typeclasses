@@ -1,1 +1,1 @@
-dhall-to-json --file ./classes.dhall > ../data-src/purs-typeclasses._.json
+dhall-to-json --file ./classes.dhall > ./gen/purs-typeclasses.json

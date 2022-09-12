@@ -1,0 +1,40 @@
+body {
+    width: 100%;
+    font-size: 10px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.cards {
+    position: fixed;
+    right: 0;
+}
+
+.card {
+    white-space: pre;
+}
+
+.percentage, .percentage--bg, .percentage--fill {
+    display: inline-block;
+}
+
+.percentage {
+    position: relative;
+}
+
+.percentage--bg, .percentage--fill, .percentage--value {
+    position: absolute;
+}
+
+.percentage--bg {
+    background-color: lightgray;
+}
+
+.percentage--fill {
+    background-color: green;
+}
+
+.percentage--value {
+    color: white;
+    padding: 2px 3px;
+    font-size: 8px;
+}
