@@ -7,42 +7,62 @@ let Text/concatMapSep =
 let tt = \(text : Text) -> Text/replace "  " " " text
 
 
-let Var =
+let RenderedExpr = Text {-
     < Norm : Text
     | FVar : Text
     | TypeVar : Text
     | Raw : Text
     | RawBr : Text
     | PH
+    > -}
+
+
+let ApplyWhat =
+    < Subject : Text
+    | Class : Text
+    | Function : Text
+    | Type_ : Text
+    -- | Constructor : Text
+    | Constraint : Text
     >
 
 
-let Class_ = { cl : Text, vars : List Var }
+let Apply_ = { what : ApplyWhat, arguments : List RenderedExpr }
 
 
-let Subj_ = { subj : Text, vars : List Var }
+let OperatorCall_ = { left : RenderedExpr, op : Text, right : RenderedExpr }
 
 
-let Ap_ = { what : Var, vars : List Var }
+let Brackets_ = RenderedExpr
 
 
-let Call_ = { method : Text, vars : List Var }
+let Var_ = Text
 
 
-let Fn_ = { items : List Var }
+let Operator_ = Text
 
 
-let Op_ = Text
+let LetExpr_ = { bindings : List { what : Text, to : RenderedExpr }, _in : RenderedExpr }
 
 
-let Value =
-    < Class : Class_
-    | Subj : Subj_
-    | Ap : Ap_
-    | Var : Var
-    | Op : Op_
-    | Call : Call_
-    | Fn : Fn_
+let Constrained_ = { constraints : List RenderedExpr, expr : RenderedExpr }
+
+
+let TypeDef_ = { items : List RenderedExpr }
+
+
+let Expr =
+    < Apply : Apply_
+    | TypeDef : TypeDef_
+    -- | Var : Var
+    | OperatorCall : OperatorCall_
+    | Brackets : Brackets_
+    | LetExpr : LetExpr_
+    -- | IfElse :
+    | Var : Var_
+    | Operator : Operator_
+    | Constrained : Constrained_
+    | PH
     >
 
 
