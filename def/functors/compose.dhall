@@ -2,7 +2,7 @@ let tc = ./../../typeclass.dhall
 
 let compose : tc.TClass =
     { id = "compose"
-    , name = "Comprose"
+    , name = "Compose"
     , what = tc.What.Newtype_
     , vars = [ "f", "g", "a" ]
     , info = ""
