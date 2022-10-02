@@ -1,6 +1,9 @@
 let Text/concatMapSep =
     https://prelude.dhall-lang.org/Text/concatMapSep
 
+let Text/concatSep =
+    https://prelude.dhall-lang.org/Text/concatSep
+
 
 {- Expression builder -}
 
@@ -22,9 +25,24 @@ let ApplyWhat =
     | Class : Text
     | Function : Text
     | Type_ : Text
+    | FVar : Text -- TODO: rename
     -- | Constructor : Text
     | Constraint : Text
     >
+
+
+let ApplyWhat/render
+    : ApplyWhat -> Text
+    = \(aw : ApplyWhat) ->
+    merge
+        { Subject = \(subj : Text) -> "{{subj:${subj}}}"
+        , Class = \(class : Text) -> "{{class:${class}}}"
+        , Function = \(fn : Text) -> "{{method:${fn}}}"
+        , Type_ = \(type : Text) -> "{{typevar:${type}}}"
+        , FVar = \(fvar : Text) -> "{{fvar:${fvar}}}"
+        , Constraint = \(cns : Text) -> "{{class:${cns}}}"
+        }
+        aw
 
 
 let Apply_ = { what : ApplyWhat, arguments : List RenderedExpr }
@@ -48,13 +66,12 @@ let LetExpr_ = { bindings : List { what : Text, to : RenderedExpr }, _in : Rende
 let Constrained_ = { constraints : List RenderedExpr, expr : RenderedExpr }
 
 
-let TypeDef_ = { items : List RenderedExpr }
+let FnTypeDef_ = { items : List RenderedExpr }
 
 
 let Expr =
     < Apply : Apply_
-    | TypeDef : TypeDef_
-    -- | Var : Var
+    | FnTypeDef : FnTypeDef_
     | OperatorCall : OperatorCall_
     | Brackets : Brackets_
     | LetExpr : LetExpr_
@@ -66,7 +83,38 @@ let Expr =
     >
 
 
--- let Infix = { op : Op_, left : Value, right : Value }
+let Expr/render
+    : Expr -> Text
+    = \(expr : Expr) ->
+    merge
+        { Apply
+            =  \(ap : Apply_)
+            -> "${ApplyWhat/render ap.what} ${Text/concatSep " " ap.arguments}"
+        , FnTypeDef
+            =  \(td : FnTypeDef_)
+            -> tt "${Text/concatSep " {{op:->}} " td.items}"
+            -- tt "(${Text/concatSep " {{op:->}} " td.items})"
+        , OperatorCall
+            =  \(oc : OperatorCall_)
+            -> "${oc.left} {{op:${oc.op}}} ${oc.right}"
+        , Brackets
+            = \(expr : Brackets_)
+            -> "(${expr})"
+        , LetExpr
+            =  \(le : LetExpr_)
+            -> "" -- FIXME
+        , Var
+            =  \(v : Var_)
+            -> "{{var:${v}}}"
+        , Operator
+            =  \(o : Operator_)
+            -> "({{op:${o}}})"
+        , Constrained
+            =  \(cs : Constrained_)
+            -> tt "${Text/concatSep " {{op:=>}} " cs.constraints} {{op:=>}} ${cs.expr}"
+        , PH = "{{var:_}}"
+        }
+        expr
 
 
 let noVarsE = [] : List Var
