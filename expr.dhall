@@ -1,0 +1,189 @@
+-- let Text/concatMapSep =
+--     https://prelude.dhall-lang.org/Text/concatMapSep
+
+let Text/concatSep =
+    https://prelude.dhall-lang.org/Text/concatSep
+
+let List/map =
+    https://prelude.dhall-lang.org/List/map
+
+
+{- Expression builder -}
+
+let tt = \(text : Text) -> Text/replace "  " " " text
+
+
+let SealedExpr =
+    < Source : Text
+    >
+
+
+let SealedExpr/unseal
+    : SealedExpr -> Text
+    = \(re : SealedExpr) ->
+    merge
+        { Source = \(text : Text) -> text
+        }
+        re
+
+
+{- let SealedExpr/render
+    : SealedExpr -> Text
+    = SealedExpr/unseal -}
+
+
+let SealedExpr/unsealMulti
+    : List SealedExpr -> List Text
+    = \(res : List SealedExpr) ->
+    List/map
+        SealedExpr
+        Text
+        SealedExpr/unseal
+        res
+
+
+let concatExprs
+    : Text -> List SealedExpr -> Text
+    = \(sep : Text) -> \(res : List SealedExpr) ->
+        Text/concatSep sep (SealedExpr/unsealMulti res)
+
+
+let What =
+    < Subject : Text
+    | Class : Text
+    | Function : Text
+    | Type_ : Text
+    | FVar : Text -- TODO: rename
+    -- | Constructor : Text
+    | Constraint : Text
+    >
+
+
+let What/render
+    : What -> Text
+    = \(aw : What) ->
+    merge
+        { Subject = \(subj : Text) -> "{{subj:${subj}}}"
+        , Class = \(class : Text) -> "{{class:${class}}}"
+        , Function = \(fn : Text) -> "{{method:${fn}}}"
+        , Type_ = \(type : Text) -> "{{typevar:${type}}}"
+        , FVar = \(fvar : Text) -> "{{fvar:${fvar}}}"
+        , Constraint = \(cns : Text) -> "{{class:${cns}}}"
+        }
+        aw
+
+
+let Apply_ = { what : What, arguments : List SealedExpr }
+
+
+let OperatorCall_ = { left : SealedExpr, op : Text, right : SealedExpr }
+
+
+let Brackets_ = SealedExpr
+
+
+let Var_ = Text
+
+
+let Operator_ = Text
+
+
+let LetExpr_ = { bindings : List { what : Text, to : SealedExpr }, _in : SealedExpr }
+
+
+let Constrained_ = { constraints : List SealedExpr, expr : SealedExpr }
+
+
+let FnTypeDef_ = { items : List SealedExpr }
+
+
+let Expr =
+    < Apply : Apply_
+    | FnTypeDef : FnTypeDef_
+    | OperatorCall : OperatorCall_
+    | Brackets : Brackets_
+    | LetExpr : LetExpr_
+    -- | IfElse :
+    | Single : What
+    | Var : Var_
+    | Operator : Operator_
+    | Constrained : Constrained_
+    | PH
+    >
+
+
+let hasNone
+    = \(t : Type) -> \(list : List t) -> Natural/isZero (List/length t list)
+
+
+let Expr/render
+    : Expr -> Text
+    = \(expr : Expr) ->
+    merge
+        { Apply
+            =  \(ap : Apply_)
+            -> if (hasNone SealedExpr ap.arguments) then What/render ap.what
+                else "${What/render ap.what} ${concatExprs " " ap.arguments}"
+        , FnTypeDef
+            =  \(td : FnTypeDef_)
+            -> tt "${concatExprs " {{op:->}} " td.items}"
+            -- tt "(${Text/concatSep " {{op:->}} " td.items})"
+        , OperatorCall
+            =  \(oc : OperatorCall_)
+            -> "${SealedExpr/unseal oc.left} {{op:${oc.op}}} ${SealedExpr/unseal oc.right}"
+        , Brackets
+            = \(expr : Brackets_)
+            -> "(${SealedExpr/unseal expr})"
+        , LetExpr
+            =  \(le : LetExpr_)
+            -> "" -- FIXME
+        , Var
+            =  \(v : Var_)
+            -> "{{var:${v}}}"
+        , Single
+            =  \(aw : What)
+            -> What/render aw
+        , Operator
+            =  \(o : Operator_)
+            -> "({{op:${o}}})"
+        , Constrained
+            =  \(cs : Constrained_)
+            -> tt "${concatExprs " {{op:=>}} " cs.constraints} {{op:=>}} ${SealedExpr/unseal cs.expr}"
+        , PH = "{{var:_}}"
+        }
+        expr
+
+
+let Expr/seal
+    : Expr -> SealedExpr
+    = \(expr : Expr) -> SealedExpr.Source (Expr/render expr)
+
+
+let testApply1 = assert
+    : Expr/render
+        (Expr.Apply
+            { what = What.Subject "foo"
+            , arguments = [] : List SealedExpr
+            }
+        )
+    ≡ "{{subj:foo}}"
+
+
+let testApply2 = assert
+    : Expr/render
+        (Expr.Apply
+            { what = What.Subject "foo"
+            , arguments =
+                [ Expr/seal (Expr.Var "a")
+                , Expr/seal
+                    (Expr.Single (What.Function "f"))
+                ]
+            }
+        )
+    ≡ "{{subj:foo}} {{var:a}} {{method:f}}"
+
+
+in
+    { What, Expr
+    , What/render, Expr/render, Expr/seal
+    }

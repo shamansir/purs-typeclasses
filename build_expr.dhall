@@ -77,6 +77,7 @@ let Expr =
     | LetExpr : LetExpr_
     -- | IfElse :
     | Var : Var_
+    | Single : ApplyWhat
     | Operator : Operator_
     | Constrained : Constrained_
     | PH
@@ -106,6 +107,9 @@ let Expr/render
         , Var
             =  \(v : Var_)
             -> "{{var:${v}}}"
+        , Single
+            =  \(aw : ApplyWhat)
+            -> ApplyWhat/render aw
         , Operator
             =  \(o : Operator_)
             -> "({{op:${o}}})"
@@ -117,7 +121,7 @@ let Expr/render
         expr
 
 
-let noVarsE = [] : List Var
+let noExprs = [] : List RenderedExpr
 
 let var
     : Var -> Text
