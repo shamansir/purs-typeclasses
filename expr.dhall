@@ -27,12 +27,7 @@ let SealedExpr/unseal
         re
 
 
-{- let SealedExpr/render
-    : SealedExpr -> Text
-    = SealedExpr/unseal -}
-
-
-let SealedExpr/unsealMulti
+let SealedExpr/unsealAll
     : List SealedExpr -> List Text
     = \(res : List SealedExpr) ->
     List/map
@@ -45,7 +40,7 @@ let SealedExpr/unsealMulti
 let concatExprs
     : Text -> List SealedExpr -> Text
     = \(sep : Text) -> \(res : List SealedExpr) ->
-        Text/concatSep sep (SealedExpr/unsealMulti res)
+        Text/concatSep sep (SealedExpr/unsealAll res)
 
 
 let What =
@@ -159,7 +154,25 @@ let Expr/seal
     = \(expr : Expr) -> SealedExpr.Source (Expr/render expr)
 
 
-let testApply1 = assert
+let Expr/sealAll
+    : List Expr -> List SealedExpr
+    = \(es : List Expr)
+    -> List/map
+        Expr
+        SealedExpr
+        Expr/seal
+        es
+
+
+let Expr/none
+    = [] : List Expr
+
+
+let SealedExpr/none
+    = [] : List SealedExpr
+
+
+let test_apply_1 = assert
     : Expr/render
         (Expr.Apply
             { what = What.Subject "foo"
@@ -169,7 +182,7 @@ let testApply1 = assert
     ≡ "{{subj:foo}}"
 
 
-let testApply2 = assert
+let test_apply_2 = assert
     : Expr/render
         (Expr.Apply
             { what = What.Subject "foo"
@@ -185,5 +198,5 @@ let testApply2 = assert
 
 in
     { What, Expr
-    , What/render, Expr/render, Expr/seal
+    , What/render, Expr/render, Expr/seal, Expr/sealAll, Expr/none
     }
