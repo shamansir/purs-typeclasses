@@ -1,6 +1,23 @@
 let e = ./expr.dhall
 
 
+-- let r = e.Expr/render
+
+
+let raw
+    : Text -> e.Expr
+    = e.Expr.Raw
+
+let test_raw = assert : e.Expr/render (raw "foobar_%2x* x 2") ≡ "foobar_%2x* x 2"
+
+
+let num
+    : Text -> e.Expr
+    = e.Expr.Num
+
+let test_raw = assert : e.Expr/render (num "42") ≡ "{{num:42}}"
+
+
 let ph
     : e.Expr
     = e.Expr.PH
@@ -36,66 +53,73 @@ let br
 
 let test_br = assert : e.Expr/render (br (t "w")) ≡ "({{typevar:w}})"
 
-{-
--- raw text Var
-let r
-    : Text -> Var
-    = \(r : Text) -> Var.Raw r
--}
 
-{-
--- (raw text) Var
-let rbr
-    : Text -> Var
-    = \(r : Text) -> Var.RawBr r
--}
-
-{-
--- raw text Var from Value
-let rv
-    : Value -> Var
-    = \(rv : Value) -> Var.Raw (val rv)
--}
-
-{-
--- (raw text) Var from Value
-let rbrv
-    : Value -> Var
-    = \(rbrv : Value) -> Var.RawBr (val rbrv)
--}
-
-
--- what var1 var2 ...
+-- expr1 expr2 expr3 ...
 let ap_
+    : List e.Expr -> e.Expr
+    = \(items : List e.Expr) ->
+    e.Expr.ApplyExp { items = e.Expr/sealAll items }
+
+let test_ap_
+    = assert
+    : e.Expr/render (ap_ [ t "w", n "v", f "f" ])
+    ≡ "{{typevar:w}} {{var:v}} {{fvar:f}}"
+
+
+-- expr1
+let ap1
+    : e.Expr -> e.Expr
+    = \(exp : e.Expr) -> ap_ [ exp ]
+
+let test_ap1
+    = assert
+    : e.Expr/render (ap1 (f "f"))
+    ≡ "{{fvar:f}}"
+
+
+-- expr1 expr2
+let ap2_
+    : e.Expr -> e.Expr -> e.Expr
+    = \(expr1 : e.Expr) -> \(expr2 : e.Expr)
+    -> ap_ [ expr1, expr2 ]
+
+let test_ap2_
+    = assert
+    : e.Expr/render (ap2_ (t "f") (n "v"))
+    ≡ "{{typevar:f}} {{var:v}}"
+
+
+-- what expr1 expr2 expr3 ...
+let apw_
     : e.What -> List e.Expr -> e.Expr
     = \(what : e.What) -> \(args : List e.Expr) ->
     e.Expr.Apply { what, arguments = e.Expr/sealAll args }
 
-let test_ap_
+let test_apw_
     = assert
-    : e.Expr/render (ap_ (e.What.FVar "f") [ t "w", n "v", f "f" ])
+    : e.Expr/render (apw_ (e.What.FVar "f") [ t "w", n "v", f "f" ])
     ≡ "{{fvar:f}} {{typevar:w}} {{var:v}} {{fvar:f}}"
 
 
--- what var1
-let ap1_
+-- what expr1
+let apw1_
     : e.What -> e.Expr -> e.Expr
-    = \(what : e.What) -> \(var : e.Expr) -> ap_ what [ var ]
+    = \(what : e.What) -> \(var : e.Expr) -> apw_ what [ var ]
 
-let test_ap1_
+let test_apw1_
     = assert
-    : e.Expr/render (ap1_ (e.What.FVar "f") (n "v"))
+    : e.Expr/render (apw1_ (e.What.FVar "f") (n "v"))
     ≡ "{{fvar:f}} {{var:v}}"
 
 
 -- what
-let apE
+let apwE
     : e.What -> e.Expr
-    = \(what : e.What) -> ap_ what e.Expr/none
+    = \(what : e.What) -> apw_ what e.Expr/none
 
-let test_apE
+let test_apwE
     = assert
-    : e.Expr/render (apE (e.What.FVar "f"))
+    : e.Expr/render (apwE (e.What.FVar "f"))
     ≡ "{{fvar:f}}"
 
 
@@ -103,7 +127,7 @@ let test_apE
 let subj_
     : Text -> List e.Expr -> e.Expr
     = \(subj : Text) -> \(args : List e.Expr) ->
-    ap_ (e.What.Subject subj) args
+    apw_ (e.What.Subject subj) args
 
 let test_subj_
     = assert
@@ -123,7 +147,7 @@ let test_subjE
     ≡ "{{subj:Foo}}"
 
 
--- Subject var
+-- Subject expr
 let subj1_
     : Text -> e.Expr -> e.Expr
     = \(subj : Text) -> \(var : e.Expr) ->
@@ -135,11 +159,11 @@ let test_subj1_
     ≡ "{{subj:Foo}} {{var:v}}"
 
 
--- Class var1 var2 ...
+-- Class expr1 expr2 ...
 let class_
     : Text -> List e.Expr -> e.Expr
     = \(cl : Text) -> \(args : List e.Expr) ->
-    ap_ (e.What.Class cl) args
+    apw_ (e.What.Class cl) args
 
 let test_class_
     = assert
@@ -147,11 +171,11 @@ let test_class_
     ≡ "{{class:Foo}} {{typevar:w}} {{var:v}} {{fvar:f}}"
 
 
--- Class var
+-- Class expr
 let class1_
     : Text -> e.Expr -> e.Expr
-    = \(cl : Text) -> \(var : e.Expr) ->
-    class_ cl [ var ]
+    = \(cl : Text) -> \(expr : e.Expr) ->
+    class_ cl [ expr ]
 
 let test_class1_
     = assert
@@ -171,11 +195,11 @@ let test_classE
     ≡ "{{class:foo}}"
 
 
--- fn var1 var2 ...
+-- fn expr1 expr2 ...
 let call_
     : Text -> List e.Expr -> e.Expr
     = \(fn : Text) -> \(args : List e.Expr) ->
-    ap_ (e.What.Function fn) args
+    apw_ (e.What.Function fn) args
 
 let test_call_
     = assert
@@ -183,7 +207,7 @@ let test_call_
     ≡ "{{method:foobar}} {{typevar:w}} {{var:v}} {{fvar:f}}"
 
 
--- method var
+-- fn expr1
 let call1_
     : Text -> e.Expr -> e.Expr
     = \(fn : Text) -> \(var : e.Expr) ->
@@ -195,7 +219,7 @@ let test_call1_
     ≡ "{{method:foobar}} {{var:v}}"
 
 
--- method
+-- fn
 let callE
     : Text -> e.Expr
     = \(fn : Text) ->
@@ -207,7 +231,7 @@ let test_callE
     ≡ "{{method:foobar}}"
 
 
--- var1 -> var2 -> var3 -> ...
+-- expr1 -> expr2 -> expr3 -> ...
 let fn_
     : List e.Expr -> e.Expr
     = \(args : List e.Expr)
@@ -216,134 +240,103 @@ let fn_
 let test_fn_
     = assert
     : e.Expr/render (fn_ [ class_ "Foo" [ t "w", n "v", f "f" ], class_ "Bar" [ t "v", n "n" ], n "v", classE "Foo" ])
-    ≡ "{{class:Foo}} {{typevar:w}} {{var:v}} {{fvar:f}} -> {{class:Bar}} {{typevar:v}} {{var:n}} -> {{var:v}} -> {{class:Foo}}"
+    ≡ "{{class:Foo}} {{typevar:w}} {{var:v}} {{fvar:f}} {{op:->}} {{class:Bar}} {{typevar:v}} {{var:n}} {{op:->}} {{var:v}} {{op:->}} {{class:Foo}}"
 
 
-{-
--- Var as a Value
-let v
-    : Var -> Value
-    = \(v: Var) -> Value.Var v
+-- expr1 -> expr2
+let fn2
+    : e.Expr -> e.Expr -> e.Expr
+    = \(expr1 : e.Expr) -> \(expr2 : e.Expr)
+    -> fn_ [ expr1, expr2 ]
 
--- Norm Var as a Value
-let vn
-    : Text -> Value
-    = \(vn : Text) -> v (n vn)
-
--- Func Var as a Value
-let vf
-    : Text -> Value
-    = \(vf : Text) -> v (f vf)
-
--- Type Var as a Value
-let vt
-    : Text -> Value
-    = \(vt : Text) -> v (t vt)
-
--- raw text as Value
-let rtv
-    : Text -> Value
-    = \(r_ : Text) ->  Value.Var (r r_)
-
--- (raw text) as Value
-let rtvbr
-    : Text -> Value
-    = \(r_ : Text) ->  Value.Var (rbr r_)
-
--- operator value
-let op
-    : Text -> Value
-    = \(o: Text) -> Value.Op o
--}
+let test_fn2
+    = assert
+    : e.Expr/render (fn2 (class_ "Bar" [ t "v", n "n" ]) (n "v"))
+    ≡ "{{class:Bar}} {{typevar:v}} {{var:n}} {{op:->}} {{var:v}}"
 
 
-{- TO TEXT -}
-
--- value1 value2
-let ap
-    : Value -> Value -> Text
-    = \(value1 : Value) -> \(value2 : Value) -> tt "${val value1} ${val value2}"
-
--- (value1 value2)
-let apBr
-    : Value -> Value -> Text
-    = \(value1 : Value) -> \(value2 : Value) -> tt "(${ap value1 value2})"
-
--- value1 value2 value3
-let ap3
-    : Value -> Value -> Value -> Text
-    = \(value1 : Value) -> \(value2 : Value) -> \(value3 : Value) -> tt "${val value1} ${val value2} ${val value3}"
-
--- (value1 value2 value3)
-let ap2Br
-    : Value -> Value -> Value -> Text
-    = \(value1 : Value) -> \(value2 : Value) -> \(value3 : Value) -> tt "(${val value1} ${val value2} ${val value3})"
-
--- value1 -> value2
-let fn
-    : Value -> Value -> Text
-    = \(value1 : Value) -> \(value2 : Value) -> tt "${val value1} {{op:->}} ${val value2}"
-
--- value1 -> value2 -> value3
+-- expr1 -> expr2 -> expr3
 let fn3
-    : Value -> Value -> Value -> Text
-    = \(value1 : Value) -> \(value2 : Value) -> \(value3 : Value) -> tt "${val value1} {{op:->}} ${val value2} {{op:->}} ${val value3}"
+    : e.Expr -> e.Expr -> e.Expr -> e.Expr
+    = \(expr1 : e.Expr) -> \(expr2 : e.Expr) -> \(expr3 : e.Expr)
+    -> fn_ [ expr1, expr2, expr3 ]
 
--- left op right ~~> Text
+let test_fn3
+    = assert
+    : e.Expr/render (fn3 (classE "Foo") (class_ "Bar" [ t "v", n "n" ]) (n "v"))
+    ≡ "{{class:Foo}} {{op:->}} {{class:Bar}} {{typevar:v}} {{var:n}} {{op:->}} {{var:v}}"
+
+
+-- left `op` right
 let inf
-    : Op_ -> Value -> Value -> Text
-    = \(op: Op_) -> \(left : Value) -> \(right : Value) -> tt "${val left} {{op:${op}}} ${val right}"
+    : Text -> e.Expr -> e.Expr -> e.Expr
+    = \(op: Text) -> \(left : e.Expr) -> \(right : e.Expr)
+    -> e.Expr.OperatorCall { op, left = e.Expr/seal left, right = e.Expr/seal right }
 
--- value1 -> value2 -> value3 -> ...
-let fnvs
-    : List Value -> Text
-    = \(items : List Value) ->
-    -- val (Value.Fn { items })
-    tt "${Text/concatMapSep " {{op:->}} " Value val items}"
+let test_inf1
+    = assert
+    : e.Expr/render (inf "*" (n "PI") (num "2"))
+    ≡ "{{var:PI}} {{op:*}} {{num:2}}"
 
--- (value1 -> value2)
-let fnBr
-    : Value -> Value -> Text
-    = \(value1 : Value) -> \(value2 : Value) -> tt "(${fn value1 value2})"
 
--- method :: def
+-- fn :: expr1 -> expr2 ...
 let mdef
-    : Text -> Value -> Text
-    = \(method : Text) -> \(def : Value) -> inf "::" (callE method) def
+    : Text -> List e.Expr -> e.Expr
+    = \(fn : Text) -> \(args : List e.Expr)
+    -> e.Expr.FnDef { fn, items = e.Expr/sealAll args }
 
--- (text)
-let br
-    : Text -> Text
-    = \(text : Text) -> "(${text})"
+let test_mdef
+    = assert
+    : e.Expr/render (mdef "buz" [ class_ "Bar" [ t "v", n "n" ], classE "Foo", n "v" ])
+    ≡ "{{method:buz}} {{op:::}} {{class:Bar}} {{typevar:v}} {{var:n}} {{op:->}} {{class:Foo}} {{op:->}} {{var:v}}"
 
--- (val)
-let brv
-    : Value -> Text
-    = \(val_ : Value) -> "(${val val_})"
 
--- (var)
-let brvr
-    : Var -> Text
-    = \(var_ : Var) -> "(${var var_})"
+-- fn :: expr
+let mdef1
+    : Text -> e.Expr -> e.Expr
+    = \(fn : Text) -> \(def : e.Expr)
+    -> mdef fn [ def ]
+
+let test_mdef1
+    = assert
+    : e.Expr/render (mdef1 "buz" (n "v"))
+    ≡ "{{method:buz}} {{op:::}} {{var:v}}"
+
 
 -- (req1, req2, ...) => what
 let req
-    : List Value -> Value -> Text
-    = \(reqs : List Value) -> \(what : Value) ->
-    tt "(${Text/concatMapSep ", " Value val reqs}) {{op:=>}} ${val what}"
+    : List e.Expr -> e.Expr -> e.Expr
+    = \(reqs : List e.Expr) -> \(what : e.Expr)
+    -> e.Expr.Constrained { constraints = e.Expr/sealAll reqs, expr = e.Expr/seal what }
 
+let test_req
+    = assert
+    : e.Expr/render (req [ class_ "Bar" [ t "v", n "n" ], classE "Foo", n "v" ] (class1_ "Foo" (n "v")))
+    ≡ "({{class:Bar}} {{typevar:v}} {{var:n}}, {{class:Foo}}, {{var:v}}) {{op:=>}} {{class:Foo}} {{var:v}}"
+
+
+-- req1 => req2 => ... => what
+let reqseq
+    : List e.Expr -> e.Expr -> e.Expr
+    = \(reqs : List e.Expr) -> \(what : e.Expr)
+    -> e.Expr.ConstrainedSeq { constraints = e.Expr/sealAll reqs, expr = e.Expr/seal what }
+let test_reqseq
+    = assert
+    : e.Expr/render (reqseq [ class_ "Bar" [ t "v", n "n" ], classE "Foo", n "v" ] (class1_ "Foo" (n "v")))
+    ≡ "{{class:Bar}} {{typevar:v}} {{var:n}} {{op:=>}} {{class:Foo}} {{op:=>}} {{var:v}} {{op:=>}} {{class:Foo}} {{var:v}}"
+
+
+-- req => what
 let req1
-    : Value -> Value -> Text
-    = \(req : Value) -> \(what : Value) ->
-    tt "(${val req}) {{op:=>}} ${val what}"
+    : e.Expr -> e.Expr -> e.Expr
+    = \(req : e.Expr) -> \(what : e.Expr) ->
+    reqseq [ req ] what
+let test_req1
+    = assert
+    : e.Expr/render (req1 (class_ "Bar" [ t "v", n "n" ]) (class1_ "Foo" (n "v")))
+    ≡ "{{class:Bar}} {{typevar:v}} {{var:n}} {{op:=>}} {{class:Foo}} {{var:v}}"
 
 
 in
-    { Var, Class_, Subj_, Value
-    , noVarsE
-    , var, val
-    , br, brv, brvr, rbr
-    , ap, apBr, ap3, ap2Br, fn, fn3, fnvs, fnBr, req, req1, inf, mdef
-    , subj_, subjE, subj1_, class_, class1_, classE, ap_, ap1_, call_, call1_, callE, fn_
-    , ph, n, f, t, v, vn, vf, vt, r, rv, rbrv, op, rtv, rtvbr
+    {
     }

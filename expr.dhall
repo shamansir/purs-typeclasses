@@ -71,6 +71,9 @@ let What/render
 let Apply_ = { what : What, arguments : List SealedExpr }
 
 
+let ApplyExp_ = { items : List SealedExpr }
+
+
 let OperatorCall_ = { left : SealedExpr, op : Text, right : SealedExpr }
 
 
@@ -89,12 +92,20 @@ let LetExpr_ = { bindings : List { what : Text, to : SealedExpr }, _in : SealedE
 let Constrained_ = { constraints : List SealedExpr, expr : SealedExpr }
 
 
+let ConstrainedSeq_ = { constraints : List SealedExpr, expr : SealedExpr }
+
+
 let FnTypeDef_ = { items : List SealedExpr }
+
+
+let FnDef_ = { fn : Text, items : List SealedExpr }
 
 
 let Expr =
     < Apply : Apply_
+    | ApplyExp : ApplyExp_
     | FnTypeDef : FnTypeDef_
+    | FnDef : FnDef_
     | OperatorCall : OperatorCall_
     | Brackets : Brackets_
     | LetExpr : LetExpr_
@@ -103,7 +114,10 @@ let Expr =
     | Var : Var_
     | Operator : Operator_
     | Constrained : Constrained_
+    | ConstrainedSeq : ConstrainedSeq_
     | PH
+    | Raw : Text
+    | Num : Text
     >
 
 
@@ -119,10 +133,15 @@ let Expr/render
             =  \(ap : Apply_)
             -> if (hasNone SealedExpr ap.arguments) then What/render ap.what
                 else "${What/render ap.what} ${concatExprs " " ap.arguments}"
+        , ApplyExp
+            =  \(ap : ApplyExp_)
+            -> concatExprs " " ap.items
         , FnTypeDef
             =  \(td : FnTypeDef_)
             -> tt "${concatExprs " {{op:->}} " td.items}"
-            -- tt "(${Text/concatSep " {{op:->}} " td.items})"
+        , FnDef
+            =  \(td : FnDef_)
+            -> tt "{{method:${td.fn}}} {{op:::}} ${concatExprs " {{op:->}} " td.items}"
         , OperatorCall
             =  \(oc : OperatorCall_)
             -> "${SealedExpr/unseal oc.left} {{op:${oc.op}}} ${SealedExpr/unseal oc.right}"
@@ -143,8 +162,13 @@ let Expr/render
             -> "({{op:${o}}})"
         , Constrained
             =  \(cs : Constrained_)
+            -> tt "(${concatExprs ", " cs.constraints}) {{op:=>}} ${SealedExpr/unseal cs.expr}"
+        , ConstrainedSeq
+            =  \(cs : Constrained_)
             -> tt "${concatExprs " {{op:=>}} " cs.constraints} {{op:=>}} ${SealedExpr/unseal cs.expr}"
         , PH = "{{var:_}}"
+        , Raw = \(raw : Text) -> raw
+        , Num = \(num : Text) -> "{{num:${num}}}"
         }
         expr
 
