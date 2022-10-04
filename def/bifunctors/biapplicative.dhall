@@ -15,7 +15,7 @@ let bifunctor : tc.TClass =
     , members =
         [
             { name = "bipure"
-            , def = e.fn3 (e.vn "a") (e.vn "b") (e.ap_ (e.t "w") [ e.n "a", e.n "b" ]) -- a -> b -> w a b
+            , def = e.fn3 (e.n "a") (e.n "b") (e.ap (e.t "w") [ e.n "a", e.n "b" ]) -- a -> b -> w a b
             , belongs = tc.Belongs.Yes
             } /\ tc.noLaws /\ tc.noOps
         ]

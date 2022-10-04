@@ -118,6 +118,7 @@ let Expr =
     | PH
     | Raw : Text
     | Num : Text
+    | Nothing
     >
 
 
@@ -144,7 +145,7 @@ let Expr/render
             -> tt "{{method:${td.fn}}} {{op:::}} ${concatExprs " {{op:->}} " td.items}"
         , OperatorCall
             =  \(oc : OperatorCall_)
-            -> "${SealedExpr/unseal oc.left} {{op:${oc.op}}} ${SealedExpr/unseal oc.right}"
+            -> tt "${SealedExpr/unseal oc.left} {{op:${oc.op}}} ${SealedExpr/unseal oc.right}"
         , Brackets
             = \(expr : Brackets_)
             -> "(${SealedExpr/unseal expr})"
@@ -159,7 +160,7 @@ let Expr/render
             -> What/render aw
         , Operator
             =  \(o : Operator_)
-            -> "({{op:${o}}})"
+            -> "{{op:${o}}}"
         , Constrained
             =  \(cs : Constrained_)
             -> tt "(${concatExprs ", " cs.constraints}) {{op:=>}} ${SealedExpr/unseal cs.expr}"
@@ -169,6 +170,7 @@ let Expr/render
         , PH = "{{var:_}}"
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"
+        , Nothing = ""
         }
         expr
 

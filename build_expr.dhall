@@ -15,7 +15,21 @@ let num
     : Text -> e.Expr
     = e.Expr.Num
 
-let test_raw = assert : e.Expr/render (num "42") ≡ "{{num:42}}"
+let test_num = assert : e.Expr/render (num "42") ≡ "{{num:42}}"
+
+
+let empty
+    : e.Expr
+    = e.Expr.Nothing
+
+let test_empty = assert : e.Expr/render empty ≡ ""
+
+
+let op
+    : Text -> e.Expr
+    = e.Expr.Operator
+
+let test_op = assert : e.Expr/render (op "*") ≡ "{{op:*}}"
 
 
 let ph
@@ -271,16 +285,35 @@ let test_fn3
     ≡ "{{class:Foo}} {{op:->}} {{class:Bar}} {{typevar:v}} {{var:n}} {{op:->}} {{var:v}}"
 
 
--- left `op` right
+-- left op right
 let inf
     : Text -> e.Expr -> e.Expr -> e.Expr
     = \(op: Text) -> \(left : e.Expr) -> \(right : e.Expr)
     -> e.Expr.OperatorCall { op, left = e.Expr/seal left, right = e.Expr/seal right }
 
-let test_inf1
+let test_inf
     = assert
     : e.Expr/render (inf "*" (n "PI") (num "2"))
     ≡ "{{var:PI}} {{op:*}} {{num:2}}"
+
+
+{-
+-- (op) left right
+let op_fn
+    : Text -> e.Expr -> e.Expr -> e.Expr
+    = \(op: Text) -> \(left : e.Expr) -> \(right : e.Expr)
+    -> e.Expr.OperatorFnCall { op, left = e.Expr/seal left, right = e.Expr/seal right }
+
+let test_op_fn
+    = assert
+    : e.Expr/render (op_fn "*" (n "PI") (num "2"))
+    ≡ "({{op:*}}) {{var:PI}} {{num:2}}"
+
+let test_op_fn1
+    = assert
+    : e.Expr/render (op_fn "*" (n "PI") empty)
+    ≡ "({{op:*}}) {{var:PI}} " -- FIXME: no trail space
+-}
 
 
 -- fn :: expr1 -> expr2 ...
@@ -345,7 +378,7 @@ let r = e.Expr/render
 
 
 in
-    { raw, num, ph
+    { raw, num, ph, empty, op
     , n, f, t
     , br
     , ap, ap2, ap3
