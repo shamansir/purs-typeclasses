@@ -103,6 +103,9 @@ let Brackets_ = SealedExpr
 let Var_ = Text
 
 
+let Val_ = Text
+
+
 let Operator_ = Text
 
 
@@ -135,6 +138,7 @@ let Expr =
     -- | IfElse :
     | Single : What
     | Var : Var_
+    | Val : Val_
     | Operator : Operator_
     | Constrained : Constrained_
     | ConstrainedSeq : ConstrainedSeq_
@@ -180,6 +184,9 @@ let Expr/render
         , Var
             =  \(v : Var_)
             -> "{{var:${v}}}"
+        , Val
+            =  \(v : Val_)
+            -> "{{val:${v}}}"
         , Single
             =  \(aw : What)
             -> What/render aw

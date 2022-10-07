@@ -76,7 +76,9 @@ let Law/toText
         List/map
             { type : Text, v : LawExample }
             { type : Text, v : LawExampleText }
-            (\(le : { type : Text, v : LawExample }) -> { type = le.type, v = LawExample/toText le.v })
+            (\(le : { type : Text, v : LawExample }) ->
+                { type = le.type, v = LawExample/toText le.v }
+            )
             l.examples
     }
 

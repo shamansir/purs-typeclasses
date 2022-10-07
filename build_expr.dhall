@@ -11,6 +11,7 @@ let raw
 let test_raw = assert : e.Expr/render (raw "foobar_%2x* x 2") ≡ "foobar_%2x* x 2"
 
 
+-- number : 0, 24, 15 ...
 let num
     : Text -> e.Expr
     = e.Expr.Num
@@ -59,6 +60,14 @@ let t
     = \(t : Text) -> e.Expr.Single (e.What.Type_ t)
 
 let test_t = assert : e.Expr/render (t "w") ≡ "{{typevar:w}}"
+
+-- value: true, false, etc.
+let u
+    : Text -> e.Expr
+    = \(v : Text)
+    -> e.Expr.Val v
+
+let test_n = assert : e.Expr/render (u "true") ≡ "{{val:true}}"
 
 
 let kw
@@ -438,7 +447,7 @@ let r = e.Expr/render
 
 in
     { raw, num, ph, empty, op
-    , n, f, t, kw
+    , n, f, t, u, kw
     , br
     , ap, ap2, ap3
     , apw, apwE, apw1

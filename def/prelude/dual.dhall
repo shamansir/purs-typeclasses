@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let dual : tc.TClass =
@@ -14,18 +14,31 @@ let dual : tc.TClass =
     , members =
         [
             { name = "Dual a"
-            , def = "{{subj:Dual}} {{var:a}}" -- Dual a
+            , def = e.subj1 "Dual" (e.n "a") -- Dual a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noLaws /\ tc.noOps
         ]
     , statements =
         [
-            { left = "{{subj:Dual}} {{var:x}} {{op:<>}} {{subj:Dual}} {{var:y}}" -- Dual x <> Dual y
-            , right = "{{subj:Dual}} ({{var:y}} {{op:<>}} {{var:x}})" -- Dual (y <> x)
+            { left =
+                e.inf2
+                    (e.subj1 "Dual" (e.n "x"))
+                    "<>"
+                    (e.subj1 "Dual" (e.n "y"))
+                -- Dual x <> Dual y
+            , right =
+                e.subj1
+                    "Dual"
+                    (e.br (e.inf2 (e.n "x") "<>" (e.n "y")))
+                -- Dual (y <> x)
             }
         ,
-            { left = "{{method:mempty}} {{op:::}} {{subj:Dual}} {{var:_}}" -- mempty :: Dual _
-            , right = "{{subj:Dual}} {{method:mempty}}" -- Dual mempty
+            { left =
+                e.mdef1 "mempty" (e.subj1 "Dual" e.ph)
+                -- mempty :: Dual _
+            , right =
+                e.subj1 "Dual" (e.callE "mempty")
+                -- Dual mempty
             }
         ]
     , instances =
