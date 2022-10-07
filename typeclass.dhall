@@ -136,6 +136,10 @@ let Package = Text
 
 let Module = List Text
 
+let Instance = e.Expr
+
+let InstanceText = Text
+
 let TClass =
     { id : Id
     , what : What
@@ -148,7 +152,7 @@ let TClass =
     , module : Module
     , laws : List Law
     , members : List Member
-    , instances : List e.Expr
+    , instances : List Instance
     , values : List Value
     , statements : List Statement
     }
@@ -165,7 +169,7 @@ let TClassText =
     , module : Module
     , laws : List LawText
     , members : List MemberText
-    , instances : List Text
+    , instances : List InstanceText
     , values : List Value
     , statements : List StatementText
     }
@@ -213,7 +217,7 @@ let noOp : Optional Text = None Text
 
 let noParents = { parents = [] : List Id }
 
-let noInstances = { instances = [] : List Id }
+let noInstances = { instances = [] : List Instance }
 
 let noOps = { op = noOp, opEmoji = noOp }
 

@@ -1,7 +1,6 @@
 let tc = ./../../typeclass.dhall
-
-let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
+let i = ./../../instances.dhall
 
 let additive : tc.TClass =
     { id = "additive"
@@ -26,7 +25,7 @@ let additive : tc.TClass =
             }
         ,
             { left = e.mdef1 "mempty" (e.subj1 "Additive" e.ph)  -- mempty :: Additive _
-            , right = e.subj1 "Additive" (e.f "zero") -- Additive zero
+            , right = e.subj1 "Additive" (e.callE "zero") -- Additive zero
             }
         ]
     , instances =

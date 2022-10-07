@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let commutativeRing : tc.TClass =
@@ -17,8 +17,8 @@ let commutativeRing : tc.TClass =
             { law = "commutative"
             , examples =
                 [ tc.lr
-                    { left = "{{var:a}} {{op:*}} {{var:b}}" -- a * b
-                    , right = "{{var:b}} {{op:*}} {{var:a}}" -- b * a
+                    { left = e.inf2 (e.n "a") "*" (e.n "b") -- a * b
+                    , right = e.inf2 (e.n "b") "*" (e.n "a") -- b * a
                     }
                 ]
             }

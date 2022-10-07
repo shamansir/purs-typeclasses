@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let category : tc.TClass =
@@ -15,16 +15,16 @@ let category : tc.TClass =
     , members =
         [
             { name = "identity"
-            , def = "{{var:a}} {{typevar:t}} {{typevar:t}}" -- a t t
+            , def = e.ap3 (e.n "a") (e.t "t") (e.t "t") -- a t t
             , belongs = tc.Belongs.Yes
             , laws =
                 [
                     { law = "identity"
                     , examples =
                         [ tc.lmr
-                            { left = "{{method:identity}} {{op:<<<}} {{var:p}}" -- id <<< p
-                            , middle = "{{var:p}} {{op:<<<}} {{method:identity}}" -- p <<< id
-                            , right = "{{var:p}}" -- p
+                            { left = e.inf2 (e.callE "id") "<<<" (e.n "p") -- id <<< p
+                            , middle = e.inf2 (e.n "p") "<<<" (e.callE "id") -- p <<< id
+                            , right = e.n "p"
                             }
                         ]
                     }

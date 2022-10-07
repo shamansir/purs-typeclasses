@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let booleanAlgebra : tc.TClass =
@@ -17,7 +17,9 @@ let booleanAlgebra : tc.TClass =
             { law = "excluded middle"
             , examples =
                 [ tc.of
-                    { fact = "{{var:a}} {{op:||}} {{method:not}} {{var:a}} {{op:==}} {{var:tt}}" -- a || not a == tt
+                    { fact =
+                        e.inf2 (e.inf2 (e.n "a") "||" (e.call1 "not" (e.n "a"))) "==" (e.n "tt")
+                        -- a || not a == tt
                     }
                 ]
             }

@@ -1,9 +1,9 @@
 let tc = ./../../typeclass.dhall
-
-let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
+let i = ./../../instances.dhall
 
-let apply =
+
+let apply : tc.TClass =
     { id = "apply"
     , name = "Apply"
     , what = tc.What.Class_
@@ -142,6 +142,5 @@ let apply =
         ]
 
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
-    : tc.TClass
 
 in apply

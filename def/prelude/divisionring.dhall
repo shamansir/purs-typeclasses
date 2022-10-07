@@ -1,4 +1,6 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
+let i = ./../../instances.dhall
 
 let divisionRing : tc.TClass =
     { id = "divisionring"
@@ -13,14 +15,17 @@ let divisionRing : tc.TClass =
     , members =
         [
             { name = "recip"
-            , def = "{{var:a}} {{op:->}} {{var:a}}" -- a -> a
+            , def =
+                e.fn2 (e.n "a") (e.n "a")
+                -- a -> a
             , belongs = tc.Belongs.Yes
             , laws =
                 [
                     { law = "Non-zero Ring"
                     , examples =
                         [ tc.of
-                            { fact = "{{method:one}} {{op:/=}} {{method:zero}}" -- one /= zero
+                            { fact =
+                                e.inf2 (e.callE "one") "/=" (e.callE "zero") -- one /= zero
                             }
                         ]
                     }
@@ -28,9 +33,18 @@ let divisionRing : tc.TClass =
                     { law = "Non-zero multplicative inverse"
                     , examples =
                         [ tc.lmr
-                            { left = "{{method:recip}} {{var:a}} {{op:*}} {{var:a}}" -- recip a * a
-                            , middle = "{{var:a}} {{op:*}} {{method:recip}} {{var:a}}" -- a * recip a
-                            , right = "{{method:one}} {{kw:forall}} {{var:a}} {{op:/=}} {{val:0}}" -- one forall a /= 0
+                            { left =
+                                e.inf2 (e.call1 "recip" (e.n "a")) "*" (e.n "a")
+                                -- recip a * a
+                            , middle =
+                                e.inf2 (e.n "a") "*" (e.call1 "recip" (e.n "a"))
+                                -- a * recip a
+                            , right =
+                                e.inf2
+                                    (e.ap3 (e.callE "one") (e.kw "forall") (e.n "a"))
+                                    "/="
+                                    (e.num "0")
+                                -- one forall a /= 0
                             }
                         ]
                     }
@@ -38,16 +52,32 @@ let divisionRing : tc.TClass =
             } /\ tc.noOps
         ,
             { name = "leftDiv"
-            , def = "{{subj:DivisionRing}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- DivisionRing a => a -> a -> a
+            , def =
+                e.req1
+                    (e.subj1 "DivisionRing" (e.n "a"))
+                    (e.fn3
+                        (e.n "a")
+                        (e.n "a")
+                        (e.n "a")
+                    )
+                -- DivisionRing a => a -> a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "rightDiv"
-            , def = "{{subj:DivisionRing}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- DivisionRing a => a -> a -> a
+            , def =
+                e.req1
+                    (e.subj1 "DivisionRing" (e.n "a"))
+                    (e.fn3
+                        (e.n "a")
+                        (e.n "a")
+                        (e.n "a")
+                    )
+                -- DivisionRing a => a -> a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
-    , instances = [ "Number" ]
+    , instances = [ i.instanceSubj "Number" "DivisionRing" ]
 
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 

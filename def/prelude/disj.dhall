@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let disj : tc.TClass =
@@ -14,18 +14,30 @@ let disj : tc.TClass =
     , members =
         [
             { name = "Disj a"
-            , def = "{{subj:Disj}} {{var:a}}" -- Disj a
+            , def =  e.subj1 "Disj" (e.n "a") -- Disj a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noLaws /\ tc.noOps
         ]
     , statements =
         [
-            { left = "{{subj:Conj}} {{var:x}} {{op:<>}} {{subj:Conj}} {{var:y}}" -- Conj x <> Conj y
-            , right = "{{subj:Disj}} ({{var:x}} {{op:||}} {{var:y}})" -- Disj (x || y)
+            { left =
+                e.inf2
+                    (e.subj1 "Disj" (e.n "x"))
+                    "<>"
+                    (e.subj1 "Disj" (e.n "y"))
+                    -- Disj x <> Disj y
+            , right =
+                e.subj1
+                    "Disj"
+                    (e.br (e.inf2 (e.n "x") "||" (e.n "y")))
+                -- Disj (x || y)
             }
         ,
-            { left = "{{method:mempty}} {{op:::}} {{subj:Disj}} {{var:_}}" -- mempty :: Disj _
-            , right = "{{subj:Disj}} {{method:bottom}}" -- Disj bottom
+            { left =
+                e.mdef1 "mempty" (e.subj1 "Disj" e.ph)
+                -- mempty :: Disj _
+            , right =
+                e.subj1 "Disj" (e.callE "bottom")
             }
         ]
     , instances =

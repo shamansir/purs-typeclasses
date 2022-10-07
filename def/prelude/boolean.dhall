@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let boolean : tc.TClass =
     { id = "boolean"
@@ -11,7 +12,7 @@ let boolean : tc.TClass =
     , members =
         [
             { name = "otherwise"
-            , def = "{{class:Boolean}}"
+            , def = e.classE "Boolean"
             , belongs = tc.Belongs.No
             } /\ tc.noLaws /\ tc.noOps
         ]

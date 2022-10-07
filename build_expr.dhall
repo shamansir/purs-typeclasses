@@ -60,6 +60,13 @@ let t
 
 let test_t = assert : e.Expr/render (t "w") ≡ "{{typevar:w}}"
 
+
+let kw
+    : Text -> e.Expr
+    = e.Expr.Keyword
+let test_kw = assert : e.Expr/render (kw "forall") ≡ "{{kw:forall}}"
+
+
 -- bracket the expression
 let br
     : e.Expr -> e.Expr
@@ -431,7 +438,7 @@ let r = e.Expr/render
 
 in
     { raw, num, ph, empty, op
-    , n, f, t
+    , n, f, t, kw
     , br
     , ap, ap2, ap3
     , apw, apwE, apw1

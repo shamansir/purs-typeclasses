@@ -142,6 +142,7 @@ let Expr =
     | PH
     | Raw : Text
     | Num : Text
+    | Keyword : Text
     | Nothing
     >
 
@@ -197,6 +198,7 @@ let Expr/render
         , PH = "{{var:_}}"
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"
+        , Keyword = \(kw : Text) -> "{{kw:${kw}}}"
         , Nothing = ""
         }
         expr

@@ -6,6 +6,7 @@ let List/map =
 let defs =
     [ ./def/prelude/additive.dhall
     , ./def/prelude/apply.dhall
+    , ./def/prelude/applicative.dhall
     , ./def/prelude/bind.dhall
     , ./def/prelude/boolean.dhall
     , ./def/prelude/booleanalgebra.dhall

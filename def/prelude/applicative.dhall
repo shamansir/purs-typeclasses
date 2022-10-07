@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let applicative : tc.TClass =
@@ -15,15 +15,21 @@ let applicative : tc.TClass =
     , members =
         [
             { name = "pure"
-            , def = "{{var:a}} {{op:->}} {{fvar:f}} {{var:a}}" -- a -> f a
+            , def =
+                e.fn2 (e.n "a") (e.ap2 (e.f "a") (e.n "a"))
+                -- a -> f a
             , belongs = tc.Belongs.Yes
             , laws =
                 [
                     { law = "identity"
                     , examples =
                         [ tc.lr
-                            { left = "({{method:pure}} {{method:identity}}) {{op:<*>}} {{var:v}}" -- (pure id) <*> v
-                            , right = "{{var:v}}" -- v
+                            { left =
+                                e.inf2 (e.br (e.call1 "pure" (e.callE "id"))) "<*>" (e.n "v")
+                                -- (pure id) <*> v
+                            , right =
+                                e.n "v"
+                                -- v
                             }
                         ]
                     }
@@ -31,8 +37,19 @@ let applicative : tc.TClass =
                     { law = "composition"
                     , examples =
                         [ tc.lr
-                            { left = "({{method:pure}} {{op:<<<}}) {{op:<*>}} {{fvar:f}} {{op:<*>}} {{fvar:g}} {{op:<*>}} {{fvar:h}}" -- (pure <<<) <*> f <*> g <*> h
-                            , right = "{{fvar:f}} {{op:<*>}} ({{fvar:g}} {{op:<*>}} {{fvar:h}})" -- f <*> (g <*> h)
+                            { left =
+                                e.inf4
+                                    (e.br (e.call1 "pure" (e.op "<<<")))
+                                    "<*>" (e.f "f")
+                                    "<*>" (e.f "g")
+                                    "<*>" (e.f "h")
+                                -- (pure <<<) <*> f <*> g <*> h
+                            , right =
+                                e.inf2
+                                    (e.f "f")
+                                    "<*>"
+                                    (e.br (e.inf2 (e.f "g") "<*>" (e.f "h")))
+                                -- f <*> (g <*> h)
                             }
                         ]
                     }
@@ -40,8 +57,15 @@ let applicative : tc.TClass =
                     { law = "homomorphism"
                     , examples =
                         [ tc.lr
-                            { left = "({{method:pure}} {{fvar:f}}) {{op:<*>}} ({{method:pure}} {{var:x}})" -- (pure f) <*> (pure x)
-                            , right = "{{method:pure}} ({{fvar:f}} {{var:x}})" -- pure (f x)
+                            { left =
+                                e.inf2
+                                    (e.br (e.call1 "pure" (e.f "f")))
+                                    "<*>"
+                                    (e.br (e.call1 "pure" (e.f "x")))
+                                -- (pure f) <*> (pure x)
+                            , right =
+                                e.call1 "pure" (e.br (e.call1 "f" (e.n "x")))
+                                -- pure (f x)
                             }
                         ]
                     }
@@ -49,8 +73,18 @@ let applicative : tc.TClass =
                     { law = "interchange"
                     , examples =
                         [ tc.lr
-                            { left = "{{var:u}} {{op:<*>}} ({{method:pure}} {{var:y}})" -- u <*> (pure y)
-                            , right = "({{method:pure}}  ({{op:$}} {{var:y}})) {{op:<*>}} {{var:u}}" -- (pure ($ y)) <*> u
+                            { left =
+                                e.inf2
+                                    (e.f "u")
+                                    "<*>"
+                                    (e.br (e.call1 "pure" (e.n "y")))
+                                -- u <*> (pure y)
+                            , right =
+                                e.inf2
+                                    (e.br (e.call1 "pure" (e.ap2 (e.op "$") (e.n "y"))))
+                                    "<*>"
+                                    (e.f "u")
+                                -- (pure ($ y)) <*> u
                             }
                         ]
                     }
@@ -58,17 +92,41 @@ let applicative : tc.TClass =
             } /\ tc.noOps
         ,
             { name = "liftA1"
-            , def = "{{subj:Applicative}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}}" -- Applicative f => (a -> b) -> f a -> f b
+            , def =
+                e.req1
+                    (e.subj1 "Applicative" (e.f "f"))
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.n "b")))
+                        (e.ap2 (e.f "f") (e.n "a"))
+                        (e.ap2 (e.f "f") (e.n "b"))
+                    )
+                -- Applicative f => (a -> b) -> f a -> f b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "when"
-            , def = "{{subj:Applicative}} {{typevar:m}} {{op:=>}} {{class:Boolean}} {{op:->}} {{typevar:m}} {{class:Unit}} {{op:->}} {{typevar:m}} {{class:Unit}}" -- Applicative m => Boolean -> m Unit -> m Unit
+            , def =
+                e.req1
+                    (e.subj1 "Applicative" (e.t "m"))
+                    (e.fn3
+                        (e.classE "Boolean")
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                    )
+                -- Applicative m => Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "unless"
-            , def = "{{subj:Applicative}}  {{typevar:m}} {{op:=>}} {{class:Boolean}} {{op:->}} {{typevar:m}} {{class:Unit}} {{op:->}} {{typevar:m}} {{class:Unit}}" -- Applicative m => Boolean -> m Unit -> m Unit
+            , def =
+                e.req1
+                    (e.subj1 "Applicative" (e.t "m"))
+                    (e.fn3
+                        (e.classE "Boolean")
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                    )
+                -- Applicative m => Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
