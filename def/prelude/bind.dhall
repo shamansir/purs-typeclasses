@@ -31,10 +31,10 @@ let bind : tc.TClass =
                     , examples =
                         [ tc.lr
                             { left =
-                                e.inf2 (e.br (e.inf2 (e.n "x") ">>=" (e.f "f"))) ">>=" (e.f "g")
+                                e.opc2 (e.br (e.opc2 (e.n "x") ">>=" (e.f "f"))) ">>=" (e.f "g")
                                 -- (x >>= f) >>= g
                             , right =
-                                e.inf2 (e.n "x") ">>=" (e.br (e.lbd1 (e.av "k") (e.inf2 (e.ap2 (e.f "f") (e.n "k")) ">>=" (e.f "g"))))
+                                e.opc2 (e.n "x") ">>=" (e.br (e.lbd1 (e.av "k") (e.opc2 (e.ap2 (e.f "f") (e.n "k")) ">>=" (e.f "g"))))
                                 -- x >>= (\\k -> f k >>= g)
                             }
                         ]

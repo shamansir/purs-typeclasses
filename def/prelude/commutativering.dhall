@@ -17,8 +17,8 @@ let commutativeRing : tc.TClass =
             { law = "commutative"
             , examples =
                 [ tc.lr
-                    { left = e.inf2 (e.n "a") "*" (e.n "b") -- a * b
-                    , right = e.inf2 (e.n "b") "*" (e.n "a") -- b * a
+                    { left = e.opc2 (e.n "a") "*" (e.n "b") -- a * b
+                    , right = e.opc2 (e.n "b") "*" (e.n "a") -- b * a
                     }
                 ]
             }

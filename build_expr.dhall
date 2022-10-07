@@ -302,39 +302,51 @@ let test_fn3
 
 
 -- left op right
-let inf2
+let opc2
     : e.Expr -> Text -> e.Expr -> e.Expr
     = \(left : e.Expr) -> \(op: Text) -> \(right : e.Expr)
     -> e.Expr.OperatorCall { op, left = e.Expr/seal left, right = e.Expr/seal right }
 
-let test_inf2
+let test_opc2
     = assert
-    : e.Expr/render (inf2 (n "PI") "*" (num "2"))
+    : e.Expr/render (opc2 (n "PI") "*" (num "2"))
     ≡ "{{var:PI}} {{op:*}} {{num:2}}"
 
 
 -- expr1 op1 expr2 op2 expr3
-let inf3
+let opc3
     : e.Expr -> Text -> e.Expr -> Text -> e.Expr -> e.Expr
     = \(expr1 : e.Expr) -> \(op1 : Text) -> \(expr2 : e.Expr) -> \(op2 : Text) -> \(expr3 : e.Expr)
-    -> inf2 expr1 op1 (inf2 expr2 op2 expr3)
+    -> opc2 expr1 op1 (opc2 expr2 op2 expr3)
 
-let test_inf3
+let test_opc3
     = assert
-    : e.Expr/render (inf3 (n "PI") "*" (num "2") "+" ph)
+    : e.Expr/render (opc3 (n "PI") "*" (num "2") "+" ph)
     ≡ "{{var:PI}} {{op:*}} {{num:2}} {{op:+}} {{var:_}}"
 
 
 -- expr1 op1 expr2 op2 expr3 op3 expr4
-let inf4
+let opc4
     : e.Expr -> Text -> e.Expr -> Text -> e.Expr -> Text -> e.Expr -> e.Expr
     = \(expr1 : e.Expr) -> \(op1 : Text) -> \(expr2 : e.Expr) -> \(op2 : Text) -> \(expr3 : e.Expr) -> \(op3 : Text) -> \(expr4 : e.Expr)
-    -> inf2 expr1 op1 (inf2 expr2 op2 (inf2 expr3 op3 expr4))
+    -> opc2 expr1 op1 (opc2 expr2 op2 (opc2 expr3 op3 expr4))
 
-let test_inf4
+let test_opc4
     = assert
-    : e.Expr/render (inf4 (n "PI") "*" (num "2") "+" (num "11") "-" (num "12"))
+    : e.Expr/render (opc4 (n "PI") "*" (num "2") "+" (num "11") "-" (num "12"))
     ≡ "{{var:PI}} {{op:*}} {{num:2}} {{op:+}} {{num:11}} {{op:-}} {{num:12}}"
+
+
+-- left `method` right
+let inf2
+    : e.Expr -> Text -> e.Expr -> e.Expr
+    = \(left : e.Expr) -> \(method: Text) -> \(right : e.Expr)
+    -> e.Expr.InfixMethodCall { method, left = e.Expr/seal left, right = e.Expr/seal right }
+
+let test_inf2
+    = assert
+    : e.Expr/render (inf2 (n "PI") "multiply" (num "2"))
+    ≡ "{{var:PI}} `{{method:multiply}}` {{num:2}}"
 
 
 {-
@@ -427,7 +439,7 @@ let lbd
 
 let test_lbd
     = assert
-    : e.Expr/render (lbd [ av "a", av "c" ] (inf2 (n "a") "+" (n "b")))
+    : e.Expr/render (lbd [ av "a", av "c" ] (opc2 (n "a") "+" (n "b")))
     ≡ "\\{{var:a}} {{var:c}} {{op:->}} {{var:a}} {{op:+}} {{var:b}}"
 
 
@@ -438,7 +450,7 @@ let lbd1
 
 let test_lbd1
     = assert
-    : e.Expr/render (lbd1 (av "c") (inf2 (n "a") "+" (n "b")))
+    : e.Expr/render (lbd1 (av "c") (opc2 (n "a") "+" (n "b")))
     ≡ "\\{{var:c}} {{op:->}} {{var:a}} {{op:+}} {{var:b}}"
 
 
@@ -455,7 +467,8 @@ in
     , class, classE, class1
     , call, callE, call1
     , fn, fn2, fn3
-    , inf2, inf3, inf4
+    , opc2, opc3, opc4
+    , inf2
     , mdef, mdef1
     , req, req1, reqseq
     , av

@@ -25,7 +25,7 @@ let divisionRing : tc.TClass =
                     , examples =
                         [ tc.of
                             { fact =
-                                e.inf2 (e.callE "one") "/=" (e.callE "zero") -- one /= zero
+                                e.opc2 (e.callE "one") "/=" (e.callE "zero") -- one /= zero
                             }
                         ]
                     }
@@ -34,13 +34,13 @@ let divisionRing : tc.TClass =
                     , examples =
                         [ tc.lmr
                             { left =
-                                e.inf2 (e.call1 "recip" (e.n "a")) "*" (e.n "a")
+                                e.opc2 (e.call1 "recip" (e.n "a")) "*" (e.n "a")
                                 -- recip a * a
                             , middle =
-                                e.inf2 (e.n "a") "*" (e.call1 "recip" (e.n "a"))
+                                e.opc2 (e.n "a") "*" (e.call1 "recip" (e.n "a"))
                                 -- a * recip a
                             , right =
-                                e.inf2
+                                e.opc2
                                     (e.ap3 (e.callE "one") (e.kw "forall") (e.n "a"))
                                     "/="
                                     (e.num "0")

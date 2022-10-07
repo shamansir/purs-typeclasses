@@ -21,7 +21,7 @@ let dual : tc.TClass =
     , statements =
         [
             { left =
-                e.inf2
+                e.opc2
                     (e.subj1 "Dual" (e.n "x"))
                     "<>"
                     (e.subj1 "Dual" (e.n "y"))
@@ -29,7 +29,7 @@ let dual : tc.TClass =
             , right =
                 e.subj1
                     "Dual"
-                    (e.br (e.inf2 (e.n "x") "<>" (e.n "y")))
+                    (e.br (e.opc2 (e.n "x") "<>" (e.n "y")))
                 -- Dual (y <> x)
             }
         ,

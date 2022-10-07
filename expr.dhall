@@ -89,41 +89,18 @@ let concatArgs
 
 
 let Apply_ = { what : What, arguments : List SealedExpr }
-
-
 let ApplyExp_ = { items : List SealedExpr }
-
-
 let OperatorCall_ = { left : SealedExpr, op : Text, right : SealedExpr }
-
-
+let InfixMethodCall_ = { left : SealedExpr, method : Text, right : SealedExpr }
 let Brackets_ = SealedExpr
-
-
 let Var_ = Text
-
-
 let Val_ = Text
-
-
 let Operator_ = Text
-
-
 let LetExpr_ = { bindings : List { what : Text, to : SealedExpr }, _in : SealedExpr }
-
-
 let Constrained_ = { constraints : List SealedExpr, expr : SealedExpr }
-
-
 let ConstrainedSeq_ = { constraints : List SealedExpr, expr : SealedExpr }
-
-
 let FnTypeDef_ = { items : List SealedExpr }
-
-
 let FnDef_ = { fn : Text, items : List SealedExpr }
-
-
 let Lambda_ = { args : List Arg, body : SealedExpr }
 
 
@@ -133,6 +110,7 @@ let Expr =
     | FnTypeDef : FnTypeDef_
     | FnDef : FnDef_
     | OperatorCall : OperatorCall_
+    | InfixMethodCall : InfixMethodCall_
     | Brackets : Brackets_
     | LetExpr : LetExpr_
     -- | IfElse :
@@ -175,6 +153,9 @@ let Expr/render
         , OperatorCall
             =  \(oc : OperatorCall_)
             -> tt "${SealedExpr/unseal oc.left} {{op:${oc.op}}} ${SealedExpr/unseal oc.right}"
+        , InfixMethodCall
+            =  \(imc : InfixMethodCall_)
+            -> tt "${SealedExpr/unseal imc.left} `{{method:${imc.method}}}` ${SealedExpr/unseal imc.right}"
         , Brackets
             = \(expr : Brackets_)
             -> "(${SealedExpr/unseal expr})"

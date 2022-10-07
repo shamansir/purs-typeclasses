@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let field : tc.TClass =
@@ -17,8 +17,8 @@ let field : tc.TClass =
             { law = "non-zero multiplicative inverse"
             , examples = [
                 tc.lr
-                    { left = "{{val:0}}" -- 0
-                    , right = "{{var:a}} {{method:`mod`}} {{var:b}}"  -- a `mod` b
+                    { left = e.num "0" -- 0
+                    , right = e.inf2 (e.n "a") "mod" (e.n "b") -- a `mod` b
                     }  --
                 ]
             }

@@ -20,8 +20,8 @@ let additive : tc.TClass =
         ]
     , statements =
         [
-            { left = e.inf2 (e.subj1 "Additive" (e.n "x")) "<>" (e.subj1 "Additive" (e.n "y")) -- Additive x <> Additive y
-            , right = e.subj1 "Additive" (e.br (e.inf2 (e.n "x") "+" (e.n "y"))) -- Additive (x + y)
+            { left = e.opc2 (e.subj1 "Additive" (e.n "x")) "<>" (e.subj1 "Additive" (e.n "y")) -- Additive x <> Additive y
+            , right = e.subj1 "Additive" (e.br (e.opc2 (e.n "x") "+" (e.n "y"))) -- Additive (x + y)
             }
         ,
             { left = e.mdef1 "mempty" (e.subj1 "Additive" e.ph)  -- mempty :: Additive _

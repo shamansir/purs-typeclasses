@@ -25,7 +25,7 @@ let applicative : tc.TClass =
                     , examples =
                         [ tc.lr
                             { left =
-                                e.inf2 (e.br (e.call1 "pure" (e.callE "id"))) "<*>" (e.n "v")
+                                e.opc2 (e.br (e.call1 "pure" (e.callE "id"))) "<*>" (e.n "v")
                                 -- (pure id) <*> v
                             , right =
                                 e.n "v"
@@ -38,17 +38,17 @@ let applicative : tc.TClass =
                     , examples =
                         [ tc.lr
                             { left =
-                                e.inf4
+                                e.opc4
                                     (e.br (e.call1 "pure" (e.op "<<<")))
                                     "<*>" (e.f "f")
                                     "<*>" (e.f "g")
                                     "<*>" (e.f "h")
                                 -- (pure <<<) <*> f <*> g <*> h
                             , right =
-                                e.inf2
+                                e.opc2
                                     (e.f "f")
                                     "<*>"
-                                    (e.br (e.inf2 (e.f "g") "<*>" (e.f "h")))
+                                    (e.br (e.opc2 (e.f "g") "<*>" (e.f "h")))
                                 -- f <*> (g <*> h)
                             }
                         ]
@@ -58,7 +58,7 @@ let applicative : tc.TClass =
                     , examples =
                         [ tc.lr
                             { left =
-                                e.inf2
+                                e.opc2
                                     (e.br (e.call1 "pure" (e.f "f")))
                                     "<*>"
                                     (e.br (e.call1 "pure" (e.f "x")))
@@ -74,13 +74,13 @@ let applicative : tc.TClass =
                     , examples =
                         [ tc.lr
                             { left =
-                                e.inf2
+                                e.opc2
                                     (e.f "u")
                                     "<*>"
                                     (e.br (e.call1 "pure" (e.n "y")))
                                 -- u <*> (pure y)
                             , right =
-                                e.inf2
+                                e.opc2
                                     (e.br (e.call1 "pure" (e.ap2 (e.op "$") (e.n "y"))))
                                     "<*>"
                                     (e.f "u")

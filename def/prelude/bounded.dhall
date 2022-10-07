@@ -18,7 +18,7 @@ let bounded : tc.TClass =
             , examples =
                 [ tc.of
                     { fact =
-                        e.inf3 (e.callE "bottom") "<=" (e.n "a") "<=" (e.callE "top")
+                        e.opc3 (e.callE "bottom") "<=" (e.n "a") "<=" (e.callE "top")
                         -- bottom <= a <= top
                     }
                 ]

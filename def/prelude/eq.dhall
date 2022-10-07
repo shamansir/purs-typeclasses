@@ -28,7 +28,7 @@ let eq : tc.TClass =
                     { law = "reflexivity"
                     , examples =
                         [ tc.lr
-                            { left = e.inf2 (e.n "x") "==" (e.n "x") -- x == x
+                            { left = e.opc2 (e.n "x") "==" (e.n "x") -- x == x
                             , right = e.u "true" -- true
                             }
                         ]
@@ -37,8 +37,8 @@ let eq : tc.TClass =
                     { law = "symmetry"
                     , examples =
                         [ tc.lr
-                            { left = e.inf2 (e.n "x") "==" (e.n "y") -- x == y
-                            , right = e.inf2 (e.n "y") "==" (e.n "x") -- y == x
+                            { left = e.opc2 (e.n "x") "==" (e.n "y") -- x == y
+                            , right = e.opc2 (e.n "y") "==" (e.n "x") -- y == x
                             }
                         ]
                     }
@@ -47,13 +47,13 @@ let eq : tc.TClass =
                     , examples =
                         [ tc.fc
                             { fact =
-                                e.inf2
-                                    (e.br (e.inf2 (e.n "x") "==" (e.n "y")))
+                                e.opc2
+                                    (e.br (e.opc2 (e.n "x") "==" (e.n "y")))
                                     "and"
-                                    (e.br (e.inf2 (e.n "y") "==" (e.n "z")))
+                                    (e.br (e.opc2 (e.n "y") "==" (e.n "z")))
                                  -- (x == y) and (y == z)
                             , conclusion =
-                                e.inf2 (e.n "y") "==" (e.n "x") -- y == x
+                                e.opc2 (e.n "y") "==" (e.n "x") -- y == x
                             }
                         ]
                     }

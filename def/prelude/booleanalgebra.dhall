@@ -18,7 +18,7 @@ let booleanAlgebra : tc.TClass =
             , examples =
                 [ tc.of
                     { fact =
-                        e.inf2 (e.inf2 (e.n "a") "||" (e.call1 "not" (e.n "a"))) "==" (e.n "tt")
+                        e.opc2 (e.opc2 (e.n "a") "||" (e.call1 "not" (e.n "a"))) "==" (e.n "tt")
                         -- a || not a == tt
                     }
                 ]

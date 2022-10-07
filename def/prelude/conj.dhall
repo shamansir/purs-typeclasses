@@ -21,7 +21,7 @@ let conj : tc.TClass =
     , statements =
         [
             { left =
-                e.inf2
+                e.opc2
                     (e.subj1 "Conj" (e.n "x"))
                     "<>"
                     (e.subj1 "Conj" (e.n "y"))
@@ -29,7 +29,7 @@ let conj : tc.TClass =
             , right =
                 e.subj1
                     "Conj"
-                    (e.br (e.inf2 (e.n "x") "&&" (e.n "y")))
+                    (e.br (e.opc2 (e.n "x") "&&" (e.n "y")))
                 -- Conj (x && y)
             }
         ,

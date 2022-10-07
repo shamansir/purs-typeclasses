@@ -31,9 +31,9 @@ let apply : tc.TClass =
                     , examples =
                         [ tc.lr
                             { left =
-                                e.inf4 (e.br (e.op "<<<")) "<$>" (e.f "f") "<*>" (e.f "g") "<*>" (e.f "h") -- (<<<) <$> f <*> g <*> h
+                                e.opc4 (e.br (e.op "<<<")) "<$>" (e.f "f") "<*>" (e.f "g") "<*>" (e.f "h") -- (<<<) <$> f <*> g <*> h
                             , right =
-                                e.inf2 (e.f "f") "<*>" (e.br (e.inf2 (e.f "g") "<*>" (e.f "h"))) -- f <*> (g <*> h)
+                                e.opc2 (e.f "f") "<*>" (e.br (e.opc2 (e.f "g") "<*>" (e.f "h"))) -- f <*> (g <*> h)
                             }
                         ]
                     }

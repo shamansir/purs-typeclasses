@@ -15,7 +15,7 @@ let endo : tc.TClass =
     , statements =
         [
             { left =
-                e.inf2
+                e.opc2
                     (e.subj1 "Endo" (e.f "f"))
                     "<>"
                     (e.subj1 "Endo" (e.f "g"))
@@ -23,7 +23,7 @@ let endo : tc.TClass =
             , right =
                 e.subj1
                     "Endo"
-                    (e.br (e.inf2 (e.f "f") "<<<" (e.f "g")))
+                    (e.br (e.opc2 (e.f "f") "<<<" (e.f "g")))
                 -- Endo (f <<< g)
             }
         ,
