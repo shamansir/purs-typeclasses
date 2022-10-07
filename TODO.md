@@ -1,3 +1,8 @@
+* `./def/foldable-traversable/traversablewithindex.dhall`
+* `./def/foldable-traversable/foldablewithindex.dhall`
+* `./def/foldable-traversable/traversable1.dhall`
+* `./def/foldable-traversable/traversablewithindex.dhall`
+
 * Prim : https://pursuit.purescript.org/builtins/docs/Prim
 * Unfoldable : https://pursuit.purescript.org/packages/purescript-unfoldable
 * Newtype : https://pursuit.purescript.org/packages/purescript-newtype/5.0.0

@@ -68,6 +68,26 @@ let What/render
         aw
 
 
+let Arg =
+    < VarArg : Text
+    >
+
+
+let Arg/render
+    : Arg -> Text
+    = \(arg : Arg) ->
+    merge
+        { VarArg = \(var : Text) -> "{{var:${var}}}"
+        }
+        arg
+
+
+let concatArgs
+    : Text -> List Arg -> Text
+    = \(sep : Text) -> \(args : List Arg) ->
+        Text/concatSep sep (List/map Arg Text Arg/render args)
+
+
 let Apply_ = { what : What, arguments : List SealedExpr }
 
 
@@ -101,6 +121,9 @@ let FnTypeDef_ = { items : List SealedExpr }
 let FnDef_ = { fn : Text, items : List SealedExpr }
 
 
+let Lambda_ = { args : List Arg, body : SealedExpr }
+
+
 let Expr =
     < Apply : Apply_
     | ApplyExp : ApplyExp_
@@ -115,6 +138,7 @@ let Expr =
     | Operator : Operator_
     | Constrained : Constrained_
     | ConstrainedSeq : ConstrainedSeq_
+    | Lambda_ : Lambda_
     | PH
     | Raw : Text
     | Num : Text
@@ -167,6 +191,9 @@ let Expr/render
         , ConstrainedSeq
             =  \(cs : Constrained_)
             -> tt "${concatExprs " {{op:=>}} " cs.constraints} {{op:=>}} ${SealedExpr/unseal cs.expr}"
+        , Lambda_
+            =  \(lambda : Lambda_)
+            -> tt "\\${concatArgs " " lambda.args} {{op:->}} ${SealedExpr/unseal lambda.body}"
         , PH = "{{var:_}}"
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"
@@ -223,6 +250,6 @@ let test_apply_2 = assert
 
 
 in
-    { What, Expr
-    , What/render, Expr/render, Expr/seal, Expr/sealAll, Expr/none
+    { What, Arg, Expr
+    , What/render, Arg/render, Expr/render, Expr/seal, Expr/sealAll, Expr/none
     }

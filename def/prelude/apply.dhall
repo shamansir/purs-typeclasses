@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
 
 let i = ./../../instances.dhall
+let e = ./../../build_expr.dhall
 
 let apply =
     { id = "apply"
@@ -15,7 +16,12 @@ let apply =
     , members =
         [
             { name = "apply"
-            , def = "{{fvar:f}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}}" -- f (a -> b) -> f a -> f b
+            , def =
+                e.fn3
+                    (e.ap2 (e.f "f") (e.fn2 (e.n "a") (e.n "b")))
+                    (e.ap2 (e.f "f") (e.n "a"))
+                    (e.ap2 (e.f "f") (e.n "b"))
+                -- f (a -> b) -> f a -> f b
             , op = Some "<*>"
             , opEmoji = Some "🚋"
             , belongs = tc.Belongs.Yes
@@ -24,8 +30,10 @@ let apply =
                     { law = "ap. composition"
                     , examples =
                         [ tc.lr
-                            { left = "({{op:<<<}}) {{op:<$>}} {{fvar:f}} {{op:<*>}} {{fvar:g}} {{op:<*>}} {{fvar:h}}" -- (<<<) <$> f <*> g <*> h
-                            , right = "{{fvar:f}} {{op:<*>}} ({{fvar:g}} {{op:<*>}} {{fvar:h}})" -- f <*> (g <*> h)
+                            { left =
+                                e.inf4 (e.br (e.op "<<<")) "<$>" (e.f "f") "<*>" (e.f "g") "<*>" (e.f "h") -- (<<<) <$> f <*> g <*> h
+                            , right =
+                                e.inf2 (e.f "f") "<*>" (e.br (e.inf2 (e.f "g") "<*>" (e.f "h"))) -- f <*> (g <*> h)
                             }
                         ]
                     }
@@ -33,36 +41,98 @@ let apply =
             }
         ,
             { name = "applyFirst"
-            , def = "{{subj:Apply}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}} {{op:->}} {{fvar:f}} {{var:a}}" -- Apply f => f a -> f b -> f a
+            , def =
+                e.req1
+                    (e.subj1 "Apply" (e.f "f"))
+                    (e.fn3
+                        (e.ap2 (e.f "f") (e.n "a"))
+                        (e.ap2 (e.f "f") (e.n "b"))
+                        (e.ap2 (e.f "f") (e.n "a"))
+                    )
+                -- Apply f => f a -> f b -> f a
             , belongs = tc.Belongs.No
             , op = Some "<*"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "applySecond"
-            , def = "{{subj:Apply}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}} {{op:->}} {{fvar:f}} {{var:b}}" -- Apply f => f a -> f b -> f b
+            , def =
+                e.req1
+                    (e.subj1 "Apply" (e.f "f"))
+                    (e.fn3
+                        (e.ap2 (e.f "f") (e.n "a"))
+                        (e.ap2 (e.f "f") (e.n "b"))
+                        (e.ap2 (e.f "f") (e.n "b"))
+                    )
+                -- Apply f => f a -> f b -> f b
             , belongs = tc.Belongs.No
             , op = Some "*>"
             , opEmoji = Some "👉"
             } /\ tc.noLaws
         ,
             { name = "lift2"
-            , def = "{{subj:Apply}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:c}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}} {{op:->}} {{fvar:f}} {{var:c}}" -- Apply f => (a -> b -> c) -> f a -> f b -> f c
+            , def =
+                e.req1
+                    (e.subj1 "Apply" (e.f "f"))
+                    (e.fn
+                        [ e.br (e.fn3 (e.n "a") (e.n "b") (e.n "c"))
+                        , e.ap2 (e.f "f") (e.n "a")
+                        , e.ap2 (e.f "f") (e.n "b")
+                        , e.ap2 (e.f "f") (e.n "c")
+                        ]
+                    )
+                -- Apply f => (a -> b -> c) -> f a -> f b -> f c
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "lift3"
-            , def = "{{subj:Apply}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:b}} {{op:->}} {{var:d}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}} {{op:->}} {{fvar:f}} {{var:c}} {{op:->}} {{fvar:f}} {{var:d}}" -- Apply f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
+            , def =
+                e.req1
+                    (e.subj1 "Apply" (e.f "f"))
+                    (e.fn
+                        [ e.br (e.fn [ e.n "a", e.n "b", e.n "c", e.n "d" ])
+                        , e.ap2 (e.f "f") (e.n "a")
+                        , e.ap2 (e.f "f") (e.n "b")
+                        , e.ap2 (e.f "f") (e.n "c")
+                        , e.ap2 (e.f "f") (e.n "d")
+                        ]
+                    )
+                -- Apply f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "lift4"
-            , def = "{{subj:Apply}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:c}} {{op:->}} {{var:d}} {{op:->}} {{var:e}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}} {{op:->}} {{fvar:f}} {{var:c}} {{op:->}} {{fvar:f}} {{var:d}} {{op:->}} {{fvar:f}} {{var:e}}" -- Apply f => (a -> b -> c -> d -> e) -> f a -> f b -> f c -> f d -> f e
+            , def =
+                e.req1
+                    (e.subj1 "Apply" (e.f "f"))
+                    (e.fn
+                        [ e.br (e.fn [ e.n "a", e.n "b", e.n "c", e.n "d", e.n "e" ])
+                        , e.ap2 (e.f "f") (e.n "a")
+                        , e.ap2 (e.f "f") (e.n "b")
+                        , e.ap2 (e.f "f") (e.n "c")
+                        , e.ap2 (e.f "f") (e.n "d")
+                        , e.ap2 (e.f "f") (e.n "e")
+                        ]
+                    )
+                -- Apply f => (a -> b -> c -> d -> e) -> f a -> f b -> f c -> f d -> f e
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "lift5"
-            , def = "{{subj:Apply}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:c}} {{op:->}} {{var:d}} {{op:->}} {{var:e}} {{op:->}} {{var:g}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}} {{op:->}} {{fvar:f}} {{var:c}} {{op:->}} {{fvar:f}} {{var:d}} {{op:->}} {{fvar:f}} {{var:e}} {{op:->}} {{fvar:f}} {{var:g}}" -- Apply f => (a -> b -> c -> d -> e -> g) -> f a -> f b -> f c -> f d -> f e -> f g
+            , def =
+                e.req1
+                    (e.subj1 "Apply" (e.f "f"))
+                    (e.fn
+                        [ e.br (e.fn [ e.n "a", e.n "b", e.n "c", e.n "d", e.n "e", e.n "g" ])
+                        , e.ap2 (e.f "f") (e.n "a")
+                        , e.ap2 (e.f "f") (e.n "b")
+                        , e.ap2 (e.f "f") (e.n "c")
+                        , e.ap2 (e.f "f") (e.n "d")
+                        , e.ap2 (e.f "f") (e.n "e")
+                        , e.ap2 (e.f "f") (e.n "g")
+                        ]
+                    )
+                -- Apply f => (a -> b -> c -> d -> e -> g) -> f a -> f b -> f c -> f d -> f e -> f g
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
@@ -72,5 +142,6 @@ let apply =
         ]
 
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    : tc.TClass
 
 in apply

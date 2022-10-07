@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
 
 let i = ./../../instances.dhall
+let e = ./../../build_expr.dhall
 
 let bind : tc.TClass =
     { id = "bind"
@@ -15,7 +16,12 @@ let bind : tc.TClass =
     , members =
         [
             { name = "bind"
-            , def = "{{typevar:m}} {{var:a}} {{op:->}} ({{var:a}} {{op:->}} {{typevar:m}} {{var:b}}) {{op:->}} {{typevar:m}} {{var:b}}" -- m a -> (a -> m b) -> m b
+            , def =
+                e.fn3
+                    (e.ap2 (e.t "m") (e.n "a"))
+                    (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "a")))
+                    (e.ap2 (e.t "m") (e.n "b"))
+                -- m a -> (a -> m b) -> m b
             , belongs = tc.Belongs.Yes
             , op = Some ">>="
             , opEmoji = Some "🎉"
@@ -24,8 +30,12 @@ let bind : tc.TClass =
                     { law = "associativity"
                     , examples =
                         [ tc.lr
-                            { left = "({{var:x}} {{op:>>=}} {{fvar:f}}) {{op:>>=}} {{fvar:g}}" -- (x >>= f) >>= g
-                            , right = "{[var:x}} {{op:>>=}} (\\{{var:k}} {{op:->}} {{fvar:f}} {{fvar:k}} {{op:>>=}} {{var:g}})" -- x >>= (\\k -> f k >>= g)
+                            { left =
+                                e.inf2 (e.br (e.inf2 (e.n "x") ">>=" (e.f "f"))) ">>=" (e.f "g")
+                                -- (x >>= f) >>= g
+                            , right =
+                                e.inf2 (e.n "x") ">>=" (e.br (e.lbd1 (e.av "k") (e.inf2 (e.ap2 (e.f "f") (e.n "k")) ">>=" (e.f "g"))))
+                                -- x >>= (\\k -> f k >>= g)
                             }
                         ]
                     }
@@ -33,33 +43,78 @@ let bind : tc.TClass =
             }
         ,
             { name = "bindFlipped"
-            , def = "{{subj:Bind}} {{typevar:m}} {{op:=>}} ({{var:a}} {{op:->}} {{typevar:m}} {{var:b}}) {{op:->}} {{typevar:m}} {{var:a}} {{op:->}} {{typevar:m}} {{var:b}}" -- Bind m => (a -> m b) -> m a -> m b
+            , def =
+                e.req1
+                    (e.subj1 "Bind" (e.t "m"))
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "b"))))
+                        (e.ap2 (e.t "m") (e.n "a"))
+                        (e.ap2 (e.t "m") (e.n "b"))
+                    )
+                -- Bind m => (a -> m b) -> m a -> m b
             , belongs = tc.Belongs.No
             , op = Some "==<<"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "join"
-            , def = "{{subj:Bind}} {{typevar:m}} {{op:=>}} {{typevar:m}} ({{typevar:m}} {{var:a}}) {{op:->}} {{typevar:m}} {{var:a}}" -- Bind m => m (m a) -> m a
+            , def =
+                e.req1
+                    (e.subj1 "Bind" (e.t "m"))
+                    (e.fn2
+                        (e.ap2 (e.t "m") (e.br (e.ap2 (e.t "m") (e.n "b"))))
+                        (e.ap2 (e.t "m") (e.n "a"))
+                    )
+                -- Bind m => m (m a) -> m a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "composeKleisli"
-            , def = "{{subj:Bind}} {{typevar:m}} {{op:=>}} ({{var:a}} {{op:->}} {{typevar:m}} {{var:b}}) {{op:->}} ({{var:b}} {{op:->}} {{typevar:m}} {{var:c}}) {{op:->}} {{var:a}} {{op:->}} {{typevar:m}} {{var:c}}" -- Bind m => (a -> m b) -> (b -> m c) -> a -> m c
+            , def =
+                e.req1
+                    (e.subj1 "Bind" (e.t "m"))
+                    (e.fn
+                        [ e.br (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "b")))
+                        , e.br (e.fn2 (e.n "b") (e.ap2 (e.t "m") (e.n "c")))
+                        , e.n "a"
+                        , e.ap2 (e.t "m") (e.n "c")
+                        ]
+                    )
+                -- Bind m => (a -> m b) -> (b -> m c) -> a -> m c
             , belongs = tc.Belongs.No
             , op = Some ">==>"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "composeKleisliFlipped"
-            , def = "{{subj:Bind}} {{typevar:m}} {{op:=>}} ({{var:b}} {{op:->}} {{typevar:m}} {{var:c}}) {{op:->}} ({{var:a}} {{op:->}} {{typevar:m}} {{var:b}}) {{op:->}} {{var:a}} {{op:->}} {{typevar:m}} {{var:c}}" -- Bind m => (b -> m c) -> (a -> m b) -> a -> m c
+            , def =
+                e.req1
+                    (e.subj1 "Bind" (e.t "m"))
+                    (e.fn
+                        [ e.br (e.fn2 (e.n "b") (e.ap2 (e.t "m") (e.n "c")))
+                        , e.br (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "b")))
+                        , e.n "a"
+                        , e.ap2 (e.t "m") (e.n "c")
+                        ]
+                    )
+                -- Bind m => (b -> m c) -> (a -> m b) -> a -> m c
             , belongs = tc.Belongs.No
             , op = Some "<==<"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "ifM"
-            , def = "{{subj:Bind}} {{typevar:m}} {{op:=>}} {{typevar:m}} {{class:Boolean}} {{op:->}} {{typevar:m}} {{var:a}} {{op:->}} {{typevar:m}} {{var:a}} {{op:->}} {{typevar:m}} {{var:a}}" -- Bind m => m Boolean -> m a -> m a -> m a
+            , def =
+                e.req1
+                    (e.subj1 "Bind" (e.t "m"))
+                    (e.fn
+                        [ e.ap2 (e.t "m") (e.classE "Boolean")
+                        , e.ap2 (e.t "m") (e.n "a")
+                        , e.ap2 (e.t "m") (e.n "a")
+                        , e.ap2 (e.t "m") (e.n "a")
+                        ]
+                    )
+                -- Bind m => m Boolean -> m a -> m a -> m a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
@@ -69,5 +124,6 @@ let bind : tc.TClass =
         ]
 
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    : tc.TClass
 
 in bind

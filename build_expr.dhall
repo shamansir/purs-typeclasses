@@ -195,8 +195,8 @@ let classE
 
 let test_classE
     = assert
-    : e.Expr/render (classE "foo")
-    ≡ "{{class:foo}}"
+    : e.Expr/render (classE "Foo")
+    ≡ "{{class:Foo}}"
 
 
 -- Class expr
@@ -286,15 +286,39 @@ let test_fn3
 
 
 -- left op right
-let inf
-    : Text -> e.Expr -> e.Expr -> e.Expr
-    = \(op: Text) -> \(left : e.Expr) -> \(right : e.Expr)
+let inf2
+    : e.Expr -> Text -> e.Expr -> e.Expr
+    = \(left : e.Expr) -> \(op: Text) -> \(right : e.Expr)
     -> e.Expr.OperatorCall { op, left = e.Expr/seal left, right = e.Expr/seal right }
 
-let test_inf
+let test_inf2
     = assert
-    : e.Expr/render (inf "*" (n "PI") (num "2"))
+    : e.Expr/render (inf2 (n "PI") "*" (num "2"))
     ≡ "{{var:PI}} {{op:*}} {{num:2}}"
+
+
+-- expr1 op1 expr2 op2 expr3
+let inf3
+    : e.Expr -> Text -> e.Expr -> Text -> e.Expr -> e.Expr
+    = \(expr1 : e.Expr) -> \(op1 : Text) -> \(expr2 : e.Expr) -> \(op2 : Text) -> \(expr3 : e.Expr)
+    -> inf2 expr1 op1 (inf2 expr2 op2 expr3)
+
+let test_inf3
+    = assert
+    : e.Expr/render (inf3 (n "PI") "*" (num "2") "+" ph)
+    ≡ "{{var:PI}} {{op:*}} {{num:2}} {{op:+}} {{var:_}}"
+
+
+-- expr1 op1 expr2 op2 expr3 op3 expr4
+let inf4
+    : e.Expr -> Text -> e.Expr -> Text -> e.Expr -> Text -> e.Expr -> e.Expr
+    = \(expr1 : e.Expr) -> \(op1 : Text) -> \(expr2 : e.Expr) -> \(op2 : Text) -> \(expr3 : e.Expr) -> \(op3 : Text) -> \(expr4 : e.Expr)
+    -> inf2 expr1 op1 (inf2 expr2 op2 (inf2 expr3 op3 expr4))
+
+let test_inf4
+    = assert
+    : e.Expr/render (inf4 (n "PI") "*" (num "2") "+" (num "11") "-" (num "12"))
+    ≡ "{{var:PI}} {{op:*}} {{num:2}} {{op:+}} {{num:11}} {{op:-}} {{num:12}}"
 
 
 {-
@@ -374,6 +398,34 @@ let test_req1
     ≡ "{{class:Bar}} {{typevar:v}} {{var:n}} {{op:=>}} {{class:Foo}} {{var:v}}"
 
 
+-- arg var name for lambdas : \k -> f k >>= g where first occurence of `k` is av
+let av
+    : Text -> e.Arg
+    = e.Arg.VarArg
+
+
+-- \arg1 arg2 ... -> expr a.k.a lambda
+let lbd
+    : List e.Arg -> e.Expr -> e.Expr
+    = \(args : List e.Arg) -> \(body : e.Expr) -> e.Expr.Lambda_ { args, body = e.Expr/seal body }
+
+let test_lbd
+    = assert
+    : e.Expr/render (lbd [ av "a", av "c" ] (inf2 (n "a") "+" (n "b")))
+    ≡ "\\{{var:a}} {{var:c}} {{op:->}} {{var:a}} {{op:+}} {{var:b}}"
+
+
+-- \arg1 arg2 ... -> expr a.k.a lambda
+let lbd1
+    : e.Arg -> e.Expr -> e.Expr
+    = \(arg : e.Arg) -> \(body : e.Expr) -> e.Expr.Lambda_ { args = [ arg ], body = e.Expr/seal body }
+
+let test_lbd1
+    = assert
+    : e.Expr/render (lbd1 (av "c") (inf2 (n "a") "+" (n "b")))
+    ≡ "\\{{var:c}} {{op:->}} {{var:a}} {{op:+}} {{var:b}}"
+
+
 let r = e.Expr/render
 
 
@@ -387,8 +439,10 @@ in
     , class, classE, class1
     , call, callE, call1
     , fn, fn2, fn3
-    , inf
+    , inf2, inf3, inf4
     , mdef, mdef1
     , req, req1, reqseq
+    , av
+    , lbd, lbd1
     , r
     }

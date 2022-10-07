@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
 
 let i = ./../../instances.dhall
+let e = ./../../build_expr.dhall
 
 let additive : tc.TClass =
     { id = "additive"
@@ -14,18 +15,18 @@ let additive : tc.TClass =
     , members =
         [
             { name = "Additive"
-            , def = "{{subj:Additive}} {{var:a}}" -- Additive a
+            , def = e.subj1 "Additive" (e.n "a") -- Additive a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noLaws /\ tc.noOps
         ]
     , statements =
         [
-            { left = "{{subj:Additive}} {{var:x}} {{op:<>}} {{subj:Additive}} {{var:y}}" -- Additive x <> Additive y
-            , right = "{{subj:Additive}} ({{var:x}} {{op:+}} {{var:y}})" -- Additive (x + y)
+            { left = e.inf2 (e.subj1 "Additive" (e.n "x")) "<>" (e.subj1 "Additive" (e.n "y")) -- Additive x <> Additive y
+            , right = e.subj1 "Additive" (e.br (e.inf2 (e.n "x") "+" (e.n "y"))) -- Additive (x + y)
             }
         ,
-            { left = "{{method:mempty}} {{op:::}} {{subj:Additive}} {{var:_}}" -- mempty :: Additive _
-            , right = "{{subj:Additive}} {{var:zero}}" -- Additive zero
+            { left = e.mdef1 "mempty" (e.subj1 "Additive" e.ph)  -- mempty :: Additive _
+            , right = e.subj1 "Additive" (e.f "zero") -- Additive zero
             }
         ]
     , instances =
@@ -47,5 +48,6 @@ let additive : tc.TClass =
         ]
 
     } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    : tc.TClass
 
 in additive
