@@ -13,24 +13,24 @@ let effect : tc.TClass =
     , members =
         [
             { name = "Effect"
-            , def = e.fn (e.classE "Type") (e.classE "Type") -- Type -> Type
+            , def = e.fn2 (e.kw "Type") (e.kw "Type") -- Type -> Type
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "untilE"
             , def =
                 -- Effect Boolean -> Effect Unit
-                e.fn (e.subj1_ "Effect" (e.rv (e.classE "Boolean"))) (e.subj1_ "Effect" (e.rv (e.classE "Unit")))
+                e.fn2 (e.subj1 "Effect" (e.classE "Boolean")) (e.subj1 "Effect" (e.classE "Unit"))
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "whileE"
             , def =
                 -- Effect Boolean -> Effect a -> Effect Unit
-                e.fnvs
-                    [ e.subj1_ "Effect" (e.rv (e.classE "Boolean"))
-                    , e.subj1_ "Effect" (e.n "a")
-                    , e.subj1_ "Effect" (e.rv (e.classE "Unit"))
+                e.fn
+                    [ e.subj1 "Effect" (e.classE "Boolean")
+                    , e.subj1 "Effect" (e.n "a")
+                    , e.subj1 "Effect" (e.classE "Unit")
                     ]
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
@@ -38,12 +38,11 @@ let effect : tc.TClass =
             { name = "forE"
             , def =
                 -- Int -> Int -> (Int -> Effect Unit) -> Effect Unit
-                e.fnvs
+                e.fn
                     [ e.classE "Int"
                     , e.classE "Int"
-                    , e.rtv (e.fn (e.classE "Int") (e.rtv (e.ap (e.subjE "Effect") (e.classE "Boolean"))))
-                    , e.subj1_ "Effect" (e.n "a")
-                    , e.subj1_ "Effect" (e.rv (e.classE "Unit"))
+                    , e.br (e.fn2 (e.classE "Int") (e.ap2 (e.subjE "Effect") (e.classE "Unit")))
+                    , e.subj1 "Effect" (e.classE "Unit")
                     ]
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
@@ -51,10 +50,10 @@ let effect : tc.TClass =
             { name = "forEachE"
             , def =
                 -- Array a -> (a -> Effect Unit) -> Effect Unit
-                e.fnvs
-                    [ e.class1_ "Array" (e.n "a")
-                    , e.rtv (e.fn (e.vn "a") (e.rtv (e.ap (e.subjE "Effect") (e.classE "Boolean"))))
-                    , e.subj1_ "Effect" (e.rv (e.classE "Unit"))
+                e.fn
+                    [ e.class1 "Array" (e.n "a")
+                    , e.br (e.fn2 (e.n "a") (e.ap2 (e.subjE "Effect") (e.classE "Unit")))
+                    , e.subj1 "Effect" (e.classE "Unit")
                     ]
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws

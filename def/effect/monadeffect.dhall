@@ -17,9 +17,9 @@ let monadeffect : tc.TClass =
             { name = "liftEffect"
             , def =
                 -- Effect a -> m a
-                e.fn
-                    (e.class1_ "Effect" (e.n "a"))
-                    (e.ap1_ (e.t "m") (e.n "a"))
+                e.fn2
+                    (e.class1 "Effect" (e.n "a"))
+                    (e.ap2 (e.t "m") (e.n "a"))
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ]

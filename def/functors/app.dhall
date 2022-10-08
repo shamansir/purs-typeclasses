@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let app : tc.TClass =
@@ -14,22 +14,35 @@ let app : tc.TClass =
     , members =
         [
             { name = "App"
-            , def = "{{class:App}} ({{fvar:f}} {{var:a}})" -- App (f a)
+            , def = e.subj1 "App" (e.br (e.ap2 (e.f "f") (e.n "a"))) -- App (f a)
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "hoistApp"
-            , def = "({{fvar:f}} {{op:~>}} {{fvar:g}}) {{op:->}} ({{class:App}} {{fvar:f}}) {{op:~>}} ({{subj:App}} {{fvar:g}})" -- (f ~> g) -> (App f) ~> (App g)
+            , def =
+                e.fn3
+                    (e.br (e.fn2 (e.f "f") (e.f "g")))
+                    (e.br (e.subj1 "App" (e.f "f")))
+                    (e.br (e.subj1 "App" (e.f "g")))
+                -- (f ~> g) -> (App f) ~> (App g)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "hoistLiftApp"
-            , def = "{{fvar:f}} ({{fvar:g}} {{var:a}}) {{op:->}} {{fvar:f}} ({{subj:App}} {{var:g}} {{var:a}})" -- f (g a) -> f (App g a)
+            , def =
+                e.fn2
+                    (e.ap2 (e.f "f") (e.br (e.ap2 (e.f "g") (e.n "a"))))
+                    (e.ap2 (e.f "f") (e.br (e.subj "App" [ e.f "g", e.n "a" ])))
+                -- f (g a) -> f (App g a)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "hoistLowerApp"
-            , def = "{{fvar:f}} ({{subj:App}} {{fvar:g}} {{var:a}}) {{op:->}} {{fvar:f}} ({{fvar:g}} {{var:a}})" -- f (App g a) -> f (g a)
+            , def =
+                e.fn2
+                    (e.ap2 (e.f "f") (e.br (e.subj "App" [ e.f "g", e.n "a" ])))
+                    (e.ap2 (e.f "f") (e.br (e.ap2 (e.f "g") (e.n "a"))))
+                -- f (App g a) -> f (g a)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
