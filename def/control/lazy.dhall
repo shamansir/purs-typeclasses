@@ -16,9 +16,9 @@ let lazy : tc.TClass =
             { name = "defer"
             , def =
                 -- (Unit -> l) -> l
-                e.fn
-                    (e.rtv (e.fnBr (e.classE "Unit") (e.vt "l")))
-                    (e.vt "l")
+                e.fn2
+                    (e.br (e.fn2 (e.classE "Unit") (e.t "l")))
+                    (e.t "l")
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
@@ -26,11 +26,10 @@ let lazy : tc.TClass =
             , def =
                 -- Lazy l => (l -> l) -> l
                 e.req1
-                    (e.subj_ "Lazy" [ e.t "l" ])
-                    (e.fn_
-                        [ e.r (e.fnBr (e.vt "l") (e.vt "l"))
-                        , e.t "l"
-                        ]
+                    (e.subj1 "Lazy" (e.t "l"))
+                    (e.fn2
+                        (e.br (e.fn2 (e.t "l") (e.t "l")))
+                        (e.t "l")
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws

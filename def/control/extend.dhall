@@ -18,9 +18,9 @@ let extend : tc.TClass =
             , def =
                 -- m a -> (a -> m b) -> m b
                 e.fn3
-                    (e.ap_ (e.t "m") [ e.n "a" ])
-                    (e.rtv (e.fn (e.vn "a") (e.ap1_ (e.f "m") (e.n "a"))))
-                    (e.ap_ (e.t "m") [ e.n "b" ])
+                    (e.ap2 (e.t "m") (e.n "a"))
+                    (e.br (e.fn2 (e.n "a") (e.ap2 (e.f "m") (e.n "a"))))
+                    (e.ap2 (e.t "m") (e.n "b"))
             , belongs = tc.Belongs.Yes
             , op = Some "<<=="
             , opEmoji = tc.noOp
@@ -31,16 +31,13 @@ let extend : tc.TClass =
                         [ tc.lr
                             { left =
                                 -- extend f <<< extend g
-                                e.inf
+                                e.opc2
+                                    (e.call1 "extend" (e.f "f"))
                                     "<<<"
-                                    (e.call1_ "extend" (e.f "f"))
-                                    (e.call1_ "extend" (e.f "g"))
+                                    (e.call1 "extend" (e.f "g"))
                             , right =
                                 -- extend (f <<< extend g)
-                                e.val
-                                    (e.call1_ "extend" (e.r
-                                        (e.inf "<<<" (e.vf "f") (e.call1_ "extend" (e.f "g")))
-                                    ))
+                                e.call1 "extend" (e.br (e.opc2 (e.f "f") "<<<" (e.call1 "extend" (e.f "g"))))
                             }
                         ]
                     }
@@ -51,14 +48,12 @@ let extend : tc.TClass =
             , def =
                  -- Extend w => w a -> (w a -> b) -> w b
                 e.req1
-                    (e.subj_ "Extend" [ e.t "w" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.ap1_ (e.t "w") (e.n "a")
-                            , e.rtvbr (e.fn (e.ap1_ (e.t "w") (e.n "a")) (e.vn "b"))
-                            , e.ap1_ (e.t "w") (e.n "b")
-                            ]
-                        )
+                    (e.subj1 "Extend" (e.t "w"))
+                    (e.fn
+                        [ e.ap2 (e.t "w") (e.n "a")
+                        , e.br (e.fn2 (e.ap2 (e.t "w") (e.n "a")) (e.n "b"))
+                        , e.ap2 (e.t "w") (e.n "b")
+                        ]
                     )
             , belongs = tc.Belongs.No
             , op = Some "==>>"
@@ -69,15 +64,13 @@ let extend : tc.TClass =
             , def =
                 -- Extend w => (w a -> b) -> (w b -> c) -> w a -> c
                 e.req1
-                    (e.subj_ "Extend" [ e.t "w" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.rtvbr (e.fn (e.ap1_ (e.t "w") (e.n "a")) (e.vn "b"))
-                            , e.rtvbr (e.fn (e.ap1_ (e.t "w") (e.n "b")) (e.vn "c"))
-                            , e.ap1_ (e.t "w") (e.n "a")
-                            , e.vn "c"
-                            ]
-                        )
+                    (e.subj1 "Extend" (e.t "w"))
+                    (e.fn
+                        [ e.br (e.fn2 (e.ap2 (e.t "w") (e.n "a")) (e.n "b"))
+                        , e.br (e.fn2 (e.ap2 (e.t "w") (e.n "b")) (e.n "c"))
+                        , e.ap2 (e.t "w") (e.n "a")
+                        , e.n "c"
+                        ]
                     )
             , belongs = tc.Belongs.No
             , op = Some "=>="
@@ -88,15 +81,13 @@ let extend : tc.TClass =
             , def =
                 -- Extend w => (w b -> c) -> (w a -> b) -> w a -> c
                 e.req1
-                    (e.subj_ "Extend" [ e.t "w" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.rtvbr (e.fn (e.ap1_ (e.t "w") (e.n "b")) (e.vn "c"))
-                            , e.rtvbr (e.fn (e.ap1_ (e.t "w") (e.n "a")) (e.vn "b"))
-                            , e.ap1_ (e.t "w") (e.n "a")
-                            , e.vn "c"
-                            ]
-                        )
+                    (e.subj1 "Extend" (e.t "w"))
+                    (e.fn
+                        [ e.br (e.fn2 (e.ap2 (e.t "w") (e.n "b")) (e.n "c"))
+                        , e.br (e.fn2 (e.ap2 (e.t "w") (e.n "a")) (e.n "b"))
+                        , e.ap2 (e.t "w") (e.n "a")
+                        , e.n "c"
+                        ]
                     )
             , belongs = tc.Belongs.No
             , op = Some "=<="
@@ -107,13 +98,10 @@ let extend : tc.TClass =
             , def =
                 -- Extend w => w a -> w (w a)
                 e.req1
-                    (e.subj_ "Extend" [ e.t "w" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.ap1_ (e.t "w") (e.n "a")
-                            , e.ap1_ (e.t "w") (e.rbrv (e.ap1_ (e.t "w") (e.n "a")))
-                            ]
-                        )
+                    (e.subj1 "Extend" (e.t "w"))
+                    (e.fn2
+                        (e.ap2 (e.t "w") (e.n "a"))
+                        (e.ap2 (e.t "w") (e.br (e.ap2 (e.t "w") (e.n "a"))))
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
@@ -121,11 +109,8 @@ let extend : tc.TClass =
     , instances =
         [  -- Semigroup w => Extend ((->) w)
           e.req1
-            (e.class_ "Semigroup" [ e.t "w" ])
-            (e.subj_ "Extend"
-                [ e.rv (e.ap1_ (e.rv (e.op "->")) (e.t "w"))
-                ]
-            )
+            (e.class1 "Semigroup" (e.t "w"))
+            (e.subj1 "Extend" (e.br (e.op_fn1 "->" (e.n "w"))))
         , i.instanceCl "Array"
         ]
 

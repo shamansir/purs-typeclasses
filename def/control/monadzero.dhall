@@ -19,13 +19,13 @@ let monadzero : tc.TClass =
                 [ tc.lr
                     { left =
                         -- empty >>= f
-                        e.inf
-                            ">>="
+                        e.opc2
                             (e.callE "empty")
-                            (e.vf "f")
+                            ">>="
+                            (e.f "f")
                     , right =
                         -- empty
-                        e.val (e.callE "empty")
+                        e.callE "empty"
                     }
                 ]
             }
@@ -36,12 +36,10 @@ let monadzero : tc.TClass =
             , def =
                 --  MonadZero m => Boolean -> m Unit
                 e.req1
-                    (e.subj_ "MonadZero" [ e.t "m" ])
-                    (e.rtv
-                        (e.fn
-                            (e.classE "Boolean")
-                            (e.ap_ (e.t "m") [ e.rv (e.classE "Unit") ])
-                        )
+                    (e.subj1 "MonadZero" (e.t "m"))
+                    (e.fn2
+                        (e.classE "Boolean")
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
                     )
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws

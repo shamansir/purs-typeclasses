@@ -15,7 +15,7 @@ let plus : tc.TClass =
     , members =
         [
             { name = "empty"
-            , def = e.val (e.ap1_ (e.f "f") (e.n "a")) -- f a
+            , def = e.ap2 (e.f "f") (e.n "a") -- f a
             , belongs = tc.Belongs.Yes
             , laws =
                 [
@@ -24,10 +24,10 @@ let plus : tc.TClass =
                         [ tc.lr
                             { left =
                                  -- empty <|> x
-                                e.inf "<|>" (e.callE "empty") (e.vn "x")
+                                e.opc2 (e.callE "empty") "<|>" (e.n "x")
                             , right =
                                 -- x
-                                e.var (e.n "x")
+                                e.n "x"
                             }
                         ]
                     }
@@ -37,10 +37,10 @@ let plus : tc.TClass =
                         [ tc.lr
                             { left =
                                 -- x <|> empty
-                                e.inf "<|>" (e.vn "x") (e.callE "empty")
+                                e.opc2 (e.n "x") "<|>" (e.callE "empty")
                             , right =
                                 -- x
-                                e.var (e.n "x")
+                                e.n "x"
                             }
                         ]
                     }
@@ -50,10 +50,10 @@ let plus : tc.TClass =
                         [ tc.lr
                             { left =
                                 -- f <$> empty
-                                e.inf "<$>" (e.vf "f") (e.callE "empty")
+                                e.opc2 (e.f "f") "<$>" (e.callE "empty")
                             , right =
                                 -- empty
-                                e.val (e.callE "empty")
+                                e.callE "empty"
                             }
                         ]
                     }

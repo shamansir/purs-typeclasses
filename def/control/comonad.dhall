@@ -16,9 +16,9 @@ let comonad : tc.TClass =
             { name = "extract"
             , def =
                  -- w a -> a
-                e.fn
-                    (e.ap1_ (e.t "w") (e.n "a"))
-                    (e.vn "a")
+                e.fn2
+                    (e.ap2 (e.t "w") (e.n "a"))
+                    (e.n "a")
             , belongs = tc.Belongs.Yes
             , laws =
                 [
@@ -27,12 +27,13 @@ let comonad : tc.TClass =
                         [ tc.lr
                             { left =
                                 -- extract <<== xs
-                                e.inf "<<=="
+                                e.opc2
                                     (e.callE "extract")
-                                    (e.vn "xs")
+                                    "<<=="
+                                    (e.n "xs")
                             , right =
                                  -- xs
-                                e.var (e.n "xs")
+                                e.n "xs"
                             }
                         ]
                     }
@@ -42,15 +43,11 @@ let comonad : tc.TClass =
                         [ tc.lr
                             { left =
                                  -- extract (f <<== xs)
-                                e.val
-                                    (e.call_ "extract"
-                                        [ e.r (e.inf "<<==" (e.vf "f") (e.vn "xs"))
-                                        ]
-                                    )
+                                e.call1 "extract"
+                                    (e.br (e.opc2 (e.f "f") "<<==" (e.n "xs")))
                             , right =
                                 -- f xs
-                                e.val
-                                    (e.ap1_ (e.f "f") (e.n "xs"))
+                                e.ap2 (e.f "f") (e.n "xs")
                             }
                         ]
                     }

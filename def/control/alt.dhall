@@ -18,9 +18,9 @@ let alt : tc.TClass =
             , def =
                 -- f a -> f a -> f a
                 e.fn3
-                    (e.ap_ (e.f "f") [ e.n "a" ])
-                    (e.ap_ (e.f "f") [ e.n "a" ])
-                    (e.ap_ (e.f "f") [ e.n "a" ])
+                    (e.ap2 (e.f "f") (e.n "a" ))
+                    (e.ap2 (e.f "f") (e.n "a" ))
+                    (e.ap2 (e.f "f") (e.n "a" ))
             , op = Some "<|>"
             , opEmoji = Some "🔗"
             , belongs = tc.Belongs.Yes
@@ -31,14 +31,16 @@ let alt : tc.TClass =
                         [ tc.lr
                             { left =
                                 -- (x <|> y) <|> z
-                                e.inf "<|>"
-                                    (e.rtvbr (e.inf "<|>" (e.vn "x") (e.vn "y")))
-                                    (e.vn "z")
+                                e.opc2
+                                    (e.br (e.opc2 (e.n "x") "<|>" (e.n "y")))
+                                    "<|>"
+                                    (e.n "z")
                             , right =
                                 -- x <|> (y <|> z)
-                                e.inf "<|>"
-                                    (e.vn "x")
-                                    (e.rtvbr (e.inf "<|>" (e.vn "y") (e.vn "z")))
+                                e.opc2
+                                    (e.n "x")
+                                    "<|>"
+                                    (e.br (e.opc2 (e.n "y") "<|>" (e.n "z")))
                             }
                         ]
                     }
@@ -48,14 +50,16 @@ let alt : tc.TClass =
                         [ tc.lr
                             { left =
                                 -- f <$> (x <|> y)
-                                e.inf "<$>"
-                                    (e.vf "f")
-                                    (e.rtvbr (e.inf "<|>" (e.vn "x") (e.vn "y")))
+                                e.opc2
+                                    (e.f "f")
+                                    "<$>"
+                                    (e.br (e.opc2 (e.n "x") "<|>" (e.n "y")))
                             , right =
+                                e.opc2
+                                    (e.br (e.opc2 (e.f "f") "<$>" (e.n "x")))
+                                    "<|>"
+                                    (e.n "y")
                                 -- (f <$> x) <|> y
-                                e.inf "<|>"
-                                    (e.rtvbr (e.inf "<$>" (e.vf "f") (e.vn "y")))
-                                    (e.vn "y")
                             }
                         ]
                     }

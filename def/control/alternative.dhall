@@ -17,12 +17,10 @@ let alternative : tc.TClass =
             , def =
                 --  Alternative m => Boolean -> m Unit
                 e.req1
-                    (e.subj_ "Alternative" [ e.t "m" ])
-                    (e.rtv
-                        (e.fn
-                            (e.classE "Boolean")
-                            (e.ap_ (e.t "m") [ e.rv (e.classE "Unit") ])
-                        )
+                    (e.subj1 "Alternative" (e.t "m"))
+                    (e.fn2
+                        (e.classE "Boolean")
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
@@ -34,14 +32,16 @@ let alternative : tc.TClass =
                 [ tc.lr
                     { left =
                         -- (f <|> g) <*> x
-                        e.inf "<*>"
-                            (e.rtvbr (e.inf "<|>" (e.vf "f") (e.vf "g")))
-                            (e.vn "x")
+                        e.opc2
+                            (e.br (e.opc2 (e.f "f") "<|>" (e.f "g")))
+                            "<*>"
+                            (e.n "x")
                     , right =
                         -- (f <*> x) <|> (g <*> x)
-                        e.inf "<*>"
-                            (e.rtvbr (e.inf "<*>" (e.vf "f") (e.vn "x")))
-                            (e.rtvbr (e.inf "<*>" (e.vf "g") (e.vn "x")))
+                        e.opc2
+                            (e.br (e.opc2 (e.f "f") "<*>" (e.n "x")))
+                            "<|>"
+                            (e.br (e.opc2 (e.f "g") "<*>" (e.n "x")))
                     }
                 ]
             }
@@ -51,13 +51,13 @@ let alternative : tc.TClass =
                 [ tc.lr
                     { left =
                         -- empty <*> f
-                        e.inf
-                            "<*>"
+                        e.opc2
                             (e.callE "empty")
-                            (e.vf "f")
+                            "<*>"
+                            (e.f "f")
                     , right =
                         -- empty
-                        e.val (e.callE "empty")
+                        e.callE "empty"
                     }
                 ]
             }

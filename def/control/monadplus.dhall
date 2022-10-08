@@ -19,14 +19,16 @@ let monadplus : tc.TClass =
                 [ tc.lr
                     { left =
                         -- (x <|> y) >>= f
-                        e.inf ">>="
-                            (e.rtvbr (e.inf "<|>" (e.vn "x") (e.vn "y")))
-                            (e.vf "f")
+                        e.opc2
+                            (e.br (e.opc2 (e.n "x") "<|>" (e.n "y")))
+                            ">>="
+                            (e.f "f")
                     , right =
                         -- (f <*> x) <|> (g <*> x)
-                        e.inf "<|>"
-                            (e.rtvbr (e.inf ">>=" (e.vn "x") (e.vf "f")))
-                            (e.rtvbr (e.inf ">>=" (e.vn "y") (e.vf "f")))
+                        e.opc2
+                            (e.br (e.opc2 (e.f "f") "<*>" (e.n "x")))
+                            "<|>"
+                            (e.br (e.opc2 (e.f "g") "<*>" (e.n "x")))
                     }
                 ]
             }

@@ -14,7 +14,7 @@ let alternate : tc.TClass =
     , members =
         [
             { name = "Alternate"
-            , def = e.val (e.subj_ "Alternate" [ e.f "f", e.n "a" ]) -- Alternate f a
+            , def = e.subj "Alternate" [ e.f "f", e.n "a" ] -- Alternate f a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noLaws /\ tc.noOps
         ]
@@ -22,26 +22,21 @@ let alternate : tc.TClass =
         [
             { left =
                 -- Alternate fx <> Alternate fy
-                e.inf
+                e.opc2
+                    (e.subj1 "Alternate" (e.f "fx"))
                     "<>"
-                    (e.subj_ "Alternate" [ e.f "fx" ])
-                    (e.subj_ "Alternate" [ e.f "fy" ])
+                    (e.subj1 "Alternate" (e.f "fy"))
             , right =
                  -- Alternate (fx <|> fy)
-                e.val
-                    (e.subj_ "Alternate"
-                        [ e.rbr (e.inf "<|>" (e.vf "fx") (e.vf "fy"))
-                        ]
-                    )
+                 e.subj1 "Alternate" (e.br (e.opc2 (e.f "fx") "<|>" (e.f "fy")))
             }
         ,
             { left =
                 -- mempty :: Alternate _
-                e.mdef "mempty" (e.subj_ "Alternate" [ e.ph ])
+                e.mdef1 "mempty" (e.subj1 "Alternate" e.ph)
             , right =
+                e.subj1 "Alternate" (e.callE "empty")
                 -- Alternate empty
-                e.val
-                    (e.subj_ "Alternate" [ e.rbrv (e.callE "empty") ])
             }
         ]
     , instances =
