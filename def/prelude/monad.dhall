@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let monad : tc.TClass =
@@ -17,8 +17,13 @@ let monad : tc.TClass =
             { law = "left identity"
             , examples =
                 [ tc.lr
-                    { left = "{{method:pure}} {{var:x}} {{op:>>=}} {{fvar:f}}" -- pure x >>= f
-                    , right = "{{fvar:f}} {{var:x}}" -- f x
+                    { left =
+                        e.opc2
+                            (e.call1 "pure" (e.n "x"))
+                            ">>="
+                            (e.f "f")
+                        -- pure x >>= f
+                    , right = e.ap2 (e.f "f") (e.n "x") -- f x
                     }
                 ]
             }
@@ -26,8 +31,8 @@ let monad : tc.TClass =
             { law = "right identity"
             , examples =
                 [ tc.lr
-                    { left = "{{var:x}} {{op:>>=}} {{method:pure}}" -- x >>= pure
-                    , right = "{{var:x}}" -- x
+                    { left = e.opc2 (e.n "x") ">>=" (e.callE "pure") -- x >>= pure
+                    , right = e.n "x" -- x
                     }
                 ]
             }
@@ -35,22 +40,54 @@ let monad : tc.TClass =
     , members =
         [
             { name = "liftM1"
-            , def = "{{subj:Monad}} {{typevar:m}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{typevar:m}} {{var:a}} {{op:->}} {{typevar:m}} {{var:b}}" -- Monad m => (a -> b) -> m a -> m b
+            , def =
+                e.req1
+                    (e.subj1 "Monad" (e.t "m"))
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.n "b")))
+                        (e.ap2 (e.t "m") (e.n "a"))
+                        (e.ap2 (e.t "m") (e.n "b"))
+                    )
+                -- Monad m => (a -> b) -> m a -> m b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "ap"
-            , def = "{{subj:Monad}} {{typevar:m}} {{op:=>}} {{typevar:m}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{typevar:m}} {{var:a}} {{op:->}} {{typevar:m}} {{var:b}}" -- Monad m => m (a -> b) -> m a -> m b
+            , def =
+                e.req1
+                    (e.subj1 "Monad" (e.t "m"))
+                    (e.fn3
+                        (e.ap2 (e.t "m") (e.br (e.fn2 (e.n "a") (e.n "b"))))
+                        (e.ap2 (e.t "m") (e.n "a"))
+                        (e.ap2 (e.t "m") (e.n "b"))
+                    )
+            -- Monad m => m (a -> b) -> m a -> m b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "whenM"
-            , def = "{{subj:Monad}} {{typevar:m}} {{op:=>}} {{typevar:m}} {{class:Boolean}} {{op:->}} {{typevar:m}} {{class:Unit}} {{op:->}} {{typevar:m}} {{class:Unit}}" -- Monad m => m Boolean -> m Unit -> m Unit
+            , def =
+                e.req1
+                    (e.subj1 "Monad" (e.t "m"))
+                    (e.fn3
+                        (e.ap2 (e.t "m") (e.classE "Boolean"))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                    )
+            -- Monad m => m Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "unlessM"
-            , def = "{{subj:Monad}} {{typevar:m}} {{op:=>}} {{typevar:m}} {{class:Boolean}} {{op:->}} {{typevar:m}} {{class:Unit}}{{op:->}} {{typevar:m}} {{class:Unit}}" -- Monad m => m Boolean -> m Unit -> m Unit
+            , def =
+                e.req1
+                    (e.subj1 "Monad" (e.t "m"))
+                    (e.fn3
+                        (e.ap2 (e.t "m") (e.classE "Boolean"))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                    )
+            -- Monad m => m Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

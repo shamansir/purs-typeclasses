@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let monoid : tc.TClass =
@@ -15,16 +15,31 @@ let monoid : tc.TClass =
     , members =
         [
             { name = "mempty"
-            , def = "{{typevar:m}}" -- m
+            , def = e.t "m" -- m
             , belongs = tc.Belongs.Yes
             , laws =
                 [
                     { law = "associativity"
                     , examples =
                         [ tc.lmr
-                            { left = "{{method:mempty}} {{op:<>}} {{var:x}}" -- mempty <> x
-                            , middle = "{{var:x}} {{op:<>}} {{method:mempty}}" -- x <> mempty
-                            , right = "{{var:x}} {{kw:forall}} {{var:x}}" -- x forall x
+                            { left =
+                                e.opc2
+                                    (e.callE "mempty")
+                                    "<>"
+                                    (e.n "x")
+                                -- mempty <> x
+                            , middle =
+                                e.opc2
+                                    (e.n "x")
+                                    "<>"
+                                    (e.callE "mempty")
+                                -- x <> mempty
+                            , right =
+                                e.ap3
+                                    (e.n "x")
+                                    (e.kw "forall")
+                                    (e.n "x")
+                                -- x forall x
                             }
                         ]
                     }
@@ -32,12 +47,20 @@ let monoid : tc.TClass =
             } /\ tc.noOps
         ,
             { name = "power"
-            , def = "{{subj:Monoid}} {{typevar:m}} {{op:=>}} {{typevar:m}} {{op:->}} {{class:Int}} {{op:->}} {{typevar:m}}" -- Monoid m => m -> Int -> m
+            , def =
+                e.req1
+                    (e.class1 "Monoid" (e.t "m"))
+                    (e.fn3 (e.t "m") (e.classE "Int") (e.t "m"))
+                -- Monoid m => m -> Int -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "guard"
-            , def = "{{subj:Monoid}} {{typevar:m}} {{op:=>}} {{class:Boolean}} {{op:->}} {{typevar:m}} {{op:->}} {{typevar:m}}" -- Monoid m => Boolean -> m -> m
+            , def =
+                e.req1
+                    (e.class1 "Monoid" (e.t "m"))
+                    (e.fn3 (e.classE "Boolean") (e.t "m") (e.t "m"))
+                -- Monoid m => Boolean -> m -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

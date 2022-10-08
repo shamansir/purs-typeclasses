@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let last : tc.TClass =
@@ -14,14 +14,19 @@ let last : tc.TClass =
     , members =
         [
             { name = "Last"
-            , def = "{{subj:Last}} {{var:a}}" -- Last a
+            , def = e.subj1 "Last" (e.n "a") -- Last a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noLaws /\ tc.noOps
         ]
     , statements =
         [
-            { left = "{{subj:Last}} {{var:x}} {{op:<>}} {{subj:Last}} {{var:y}}" -- Last x <> Last y
-            , right = "{{subj:Last}} {{var:y}}" -- Last y
+            { left =
+                e.opc2
+                    (e.subj1 "Last" (e.n "x"))
+                    "<>"
+                    (e.subj1 "Last" (e.n "y"))
+                -- Last x <> Last y
+            , right = e.subj1 "Last" (e.n "y") -- Last y
             }
         ]
     , instances =

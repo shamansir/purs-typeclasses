@@ -1,4 +1,6 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
+
 
 let ord : tc.TClass =
     { id = "ord"
@@ -11,9 +13,20 @@ let ord : tc.TClass =
     , package = "purescript-prelude"
     , link = "purescript-prelude/5.0.1/docs/Data.Ord"
     , members =
+        let ordA2B
+            = e.req1
+                (e.subj1 "Ord" (e.n "a"))
+                (e.fn3 (e.n "a") (e.n "a") (e.classE "Boolean"))
+            -- Ord a => a -> a -> Boolean
+        let ordA3
+            = e.req1
+                (e.subj1 "Ord" (e.n "a"))
+                (e.fn3 (e.n "a") (e.n "a") (e.n "a"))
+            -- Ord a => a -> a -> a
+        in
         [
-            { name = "compart"
-            , def = "{{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Ordering}}" -- a -> a -> Ordering
+            { name = "compare"
+            , def = e.fn3 (e.n "a") (e.n "a") (e.classE "Ordering") -- a -> a -> Ordering
             , belongs = tc.Belongs.Yes
             , op = Some "=="
             , opEmoji = tc.noOp
@@ -22,7 +35,8 @@ let ord : tc.TClass =
                     { law = "reflexivity"
                     , examples =
                         [ tc.of
-                            { fact = "{{var:a}} {{op:<=}} {{var:a}]" -- a <= a
+                            { fact =
+                                e.opc2 (e.n "a") "<=" (e.n "a") -- a <= a
                             }
                         ]
                     }
@@ -30,8 +44,14 @@ let ord : tc.TClass =
                     { law = "antisymmetry"
                     , examples =
                         [ tc.fc
-                            { fact = "({{var:a}} {{op:<=}} {{var:b}}) {{method:and}} ({{var:b}} {{op:<=}} {{var:a}})" -- (a <= b) and (b <= a)
-                            , conclusion = "{{var:a}} {{op:=}} {{var:b}}" -- a = b
+                            { fact =
+                                e.opc2
+                                    (e.opc2 (e.n "a") "<=" (e.n "b"))
+                                    "and" -- `and`?
+                                    (e.opc2 (e.n "b") "<=" (e.n "a"))
+                                -- (a <= b) and (b <= a)
+                            , conclusion =
+                                e.opc2 (e.n "a") "=" (e.n "b") -- a = b
                             }
                         ]
                     }
@@ -39,8 +59,14 @@ let ord : tc.TClass =
                     { law = "transitivity"
                     , examples =
                         [ tc.fc
-                            { fact = "({{var:a}} {{op:<=}} {{var:b}}) {{method:and}} ({{var:b}} {{op:<=}} {{var:c}})" -- (a <= b) and (b <= c)
-                            , conclusion = "{{var:a}} {{op:<=}} {{var:c}}" -- a <= c
+                            { fact =
+                                e.opc2
+                                    (e.opc2 (e.n "a") "<=" (e.n "b"))
+                                    "and" -- `and`?
+                                    (e.opc2 (e.n "b") "<=" (e.n "c"))
+                                -- (a <= b) and (b <= c)
+                            , conclusion =
+                                e.opc2 (e.n "a") "<=" (e.n "c") -- a <= c
                             }
                         ]
                     }
@@ -48,65 +74,88 @@ let ord : tc.TClass =
             }
         ,
             { name = "lessThan"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Ord a => a -> a -> Boolean
+            , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some "<"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "greaterThan"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Ord a => a -> a -> Boolean
+            , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some ">"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "lessThanOrEq"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Ord a => a -> a -> Boolean
+            , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some "<="
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "greaterThanOrEq"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Ord a => a -> a -> Boolean
+            , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some ">="
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "min"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- Ord a => a -> a -> a
+            , def = ordA3 -- Ord a => a -> a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "max"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- Ord a => a -> a -> a
+            , def = ordA3 -- Ord a => a -> a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "clamp"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- Ord a => a -> a -> a -> a
+            , def
+                = e.req1
+                    (e.subj1 "Ord" (e.n "a"))
+                    (e.fn [ e.n "a", e.n "a", e.n "a", e.n "a" ])
+                -- Ord a => a -> a -> a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "between"
-            , def = "{{subj:Ord}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Ord a => a -> a -> a -> Boolean
+            , def
+                = e.req1
+                    (e.subj1 "Ord" (e.n "a"))
+                    (e.fn [ e.n "a", e.n "a", e.n "a", e.classE "Boolean" ])
+                 -- Ord a => a -> a -> a -> Boolean
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "abs"
-            , def = "({{subj:Ord}} {{var:a}}, {{class:Ring}} {{var:a}}) {{op:=>}} {{var:a}} {{op:->}} {{var:a}}" -- (Ord a, Ring a) => a -> a
+            , def
+                = e.req
+                    [ e.subj1 "Ord" (e.n "a"), e.subj1 "Ring" (e.n "a") ]
+                    (e.fn2 (e.n "a") (e.n "a"))
+                -- (Ord a, Ring a) => a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "signum"
-            , def = "({{subj:Ord}} {{var:a}}, {{class:Ring}} {{var:a}}) {{op:=>}} {{var:a}} {{op:->}} {{var:a}}" -- (Ord a, Ring a) => a -> a
+            , def
+                = e.req
+                    [ e.subj1 "Ord" (e.n "a"), e.subj1 "Ring" (e.n "a") ]
+                    (e.fn2 (e.n "a") (e.n "a"))
+                -- (Ord a, Ring a) => a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "comparing"
-            , def = "{{subj:Ord}} {{var:b}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} ({{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Ordering}})" -- Ord b => (a -> b) -> (a -> a -> Ordering)
+            , def =
+                e.req1
+                    (e.subj1 "Ord" (e.n "b"))
+                    (e.fn2
+                        (e.br (e.fn2 (e.n "a") (e.n "b")))
+                        (e.br (e.fn3 (e.n "a") (e.n "a") (e.classE "Ordering")))
+                    )
+                -- Ord b => (a -> b) -> (a -> a -> Ordering)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let naturalTransformation : tc.TClass =
     { id = "ntransform"
@@ -12,7 +13,11 @@ let naturalTransformation : tc.TClass =
     , members =
         [
             { name = "NaturalTransformation"
-            , def = "{{fvar:f}} {{var:a}} {{op:->}} {{fvar:g}} {{var:a}}" -- f a -> g a
+            , def =
+                e.fn2
+                    (e.ap2 (e.f "f") (e.n "a"))
+                    (e.ap2 (e.f "g") (e.n "a"))
+                -- f a -> g a
             , belongs = tc.Belongs.Yes
             , op = Some "~>"
             , opEmoji = Some "🐛"

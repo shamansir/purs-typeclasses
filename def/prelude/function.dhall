@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let function : tc.TClass =
     { id = "function"
@@ -11,31 +12,52 @@ let function : tc.TClass =
     , members =
         [
             { name = "flip"
-            , def = "({{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:c}}){{op:->}} {{var:b}} {{op:->}} {{var:a}} {{op:->}} {{var:c}}" -- (a -> b -> c) -> b -> a -> c
+            , def =
+                e.fn
+                    [ e.br (e.fn3 (e.n "a") (e.n "b") (e.n "c"))
+                    , e.n "b"
+                    , e.n "a"
+                    , e.n "c"
+                    ]
+                -- (a -> b -> c) -> b -> a -> c
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "const"
-            , def = "{{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:a}}" -- a -> b -> a
+            , def =
+                e.fn3 (e.n "a") (e.n "b") (e.n "a")
+                -- a -> b -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "apply"
-            , def = "({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{var:a}} {{op:->}} {{var:b}}" -- (a -> b) -> a -> b
+            , def =
+                e.fn3 (e.br (e.fn2 (e.n "a") (e.n "b"))) (e.n "a") (e.n "b")
+                -- (a -> b) -> a -> b
             , belongs = tc.Belongs.No
             , op = Some "$"
             , opEmoji = Some "💨"
             } /\ tc.noLaws
         ,
             { name = "applyFlipped"
-            , def = "{{var:a}} {{op:->}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{var:b}}" -- a -> (a -> b) -> b
+            , def =
+                e.fn3 (e.n "a") (e.br (e.fn2 (e.n "a") (e.n "b"))) (e.n "b")
+                -- a -> (a -> b) -> b
             , belongs = tc.Belongs.No
             , op = Some "#"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "on"
-            , def = "({{var:b}} {{op:->}} {{var:b}} {{op:->}} {{var:c}}) {{op:->}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:c}}" -- (b -> b -> c) -> (a -> b) -> a -> a -> c
+            , def =
+                e.fn
+                    [ e.br (e.fn3 (e.n "b") (e.n "b") (e.n "c"))
+                    , e.br (e.fn2 (e.n "b") (e.n "b"))
+                    , e.n "a"
+                    , e.n "a"
+                    , e.n "c"
+                    ]
+                -- (b -> b -> c) -> (a -> b) -> a -> a -> c
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

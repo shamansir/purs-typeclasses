@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let ordering : tc.TClass =
@@ -14,7 +14,7 @@ let ordering : tc.TClass =
     , members =
         [
             { name = "invert"
-            , def = "{{class:Ordering}} {{op:->}} {{class:Ordering}}" -- Ordering -> Ordering
+            , def = e.fn2 (e.classE "Ordering") (e.classE "Ordering") -- Ordering -> Ordering
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

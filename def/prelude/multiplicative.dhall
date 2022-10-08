@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let multiplicative : tc.TClass =
@@ -14,18 +14,18 @@ let multiplicative : tc.TClass =
     , members =
         [
             { name = "Multiplicative"
-            , def = "{{subj:Multiplicative}} {{var:a}}" -- Multiplicative a
+            , def = e.subj1 "Multiplicative" (e.n "a") -- Multiplicative a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noLaws /\ tc.noOps
         ]
     , statements =
         [
-            { left = "{{subj:Multiplicative}} {{var:x}} {{op:<>}} {{subj:Multiplicative}} {{var:y}}" -- Multiplicative x <> Multiplicative y
-            , right = "{{subj:Multiplicative}} ({{var:x}} {{op:*}} {{var:y}})" -- Multiplicative (x * y)
+            { left = e.opc2 (e.subj1 "Multiplicative" (e.n "x")) "<>" (e.subj1 "Multiplicative" (e.n "y")) -- Multiplicative x <> Multiplicative y
+            , right = e.subj1 "Multiplicative" (e.br (e.opc2 (e.n "x") "*" (e.n "y"))) -- Multiplicative (x * y)
             }
         ,
-            { left = "{{method:mempty}} {{op:::}} {{subj:Multiplicative}} {{var:_}}" -- mempty :: Multiplicative _
-            , right = "{{subj:Multiplicative}} {{method:one}}" -- Multiplicative one
+            { left = e.mdef1 "mempty" (e.subj1 "Multiplicative" e.ph) -- mempty :: Multiplicative _
+            , right = e.subj1 "Multiplicative" (e.callE "one") -- Multiplicative one
             }
         ]
     , instances =

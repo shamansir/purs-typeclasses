@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let functor : tc.TClass =
@@ -14,7 +14,12 @@ let functor : tc.TClass =
     , members =
         [
             { name = "map"
-            , def = "({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}}" -- (a -> b) -> f a -> f b
+            , def =
+                e.fn3
+                    (e.br (e.fn2 (e.n "a") (e.n "b")))
+                    (e.ap2 (e.f "f") (e.n "a"))
+                    (e.ap2 (e.f "f") (e.n "b"))
+                -- (a -> b) -> f a -> f b
             , belongs = tc.Belongs.Yes
             , op = Some "<$>"
             , opEmoji = Some "🚂"
@@ -23,8 +28,8 @@ let functor : tc.TClass =
                     { law = "identity"
                     , examples =
                         [ tc.lr
-                            { left = "({{op:<$>}}) {{method:identity}}" -- (<$>) id
-                            , right = "{{method:identity}}" -- id
+                            { left = e.op_fn1 "<$>" (e.callE "id") -- (<$>) id
+                            , right = e.callE "id" -- id
                             }
                         ]
                     }
@@ -32,8 +37,15 @@ let functor : tc.TClass =
                     { law = "composition"
                     , examples =
                         [ tc.lr
-                            { left = "({{op:<$>}}) ({{fvar:f}} {{op:<<<}} {{fvar:g}})" -- (<$>) (f <<< g)
-                            , right = "({{fvar:f}} {{op:<$>}}) {{op:<<<}} ({{fvar:g}} {{op:<$>}})" -- (f <$>) <<< (g <$>)
+                            { left =
+                                e.op_fn1 "<$>" (e.br (e.opc2 (e.f "f") "<<<" (e.f "g")))
+                                -- (<$>) (f <<< g)
+                            , right =
+                                e.opc2
+                                    (e.br (e.ap2 (e.f "f") (e.op "<$>")))
+                                    "<<<"
+                                    (e.br (e.ap2 (e.f "g") (e.op "<$>")))
+                                -- (f <$>) <<< (g <$>)
                             }
                         ]
                     }
@@ -41,34 +53,74 @@ let functor : tc.TClass =
             }
         ,
             { name = "mapFlipped"
-            , def = "{{subj:Functor}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:b}}" -- Functor f => f a -> (a -> b) -> f b
+            , def =
+                e.req1
+                    (e.subj1 "Functor" (e.f "f"))
+                    (e.fn3
+                        (e.ap2 (e.f "f") (e.n "a"))
+                        (e.br (e.fn2 (e.n "a") (e.n "b")))
+                        (e.ap2 (e.f "f") (e.n "b"))
+                    )
+                -- Functor f => f a -> (a -> b) -> f b
             , belongs = tc.Belongs.No
             , op = Some "<#>"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "void"
-            , def = "{{subj:Functor}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{class:Unit}}" -- Functor f => f a -> f Unit
+            , def =
+                e.req1
+                    (e.subj1 "Functor" (e.f "f"))
+                    (e.fn2
+                        (e.ap2 (e.f "f") (e.n "a"))
+                        (e.ap2 (e.f "f") (e.classE "Unit"))
+                    )
+                -- Functor f => f a -> f Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "voidRight"
             , op = Some "<$"
-            , def = "{{subj:Functor}} {{fvar:f}} {{op:=>}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}} {{op:->}} {{fvar:f}} {{var:a}}" -- Functor f => a -> f b -> f a
+            , def =
+                e.req1
+                    (e.subj1 "Functor" (e.f "f"))
+                    (e.fn3
+                        (e.n "a")
+                        (e.ap2 (e.f "f") (e.n "b"))
+                        (e.ap2 (e.f "f") (e.n "a"))
+                    )
+                -- Functor f => a -> f b -> f a
             , belongs = tc.Belongs.No
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "voidLeft"
             , op = Some "$>"
-            , def = "{{subj:Functor}} {{fvar:f}} {{op:=>}} {{fvar:f}} {[var:a}} {{op:->}} {{var:b}} {{op:->}} {{fvar:f}} {{var:b}}" -- Functor f => f a -> b -> f b
+            , def =
+                e.req1
+                    (e.subj1 "Functor" (e.f "f"))
+                    (e.fn3
+                        (e.ap2 (e.f "f") (e.n "a"))
+                        (e.n "b")
+                        (e.ap2 (e.f "f") (e.n "b"))
+
+                    )
+                -- Functor f => f a -> b -> f b
             , belongs = tc.Belongs.No
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "flap"
             , op = Some "<@>"
-            , def = "{{subj:Functor}} {{fvar:f}} {{op:=>}} {{fvar:f}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}}" -- Functor f => f (a -> b) -> a -> f b
+            , def =
+                e.req1
+                    (e.subj1 "Functor" (e.f "f"))
+                    (e.fn3
+                        (e.ap2 (e.f "f") (e.br (e.fn2 (e.n "a") (e.n "b"))))
+                        (e.n "a")
+                        (e.ap2 (e.f "f") (e.n "b"))
+                    )
+                -- Functor f => f (a -> b) -> a -> f b
             , belongs = tc.Belongs.No
             , opEmoji = tc.noOp
             } /\ tc.noLaws

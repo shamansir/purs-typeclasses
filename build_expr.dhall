@@ -227,8 +227,6 @@ let test_class1
     ≡ "{{class:Foo}} {{var:v}}"
 
 
-
-
 -- fn expr1 expr2 ...
 let call
     : Text -> List e.Expr -> e.Expr
@@ -349,23 +347,41 @@ let test_inf2
     ≡ "{{var:PI}} `{{method:multiply}}` {{num:2}}"
 
 
-{-
 -- (op) left right
 let op_fn
     : Text -> e.Expr -> e.Expr -> e.Expr
-    = \(op: Text) -> \(left : e.Expr) -> \(right : e.Expr)
-    -> e.Expr.OperatorFnCall { op, left = e.Expr/seal left, right = e.Expr/seal right }
+    = \(op_: Text) -> \(left : e.Expr) -> \(right : e.Expr)
+    -> ap3 (br (op op_)) left right
+    -- -> e.Expr.OperatorFnCall { op, left = e.Expr/seal left, right = e.Expr/seal right }
 
 let test_op_fn
     = assert
     : e.Expr/render (op_fn "*" (n "PI") (num "2"))
     ≡ "({{op:*}}) {{var:PI}} {{num:2}}"
 
+
+-- (op)
+let op_fnE
+    : Text -> e.Expr
+    = \(op_: Text)
+    -> br (op op_)
+
+let test_op_fnE
+    = assert
+    : e.Expr/render (op_fnE "*")
+    ≡ "({{op:*}})"
+
+
+-- (op) left
+let op_fn1
+    : Text -> e.Expr -> e.Expr
+    = \(op_: Text) -> \(left : e.Expr)
+    -> ap2 (br (op op_)) left
+
 let test_op_fn1
     = assert
-    : e.Expr/render (op_fn "*" (n "PI") empty)
-    ≡ "({{op:*}}) {{var:PI}} " -- FIXME: no trail space
--}
+    : e.Expr/render (op_fn1 "*" (n "PI"))
+    ≡ "({{op:*}}) {{var:PI}}"
 
 
 -- fn :: expr1 -> expr2 ...
@@ -468,6 +484,7 @@ in
     , call, callE, call1
     , fn, fn2, fn3
     , opc2, opc3, opc4
+    , op_fn, op_fnE, op_fn1
     , inf2
     , mdef, mdef1
     , req, req1, reqseq
