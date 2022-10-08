@@ -16,18 +16,14 @@ let equivalence : tc.TClass =
             { name = "Equivalence"
             , def =
                 -- Equivalence (a -> a -> Boolean)
-                e.val
-                    (e.subj_
-                        "Equivalence"
-                        [ e.r
-                            (e.fnvs
-                                [ e.vf "a"
-                                , e.vf "a"
-                                , e.classE "Boolean"
-                                ]
-                            )
+                e.subj1
+                    "Equivalence"
+                    (e.br (e.fn
+                        [ e.n "a"
+                        , e.n "a"
+                        , e.classE "Boolean"
                         ]
-                    )
+                    ))
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
@@ -35,17 +31,17 @@ let equivalence : tc.TClass =
             , def =
                 -- Eq a => Equivalence a
                 e.req1
-                    (e.class_ "Eq" [ e.n "a" ])
-                    (e.subj_ "Equivalence" [ e.n "a" ])
+                    (e.class1 "Eq" (e.n "a"))
+                    (e.subj1 "Equivalence" (e.n "a"))
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "comparisonEquivalence"
             , def =
                 -- Comparison a -> Equivalence a
-                e.ap
-                    (e.class_ "Comparison" [ e.n "a" ])
-                    (e.subj_ "Equivalence" [ e.n "a" ])
+                e.ap2
+                    (e.class1 "Comparison" (e.n "a"))
+                    (e.subj1 "Equivalence" (e.n "a"))
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

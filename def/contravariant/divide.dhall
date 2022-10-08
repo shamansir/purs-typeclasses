@@ -17,13 +17,12 @@ let divide : tc.TClass =
             { name = "divide"
             , def =
                 -- (a -> Tuple b c) -> f b -> f c -> f a
-                (e.fnvs
-                    [ e.fn_ [ e.n "a", e.rv (e.class_ "Tuple" [ e.n "b", e.n "c" ]) ]
-                    , e.ap1_ (e.f "f") (e.n "b")
-                    , e.ap1_ (e.f "f") (e.n "c")
-                    , e.ap1_ (e.f "f") (e.n "a")
+                e.fn
+                    [ e.fn2 (e.n "a") (e.br (e.class "Tuple" [ e.n "b", e.n "c" ]))
+                    , e.ap2 (e.f "f") (e.n "b")
+                    , e.ap2 (e.f "f") (e.n "c")
+                    , e.ap2 (e.f "f") (e.n "a")
                     ]
-                )
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
@@ -31,14 +30,12 @@ let divide : tc.TClass =
             , def =
                 -- Divided f => f a -> f b -> f (Tuple a b)
                 e.req1
-                    (e.class_ "Decide" [ e.n "f" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.ap1_ (e.f "f") (e.n "b")
-                            , e.ap1_ (e.f "f") (e.n "a")
-                            , e.ap1_ (e.n "a") (e.rv (e.class_ "Tuple" [ e.n "a", e.n "b" ]))
-                            ]
-                        )
+                    (e.class1 "Decide" (e.n "f"))
+                    (e.fn
+                        [ e.ap2 (e.f "f") (e.n "b")
+                        , e.ap2 (e.f "f") (e.n "a")
+                        , e.ap2 (e.f "f") (e.br (e.class "Tuple" [ e.n "a", e.n "b" ]))
+                        ]
                     )
             , belongs = tc.Belongs.No
             , laws =
@@ -48,12 +45,10 @@ let divide : tc.TClass =
                         [ tc.lr
                             { left =
                                  -- divided
-                                e.val
-                                    (e.callE "divided")
+                                e.callE "divided"
                             , right =
                                 -- divide id
-                                e.val
-                                    (e.call1_ "divide" (e.rv (e.callE "idenity")))
+                                e.call1 "divide" (e.callE "idenity")
                             }
                         ]
                     }
@@ -65,8 +60,8 @@ let divide : tc.TClass =
         , i.instanceSubj "Divide" "Equivalence"
         , i.instanceSubj "Divide" "Predicate"
         , e.req1
-            (e.class_ "Semigroup" [ e.n "r" ])
-            (e.subj_ "Divide" [ e.rv (e.class1_ "Op" (e.n "r")) ]) -- (Semigroup r) => Divide (Op r)
+            (e.class1 "Semigroup" (e.n "r"))
+            (e.subj1 "Divide" (e.br (e.class1 "Op" (e.n "r")))) -- (Semigroup r) => Divide (Op r)
         ]
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 

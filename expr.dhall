@@ -102,6 +102,7 @@ let ConstrainedSeq_ = { constraints : List SealedExpr, expr : SealedExpr }
 let FnTypeDef_ = { items : List SealedExpr }
 let FnDef_ = { fn : Text, items : List SealedExpr }
 let Lambda_ = { args : List Arg, body : SealedExpr }
+let Forall_ = { args : List Arg, body : SealedExpr }
 
 
 let Expr =
@@ -120,7 +121,8 @@ let Expr =
     | Operator : Operator_
     | Constrained : Constrained_
     | ConstrainedSeq : ConstrainedSeq_
-    | Lambda_ : Lambda_
+    | Lambda : Lambda_
+    | Forall : Forall_
     | PH
     | Raw : Text
     | Num : Text
@@ -180,9 +182,12 @@ let Expr/render
         , ConstrainedSeq
             =  \(cs : Constrained_)
             -> tt "${concatExprs " {{op:=>}} " cs.constraints} {{op:=>}} ${SealedExpr/unseal cs.expr}"
-        , Lambda_
+        , Lambda
             =  \(lambda : Lambda_)
             -> tt "\\${concatArgs " " lambda.args} {{op:->}} ${SealedExpr/unseal lambda.body}"
+        , Forall
+            =  \(forall_ : Forall_)
+            -> tt "{{kw:forall}} ${concatArgs " " forall_.args}. ${SealedExpr/unseal forall_.body}"
         , PH = "{{var:_}}"
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"

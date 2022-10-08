@@ -22,8 +22,8 @@ let category : tc.TClass =
                     { law = "identity"
                     , examples =
                         [ tc.lmr
-                            { left = e.opc2 (e.callE "id") "<<<" (e.n "p") -- id <<< p
-                            , middle = e.opc2 (e.n "p") "<<<" (e.callE "id") -- p <<< id
+                            { left = e.opc2 (e.callE "identity") "<<<" (e.n "p") -- id <<< p
+                            , middle = e.opc2 (e.n "p") "<<<" (e.callE "identity") -- p <<< id
                             , right = e.n "p"
                             }
                         ]

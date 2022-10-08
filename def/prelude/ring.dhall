@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let ring : tc.TClass =
@@ -15,7 +15,7 @@ let ring : tc.TClass =
     , members =
         [
             { name = "sub"
-            , def = "{{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- a -> a -> a
+            , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
             , op = Some "-"
             , opEmoji = tc.noOp
@@ -24,9 +24,9 @@ let ring : tc.TClass =
                     { law = "Additive inverse"
                     , examples =
                         [ tc.lmr
-                            { left = "{{var:a}} {{op:-}} {{var:a}}" -- a - a
-                            , middle = "{{method:zero}} {{op:-}} {{var:a}}" -- zero - a
-                            , right = "{{method:zero}}" -- zero
+                            { left =  e.opc2 (e.n "a") "-" (e.n "a") -- a - a
+                            , middle = e.opc2 (e.callE "zero") "-" (e.n "a") -- zero - a
+                            , right = e.callE "zero" -- zero
                             }
                         ]
                     }
@@ -34,7 +34,11 @@ let ring : tc.TClass =
             }
         ,
             { name = "negate"
-            , def = "{{subj:Ring}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{var:a}}" -- Ring a => a -> a
+            , def =
+                e.req1
+                    (e.subj1 "Ring" (e.n "a"))
+                    (e.fn2 (e.n "a") (e.n "a"))
+                -- Ring a => a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

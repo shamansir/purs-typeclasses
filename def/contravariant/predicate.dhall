@@ -16,18 +16,9 @@ let predicate : tc.TClass =
             { name = "Predicate"
             , def =
                 -- Predicate (a -> Boolean)
-                e.val
-                    (e.subj_
-                        "Predicate"
-                        [ e.r
-                            (e.fnvs
-                                [ e.vf "a"
-                                , e.vf "a"
-                                , e.classE "Boolean"
-                                ]
-                            )
-                        ]
-                    )
+                e.subj1
+                    "Predicate"
+                    (e.fn2 (e.n "a") (e.classE "Boolean"))
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ]

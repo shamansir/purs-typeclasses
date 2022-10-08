@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let void : tc.TClass =
@@ -13,7 +13,7 @@ let void : tc.TClass =
     , members =
         [
             { name = "absurd"
-            , def = "{{subj:Void}} {{op:->}} {{var:a}}" -- Void -> a
+            , def = e.fn2 (e.subjE "Void") (e.n "a") -- Void -> a
             , belongs = tc.Belongs.No
             , op = tc.noOp
             , opEmoji = Some "💣"

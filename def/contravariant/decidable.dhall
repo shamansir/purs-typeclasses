@@ -17,9 +17,9 @@ let decidable : tc.TClass =
             { name = "lose"
             , def =
                 -- (a -> Void) -> f a
-                e.fn
-                    (e.fn_ [ e.n "a", e.rv (e.classE "Void") ])
-                    (e.ap1_ (e.f "f") (e.n "a"))
+                e.fn2
+                    (e.br (e.fn2 (e.n "a") (e.classE "Void")))
+                    (e.ap2 (e.f "f") (e.n "a"))
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
@@ -27,8 +27,8 @@ let decidable : tc.TClass =
             , def =
                 -- Decidable f => f Void
                 e.req1
-                    (e.subj_ "Decidable" [ e.n "a" ])
-                    (e.ap1_ (e.f "f") (e.rv (e.classE "Void")))
+                    (e.subj1 "Decidable" (e.n "a"))
+                    (e.ap2 (e.f "f") (e.classE "Void"))
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
@@ -37,8 +37,8 @@ let decidable : tc.TClass =
         , i.instanceSubj "Decidable" "Equivalence"
         , i.instanceSubj "Decidable" "Predicate"
         , e.req1
-            (e.class_ "Monoid" [ e.n "r" ])
-            (e.subj_ "Decidable" [ e.rv (e.class1_ "Op" (e.n "r")) ]) -- (Monoid r) => Decidable (Op r)
+            (e.br (e.class1 "Monoid" (e.n "r")))
+            (e.subj1 "Decidable" (e.br (e.class1 "Op" (e.n "r")))) -- (Monoid r) => Decidable (Op r)
         ]
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 

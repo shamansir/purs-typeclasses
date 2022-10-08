@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let semiRing : tc.TClass =
@@ -14,26 +14,26 @@ let semiRing : tc.TClass =
     , members =
         [
             { name = "add"
-            , def = "{{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- a -> a -> a
+            , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
             , op = Some "+"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "zero"
-            , def = "{{var:a}}" -- a
+            , def = e.n "a" -- a
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "mul"
-            , def = "{{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- a -> a -> a
+            , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
             , op = Some "*"
             , opEmoji = tc.noOp
             } /\ tc.noLaws
         ,
             { name = "one"
-            , def = "{{var:a}}" -- a
+            , def = e.n "a" -- a
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ]
@@ -42,8 +42,18 @@ let semiRing : tc.TClass =
             { law = "associativity"
             , examples =
                 [ tc.lr
-                    { left = "({{var:a}} {{op:+}} {{var:b}}) {{op:+}} {{var:c}}" -- (a + b) + c
-                    , right = "{{var:a}} {{op:+}} ({{var:b}} {{op:+}} {{var:c}})" -- a + (b + c)
+                    { left =
+                        e.opc2
+                            (e.br (e.opc2 (e.n "a") "+" (e.n "b")))
+                            "+"
+                            (e.n "c")
+                        -- (a + b) + c
+                    , right =
+                        e.opc2
+                            (e.n "a")
+                            "+"
+                            (e.br (e.opc2 (e.n "b") "+" (e.n "c")))
+                        -- a + (b + c)
                     }
                 ]
             }
@@ -51,9 +61,9 @@ let semiRing : tc.TClass =
             { law = "identity"
             , examples =
                 [ tc.lmr
-                    { left = "{{method:zero}} {{op:+}} {{var:a}}" -- zero + a
-                    , middle = "{{var:a}} {{op:+}} {{method:zero}}" -- a + zero
-                    , right = "{{var:a}}" -- a
+                    { left = e.opc2 (e.callE "zero") "+" (e.n "a") -- zero + a
+                    , middle = e.opc2 (e.n "a") "+" (e.callE "zero") -- a + zero
+                    , right = e.n "a" -- a
                     }
                 ]
             }
@@ -61,8 +71,8 @@ let semiRing : tc.TClass =
             { law = "commutative"
             , examples =
                 [ tc.lr
-                    { left = "{{var:a}} {{op:+}} {{var:b}}" -- a + b
-                    , right = "{{var:b}} {{op:+}} {{var:a}}" -- b + a
+                    { left = e.opc2 (e.n "a") "+" (e.n "b") -- a + b
+                    , right = e.opc2 (e.n "b") "+" (e.n "a") -- b + a
                     }
                 ]
             }
@@ -70,8 +80,18 @@ let semiRing : tc.TClass =
             { law = "associativity"
             , examples =
                 [ tc.lr
-                    { left = "({{var:a}} {{op:+}} {{var:b}}) {{op:*}} {{var:c}}" -- (a + b) * c
-                    , right = "{{var:a}} {{op:*}} ({{var:b}} {{op:*}} {{var:c}})" -- a * (b * c)
+                    { left =
+                        e.opc2
+                            (e.br (e.opc2 (e.n "a") "*" (e.n "b")))
+                            "*"
+                            (e.n "c")
+                        -- (a * b) * c
+                    , right =
+                        e.opc2
+                            (e.n "a")
+                            "*"
+                            (e.br (e.opc2 (e.n "b") "*" (e.n "c")))
+                        -- a * (b * c)
                     }
                 ]
             }
@@ -79,9 +99,9 @@ let semiRing : tc.TClass =
             { law = "identity"
             , examples =
                 [ tc.lmr
-                    { left = "{{method:one}} {{op:*}} {{var:a}}" -- one * a
-                    , middle = "{{var:a}} {{op:*}} {{method:one}}" -- a * one
-                    , right = "{{var:a}}" -- a
+                    { left = e.opc2 (e.callE "one") "*" (e.n "a")  -- one * a
+                    , middle = e.opc2 (e.n "a") "*" (e.callE "one") -- a * one
+                    , right = e.n "a" -- a
                     }
                 ]
             }
@@ -89,8 +109,18 @@ let semiRing : tc.TClass =
             { law = "left distributivity"
             , examples =
                 [ tc.lr
-                    { left = "{{var:a}} {{op:*}} ({{var:b}} {{op:+}} {{var:c}})" -- a * (b + c)
-                    , right = "({{var:a}} {{op:*}} {{var:b}}) {{op:+}} ({{var:a}} {{op:*}} {{var:c}})" -- (a * b) + (a * c)
+                    { left =
+                        e.opc2
+                            (e.n "a")
+                            "*"
+                            (e.br (e.opc2 (e.n "b") "+" (e.n "c")))
+                        -- a * (b + c)
+                    , right =
+                        e.opc2
+                            (e.br (e.opc2 (e.n "a") "*" (e.n "b")))
+                            "+"
+                            (e.br (e.opc2 (e.n "b") "*" (e.n "c")))
+                        -- (a * b) + (a * c)
                     }
                 ]
             }
@@ -98,8 +128,18 @@ let semiRing : tc.TClass =
             { law = "right distributivity"
             , examples =
                 [ tc.lr
-                    { left = "{{var:a}} {{op:+}} ({{var:b}} {{op:*}} {{var:c}})" -- a + (b * c)
-                    , right = "({{var:a}} {{op:*}} {{var:c}}) {{op:+}} ({{var:b}} * {{var:c}})" -- (a * c) + (b * c)
+                    { left =
+                        e.opc2
+                            (e.n "a")
+                            "+"
+                            (e.br (e.opc2 (e.n "b") "*" (e.n "c")))
+                        -- a + (b * c)
+                    , right =
+                        e.opc2
+                            (e.br (e.opc2 (e.n "a") "*" (e.n "c")))
+                            "+"
+                            (e.br (e.opc2 (e.n "b") "*" (e.n "c")))
+                        -- (a * c) + (b * c)
                     }
                 ]
             }
@@ -107,9 +147,9 @@ let semiRing : tc.TClass =
             { law = "annihilation"
             , examples =
                 [ tc.lmr
-                    { left = "{{method:zero}} {{op:*}} {{var:a}}" -- zero * a
-                    , middle = "{{var:a}} {{op:*}} {{method:zero}}" -- a * zero
-                    , right = "{{method:zero}}" -- zero
+                    { left = e.opc2 (e.callE "zero") "*" (e.n "a")  -- zero * a
+                    , middle = e.opc2 (e.n "a") "*" (e.callE "zero") -- a * zero
+                    , right = e.callE "zero" -- zero
                     }
                 ]
             }

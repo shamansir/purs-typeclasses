@@ -14,7 +14,7 @@ let const : tc.TClass =
     , members =
         [
             { name = "Const"
-            , def = e.val (e.subj_ "Const" [ e.n "a" ]) -- Const a
+            , def = e.subj1 "Const" (e.n "a") -- Const a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ]

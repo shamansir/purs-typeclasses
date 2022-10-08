@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let semigroupoid : tc.TClass =
     { id = "semigroupoid"
@@ -12,7 +13,12 @@ let semigroupoid : tc.TClass =
     , members =
         [
             { name = "compose"
-            , def = "{{var:a}} {{var:c}} {{var:d}} {{op:->}} {{var:a}} {{var:b}} {{var:c}} {{op:->}} {{var:a}} {{var:b}} {{var:d}}" -- a c d -> a b c -> a b d
+            , def =
+                e.fn3
+                    (e.ap3 (e.n "a") (e.n "c") (e.n "d"))
+                    (e.ap3 (e.n "a") (e.n "b") (e.n "c"))
+                    (e.ap3 (e.n "a") (e.n "b") (e.n "d"))
+                 -- a c d -> a b c -> a b d
             , belongs = tc.Belongs.Yes
             , op = Some "<<<"
             , opEmoji = Some  "🔙"
@@ -21,8 +27,18 @@ let semigroupoid : tc.TClass =
                     { law = "associativity"
                     , examples =
                         [ tc.lr
-                            { left = "{{var:p}} {{op:<<<}} ({{var:q}} {{op:<<<}} {{var:r}})" -- p <<< (q <<< r)
-                            , right = "({{var:p}} {{op:<<<}} {{var:q}}) {{op:<<<}} {{var:r}}" -- (p <<< q) <<< r
+                            { left =
+                                e.opc2
+                                    (e.n "p")
+                                    "<<<"
+                                    (e.br (e.opc2 (e.n "q") "<<<" (e.n "r")))
+                                -- p <<< (q <<< r)
+                            , right =
+                                e.opc2
+                                    (e.br (e.opc2 (e.n "p") "<<<" (e.n "q")))
+                                    "<<<"
+                                    (e.n "r")
+                                -- (p <<< q) <<< r
                             }
                         ]
                     }
@@ -30,7 +46,15 @@ let semigroupoid : tc.TClass =
             }
         ,
             { name = "composeFlipped"
-            , def = "{{subj:Semigroupoid}} {{var:a}} {{op:=>}} {{var:a}} {{var:b}} {{var:c}} {{op:->}} {{var:a}} {{var:c}} {{var:d}} {{op:->}} {{var:a}} {{var:b}} {{var:d}}" -- Semigroupoid a => a b c -> a c d -> a b d
+            , def =
+                e.req1
+                    (e.subj1 "Semigtoupoid" (e.n "a"))
+                    (e.fn3
+                        (e.ap3 (e.n "a") (e.n "c") (e.n "c"))
+                        (e.ap3 (e.n "a") (e.n "c") (e.n "d"))
+                        (e.ap3 (e.n "a") (e.n "b") (e.n "d"))
+                    )
+                -- Semigroupoid a => a b c -> a c d -> a b d
             , belongs = tc.Belongs.No
             , op = Some ">>>"
             , opEmoji = Some "🔜"

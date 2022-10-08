@@ -17,13 +17,12 @@ let decide : tc.TClass =
             { name = "choose"
             , def =
                 -- (a -> Either b c) -> f b -> f c -> f a
-                (e.fnvs
-                    [ e.fn_ [ e.n "a", e.rv (e.class_ "Either" [ e.n "b", e.n "c" ]) ]
-                    , e.ap1_ (e.f "f") (e.n "b")
-                    , e.ap1_ (e.f "f") (e.n "c")
-                    , e.ap1_ (e.f "f") (e.n "a")
+                e.fn
+                    [ e.br (e.fn2 (e.n "a") (e.class "Either" [ e.n "b", e.n "c" ]))
+                    , e.ap2 (e.f "f") (e.n "b")
+                    , e.ap2 (e.f "f") (e.n "c")
+                    , e.ap2 (e.f "f") (e.n "a")
                     ]
-                )
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
@@ -31,14 +30,12 @@ let decide : tc.TClass =
             , def =
                 -- Decide f => f a -> f b -> f (Either a b)
                 e.req1
-                    (e.class_ "Decide" [ e.n "f" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.ap1_ (e.f "f") (e.n "b")
-                            , e.ap1_ (e.f "f") (e.n "a")
-                            , e.ap1_ (e.n "a") (e.rv (e.class_ "Either" [ e.n "a", e.n "b" ]))
-                            ]
-                        )
+                    (e.subj1 "Decide" (e.n "f"))
+                    (e.fn
+                        [ e.ap2 (e.f "f") (e.n "b")
+                        , e.ap2 (e.f "f") (e.n "a")
+                        , e.ap2 (e.n "a") (e.br (e.class "Either" [ e.n "a", e.n "b" ]))
+                        ]
                     )
             , belongs = tc.Belongs.No
             , laws =
@@ -48,12 +45,10 @@ let decide : tc.TClass =
                         [ tc.lr
                             { left =
                                  -- chosen
-                                e.val
-                                    (e.callE "chosen")
+                                e.callE "chosen"
                             , right =
                                 -- chose id
-                                e.val
-                                    (e.call1_ "chose" (e.rv (e.callE "idenity")))
+                                e.call1 "chose" (e.callE "identity")
                             }
                         ]
                     }
@@ -65,8 +60,8 @@ let decide : tc.TClass =
         , i.instanceSubj "Decide" "Equivalence"
         , i.instanceSubj "Decide" "Predicate"
         , e.req1
-            (e.class_ "Semigroup" [ e.n "r" ])
-            (e.subj_ "Decide" [ e.rv (e.class1_ "Op" (e.n "r")) ]) -- (Semigroup r) => Decide (Op r)
+            (e.br (e.class1 "Semigroup" (e.n "r" )))
+            (e.subj1 "Decide" (e.br (e.class1 "Op" (e.n "r")))) -- (Semigroup r) => Decide (Op r)
         ]
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 

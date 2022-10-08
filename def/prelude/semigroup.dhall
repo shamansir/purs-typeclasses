@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let semigroup : tc.TClass =
@@ -14,7 +14,7 @@ let semigroup : tc.TClass =
     , members =
         [
             { name = "append"
-            , def = "{{var:a}} {{op:->}} {{var:a}} {{op:->}} {{var:a}}" -- a -> a -> a
+            , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
             , op = Some "<>"
             , opEmoji = Some "🙏"
@@ -23,8 +23,10 @@ let semigroup : tc.TClass =
                     { law = "associativity"
                     , examples =
                         [ tc.lr
-                            { left = "({{var:x}} {{op:<>}} {{var:y}}) {{op:<>}} {{var:z}}" -- (x <> y) <> z
-                            , right = "{{var:x}} {{op:<>}} ({{var:y}} {{op:<>}} {{var:z}})" -- x <> (y <> z)
+                            { left = e.opc2 (e.br (e.opc2 (e.n "x") "<>" (e.n "y"))) "<>" (e.n "z")
+                                -- (x <> y) <> z
+                            , right = e.opc2 (e.n "x") "<>" (e.br (e.opc2 (e.n "y") "<>" (e.n "z")))
+                                -- x <> (y <> z)
                             }
                         ]
                     }
@@ -36,7 +38,10 @@ let semigroup : tc.TClass =
         , i.instanceCl "Unit"
         , i.instanceCl "Void"
         , i.instanceClA "Array"
-        , "{{subj:Semigroup}} {{var:s'}} {{op:=>}} {{subj:Semigroup}} ({{var:s}} {{op:->}} {{var:s'}})" -- "Semigroup s' => Semigroup (s -> s')"
+        , e.req1
+            (e.subj1 "Semigroup" (e.n "s'"))
+            (e.subj1 "Semigroup" (e.br (e.fn2 (e.n "s") (e.n "s"))))
+            -- Semigroup s' => Semigroup (s -> s')"
         ]
 
     } /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements

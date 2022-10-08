@@ -25,7 +25,7 @@ let applicative : tc.TClass =
                     , examples =
                         [ tc.lr
                             { left =
-                                e.opc2 (e.br (e.call1 "pure" (e.callE "id"))) "<*>" (e.n "v")
+                                e.opc2 (e.br (e.call1 "pure" (e.callE "identity"))) "<*>" (e.n "v")
                                 -- (pure id) <*> v
                             , right =
                                 e.n "v"

@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let show : tc.TClass =
@@ -14,7 +14,7 @@ let show : tc.TClass =
     , members =
         [
             { name = "show"
-            , def = "{{var:a}} {{op:->}} {{class:String}}" -- a -> String
+            , def = e.fn2 (e.n "a") (e.classE "String") -- a -> String
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
 

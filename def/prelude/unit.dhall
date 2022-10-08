@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let unit : tc.TClass =
@@ -13,7 +13,7 @@ let unit : tc.TClass =
     , members =
         [
             { name = "unit"
-            , def = "{{subj:Unit}}" -- Unit
+            , def = e.subjE "Unit" -- Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

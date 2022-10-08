@@ -16,18 +16,7 @@ let comparison : tc.TClass =
             { name = "Comparison"
             , def =
                 -- Comparison (a -> a -> Ordering)
-                e.val
-                    (e.subj_
-                        "Comparison"
-                        [ e.r
-                            (e.fnvs
-                                [ e.vf "a"
-                                , e.vf "a"
-                                , e.classE "Ordering"
-                                ]
-                            )
-                        ]
-                    )
+                e.subj1 "Comparison" (e.br (e.fn [ e.n "a", e.n "a", e.classE "Ordering" ]))
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
@@ -35,8 +24,8 @@ let comparison : tc.TClass =
             , def =
                 -- Ord a => Comparison a
                 e.req1
-                    (e.class_ "Ord" [ e.n "a" ])
-                    (e.subj_ "Comparison" [ e.n "a" ])
+                    (e.class1 "Ord" (e.n "a"))
+                    (e.subj1 "Comparison" (e.n "a"))
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

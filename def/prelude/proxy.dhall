@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let proxy : tc.TClass =
     { id = "proxy"
@@ -12,7 +13,7 @@ let proxy : tc.TClass =
     , members =
         [
             { name = "Proxy"
-            , def = "{{kw:forall}} {{var:k}}. {{var:k}} {{op:->}} {{class:Type}}" -- forall k. k -> Type
+            , def = e.fall1 (e.av "k") (e.fn2 (e.n "k") (e.kw "Type")) -- forall k. k -> Type
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
 

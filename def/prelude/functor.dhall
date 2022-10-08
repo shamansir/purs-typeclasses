@@ -28,8 +28,8 @@ let functor : tc.TClass =
                     { law = "identity"
                     , examples =
                         [ tc.lr
-                            { left = e.op_fn1 "<$>" (e.callE "id") -- (<$>) id
-                            , right = e.callE "id" -- id
+                            { left = e.op_fn1 "<$>" (e.callE "identity") -- (<$>) id
+                            , right = e.callE "identity" -- id
                             }
                         ]
                     }

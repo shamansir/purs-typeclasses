@@ -451,7 +451,7 @@ let av
 -- \arg1 arg2 ... -> expr a.k.a lambda
 let lbd
     : List e.Arg -> e.Expr -> e.Expr
-    = \(args : List e.Arg) -> \(body : e.Expr) -> e.Expr.Lambda_ { args, body = e.Expr/seal body }
+    = \(args : List e.Arg) -> \(body : e.Expr) -> e.Expr.Lambda { args, body = e.Expr/seal body }
 
 let test_lbd
     = assert
@@ -462,12 +462,34 @@ let test_lbd
 -- \arg1 arg2 ... -> expr a.k.a lambda
 let lbd1
     : e.Arg -> e.Expr -> e.Expr
-    = \(arg : e.Arg) -> \(body : e.Expr) -> e.Expr.Lambda_ { args = [ arg ], body = e.Expr/seal body }
+    = \(arg : e.Arg) -> \(body : e.Expr) -> lbd [ arg ] body
 
 let test_lbd1
     = assert
     : e.Expr/render (lbd1 (av "c") (opc2 (n "a") "+" (n "b")))
     ≡ "\\{{var:c}} {{op:->}} {{var:a}} {{op:+}} {{var:b}}"
+
+
+-- forall arg1 arg2 ... . expr
+let fall
+    : List e.Arg -> e.Expr -> e.Expr
+    = \(args : List e.Arg) -> \(body : e.Expr) -> e.Expr.Forall { args, body = e.Expr/seal body }
+
+let test_fall
+    = assert
+    : e.Expr/render (fall [av "c", av "k"] (fn2 (n "c") (n "k")))
+    ≡ "{{kw:forall}} {{var:c}} {{var:k}}. {{var:c}} {{op:->}} {{var:k}}"
+
+
+-- forall arg. expr
+let fall1
+    : e.Arg -> e.Expr -> e.Expr
+    = \(arg : e.Arg) -> \(body : e.Expr) -> fall [ arg ] body
+
+let test_fall1
+    = assert
+    : e.Expr/render (fall1 (av "c") (fn2 (n "c") (n "c")))
+    ≡ "{{kw:forall}} {{var:c}}. {{var:c}} {{op:->}} {{var:c}}"
 
 
 let r = e.Expr/render
@@ -490,5 +512,6 @@ in
     , req, req1, reqseq
     , av
     , lbd, lbd1
+    , fall, fall1
     , r
     }

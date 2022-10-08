@@ -17,9 +17,7 @@ let divisible : tc.TClass =
             { name = "conquer"
             , def =
                 -- f a
-                e.ap
-                    (e.vf "f")
-                    (e.vn "a")
+                e.ap2 (e.f "f") (e.n "a")
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ]
@@ -28,8 +26,8 @@ let divisible : tc.TClass =
         , i.instanceSubj "Divisible" "Equivalence"
         , i.instanceSubj "Divisible" "Predicate"
         , e.req1
-            (e.class_ "Monoid" [ e.n "r" ])
-            (e.subj_ "Divisible" [ e.rv (e.class1_ "Op" (e.n "r")) ]) -- (Monoid r) => Divisible (Op r)
+            (e.br (e.class1 "Monoid" (e.n "r")))
+            (e.subj1 "Divisible" (e.br (e.class1 "Op" (e.n "r")))) -- (Monoid r) => Divisible (Op r)
         ]
     } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 

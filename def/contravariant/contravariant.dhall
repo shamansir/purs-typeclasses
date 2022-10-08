@@ -16,8 +16,8 @@ let contravariant : tc.TClass =
             { law = "identity"
             , examples =
                 [ tc.lr
-                    { left = e.ap (e.op ">$<") (e.callE "identity")  -- (>$<) identity
-                    , right = e.val (e.callE "identity") -- identity
+                    { left = e.op_fn1 ">$<" (e.callE "identity")  -- (>$<) identity
+                    , right = e.callE "identity" -- identity
                     }
                 ]
             }
@@ -27,15 +27,15 @@ let contravariant : tc.TClass =
                 [ tc.lr
                     { left =
                         -- (f >$<) <<< (g >$<) =
-                        e.inf
+                        e.opc2
+                            (e.br (e.ap2 (e.f "f") (e.op ">$<")))
                             "<<<"
-                            (e.rtv (e.apBr (e.vf "f") (e.op ">$<")))
-                            (e.rtv (e.apBr (e.op ">$<") (e.vf "g")))
+                            (e.br (e.ap2 (e.f "g") (e.op ">$<")))
                     , right =
                          -- (>$<) (g <<< f)
-                        e.ap
-                            (e.op ">$<")
-                            (e.rtv (e.inf "<<<" (e.vf "g") (e.vf "f")))
+                        e.op_fn1
+                            ">$<"
+                            (e.br (e.opc2 (e.f "g") "<<<" (e.f "f")))
                     }
                 ]
             }
@@ -45,10 +45,10 @@ let contravariant : tc.TClass =
             { name = "cmap"
             , def =
                 -- (b -> a) -> f a -> f b
-                (e.fnvs
-                    [ e.fn_ [ e.n "b", e.n "a" ]
-                    , e.ap1_ (e.f "f") (e.n "a")
-                    , e.ap1_ (e.f "f") (e.n "b")
+                (e.fn
+                    [ e.br (e.fn2 (e.n "b") (e.n "a"))
+                    , e.ap2 (e.f "f") (e.n "a")
+                    , e.ap2 (e.f "f") (e.n "b")
                     ]
                 )
             , belongs = tc.Belongs.Yes
@@ -60,14 +60,12 @@ let contravariant : tc.TClass =
             , def =
                 -- Contravariant f => f a -> (b -> a) -> f b
                 e.req1
-                    (e.subj_ "Contravariant" [ e.f "f" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.ap1_ (e.f "f") (e.n "a")
-                            , e.fn_ [ e.n "b", e.n "a" ]
-                            , e.ap1_ (e.f "f") (e.n "b")
-                            ]
-                        )
+                    (e.subj1 "Contravariant" (e.f "f"))
+                    (e.fn
+                        [ e.ap2 (e.f "f") (e.n "a")
+                        , e.br (e.fn2 (e.n "b") (e.n "a"))
+                        , e.ap2 (e.f "f") (e.n "b")
+                        ]
                     )
             , belongs = tc.Belongs.No
             , op = Some ">#<"
@@ -77,16 +75,13 @@ let contravariant : tc.TClass =
             { name = "coerce"
             , def =
                 -- Contravariant f => Functor f => f a -> f b
-                e.req
-                    [ e.subj_ "Bifunctor" [ e.f "f" ]
-                    , e.subj_ "Functor" [ e.f "f" ]
+                e.reqseq
+                    [ e.subj1 "Bifunctor" (e.f "f")
+                    , e.subj1 "Functor" (e.f "f")
                     ]
-                    (e.rtv
-                        (e.fnvs
-                            [ e.ap1_ (e.f "f") (e.n "a")
-                            , e.ap1_ (e.f "f") (e.n "b")
-                            ]
-                        )
+                    (e.fn2
+                        (e.ap2 (e.f "f") (e.n "a"))
+                        (e.ap2 (e.f "f") (e.n "b"))
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
