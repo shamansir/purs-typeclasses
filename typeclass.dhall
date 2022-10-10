@@ -146,7 +146,7 @@ let TClass =
     { id : Id
     , what : What
     , vars : List Var
-    , link : Text
+    , link : Text -- TODO: version
     , name : Text
     , info  : Text
     , parents : List Id

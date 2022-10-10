@@ -18,7 +18,16 @@ let flip : tc.TClass =
         ]
     , instances =
         [ "{{class:Newtype}} ({{subj:Flip}} {{fvar:p]}} {{var:a}} {{var:b}}) {{var:_}}" -- Newtype (Flip p a b) _
-        -- TODO
+        -- (Eq (p b a)) => Eq (Flip p a b)
+        -- (Ord (p b a)) => Ord (Flip p a b)
+        -- (Show (p a b)) => Show (Flip p b a)
+        -- (Bifunctor p) => Functor (Flip p a)
+        -- (Bifunctor p) => Bifunctor (Flip p)
+        -- (Biapply p) => Biapply (Flip p)
+        -- (Biapplicative p) => Biapplicative (Flip p)
+        -- (Profunctor p) => Contravariant (Flip p b)
+        -- (Semigroupoid p) => Semigroupoid (Flip p)
+        -- (Category p) => Category (Flip p)
         ]
 
     } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements

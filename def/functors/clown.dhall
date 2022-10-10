@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let clown : tc.TClass =
@@ -14,12 +14,22 @@ let clown : tc.TClass =
     , members =
         [
             { name = "Clown"
-            , def = "{{class:Clown}} ({{fvar:f}} {{var:a}})" -- Clown (f a)
+            , def =
+                e.class1 "Clown" (e.br (e.ap2 (e.t "f") (e.n "a")))
+                -- Clown (f a)
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "hoistClown"
-            , def = "({{fvar:f}} {{op:~>}} {{fvar:g}}) {{op:->}} {{subj:Clown}} {{fvar:f}} {{var:a}} {{var:b}} {{op:->}} {{subj:Clown}} {{fvar:g}} {{var:a}} {{var:b}}" -- (f ~> g) -> Clown f a b -> Clown g a b
+            , def =
+                e.fn2
+                    (e.br (e.opc2 (e.f "f") "~>" (e.f "g")))
+                    (e.opc2
+                        (e.subj "Clown" [ e.f "f", e.n "a", e.n "b" ])
+                        "~>"
+                        (e.subj "Clown" [ e.f "g", e.n "a", e.n "b" ])
+                    )
+                -- (f ~> g) -> Clown f a b -> Clown g a b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

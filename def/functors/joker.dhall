@@ -23,7 +23,19 @@ let joker : tc.TClass =
         ]
     , instances =
         [ "{{class:Newtype}} ({{subj:Compose}} {{fvar:f}} {{var:a}} {{var:b}}) {{var:_}}" -- Newtype (Joker f a b) _
-        -- TODO
+        -- (Eq (f b)) => Eq (Joker f a b)
+        -- (Ord (f b)) => Ord (Joker f a b)
+        -- (Show (f b)) => Show (Joker f a b)
+        -- (Functor f) => Functor (Joker f a)
+        -- (Apply f) => Apply (Joker f a)
+        -- (Applicative f) => Applicative (Joker f a)
+        -- (Bind f) => Bind (Joker f a)
+        -- (Monad m) => Monad (Joker m a)
+        -- (Functor g) => Bifunctor (Joker g)
+        -- (Apply g) => Biapply (Joker g)
+        -- (Applicative g) => Biapplicative (Joker g)
+        -- (Functor f) => Profunctor (Joker f)
+        -- (Functor f) => Choice (Joker f)
         ]
 
     } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements

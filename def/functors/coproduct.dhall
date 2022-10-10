@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let coproduct : tc.TClass =
     { id = "coproduct"
@@ -12,33 +13,80 @@ let coproduct : tc.TClass =
     , members =
         [
             { name = "Coproduct"
-            , def = "{{subj:Coproduct}} ({{class:Either}} ({{fvar:f}} {{fvar:a}}) ({{fvar:g}} {{var:a}}))" -- Coproduct (Either (f a) (g a))
+            , def =
+                e.subj1
+                    "Coproduct"
+                    (e.br
+                        (e.class "Either"
+                            [ e.br (e.ap2 (e.f "f") (e.n "a"))
+                            , e.br (e.ap2 (e.f "g") (e.n "a"))
+                            ]
+                        )
+                    )
+                -- Coproduct (Either (f a) (g a))
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "left"
-            , def = "{{fvar:f}} {{var:a}} {{op:->}} {{subj:Coproduct}} {{fvar:f}} {{fvar:g}} {{var:a}}" -- f a -> Coproduct f g a
+            , def =
+                e.ap2
+                    (e.ap2 (e.f "f") (e.n "a"))
+                    (e.subj "Coproduct" [ e.f "f", e.f "g", e.n "a" ])
+                -- f a -> Coproduct f g a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "right"
-            , def = "{{fvar:g}} {{var:a}} {{op:->}} {{subj:Coproduct}} {{fvar:f}} {{fvar:g}} {{var:a}}" -- g a -> Coproduct f g a
+            , def =
+                e.ap2
+                    (e.ap2 (e.f "g") (e.n "a"))
+                    (e.subj "Coproduct" [ e.f "f", e.f "g", e.n "a" ])
+                -- g a -> Coproduct f g a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "coproduct"
-            , def = "({{fvar:f}} {{var:a}} {{op:->}} {{var:b}}) {{op:->}} ({{fvar:g}} {{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{subj:Coproduct}} {{fvar:f}} {{fvar:g}} {{var:a}} {{op:->}} {{var:b}}" -- (f a -> b) -> (g a -> b) -> Coproduct f g a -> b
+            , def =
+                e.fn
+                    [ e.br (e.fn2 (e.ap2 (e.f "f") (e.n "a")) (e.n "b"))
+                    , e.br (e.fn2 (e.ap2 (e.f "g") (e.n "a")) (e.n "b"))
+                    , e.subj "Coproduct" [ e.f "f", e.f "g", e.n "a" ]
+                    , e.n "b"
+                    ]
+                -- (f a -> b) -> (g a -> b) -> Coproduct f g a -> b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "bihoistCoproduct"
-            , def = "(f ~> h) -> (g ~> i) -> (Coproduct f g) ~> (Coproduct h i)" -- (f ~> h) -> (g ~> i) -> (Coproduct f g) ~> (Coproduct h i)
+            , def =
+                e.fn3
+                    (e.br (e.opc2 (e.t "f") "~>" (e.t "h")))
+                    (e.br (e.opc2 (e.t "g") "~>" (e.t "i")))
+                    (e.opc2
+                        (e.br (e.class "Coproduct" [ e.t "f", e.t "g" ]))
+                        "~>"
+                        (e.br (e.class "Coproduct" [ e.t "h", e.t "i" ]))
+                    )
+                -- (f ~> h) -> (g ~> i) -> (Coproduct f g) ~> (Coproduct h i)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
     , instances =
-        [ "{{class:Newtype}} ({{subj:Coproduct}} {{fvar:f}} {{fvar:g}} {{var:a}}) {{var:_}}" -- Newtype (Coproduct f g a) _
+        [ e.class "Newtype" [ e.br (e.class "Coproduct" [ e.t "f", e.t "g", e.n "a" ]), e.ph ] -- Newtype (Coproduct f g a) _
         -- TODO
+        -- (Eq1 f, Eq1 g, Eq a) => Eq (Coproduct f g a)
+        -- (Eq1 f, Eq1 g) => Eq1 (Coproduct f g)
+        -- (Ord1 f, Ord1 g, Ord a) => Ord (Coproduct f g a)
+        -- (Ord1 f, Ord1 g) => Ord1 (Coproduct f g)
+        -- (Show (f a), Show (g a)) => Show (Coproduct f g a)
+        -- (Functor f, Functor g) => Functor (Coproduct f g)
+        -- (FunctorWithIndex a f, FunctorWithIndex b g) => FunctorWithIndex (Either a b) (Coproduct f g)
+        -- (Extend f, Extend g) => Extend (Coproduct f g)
+        -- (Comonad f, Comonad g) => Comonad (Coproduct f g)
+        -- (Foldable f, Foldable g) => Foldable (Coproduct f g)
+        -- (FoldableWithIndex a f, FoldableWithIndex b g) => FoldableWithIndex (Either a b) (Coproduct f g)
+        -- (Traversable f, Traversable g) => Traversable (Coproduct f g)
+        -- (TraversableWithIndex a f, TraversableWithIndex b g) => TraversableWithIndex (Either a b) (Coproduct f g)
         ]
 
     } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements

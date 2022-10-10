@@ -20,10 +20,13 @@ let app : tc.TClass =
         ,
             { name = "hoistApp"
             , def =
-                e.fn3
-                    (e.br (e.fn2 (e.f "f") (e.f "g")))
-                    (e.br (e.subj1 "App" (e.f "f")))
-                    (e.br (e.subj1 "App" (e.f "g")))
+                e.fn2
+                    (e.br (e.opc2 (e.f "f") "~>" (e.f "g")))
+                    (e.opc2
+                        (e.br (e.subj1 "App" (e.f "f")))
+                        "~>"
+                        (e.br (e.subj1 "App" (e.f "g")))
+                    )
                 -- (f ~> g) -> (App f) ~> (App g)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws

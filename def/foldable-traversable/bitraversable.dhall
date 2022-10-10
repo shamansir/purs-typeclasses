@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let bitraversable : tc.TClass =
@@ -15,37 +15,100 @@ let bitraversable : tc.TClass =
     , members =
         [
             { name = "bitraverse"
-            , def = "Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)" -- Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
+            , def =
+                e.req1
+                    (e.class1 "Applicative" (e.t "f"))
+                    (e.fn
+                        [ e.br (e.fn2 (e.n "a") (e.ap2 (e.n "f") (e.n "c")))
+                        , e.br (e.fn2 (e.n "b") (e.ap2 (e.n "f") (e.n "d")))
+                        , e.ap3 (e.t "f") (e.n "a") (e.n "b")
+                        , e.ap2 (e.t "f") (e.br (e.ap3 (e.t "t") (e.n "c") (e.n "d")))
+                        ]
+                    )
+                -- Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "bisequence"
-            , def = "Applicative f => t (f a) (f b) -> f (t a b)" -- Applicative f => t (f a) (f b) -> f (t a b)
+            , def =
+                e.req1
+                    (e.class1 "Applicative" (e.t "f"))
+                    (e.fn2
+                        (e.ap3 (e.t "t") (e.br (e.ap2 (e.t "f") (e.n "a"))) (e.br (e.ap2 (e.t "f") (e.n "b"))))
+                        (e.ap2 (e.t "f") (e.br (e.ap3 (e.t "t") (e.n "a") (e.n "b"))))
+                    )
+                -- Applicative f => t (f a) (f b) -> f (t a b)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "bitraverseDefault"
-            , def = "Bitraversable t => Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)" -- Bitraversable t => Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
+            , def =
+                e.reqseq
+                    [ e.class1 "Bitraversable" (e.t "t"), e.class1 "Applicative" (e.t "f") ]
+                    (e.fn
+                        [ e.br (e.fn2 (e.n "a") (e.ap2 (e.n "f") (e.n "c")))
+                        , e.br (e.fn2 (e.n "b") (e.ap2 (e.n "f") (e.n "d")))
+                        , e.ap3 (e.t "f") (e.n "a") (e.n "b")
+                        , e.ap2 (e.t "f") (e.br (e.ap3 (e.t "t") (e.n "c") (e.n "d")))
+                        ]
+                    )
+                -- Bitraversable t => Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "bisequenceDefault"
-            , def = "Applicative f => t (f a) (f b) -> f (t a b)" -- Bitraversable t => Applicative f => t (f a) (f b) -> f (t a b)
+            , def =
+                e.reqseq
+                    [ e.class1 "Bitraversable" (e.t "t"), e.class1 "Applicative" (e.t "f") ]
+                    (e.fn2
+                        (e.ap3 (e.t "t") (e.br (e.ap2 (e.t "f") (e.n "a"))) (e.br (e.ap2 (e.t "f") (e.n "b"))))
+                        (e.ap2 (e.t "f") (e.br (e.ap3 (e.t "t") (e.n "a") (e.n "b"))))
+                    )
+                -- Bitraversable t => Applicative f => t (f a) (f b) -> f (t a b)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "bifor"
-            , def = "Bitraversable t => Applicative f => t a b -> (a -> f c) -> (b -> f d) -> f (t c d)" -- Bitraversable t => Applicative f => t a b -> (a -> f c) -> (b -> f d) -> f (t c d)
+            , def =
+                e.reqseq
+                    [ e.class1 "Bitraversable" (e.t "t"), e.class1 "Applicative" (e.t "f") ]
+                    (e.fn
+                        [ e.ap3 (e.t "t") (e.n "a") (e.n "b")
+                        , e.br (e.fn2 (e.n "a") (e.ap2 (e.n "f") (e.n "c")))
+                        , e.br (e.fn2 (e.n "b") (e.ap2 (e.n "f") (e.n "d")))
+                        , e.ap3 (e.t "f") (e.n "a") (e.n "b")
+                        , e.ap2 (e.t "f") (e.br (e.ap3 (e.t "t") (e.n "c") (e.n "d")))
+                        ]
+                    )
+                -- Bitraversable t => Applicative f => t a b -> (a -> f c) -> (b -> f d) -> f (t c d)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "lfor"
-            , def = "Bitraversable t => Applicative f => t a b -> (a -> f c) -> f (t c b)" -- Bitraversable t => Applicative f => t a b -> (a -> f c) -> f (t c b)
+            , def =
+                e.reqseq
+                    [ e.class1 "Bitraversable" (e.t "t"), e.class1 "Applicative" (e.t "f") ]
+                    (e.fn
+                        [ e.ap3 (e.t "t") (e.n "a") (e.n "b")
+                        , e.br (e.fn2 (e.n "a") (e.ap2 (e.n "f") (e.n "c")))
+                        , e.ap2 (e.t "f") (e.br (e.ap3 (e.t "t") (e.n "c") (e.n "b")))
+                        ]
+                    )
+                -- Bitraversable t => Applicative f => t a b -> (a -> f c) -> f (t c b)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "rfor"
-            , def = "Bitraversable t => Applicative f => t a b -> (b -> f c) -> f (t a c)" -- Bitraversable t => Applicative f => t a b -> (b -> f c) -> f (t a c)
+            , def =
+                e.reqseq
+                    [ e.class1 "Bitraversable" (e.t "t"), e.class1 "Applicative" (e.t "f") ]
+                    (e.fn
+                        [ e.ap3 (e.t "t") (e.n "a") (e.n "b")
+                        , e.br (e.fn2 (e.n "b") (e.ap2 (e.n "f") (e.n "c")))
+                        , e.ap2 (e.t "f") (e.br (e.ap3 (e.t "t") (e.n "a") (e.n "c")))
+                        ]
+                    )
+                -- Bitraversable t => Applicative f => t a b -> (b -> f c) -> f (t a c)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
