@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let foldable : tc.TClass =
@@ -14,182 +14,463 @@ let foldable : tc.TClass =
     , members =
         [
             { name = "foldr"
-            , def = "({{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:b}}) {{op:->}} {{var:b}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{var:b}}" -- (a -> b -> b) -> b -> f a -> b
+            , def =
+                e.fn
+                    [ e.br (e.fn3 (e.n "a") (e.n "b") (e.n "c"))
+                    , e.n "b"
+                    , e.ap2 (e.t "f") (e.n "a")
+                    , e.n "b"
+                    ]
+                -- (a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "foldl"
-            , def = "({{var:b}} {{op:->}} {{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{var:b}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{var:b}}" -- (b -> a -> b) -> b -> f a -> b
+            , def =
+                e.fn
+                    [ e.br (e.fn3 (e.n "b") (e.n "a") (e.n "b"))
+                    , e.n "b"
+                    , e.ap2 (e.t "f") (e.n "a")
+                    , e.n "b"
+                    ]
+                -- (b -> a -> b) -> b -> f a -> b
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "foldMap"
-            , def = "{{class:Monoid}} {{typevar:m}} {{op:=>}} ({{var:a}} {{op:->}} {{typevar:m}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{typevar:m}}" -- Monoid m => (a -> m) -> f a -> m
+            , def =
+                e.req1
+                    (e.subj1 "Monoid" (e.t "m"))
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.t "m")))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.t "m")
+                    )
+                -- Monoid m => (a -> m) -> f a -> m
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "foldrDefault"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}} {{op:->}} {{var:b}}) {{op:->}} {{var:b}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{var:b}}" -- Foldable f => (a -> b -> b) -> b -> f a -> b
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn
+                        [ e.br (e.fn3 (e.n "a") (e.n "b") (e.n "b"))
+                        , e.n "b"
+                        , e.ap2 (e.t "f") (e.n "a")
+                        , e.n "b"
+                        ]
+                    )
+                -- Foldable f => (a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "foldlDefault"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} ({{var:b}} {{op:->}} {{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{var:b}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{var:b}}" -- Foldable f => (b -> a -> b) -> b -> f a -> b
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn
+                        [ e.br (e.fn3 (e.n "b") (e.n "a") (e.n "b"))
+                        , e.n "b"
+                        , e.ap2 (e.t "f") (e.n "a")
+                        , e.n "b"
+                        ]
+                    )
+                -- Foldable f => (b -> a -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "foldMapDefaultL"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Monoid}} {{typevar:m}} {{op:=>}} ({{var:a}} {{op:->}} {{typevar:m}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{typevar:m}}" --  Foldable f => Monoid m => (a -> m) -> f a -> m
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Monoid" (e.t "m") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.t "m")))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.t "m")
+                    )
+                --  Foldable f => Monoid m => (a -> m) -> f a -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "foldMapDefaultR"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Monoid}} {{typevar:m}} {{op:=>}} ({{var:a}} {{op:->}} {{typevar:m}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{typevar:m}}" --  Foldable f => Monoid m => (a -> m) -> f a -> m
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Monoid" (e.t "m") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.t "m")))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.t "m")
+                    )
+                --  Foldable f => Monoid m => (a -> m) -> f a -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "fold"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Monoid}} {{typevar:m}} {{op:=>}} {{fvar:f}} {{typevar:m}} {{op:->}} {{typevar:m}}" --  Foldable f => Monoid m => f m -> m
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Monoid" (e.t "m") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "m"))
+                        (e.t "m")
+                    )
+             --  Foldable f => Monoid m => f m -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "foldM"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Monoid}} {{typevar:m}} {{op:=>}} ({{var:b}} {{op:->}} {{var:a}} {{op:->}} {{typevar:m}} {{var:b}})" -- Foldable f => Monoid m => (b -> a -> m b)
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Monoid" (e.t "m") ]
+                    (e.br (e.fn3
+                        (e.n "b")
+                        (e.n "a")
+                        (e.ap2 (e.t "m") (e.n "b"))
+                    ))
+                -- Foldable f => Monoid m => (b -> a -> m b)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "traverse_"
-            , def = "{{class:Applicative}} {{typevar:m}} {{op:=>}} {{subj:Foldable}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{typevar:m}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{typevar:m}} {{class:Unit}}" -- Applicative m => Foldable f => (a -> m b) -> f a -> m Unit
+            , def =
+                e.reqseq
+                    [ e.subj1 "Applicative" (e.t "m"), e.class1 "Foldable" (e.t "f") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "b"))))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                    )
+                -- Applicative m => Foldable f => (a -> m b) -> f a -> m Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "for_"
-            , def = "{{class:Applicative}} {{typevar:m}} {{op:=>}} {{subj:Foldable}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} ({{var:a}} {{op:->}} {{typevar:m}} {{var:b}}) {{op:->}} {{typevar:m}} {{class:Unit}}" -- Applicative m => Foldable f => f a -> (a -> m b) -> m Unit
+            , def =
+                e.reqseq
+                    [ e.subj1 "Applicative" (e.t "m"), e.class1 "Foldable" (e.t "f") ]
+                    (e.fn3
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.br (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "b"))))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                    )
+                -- Applicative m => Foldable f => f a -> (a -> m b) -> m Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "sequence_"
-            , def = "{{class:Applicative}} {{typevar:m}} {{op:=>}} {{subj:Foldable}} {{fvar:f}} {{op:=>}} {fvar:f}} ({{typevar:m}} {{var:a}} {{op:->}} {{typevar:m}} {{class:Unit}}" -- Applicative m => Foldable f => f (m a) -> m Unit
+            , def =
+                e.reqseq
+                    [ e.subj1 "Applicative" (e.t "m"), e.class1 "Foldable" (e.t "f") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.br (e.ap2 (e.t "m") (e.n "a"))))
+                        (e.ap2 (e.t "m") (e.classE "Unit"))
+                    )
+                -- Applicative m => Foldable f => f (m a) -> m Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "oneOf"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Plus}} {{fvar::g}} {{op:=>}} {{fvar:f}} ({{fvar:g}} {{var:a}}) {{op:->}} {{fvar:g}} {{var:a}}" -- Foldable f => Plus g => f (g a) -> g a
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Plus" (e.t "g") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.br (e.ap2 (e.t "g") (e.n "a"))))
+                        (e.ap2 (e.t "g") (e.n "a"))
+                    )
+                -- Foldable f => Plus g => f (g a) -> g a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "oneOfMap"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Plus}} {{fvar::g}} {{op:=>}} ({{var:a}} {{op:->}} {{fvar:g}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:g}} {{var:b}}" -- Foldable f => Plus g => (a -> g b) -> f a -> g b
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Plus" (e.t "g") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.ap2 (e.t "g") (e.n "b"))))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.ap2 (e.t "g") (e.n "b"))
+                    )
+                -- Foldable f => Plus g => (a -> g b) -> f a -> g b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "intercalate"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Monoid}} {{typevar:m}} {{op:=>}} {{typevar:m}} {{op:->}} {{fvar:f}} {{typevar:m}} {{op:->}} {{typevar:m}}" -- Foldable f => Monoid m => m -> f m -> m
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Monoid" (e.t "m") ]
+                    (e.fn3
+                        (e.t "m")
+                        (e.ap2 (e.t "f") (e.t "m"))
+                        (e.t "m")
+                    )
+                -- Foldable f => Monoid m => m -> f m -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "surroundMap"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Semigroup}} {{typevar:m}} {{op:=>}} {{typevar:m}} {{op:->}} ({{var:a}} {{op:->}} {{typevar:m}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{typevar:m}}" -- Foldable f => Semigroup m => m -> (a -> m) -> f a -> m
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Semigroup" (e.t "m") ]
+                    (e.fn
+                        [ e.t "m"
+                        , e.br (e.fn2 (e.n "a") (e.t "m"))
+                        , e.ap2 (e.t "f") (e.n "a")
+                        , e.t "m"
+                        ]
+                    )
+                -- Foldable f => Semigroup m => m -> (a -> m) -> f a -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "surround"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Semigroup}} {{typevar:m}} {{op:=>}} {{typevar:m}}  {{op:->}} {{fvar:f}} {{typevar:m}} {{op:->}} {{typevar:m}}" -- Foldable f => Semigroup m => m -> f m -> m
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Semigroup" (e.t "m") ]
+                    (e.fn3
+                        (e.t "m")
+                        (e.ap2 (e.t "f") (e.t "m"))
+                        (e.t "m")
+                    )
+                -- Foldable f => Semigroup m => m -> f m -> m
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "and"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:HeytingAlgebra}} {{var:a}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{var:a}}" -- Foldable f => HeytingAlgebra a => f a -> a
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "HeytingAlgebra" (e.t "a") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.t "a")
+                    )
+                -- Foldable f => HeytingAlgebra a => f a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "or"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:HeytingAlgebra}} {{var:a}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{var:a}}" -- Foldable f => HeytingAlgebra a => f a -> a
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "HeytingAlgebra" (e.t "a") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.t "a")
+                    )
+                -- Foldable f => HeytingAlgebra a => f a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "all"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:HeytingAlgebra}} {{var:b}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{var:b}}" -- Foldable f => HeytingAlgebra b => (a -> b) -> f a -> b
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "HeytingAlgebra" (e.t "b") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.t "b")))
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.t "b")
+                    )
+                -- Foldable f => HeytingAlgebra b => (a -> b) -> f a -> b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "any"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:HeytingAlgebra}} {{var:b}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{var:b}}" -- Foldable f => HeytingAlgebra b => (a -> b) -> f a -> b
+            , def =
+                 e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "HeytingAlgebra" (e.t "b") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.t "b")))
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.t "b")
+                    )
+                 -- Foldable f => HeytingAlgebra b => (a -> b) -> f a -> b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "sum"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Semiring}} {{var:a}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{var:a}}" -- Foldable f => Semiring a => f a -> a
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Semiring" (e.t "a") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.t "a")
+                    )
+                -- Foldable f => Semiring a => f a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "product"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Semiring}} {{var:a}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{var:a}}" -- Foldable f => Semiring a => f a -> a
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Semiring" (e.t "a") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.t "a")
+                    )
+                -- Foldable f => Semiring a => f a -> a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "elem"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Eq}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Foldable f => Eq a => a -> f a -> Boolean
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Eq" (e.t "a") ]
+                    (e.fn3
+                        (e.t "a")
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.classE "Boolean")
+                    )
+                -- Foldable f => Eq a => a -> f a -> Boolean
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "notElem"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Eq}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Foldable f => Eq a => a -> f a -> Boolean
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Eq" (e.t "a") ]
+                    (e.fn3
+                        (e.t "a")
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.classE "Boolean")
+                    )
+                -- Foldable f => Eq a => a -> f a -> Boolean
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "indexl"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Int}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:a}}" -- Foldable f => Int -> f a -> Maybe a
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn3
+                        (e.classE "Boolean")
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.class1 "Maybe" (e.n "a"))
+                    )
+                -- Foldable f => Int -> f a -> Maybe a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "indexr"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Int}} {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:a}}" -- Foldable f => Int -> f a -> Maybe a
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn3
+                        (e.classE "Boolean")
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.class1 "Maybe" (e.n "a"))
+                    )
+                -- Foldable f => Int -> f a -> Maybe a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "find"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{class:Boolean}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:a}}" -- Foldable f => (a -> Boolean) -> f a -> Maybe a
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn3
+                        (e.br (e.ap2 (e.n "a") (e.classE "Boolean")))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.class1 "Maybe" (e.n "a"))
+                    )
+                -- Foldable f => (a -> Boolean) -> f a -> Maybe a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "findMap"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{class:Maybe}} {{var:b}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:b}}" -- Foldable f => (a -> Maybe b) -> f a -> Maybe b
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn3
+                        (e.br (e.ap2 (e.n "a") (e.class1 "Maybe" (e.n "a"))))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.ap2 (e.classE "Maybe") (e.n "a"))
+                    )
+                -- Foldable f => (a -> Maybe b) -> f a -> Maybe b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "maximum"
-            , def = "{{class:Ord}} {{var:a}} {{op:=>}} {{subj:Foldable}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:a}}" -- Ord a => Foldable f => f a -> Maybe a
+            , def =
+                e.reqseq
+                    [ e.class1 "Ord" (e.t "a"), e.subj1 "Foldable" (e.t "f") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.ap2 (e.classE "Maybe") (e.t "a"))
+                    )
+                -- Ord a => Foldable f => f a -> Maybe a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "maximumBy"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Ordering}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:a}}" -- Foldable f => (a -> a -> Ordering) -> f a -> Maybe a
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn3
+                        (e.br (e.fn3 (e.n "a") (e.n "a") (e.classE "Ordering")))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.class1 "Maybe" (e.n "a"))
+                    )
+                -- Foldable f => (a -> a -> Ordering) -> f a -> Maybe a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "minimum"
-            , def = "{{class:Ord}} {{var:a}} {{op:=>}} {{subj:Foldable}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:a}}" -- Ord a => Foldable f => f a -> Maybe a
+            , def =
+                e.reqseq
+                    [ e.class1 "Ord" (e.t "a"), e.subj1 "Foldable" (e.t "f") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.ap2 (e.classE "Maybe") (e.t "a"))
+                    )
+                -- Ord a => Foldable f => f a -> Maybe a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "minimumBy"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:a}} {{op:->}} {{class:Ordering}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Maybe}} {{var:a}}" -- Foldable f => (a -> a -> Ordering) -> f a -> Maybe a
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn3
+                        (e.br (e.fn3 (e.n "a") (e.n "a") (e.classE "Ordering")))
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.class1 "Maybe" (e.n "a"))
+                    )
+                -- Foldable f => (a -> a -> Ordering) -> f a -> Maybe a
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "null"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{class:Boolean}}" -- Foldable f => f a -> Boolean
+            , def =
+                e.req1
+                    (e.subj1 "Foldable" (e.t "f"))
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.n "a"))
+                        (e.classE "Boolean")
+                    )
+                -- Foldable f => f a -> Boolean
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "length"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Semiring}} {{var:b}} {{op:=>}} {{fvar:f}} {{var:a}} {{op:->}} {{var:b}}" -- Foldable f => Semiring b => f a -> b
+            , def =
+                e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Semiring" (e.t "b") ]
+                    (e.fn2
+                        (e.ap2 (e.t "f") (e.t "a"))
+                        (e.t "b")
+                    )
+                -- Foldable f => Semiring b => f a -> b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "lookup"
-            , def = "{{subj:Foldable}} {{fvar:f}} {{op:=>}} {{class:Eq}} {{var:a}} {{op:=>}} {{var:a}} {{op:->}} {{fvar:f}} ({{class:Tuple}} {{var:a}} {{var:b}}) {{op:->}} {{class:Maybe}} {{var:b}}" -- Foldable f => Eq a => a -> f (Tuple a b) -> Maybe b
+            , def =
+                 e.reqseq
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Eq" (e.t "a") ]
+                    (e.fn3
+                        (e.t "a")
+                        (e.ap2 (e.t "f") (e.br (e.class "Tuple" [ e.t "a", e.n "b" ])))
+                        (e.class1 "Maybe" (e.t "b"))
+                    )
+                -- Foldable f => Eq a => a -> f (Tuple a b) -> Maybe b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
