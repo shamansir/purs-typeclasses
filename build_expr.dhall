@@ -411,6 +411,30 @@ let test_mdef1
     ≡ "{{method:buz}} {{op:::}} {{var:v}}"
 
 
+-- (op) :: expr1 -> expr2 ...
+let opdef
+    : Text -> List e.Expr -> e.Expr
+    = \(op : Text) -> \(args : List e.Expr)
+    -> e.Expr.OpDef { op, items = e.Expr/sealAll args }
+
+let test_opdef
+    = assert
+    : e.Expr/render (opdef "/-/" [ class "Bar" [ t "v", n "n" ], classE "Foo", n "v" ])
+    ≡ "({{op:/-/}}) {{op:::}} {{class:Bar}} {{typevar:v}} {{var:n}} {{op:->}} {{class:Foo}} {{op:->}} {{var:v}}"
+
+
+-- (op) :: expr
+let opdef1
+    : Text -> e.Expr -> e.Expr
+    = \(op : Text) -> \(def : e.Expr)
+    -> opdef op [ def ]
+
+let test_opdef1
+    = assert
+    : e.Expr/render (opdef1 "<*>" (n "v"))
+    ≡ "({{op:<*>}}) {{op:::}} {{var:v}}"
+
+
 -- (req1, req2, ...) => what
 let req
     : List e.Expr -> e.Expr -> e.Expr
@@ -502,17 +526,19 @@ in
     { raw, num, ph, empty, op
     , n, f, t, u, kw
     , br
+    -- TODO: add `..._br`` method for every function below, which adds brackets around
     , ap, ap2, ap3
-    , apw, apwE, apw1
-    , subj, subjE, subj1
-    , class, classE, class1
-    , call, callE, call1
+    , apw, apwE, apw1 -- `apw2`
+    , subj, subjE, subj1 -- `subj2`
+    , class, classE, class1 -- `class2`
+    , call, callE, call1 -- `call2`
     , fn, fn2, fn3
     , opc2, opc3, opc4
     , op_fn, op_fnE, op_fn1
     , inf2
     , mdef, mdef1
-    , req, req1, reqseq
+    , opdef, opdef1
+    , req, req1, reqseq -- `req2`
     , av
     , lbd, lbd1
     , fall, fall1

@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let strong : tc.TClass =
@@ -15,17 +15,34 @@ let strong : tc.TClass =
     , members =
         [
             { name = "first"
-            , def = "{{typevar:p}} {{var:a}} {{var:b}} {{op:->}} {{typevar:p}} ({{class:Tuple}} {{var:a}} {{var:c}}) ({{class:Tuple}} {{var:b}} {{var:c}})" -- p a b -> p (Tuple a c) (Tuple b c)
+            , def =
+                e.fn2
+                    (e.ap3 (e.t "p") (e.n "a") (e.n "b"))
+                    (e.ap3 (e.t "p") (e.br (e.class "Tuple" [ e.n "a", e.n "c" ])) (e.br (e.class "Tuple" [ e.n "b", e.n "c" ])))
+                 -- p a b -> p (Tuple a c) (Tuple b c)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "second"
-            , def = "{{typevar:p}} {{var:b}} {{var:c}} {{op:->}} {{typevar:p}} ({{class:Tuple}} {{var:a}} {{var:b}}) ({{class:Tuple}} {{var:a}} {{var:c}})" -- p b c -> p (Tuple a b) (Tuple a c)
+            , def =
+                e.fn2
+                    (e.ap3 (e.t "p") (e.n "b") (e.n "c"))
+                    (e.ap3 (e.t "p") (e.br (e.class "Tuple" [ e.n "a", e.n "b" ])) (e.br (e.class "Tuple" [ e.n "a", e.n "c" ])))
+                -- p b c -> p (Tuple a b) (Tuple a c)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "splitStrong"
-            , def = "{{class:Category}} {{typevar:p}} {{op:=>}} {{subj:Strong}} {{typevar:p}} {{op:=>}} {{typevar:p}} {{var:a}} {{var:b}} {{op:->}} {{typevar:p}} {{var:c}} {{var:d}} {{op:->}} {{typevar:p}} ({{class:Tuple}} {{var:a}} {{var:c}}) ({{class:Tuple}} {{var:b}} {{var:d}})" -- Category p => Strong p => p a b -> p c d -> p (Tuple a c) (Tuple b d)
+            , def =
+                e.reqseq
+                    [ e.class1 "Category" (e.t "p"), e.subj1 "Strong" (e.t "p") ]
+                    (e.fn
+                        [ e.ap3 (e.t "p") (e.n "a") (e.n "b")
+                        , e.ap3 (e.t "p") (e.n "c") (e.n "d")
+                        , (e.ap3 (e.t "p") (e.br (e.class "Tuple" [ e.n "a", e.n "c" ])) (e.br (e.class "Tuple" [ e.n "b", e.n "d" ])))
+                        ]
+                    )
+                -- Category p => Strong p => p a b -> p c d -> p (Tuple a c) (Tuple b d)
             , belongs = tc.Belongs.No
             , op = Some "***"
             , opEmoji = tc.noOp
@@ -34,7 +51,16 @@ let strong : tc.TClass =
                     { law = "for function"
                     , examples =
                         [ tc.of
-                            { fact = "({{op:***}}) {{op:::}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} ({{var:c}} {{op:->}} {{var:d}}) {{op:->}} ({{class:Tuple}} {{var:a}} {{var:c}}) {{op:->}} ({{class:Tuple}} {{var:b}} {{var:d}})" -- (***) :: (a -> b) -> (c -> d) -> (Tuple a c) -> (Tuple b d)
+                            { fact =
+                                e.opdef1 "***"
+                                    (e.fn
+                                        [ e.br (e.fn2 (e.n "a") (e.n "b"))
+                                        , e.br (e.fn2 (e.n "c") (e.n "d"))
+                                        , e.br (e.class "Tuple" [ e.n "a", e.n "c" ])
+                                        , e.br (e.class "Tuple" [ e.n "b", e.n "d" ])
+                                        ]
+                                    )
+                                -- (***) :: (a -> b) -> (c -> d) -> (Tuple a c) -> (Tuple b d)
                             }
                         ]
                     }
@@ -42,7 +68,16 @@ let strong : tc.TClass =
             }
         ,
             { name = "fanout"
-            , def = "{{class:Category}} {{typevar:p}} {{op:=>}} {{subj:Strong}} {{typevar:p}} {{op:=>}} {{typevar:p}} {{var:a}} {{var:b}} {{op:->}} {{typevar:p}} {{var:a}} {{var:c}} {{op:->}} {{typevar:p}} {{var:a}} ({{class:Tuple}} {{var:b}} {{var:c}})" -- Category p => Strong p => p a b -> p a c -> p a (Tuple b c)
+            , def =
+                e.reqseq
+                    [ e.class1 "Category" (e.t "p"), e.subj1 "Strong" (e.t "p") ]
+                    (e.fn
+                        [ e.ap3 (e.t "p") (e.n "a") (e.n "b")
+                        , e.ap3 (e.t "p") (e.n "a") (e.n "c")
+                        , e.ap3 (e.t "p") (e.n "a") (e.br (e.class "Tuple" [ e.n "b", e.n "c" ]))
+                        ]
+                    )
+                -- Category p => Strong p => p a b -> p a c -> p a (Tuple b c)
             , belongs = tc.Belongs.No
             , op = Some "&&&"
             , opEmoji = tc.noOp
@@ -51,7 +86,15 @@ let strong : tc.TClass =
                     { law = "for function"
                     , examples =
                         [ tc.of
-                            { fact = "({{op:&&&}}) {{op:::}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} ({{var:a}} {{op:->}} {{var:c}}) {{op:->}} ({{var:a}} {{op:->}} ({{class:Tuple}} {{var:b}} {{var:c}}))" -- (&&&) :: (a -> b) -> (a -> c) -> (a -> (Tuple b c))
+                            { fact =
+                                e.opdef1 "&&&"
+                                    (e.fn
+                                        [ e.br (e.fn2 (e.n "a") (e.n "b"))
+                                        , e.br (e.fn2 (e.n "c") (e.n "d"))
+                                        , e.br (e.fn2 (e.n "a") (e.class "Tuple" [ e.n "a", e.n "c" ]))
+                                        ]
+                                    )
+                                -- (&&&) :: (a -> b) -> (a -> c) -> (a -> (Tuple b c))
                             }
                         ]
                     }

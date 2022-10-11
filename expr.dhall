@@ -101,6 +101,7 @@ let Constrained_ = { constraints : List SealedExpr, expr : SealedExpr }
 let ConstrainedSeq_ = { constraints : List SealedExpr, expr : SealedExpr }
 let FnTypeDef_ = { items : List SealedExpr }
 let FnDef_ = { fn : Text, items : List SealedExpr }
+let OpDef_ = { op : Text, items : List SealedExpr }
 let Lambda_ = { args : List Arg, body : SealedExpr }
 let Forall_ = { args : List Arg, body : SealedExpr }
 
@@ -110,6 +111,7 @@ let Expr =
     | ApplyExp : ApplyExp_
     | FnTypeDef : FnTypeDef_
     | FnDef : FnDef_
+    | OpDef : OpDef_
     | OperatorCall : OperatorCall_
     | InfixMethodCall : InfixMethodCall_
     | Brackets : Brackets_
@@ -152,6 +154,9 @@ let Expr/render
         , FnDef
             =  \(td : FnDef_)
             -> tt "{{method:${td.fn}}} {{op:::}} ${concatExprs " {{op:->}} " td.items}"
+        , OpDef
+            =  \(td : OpDef_)
+            -> tt "({{op:${td.op}}}) {{op:::}} ${concatExprs " {{op:->}} " td.items}"
         , OperatorCall
             =  \(oc : OperatorCall_)
             -> tt "${SealedExpr/unseal oc.left} {{op:${oc.op}}} ${SealedExpr/unseal oc.right}"

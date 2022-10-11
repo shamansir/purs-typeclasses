@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let closed : tc.TClass =
@@ -15,7 +15,15 @@ let closed : tc.TClass =
     , members =
         [
             { name = "closed"
-            , def = "{{typevar:p}} {{var:a}} {{var:b}} {{op:->}} {{typevar:p}} ({{var:x}} {{op:->}} {{var:a}}) ({{var:x}} {{op:->}} {{var:b}})" -- p a b -> p (x -> a) (x -> b)
+            , def =
+                e.fn2
+                    (e.ap3 (e.t "p") (e.n "a") (e.n "b"))
+                    (e.ap3
+                        (e.t "p")
+                        (e.br (e.fn2 (e.n "x") (e.n "a")))
+                        (e.br (e.fn2 (e.n "x") (e.n "b")))
+                    )
+                -- p a b -> p (x -> a) (x -> b)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ]

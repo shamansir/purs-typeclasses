@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let star : tc.TClass =
@@ -14,17 +14,22 @@ let star : tc.TClass =
     , members =
         [
             { name = "Star"
-            , def = "{{subj:Star}} ({{var:a}} {{op:->}} {{fvar:f}} {{var:b}})" -- Star (a -> f b)
+            , def = e.subj1 "Star" (e.br (e.fn2 (e.n "a") (e.ap2 (e.f "f") (e.n "b")))) -- Star (a -> f b)
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "hoistStar"
-            , def = "({{fvar:f}} {{op:~>}} {{fvar:g}}) {{op:->}} {{subj:Star}} {{fvar:f}} {{var:a}} {{var:b}} {{op:->}} {{subj:Star}} {{fvar:g}} {{var:a}} {{var:b}}" -- (f ~> g) -> Star f a b -> Star g a b
+            , def =
+                e.fn3
+                    (e.br (e.opc2 (e.f "f") "~>" (e.f "g")))
+                    (e.subj "Star" [ e.f "f", e.n "a", e.n "a" ])
+                    (e.subj "Star" [ e.f "g", e.n "a", e.n "a" ])
+                -- (f ~> g) -> Star f a b -> Star g a b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
     , instances =
-        [ "{{class:Newtype}} ({{subj:Star}} {{fvar:f}} {{var:a}} {{var:b}}) {{var:_}}" -- Newtype (Star f a b) _
+        [ e.class "Newtype" [ e.br (e.class "Star" [ e.t "f", e.n "a", e.n "b" ]), e.ph ] -- Newtype (Star f a b) _
         , i.instanceReqF2 "Bind" "Semigroupoid" "Star"
         , i.instanceReqF2 "Monad" "Category" "Star"
         , i.instanceReqFA "Functor" "Star"
