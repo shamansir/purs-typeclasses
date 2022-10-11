@@ -75,16 +75,16 @@ let defs =
     -- , ./def/foldable-traversable/traversablewithindex.dhall
     , ./def/foldable-traversable/bitraversable.dhall
 
-    , ./def/functors/app.dhall
-    , ./def/functors/clown.dhall
-    , ./def/functors/compose.dhall
-    , ./def/functors/coproduct.dhall
+    , ./def/functors/app.dhall -- TODO: instances
+    , ./def/functors/clown.dhall -- TODO: instances
+    , ./def/functors/compose.dhall -- TODO: instances
+    , ./def/functors/coproduct.dhall -- TODO: instances
     , ./def/functors/inject.dhall
     , ./def/functors/costar.dhall
-    , ./def/functors/flip.dhall
-    , ./def/functors/joker.dhall
-    , ./def/functors/product.dhall
-    , ./def/functors/product2.dhall
+    , ./def/functors/flip.dhall -- TODO: instances
+    , ./def/functors/joker.dhall -- TODO: instances
+    , ./def/functors/product.dhall -- TODO: instances
+    , ./def/functors/product2.dhall -- TODO: instances
 
     , ./def/bifunctors/biapplicative.dhall
     , ./def/bifunctors/biapply.dhall

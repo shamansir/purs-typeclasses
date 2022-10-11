@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let flip : tc.TClass =
     { id = "fllip"
@@ -12,12 +13,14 @@ let flip : tc.TClass =
     , members =
         [
             { name = "Flip"
-            , def = "{{subj:Flip}} ({{fvar:p}} {{var:b}} {{var:a}})" -- Flip (p b a)
+            , def =
+                e.subj1 "Flip" (e.br (e.ap3 (e.t "p") (e.t "b") (e.n "a")))
+                -- Flip (p b a)
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ]
     , instances =
-        [ "{{class:Newtype}} ({{subj:Flip}} {{fvar:p]}} {{var:a}} {{var:b}}) {{var:_}}" -- Newtype (Flip p a b) _
+        [ e.class "Newtype" [ e.br (e.class "Flip" [ e.t "p", e.n "a", e.n "b" ]), e.ph ] -- Newtype (Flip p a b) _
         -- (Eq (p b a)) => Eq (Flip p a b)
         -- (Ord (p b a)) => Ord (Flip p a b)
         -- (Show (p a b)) => Show (Flip p b a)

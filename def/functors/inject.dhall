@@ -1,4 +1,6 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
+let i = ./../../instances.dhall
 
 let inject : tc.TClass =
     { id = "inject"
@@ -12,19 +14,26 @@ let inject : tc.TClass =
     , members =
         [
             { name = "inj"
-            , def = "{{fvar:f}} {{var:a}} {{op:->}} {{fvar:g}} {{var:a}}" -- f a -> g a
+            , def =
+                e.fn2 (e.ap2 (e.f "f") (e.n "a")) (e.ap2 (e.f "g") (e.n "a"))
+                -- f a -> g a
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "prj"
-            , def = "{{fvar:g}} {{var:a}} {{op:->}} {{class:Maybe}} ({{fvar:f}} {{var:a}})" -- g a -> Maybe (f a)
+            , def =
+                e.fn2 (e.ap2 (e.f "g") (e.n "a")) (e.class1 "Maybe" (e.ap2 (e.f "f") (e.n "a")))
+                -- g a -> Maybe (f a)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ]
     , instances =
-        [ "{{subj:Inject}} {{fvar:f}} {{fvar:f}}" -- Inject f f
-        , "{{subj:Inject}} {{fvar:f}} ({{class:Coproduct}} {{fvar:f}} {{fvar:g}})" -- Inject f (Coproduct f g)
-        , "({{subj:Inject}} {{fvar:f}} {{fvar:g}}) {{op:=>}} {{subj:Inject}} {{fvar:f}} ({{class:Coproduct}} {{fvar:f}} {{fvar:g}})" -- (Inject f g) => Inject f (Coproduct h g)
+        [ e.subj "Inject" [ e.f "f", e.f "f" ] -- Inject f f
+        , e.subj "Inject" [ e.f "f", e.br (e.class "Coproduct" [ e.n "f", e.n "g" ]) ]  -- Inject f (Coproduct f g)
+        , e.req1
+            (e.br (e.class "Inject" [ e.f "f", e.f "g" ]))
+            (e.subj "Inject" [ e.f "f", e.br (e.class "Coproduct" [ e.n "h", e.n "g" ]) ])
+            -- (Inject f g) => Inject f (Coproduct h g)
         ]
 
     } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements

@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let joker : tc.TClass =
     { id = "joker"
@@ -12,17 +13,22 @@ let joker : tc.TClass =
     , members =
         [
             { name = "Joker"
-            , def = "{{subj:Joker}} ({{fvar:g}} {{var:b}})" -- Joker (g b)
+            , def = e.subj1 "Joker" (e.br (e.ap2 (e.f "g") (e.n "b"))) -- Joker (g b)
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "hoistJoker"
-            , def = "({{fvar:f}} {{op:~>}} {{fvar:g}}) {{op:->}} {{subj:Joker}} {{fvar:f}} {{var:a}} {{var:b}} {{op:->}} {{subj:Joker}} {{fvar:g}} {{var:a}} {{var:b}}" -- (f ~> g) -> Joker f a b -> Joker g a b
+            , def =
+                e.fn3
+                    (e.br (e.opc2 (e.f "f") "~>" (e.f "g")))
+                    (e.subj "Joker" [ e.f "f", e.n "a", e.n "b" ])
+                    (e.subj "Joker" [ e.f "g", e.n "a", e.n "b" ])
+                -- (f ~> g) -> Joker f a b -> Joker g a b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
     , instances =
-        [ "{{class:Newtype}} ({{subj:Compose}} {{fvar:f}} {{var:a}} {{var:b}}) {{var:_}}" -- Newtype (Joker f a b) _
+        [ e.class "Newtype" [ e.br (e.class "Joker" [ e.t "f", e.n "a", e.n "b" ]), e.ph ] -- Newtype (Joker f a b) _
         -- (Eq (f b)) => Eq (Joker f a b)
         -- (Ord (f b)) => Ord (Joker f a b)
         -- (Show (f b)) => Show (Joker f a b)

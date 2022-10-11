@@ -16,8 +16,8 @@ let bifunctor : tc.TClass =
             { law = "identity"
             , examples =
                 [ tc.lr
-                    { left = e.val (e.call_ "bimap" [ e.rv (e.callE "idenity"), e.rv (e.callE "identity") ])  -- bimap identity identity
-                    , right = e.val (e.callE "identity") -- identity
+                    { left = e.call "bimap" [ e.callE "idenity", e.callE "identity" ]  -- bimap identity identity
+                    , right = e.callE "identity" -- identity
                     }
                 ]
             }
@@ -27,19 +27,17 @@ let bifunctor : tc.TClass =
                 [ tc.lr
                     { left =
                         -- bimap f1 g1 <<< bimap f2 g2
-                        e.inf
+                        e.opc2
+                            (e.call "bimap" [ e.f "f1", e.f "g1" ])
                             "<<<"
-                            (e.call_ "bimap" [ e.f "f1", e.f "g1" ])
-                            (e.call_ "bimap" [ e.f "f2", e.f "g2" ])
+                            (e.call "bimap" [ e.f "f2", e.f "g2" ])
                     , right =
                          -- bimap (f1 <<< f2) (g1 <<< g2)
-                        e.val
-                            (e.call_
-                                "bimap"
-                                [ e.r (e.inf "<<<" (e.vf "f1") (e.vf "f2"))
-                                , e.r (e.inf "<<<" (e.vf "g1") (e.vf "g2"))
-                                ]
-                            )
+                        e.call
+                            "bimap"
+                            [ e.br (e.opc2 (e.f "f1") "<<<" (e.f "f2"))
+                            , e.br (e.opc2 (e.f "g1") "<<<" (e.f "g2"))
+                            ]
                     }
                 ]
             }
@@ -49,11 +47,11 @@ let bifunctor : tc.TClass =
             { name = "bimap"
             , def =
                 -- (a -> b) -> (c -> d) -> f a c -> f b d
-                (e.fnvs
-                    [ e.fn_ [ e.n "a", e.n "b" ]
-                    , e.fn_ [ e.n "c", e.n "d" ]
-                    , e.ap_ (e.f "f") [ e.n "a", e.n "c" ]
-                    , e.ap_ (e.f "f") [ e.n "b", e.n "d" ]
+                (e.fn
+                    [ e.br (e.fn [ e.n "a", e.n "b" ])
+                    , e.br (e.fn [ e.n "c", e.n "d" ])
+                    , e.ap (e.f "f") [ e.n "a", e.n "c" ]
+                    , e.ap (e.f "f") [ e.n "b", e.n "d" ]
                     ]
                 )
             , belongs = tc.Belongs.Yes
@@ -63,14 +61,12 @@ let bifunctor : tc.TClass =
             , def =
                 -- Bifunctor f => (a -> b) -> f a c -> f b c
                 e.req1
-                    (e.subj_ "Bifunctor" [ e.f "f" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.fn_ [ e.n "a", e.n "b" ]
-                            , e.ap_ (e.f "f") [ e.n "a", e.n "c" ]
-                            , e.ap_ (e.f "f") [ e.n "b", e.n "c" ]
-                            ]
-                        )
+                    (e.subj "Bifunctor" [ e.f "f" ])
+                    (e.fn
+                        [ e.br (e.fn [ e.n "a", e.n "b" ])
+                        , e.ap (e.f "f") [ e.n "a", e.n "c" ]
+                        , e.ap (e.f "f") [ e.n "b", e.n "c" ]
+                        ]
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
@@ -79,14 +75,12 @@ let bifunctor : tc.TClass =
             , def =
                 -- Bifunctor f => (b -> c) -> f a b -> f a c
                 e.req1
-                    (e.subj_ "Bifunctor" [ e.f "f" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.fn_ [ e.n "b", e.n "c" ]
-                            , e.ap_ (e.f "f") [ e.n "a", e.n "b" ]
-                            , e.ap_ (e.f "f") [ e.n "a", e.n "c" ]
-                            ]
-                        )
+                    (e.subj "Bifunctor" [ e.f "f" ])
+                    (e.fn
+                        [ e.br (e.fn [ e.n "b", e.n "c" ])
+                        , e.ap (e.f "f") [ e.n "a", e.n "b" ]
+                        , e.ap (e.f "f") [ e.n "a", e.n "c" ]
+                        ]
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws

@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let e = ./../../build_expr.dhall
 
 let product2 : tc.TClass =
     { id = "product2"
@@ -12,12 +13,23 @@ let product2 : tc.TClass =
     , members =
         [
             { name = "Product2"
-            , def = "{{subj:Product2}} ({{fvar:f}} {{var:a}} {{var:b}}) ({{fvar:g}} {{var:a}} {{var:b}})" -- Product2 (f a b) (g a b)
+            , def =
+                e.subj
+                    "Product2"
+                    [ e.br (e.ap3 (e.f "f") (e.n "a") (e.n "b"))
+                    , e.br (e.ap3 (e.f "g") (e.n "a") (e.n "b"))
+                    ]
+                -- Product2 (f a b) (g a b)
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ]
     , instances =
-        [ "(Eq (f a b), Eq (g a b)) => Eq (Product2 f g a b)" -- (Eq (f a b), Eq (g a b)) => Eq (Product2 f g a b)
+        [ e.req
+            [ e.class1 "Eq" (e.br (e.ap3 (e.f "f") (e.n "a") (e.n "b")))
+            , e.class1 "Eq" (e.br (e.ap3 (e.f "g") (e.n "a") (e.n "b")))
+            ]
+            (e.class1 "Eq" (e.br (e.subj "Product2" [ e.f "f", e.f "g", e.n "a", e.n "b" ])))
+            -- (Eq (f a b), Eq (g a b)) => Eq (Product2 f g a b)
         -- (Eq (f a b), Eq (g a b)) => Eq (Product2 f g a b)
         -- (Ord (f a b), Ord (g a b)) => Ord (Product2 f g a b)
         -- (Show (f a b), Show (g a b)) => Show (Product2 f g a b)

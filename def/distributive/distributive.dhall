@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let traversable : tc.TClass =
@@ -14,59 +14,105 @@ let traversable : tc.TClass =
     , link = "purescript-distributive/5.0.0/docs/Data.Distributive#t:Distributive"
     , statements =
         [
-            { left = "distribute" -- distribute
-            , right = "collect identity" -- collect identity
+            { left = e.callE "distribute" -- distribute
+            , right = e.call1 "collect" (e.callE "identity") -- collect identity
             }
         ,
-            { left = "distribute <<< distribute" -- distribute <<< distribute
-            , right = "{{method:identity}}" -- identity
+            { left = e.opc2 (e.callE "distribute") "<<<" (e.callE "distribute") -- distribute <<< distribute
+            , right = e.callE "identity" -- identity
             }
         ,
-            { left = "{{method:collect}} {{fvar:f}}" -- collect f
-            , right = "distribute <<< map f" -- distribute <<< map f
+            { left = e.call1 "collect" (e.f "f") -- collect f
+            , right = e.opc2 (e.callE "distribute") "<<<" (e.call1 "map" (e.f "f"))  -- distribute <<< map f
             }
         ,
-            { left = "map f" -- map f
-            , right = "unwrap <<< collect (Identity <<< f)" -- unwrap <<< collect (Identity <<< f)
+            { left = e.call1 "map" (e.f "f") -- map f
+            , right =
+                e.opc2 (e.callE "unwrap") "<<<" (e.call1 "collect" (e.br (e.opc2 (e.classE "Identity") "<<<" (e.f "f"))))
+                -- unwrap <<< collect (Identity <<< f)
             }
-
         ,
-            { left = "map f" -- map f
-            , right = "map distribute <<< collect f = unwrap <<< collect (Compose <<< f)" -- distribute <<< map f
+            { left =
+                e.opc2 (e.call1 "map" (e.callE "distribute")) "<<<" (e.call1 "collect" (e.f "f"))
+                -- map distribute <<< collect f
+            , right =
+                e.opc2 (e.callE "unwrap") "<<<" (e.call1 "collect" (e.br (e.opc2 (e.classE "Compose") "<<<" (e.f "f"))))
+                 -- unwrap <<< collect (Compose <<< f)
             }
 
         ]
     , members =
         [
             { name = "distribute"
-            , def = "Functor g => g (f a) -> f (g a)" -- Functor g => g (f a) -> f (g a)
+            , def =
+                e.req1
+                    (e.class1 "Functor" (e.f "g"))
+                    (e.fn2
+                        (e.ap2 (e.f "g") (e.br (e.ap2 (e.f "f") (e.n "a"))))
+                        (e.ap2 (e.f "f") (e.br (e.ap2 (e.f "g") (e.n "a"))))
+                    )
+                -- Functor g => g (f a) -> f (g a)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "collect"
-            , def = "Functor g => (a -> f b) -> g a -> f (g b)" -- Functor g => (a -> f b) -> g a -> f (g b)
+            , def =
+                e.req1
+                    (e.class1 "Functor" (e.f "g"))
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.ap2 (e.f "f") (e.n "b")) ))
+                        (e.ap2 (e.f "g") (e.n "a"))
+                        (e.ap2 (e.f "f") (e.br (e.ap2 (e.f "g") (e.n "a"))))
+                    )
+                -- Functor g => (a -> f b) -> g a -> f (g b)
             , belongs = tc.Belongs.Yes
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "distributeDefault"
-            , def = "Distributive f => Functor g => g (f a) -> f (g a)" -- Functor g => g (f a) -> f (g a)
+            , def =
+                e.req
+                    [ e.subj1 "Distributive" (e.f "f"), e.class1 "Functor" (e.f "g") ]
+                    (e.fn2
+                        (e.ap2 (e.f "g") (e.br (e.ap2 (e.f "f") (e.n "a"))))
+                        (e.ap2 (e.f "f") (e.br (e.ap2 (e.f "g") (e.n "a"))))
+                    )
+                -- Distributive f => Functor g => g (f a) -> f (g a)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "collectDefault"
-            , def = "Distributive f => Functor g => (a -> f b) -> g a -> f (g b)" -- Distributive f => Functor g => (a -> f b) -> g a -> f (g b)
+            , def =
+                e.req
+                    [ e.subj1 "Distributive" (e.f "f"), e.class1 "Functor" (e.f "g") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.n "a") (e.ap2 (e.f "f") (e.n "b")) ))
+                        (e.ap2 (e.f "g") (e.n "a"))
+                        (e.ap2 (e.f "f") (e.br (e.ap2 (e.f "g") (e.n "a"))))
+                    )
+                -- Distributive f => Functor g => (a -> f b) -> g a -> f (g b)
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "cotraverse"
-            , def = " Distributive f => Functor g => (g a -> b) -> g (f a) -> f b" --  Distributive f => Functor g => (g a -> b) -> g (f a) -> f b
+            , def =
+                e.req
+                    [ e.subj1 "Distributive" (e.f "f"), e.class1 "Functor" (e.f "g") ]
+                    (e.fn3
+                        (e.br (e.fn2 (e.ap2 (e.f "g") (e.n "a")) (e.n "b") ))
+                        (e.ap2 (e.f "g") (e.br (e.ap2 (e.f "f") (e.n "a"))))
+                        (e.ap2 (e.f "f") (e.n "b"))
+                    )
+                -- Distributive f => Functor g => (g a -> b) -> g (f a) -> f b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]
     , instances =
         [ i.instanceSubj "Identity" "Distributive"
-        , "Distributive (Function e)" -- Distributive (Function e)
-        , "(TypeEquals a Unit) => Distributive (Tuple a)" -- (TypeEquals a Unit) => Distributive (Tuple a)
+        , e.subj1 "Distributive" (e.br (e.class1 "Function" (e.n "e"))) -- Distributive (Function e)
+        , e.req1
+            (e.br (e.class "TypEquals" [ e.n "a", e.classE "Unit" ]))
+            (e.subj1 "Distributive" (e.br (e.class1 "Tuple" (e.n "e"))))
+        -- (TypeEquals a Unit) => Distributive (Tuple a)
         ]
 
     } /\ tc.noValues /\ tc.noLaws

@@ -1,4 +1,5 @@
 let e = ./expr.dhall
+let List/concat = https://prelude.dhall-lang.org/List/concat
 
 
 -- let r = e.Expr/render
@@ -86,13 +87,13 @@ let test_br = assert : e.Expr/render (br (t "w")) ≡ "({{typevar:w}})"
 
 -- expr1 expr2 expr3 ...
 let ap
-    : List e.Expr -> e.Expr
-    = \(items : List e.Expr) ->
-    e.Expr.ApplyExp { items = e.Expr/sealAll items }
+    : e.Expr -> List e.Expr -> e.Expr
+    = \(what : e.Expr) -> \(items : List e.Expr) ->
+    e.Expr.ApplyExp { items = e.Expr/sealAll (List/concat e.Expr [ [ what ], items ]) }
 
 let test_ap
     = assert
-    : e.Expr/render (ap [ t "w", n "v", f "f" ])
+    : e.Expr/render (ap (t "w") [ n "v", f "f" ])
     ≡ "{{typevar:w}} {{var:v}} {{fvar:f}}"
 
 
@@ -100,7 +101,7 @@ let test_ap
 let ap2
     : e.Expr -> e.Expr -> e.Expr
     = \(expr1 : e.Expr) -> \(expr2 : e.Expr)
-    -> ap [ expr1, expr2 ]
+    -> ap expr1 [ expr2 ]
 
 let test_ap2
     = assert
@@ -108,10 +109,11 @@ let test_ap2
     ≡ "{{typevar:f}} {{var:v}}"
 
 
+-- expr1 expr2 expr3
 let ap3
     : e.Expr -> e.Expr -> e.Expr -> e.Expr
     = \(expr1 : e.Expr) -> \(expr2 : e.Expr) -> \(expr3 : e.Expr)
-    -> ap [ expr1, expr2, expr3 ]
+    -> ap expr1 [ expr2, expr3 ]
 
 let test_ap3
     = assert
@@ -119,6 +121,7 @@ let test_ap3
     ≡ "{{typevar:f}} {{var:v}} {{var:x}}"
 
 
+ -- FIXME: not used, change `ap` to `ap <expr-what> [ expr1, expr2, ... ]`
 -- what expr1 expr2 expr3 ...
 let apw
     : e.What -> List e.Expr -> e.Expr

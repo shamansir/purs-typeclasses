@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let costar : tc.TClass =
@@ -14,12 +14,19 @@ let costar : tc.TClass =
     , members =
         [
             { name = "Costar"
-            , def = "{{subj:Costar}} ({{fvar:f}} {{var:b}} {{op:->}} {{var:a}})" -- Costar (f b -> a)
+            , def =
+                e.subj1 "Costar" (e.br (e.fn2 (e.ap2 (e.f "f") (e.n "b")) (e.n "a")))
+                -- Costar (f b -> a)
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "hoistCostar"
-            , def = "({{fvar:g}} {{op:~>}} {{fvar:f}}) {{op:->}} {{class:Costar}} {{fvar:f}} {{var:a}} {{var:b}} {{op:->}} {{class:Costar}} {{fvar:g}} {{var:a}} {{var:b}}" -- (g ~> f) -> Costar f a b -> Costar g a b
+            , def =
+                e.fn3
+                    (e.br (e.opc2 (e.f "g") "~>" (e.f "f")))
+                    (e.subj "Costar" [ e.f "f", e.n "a", e.n "b" ])
+                    (e.subj "Costar" [ e.f "g", e.n "a", e.n "b" ])
+                -- (g ~> f) -> Costar f a b -> Costar g a b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

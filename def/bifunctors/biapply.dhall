@@ -18,9 +18,9 @@ let biapply : tc.TClass =
             , def =
                 -- w (a -> b) (c -> d) -> w a c -> w b d
                 e.fn3
-                    (e.ap_ (e.t "w") [ e.r (e.fnBr (e.vn "a") (e.vn "b")), e.r (e.fnBr (e.vn "c") (e.vn "d")) ])
-                    (e.ap_ (e.t "w") [ e.n "a", e.n "c" ])
-                    (e.ap_ (e.t "w") [ e.n "b", e.n "d" ])
+                    (e.ap3 (e.t "w") (e.br (e.fn2 (e.n "a") (e.n "b"))) (e.br (e.fn2 (e.n "c") (e.n "d"))))
+                    (e.ap3 (e.t "w") (e.n "a") (e.n "c"))
+                    (e.ap3 (e.t "w") (e.n "b") (e.n "d"))
             , op = Some "<<*>>"
             , opEmoji = tc.noOp
             , belongs = tc.Belongs.Yes
@@ -28,7 +28,7 @@ let biapply : tc.TClass =
         ,
 
             { name = "Control.Category.identity"
-            , def = e.ap3 (e.vn "a") (e.vt "t") (e.vt "t") -- a t t
+            , def = e.ap3 (e.n "a") (e.t "t") (e.t "t") -- a t t
             , belongs = tc.Belongs.No
             , op = Some "<<$>>"
             , opEmoji = tc.noOp
@@ -38,11 +38,11 @@ let biapply : tc.TClass =
                     , examples =
                         [ tc.of
                             { fact =
+                                e.opc2
+                                    (e.call "bipure" [ e.f "f", e.f "g" ])
+                                    "<<$>>"
+                                    (e.opc2 (e.n "x") "<<*>>" (e.n "y"))
                                 -- bipure f g <<$>> x <<*>> y
-                                e.inf
-                                    ("<<$>>")
-                                    (e.call_ "bipure" [ e.f "f", e.f "g" ])
-                                    (e.rtv (e.inf ("<<*>>") (e.vn "x") (e.vn "y")))
                             }
                         ]
                     }
@@ -53,13 +53,11 @@ let biapply : tc.TClass =
             , def =
                 -- Biapply w => w a b -> w c d -> w c d
                 e.req1
-                    (e.subj_ "Biapply" [ e.t "w" ])
-                    (e.rtv
-                        (e.fn3
-                            (e.ap_ (e.t "w") [ e.n "a", e.n "b" ])
-                            (e.ap_ (e.t "w") [ e.n "c", e.n "d" ])
-                            (e.ap_ (e.t "w") [ e.n "c", e.n "d" ])
-                        )
+                    (e.subj1 "Biapply" (e.t "w"))
+                    (e.fn3
+                        (e.ap3 (e.t "w") (e.n "a") (e.n "b") )
+                        (e.ap3 (e.t "w") (e.n "c") (e.n "d") )
+                        (e.ap3 (e.t "w") (e.n "c") (e.n "d") )
                     )
             , op = Some "*>>"
             , opEmoji = tc.noOp
@@ -70,13 +68,11 @@ let biapply : tc.TClass =
             , def =
                  -- Biapply w => w a b -> w c d -> w a b
                 e.req1
-                    (e.subj_ "Biapply" [ e.t "w" ])
-                    (e.rtv
-                        (e.fn3
-                            (e.ap_ (e.t "w") [ e.n "a", e.n "b" ])
-                            (e.ap_ (e.t "w") [ e.n "c", e.n "d" ])
-                            (e.ap_ (e.t "w") [ e.n "a", e.n "b" ])
-                        )
+                    (e.subj1 "Biapply" (e.t "w"))
+                    (e.fn3
+                        (e.ap3 (e.t "w") (e.n "a") (e.n "b") )
+                        (e.ap3 (e.t "w") (e.n "c") (e.n "d") )
+                        (e.ap3 (e.t "w") (e.n "a") (e.n "b") )
                     )
             , op = Some "<<*"
             , opEmoji = tc.noOp
@@ -87,16 +83,14 @@ let biapply : tc.TClass =
             , def =
                 -- Biapply w => (a -> b -> c) -> (d -> e -> f) -> w a d -> w b e -> w c f
                 e.req1
-                    (e.subj_ "Biapply" [ e.t "w" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.fn_ [ e.n "a", e.n "b", e.n "c" ]
-                            , e.fn_ [ e.n "d", e.n "e", e.n "f" ]
-                            , e.ap_ (e.t "w") [ e.n "a", e.n "d" ]
-                            , e.ap_ (e.t "w") [ e.n "b", e.n "e" ]
-                            , e.ap_ (e.t "w") [ e.n "c", e.n "f" ]
-                            ]
-                        )
+                    (e.subj1 "Biapply" (e.t "w"))
+                    (e.fn
+                        [ e.br (e.fn [ e.n "a", e.n "b", e.n "c" ])
+                        , e.br (e.fn [ e.n "d", e.n "e", e.n "f" ])
+                        , e.ap3 (e.t "w") (e.n "a") (e.n "d")
+                        , e.ap3 (e.t "w") (e.n "b") (e.n "e")
+                        , e.ap3 (e.t "w") (e.n "c") (e.n "f")
+                        ]
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
@@ -105,17 +99,15 @@ let biapply : tc.TClass =
             , def =
                 -- Biapply w => (a -> b -> c -> d) -> (e -> f -> g -> h) -> w a e -> w b f -> w c g -> w d h
                 e.req1
-                    (e.subj_ "Biapply" [ e.t "w" ])
-                    (e.rtv
-                        (e.fnvs
-                            [ e.fn_ [ e.n "a", e.n "b", e.n "c", e.n "d" ]
-                            , e.fn_ [ e.n "e", e.n "f", e.n "g", e.n "h" ]
-                            , e.ap_ (e.t "w") [ e.n "a", e.n "e" ]
-                            , e.ap_ (e.t "w") [ e.n "b", e.n "f" ]
-                            , e.ap_ (e.t "w") [ e.n "c", e.n "g" ]
-                            , e.ap_ (e.t "w") [ e.n "d", e.n "h" ]
-                            ]
-                        )
+                    (e.subj1 "Biapply" (e.t "w"))
+                    (e.fn
+                        [ e.br (e.fn [ e.n "a", e.n "b", e.n "c", e.n "d" ])
+                        , e.br (e.fn [ e.n "e", e.n "f", e.n "g", e.n "h" ])
+                        , e.ap3 (e.t "w") (e.n "a") (e.n "e")
+                        , e.ap3 (e.t "w") (e.n "b") (e.n "f")
+                        , e.ap3 (e.t "w") (e.n "c") (e.n "g")
+                        , e.ap3 (e.t "w") (e.n "d") (e.n "h")
+                        ]
                     )
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws

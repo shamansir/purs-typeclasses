@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-
+let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 let invariant : tc.TClass =
@@ -14,12 +14,29 @@ let invariant : tc.TClass =
     , members =
         [
             { name = "imap"
-            , def = "({{var:a}} {{op:->}} {{var:b}}) {{op:->}} ({{var:b}} {{op:->}} {{var:a}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}}" -- (a -> b) -> (b -> a) -> f a -> f b
+            , def =
+                e.fn
+                    [ e.br (e.fn2 (e.n "a") (e.n "b"))
+                    , e.br (e.fn2 (e.n "b") (e.n "a"))
+                    , e.ap2 (e.f "f") (e.n "a")
+                    , e.ap2 (e.f "f") (e.n "b")
+                    ]
+                -- (a -> b) -> (b -> a) -> f a -> f b
             , belongs = tc.Belongs.Yes
             } /\ tc.noLaws /\ tc.noOps
         ,
             { name = "imapF"
-            , def = " {{class:Functor}} {{fvar:f}} {{op:=>}} ({{var:a}} {{op:->}} {{var:b}}) {{op:->}} ({{var:b}} {{op:->}} {{var:a}}) {{op:->}} {{fvar:f}} {{var:a}} {{op:->}} {{fvar:f}} {{var:b}}" --  Functor f => (a -> b) -> (b -> a) -> f a -> f b
+            , def =
+                e.req1
+                    (e.subj1 "Functor" (e.f "f"))
+                    (e.fn
+                        [ e.br (e.fn2 (e.n "a") (e.n "b"))
+                        , e.br (e.fn2 (e.n "b") (e.n "a"))
+                        , e.ap2 (e.f "f") (e.n "a")
+                        , e.ap2 (e.f "f") (e.n "b")
+                        ]
+                    )
+                --  Functor f => (a -> b) -> (b -> a) -> f a -> f b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ]

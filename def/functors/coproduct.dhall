@@ -29,7 +29,7 @@ let coproduct : tc.TClass =
         ,
             { name = "left"
             , def =
-                e.ap2
+                e.fn2
                     (e.ap2 (e.f "f") (e.n "a"))
                     (e.subj "Coproduct" [ e.f "f", e.f "g", e.n "a" ])
                 -- f a -> Coproduct f g a
@@ -38,7 +38,7 @@ let coproduct : tc.TClass =
         ,
             { name = "right"
             , def =
-                e.ap2
+                e.fn2
                     (e.ap2 (e.f "g") (e.n "a"))
                     (e.subj "Coproduct" [ e.f "f", e.f "g", e.n "a" ])
                 -- g a -> Coproduct f g a
