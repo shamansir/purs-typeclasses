@@ -1,3 +1,6 @@
+-- class Bitraversable :: (Type -> Type -> Type) -> Constraint
+-- class (Bifunctor t, Bifoldable t) <= Bitraversable t where
+
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
