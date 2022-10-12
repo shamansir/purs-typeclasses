@@ -16,16 +16,16 @@ let foldableWithIndex : tc.TClass =
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.FoldableWithIndex"
     , statements =
         [
-            { left = e.empty -- foldr f
-            , right = e.empty -- foldrWithIndex (const f)
+            { left = e.call1 "foldr" (e.f "f") -- foldr f
+            , right = e.call1 "foldrWithIndex" (e.br (e.call1 "const" (e.f "f"))) -- foldrWithIndex (const f)
             }
         ,
-            { left = e.empty -- foldl f
-            , right = e.empty -- foldlWithIndex (const f)
+            { left = e.call1 "foldl" (e.f "f") -- foldl f
+            , right = e.call1 "foldlWithIndex" (e.br (e.call1 "const" (e.f "f")))  -- foldlWithIndex (const f)
             }
         ,
-            { left = e.empty -- foldMap f
-            , right = e.empty -- foldlMapWithIndex (const f)
+            { left = e.call1 "foldMap" (e.f "f") -- foldMap f
+            , right = e.call1 "foldMapWithIndex" (e.br (e.call1 "const" (e.f "f")))  -- foldMapWithIndex (const f)
             }
         ]
     , members =
@@ -320,9 +320,8 @@ let foldableWithIndex : tc.TClass =
                 , e.br (e.class "Compose" [ e.f "f", e.f "g" ])
                 ]
             ) -- (FoldableWithIndex a f, FoldableWithIndex b g) => FoldableWithIndex (Tuple a b) (Compose f g)
-        , e.req
-            [ e.subj "FoldableWithIndex" [ e.n "a", e.f "f" ]
-            ]
+        , e.req1
+            (e.subj "FoldableWithIndex" [ e.n "a", e.f "f" ])
             (e.subj "FoldableWithIndex"
                 [ e.n "a"
                 , e.br (e.class1 "App" (e.f "f"))
