@@ -1,5 +1,6 @@
 let e = ./expr.dhall
 let List/concat = https://prelude.dhall-lang.org/List/concat
+let List/map = https://prelude.dhall-lang.org/List/map
 
 
 -- let r = e.Expr/render
@@ -519,6 +520,26 @@ let test_fall1
     ≡ "{{kw:forall}} {{var:c}}. {{var:c}} {{op:->}} {{var:c}}"
 
 
+let PreProperty = { mapKey : Text, mapValue : e.Expr }
+
+-- { prop1 :: expr1, prop2 :: expr2, ... }
+let obj
+    : List PreProperty -> e.Expr
+    = \(props : List PreProperty)
+    -> e.Expr.Object
+        (List/map
+            PreProperty
+            e.Property
+            (\(p : PreProperty) -> { mapKey = p.mapKey, mapValue = e.Expr/seal p.mapValue })
+            props
+        )
+
+let test_obj
+    = assert
+    : e.Expr/render (obj (toMap { foo = num "42", bar = num "14" }))
+    ≡ "{ bar {{op:::}} {{num:14}}, foo {{op:::}} {{num:42}} }"
+
+
 let r = e.Expr/render
 
 
@@ -542,5 +563,6 @@ in
     , av
     , lbd, lbd1
     , fall, fall1
+    , obj
     , r
     }

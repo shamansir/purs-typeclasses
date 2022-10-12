@@ -37,10 +37,17 @@ let SealedExpr/unsealAll
         res
 
 
+let concatHelper
+    : forall(a : Type) -> (a -> Text) -> Text -> List a -> Text
+    = \(a : Type) -> \(render : a -> Text) -> \(sep : Text) -> \(res : List a) ->
+        Text/concatSep sep (List/map a Text render res)
+
+
 let concatExprs
     : Text -> List SealedExpr -> Text
     = \(sep : Text) -> \(res : List SealedExpr) ->
-        Text/concatSep sep (SealedExpr/unsealAll res)
+        concatHelper SealedExpr SealedExpr/unseal sep res
+        -- Text/concatSep sep (SealedExpr/unsealAll res)
 
 
 let What =
@@ -85,7 +92,8 @@ let Arg/render
 let concatArgs
     : Text -> List Arg -> Text
     = \(sep : Text) -> \(args : List Arg) ->
-        Text/concatSep sep (List/map Arg Text Arg/render args)
+        concatHelper Arg Arg/render sep args
+        -- Text/concatSep sep (List/map Arg Text Arg/render args)
 
 
 let Apply_ = { what : What, arguments : List SealedExpr }
@@ -104,6 +112,8 @@ let FnDef_ = { fn : Text, items : List SealedExpr }
 let OpDef_ = { op : Text, items : List SealedExpr }
 let Lambda_ = { args : List Arg, body : SealedExpr }
 let Forall_ = { args : List Arg, body : SealedExpr }
+let Property = { mapKey : Text, mapValue : SealedExpr }
+let Object_ = List Property
 
 
 let Expr =
@@ -129,6 +139,7 @@ let Expr =
     | Raw : Text
     | Num : Text
     | Keyword : Text
+    | Object : Object_
     | Nothing
     >
 
@@ -194,6 +205,10 @@ let Expr/render
             =  \(forall_ : Forall_)
             -> tt "{{kw:forall}} ${concatArgs " " forall_.args}. ${SealedExpr/unseal forall_.body}"
         , PH = "{{var:_}}"
+        , Object
+            =  \(obj_ : Object_)
+            -> let Property/render = \(prop : Property) -> "${prop.mapKey} {{op:::}} ${SealedExpr/unseal prop.mapValue}"
+               in tt "{ ${concatHelper Property Property/render ", " obj_} }"
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"
         , Keyword = \(kw : Text) -> "{{kw:${kw}}}"
@@ -250,6 +265,6 @@ let test_apply_2 = assert
 
 
 in
-    { What, Arg, Expr
+    { What, Arg, Property, Expr
     , What/render, Arg/render, Expr/render, Expr/seal, Expr/sealAll, Expr/none
     }

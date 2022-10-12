@@ -5,6 +5,8 @@ let e =
 {- Instances -}
 
 
+-- TODO: add tests
+
  -- Class Subject
 let instance =
     \(cl : Text) ->
@@ -16,6 +18,13 @@ let instanceSubj =
     \(cl : Text) ->
     \(subj : Text) ->
     e.ap2 (e.subjE subj) (e.classE cl)
+
+ -- Subject Class1 Class2
+let instanceSubj2 =
+    \(cl1 : Text) ->
+    \(cl2 : Text) ->
+    \(subj : Text) ->
+    e.ap3 (e.subjE subj) (e.classE cl1) (e.classE cl2)
 
  -- Class
 let instanceCl =
@@ -68,6 +77,13 @@ let instanceSubjA =
     \(cl : Text) ->
     \(subj : Text) ->
     e.subj1 subj (e.br (e.class1 cl (e.n "a")))
+
+-- Subject Class1 (Class2 a)
+let instanceClSubjA =
+    \(cl1 : Text) ->
+    \(cl2 : Text) ->
+    \(subj : Text) ->
+    e.subj subj [ e.classE cl1, e.br (e.class1 cl2 (e.n "a")) ]
 
 -- Subject (Class f)
 let instanceSubjF =
@@ -222,7 +238,7 @@ let instanceReqFA2 =
         (instanceFA cl1 subj)
 
 in
-    { instance, instanceCl, instanceSubj, instanceSubjA, instanceSubjA2, instanceSubjF, instanceClA, instanceArrow, instanceArrowR, instanceFn, instanceA, instanceF, instanceFA
+    { instance, instanceCl, instanceSubj, instanceSubj2, instanceSubjA, instanceSubjA2, instanceSubjF, instanceClA, instanceClSubjA, instanceArrow, instanceArrowR, instanceFn, instanceA, instanceF, instanceFA
     , instance_, instanceA_, instanceFA_, instanceAB_, instanceFAB_, instanceReqA_B
     , instanceReqA, instanceReqA2, instanceReqF2, instanceReqF2_, instanceReqASubj, instanceReqF,  instanceReqF_, instanceReqFA, instanceReqFA_, instanceReqFAB_
     , instanceReqSubjArrow, instanceReqFG, instanceReqFA2, instanceReqPSubj

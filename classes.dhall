@@ -67,9 +67,11 @@ let defs =
     , ./def/effect/monadeffect.dhall
 
     , ./def/foldable-traversable/bifoldable.dhall
+    -- , ./def/foldable-traversable/bitraversable.dhall
     , ./def/foldable-traversable/foldable.dhall
     -- , ./def/foldable-traversable/foldable1.dhall
-    -- , ./def/foldable-traversable/foldablewithindex.dhall
+    , ./def/foldable-traversable/foldablewithindex.dhall
+    -- , ./def/foldable-traversable/functorwithindex.dhall
     , ./def/foldable-traversable/traversable.dhall
     -- , ./def/foldable-traversable/traversable1.dhall
     -- , ./def/foldable-traversable/traversablewithindex.dhall

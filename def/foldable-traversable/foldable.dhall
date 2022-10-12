@@ -16,7 +16,7 @@ let foldable : tc.TClass =
             { name = "foldr"
             , def =
                 e.fn
-                    [ e.br (e.fn3 (e.n "a") (e.n "b") (e.n "c"))
+                    [ e.br (e.fn3 (e.n "a") (e.n "b") (e.n "b"))
                     , e.n "b"
                     , e.ap2 (e.t "f") (e.n "a")
                     , e.n "b"
@@ -121,20 +121,25 @@ let foldable : tc.TClass =
             { name = "foldM"
             , def =
                 e.reqseq
-                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Monoid" (e.t "m") ]
-                    (e.br (e.fn3
-                        (e.n "b")
-                        (e.n "a")
-                        (e.ap2 (e.t "m") (e.n "b"))
-                    ))
-                -- Foldable f => Monoid m => (b -> a -> m b)
+                    [ e.subj1 "Foldable" (e.t "f"), e.class1 "Monad" (e.t "m") ]
+                    (e.fn
+                        [ e.br (e.fn3
+                            (e.n "b")
+                            (e.n "a")
+                            (e.ap2 (e.t "m") (e.n "b")))
+                        , e.n "b"
+                        , e.ap2 (e.t "f") (e.n "a")
+                        , e.ap2 (e.t "m") (e.n "b")
+                        ]
+                    )
+                -- Foldable f => Monad m => (b -> a -> m b) -> b -> f a -> m b
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws
         ,
             { name = "traverse_"
             , def =
                 e.reqseq
-                    [ e.subj1 "Applicative" (e.t "m"), e.class1 "Foldable" (e.t "f") ]
+                    [ e.class1 "Applicative" (e.t "m"), e.subj1 "Foldable" (e.t "f") ]
                     (e.fn3
                         (e.br (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "b"))))
                         (e.ap2 (e.t "f") (e.n "a"))
@@ -147,7 +152,7 @@ let foldable : tc.TClass =
             { name = "for_"
             , def =
                 e.reqseq
-                    [ e.subj1 "Applicative" (e.t "m"), e.class1 "Foldable" (e.t "f") ]
+                    [ e.class1 "Applicative" (e.t "m"), e.subj1 "Foldable" (e.t "f") ]
                     (e.fn3
                         (e.ap2 (e.t "f") (e.n "a"))
                         (e.br (e.fn2 (e.n "a") (e.ap2 (e.t "m") (e.n "b"))))
@@ -160,7 +165,7 @@ let foldable : tc.TClass =
             { name = "sequence_"
             , def =
                 e.reqseq
-                    [ e.subj1 "Applicative" (e.t "m"), e.class1 "Foldable" (e.t "f") ]
+                    [ e.class1 "Applicative" (e.t "m"), e.subj1 "Foldable" (e.t "f") ]
                     (e.fn2
                         (e.ap2 (e.t "f") (e.br (e.ap2 (e.t "m") (e.n "a"))))
                         (e.ap2 (e.t "m") (e.classE "Unit"))
@@ -366,7 +371,7 @@ let foldable : tc.TClass =
                 e.req1
                     (e.subj1 "Foldable" (e.t "f"))
                     (e.fn3
-                        (e.br (e.ap2 (e.n "a") (e.classE "Boolean")))
+                        (e.br (e.fn2 (e.n "a") (e.classE "Boolean")))
                         (e.ap2 (e.t "f") (e.n "a"))
                         (e.class1 "Maybe" (e.n "a"))
                     )
@@ -379,7 +384,7 @@ let foldable : tc.TClass =
                 e.req1
                     (e.subj1 "Foldable" (e.t "f"))
                     (e.fn3
-                        (e.br (e.ap2 (e.n "a") (e.class1 "Maybe" (e.n "a"))))
+                        (e.br (e.fn2 (e.n "a") (e.class1 "Maybe" (e.n "a"))))
                         (e.ap2 (e.t "f") (e.n "a"))
                         (e.ap2 (e.classE "Maybe") (e.n "a"))
                     )
