@@ -13,8 +13,11 @@ let List/map =
 let tt = \(text : Text) -> Text/replace "  " " " text
 
 
+let SealedSource = { markdown : Text, raw : Text }
+
+
 let SealedExpr =
-    < Source : Text
+    < Source : SealedSource
     >
 
 
@@ -22,7 +25,16 @@ let SealedExpr/unseal
     : SealedExpr -> Text
     = \(re : SealedExpr) ->
     merge
-        { Source = \(text : Text) -> text
+        { Source = \(text : SealedSource) -> text.markdown
+        }
+        re
+
+
+let SealedExpr/unsealRaw
+    : SealedExpr -> Text
+    = \(re : SealedExpr) ->
+    merge
+        { Source = \(text : SealedSource) -> text.raw
         }
         re
 
@@ -37,6 +49,16 @@ let SealedExpr/unsealAll
         res
 
 
+let SealedExpr/unsealAllRaw
+    : List SealedExpr -> List Text
+    = \(res : List SealedExpr) ->
+    List/map
+        SealedExpr
+        Text
+        SealedExpr/unsealRaw
+        res
+
+
 let concatHelper
     : forall(a : Type) -> (a -> Text) -> Text -> List a -> Text
     = \(a : Type) -> \(render : a -> Text) -> \(sep : Text) -> \(res : List a) ->
@@ -47,7 +69,12 @@ let concatExprs
     : Text -> List SealedExpr -> Text
     = \(sep : Text) -> \(res : List SealedExpr) ->
         concatHelper SealedExpr SealedExpr/unseal sep res
-        -- Text/concatSep sep (SealedExpr/unsealAll res)
+
+
+let concatExprsRaw
+    : Text -> List SealedExpr -> Text
+    = \(sep : Text) -> \(res : List SealedExpr) ->
+        concatHelper SealedExpr SealedExpr/unsealRaw sep res
 
 
 let What =
@@ -75,6 +102,20 @@ let What/render
         aw
 
 
+let What/renderRaw
+    : What -> Text
+    = \(aw : What) ->
+    merge
+        { Subject = \(subj : Text) -> subj
+        , Class = \(class : Text) -> class
+        , Function = \(fn : Text) -> fn
+        , Type_ = \(type : Text) -> type
+        , FVar = \(fvar : Text) -> fvar
+        , Constraint = \(cns : Text) -> cns
+        }
+        aw
+
+
 let Arg =
     < VarArg : Text
     >
@@ -89,11 +130,25 @@ let Arg/render
         arg
 
 
+let Arg/renderRaw
+    : Arg -> Text
+    = \(arg : Arg) ->
+    merge
+        { VarArg = \(var : Text) -> var
+        }
+        arg
+
+
 let concatArgs
     : Text -> List Arg -> Text
     = \(sep : Text) -> \(args : List Arg) ->
         concatHelper Arg Arg/render sep args
-        -- Text/concatSep sep (List/map Arg Text Arg/render args)
+
+
+let concatArgsRaw
+    : Text -> List Arg -> Text
+    = \(sep : Text) -> \(args : List Arg) ->
+        concatHelper Arg Arg/renderRaw sep args
 
 
 let Apply_ = { what : What, arguments : List SealedExpr }
@@ -104,7 +159,8 @@ let Brackets_ = SealedExpr
 let Var_ = Text
 let Val_ = Text
 let Operator_ = Text
-let LetExpr_ = { bindings : List { what : Text, to : SealedExpr }, _in : SealedExpr }
+let Binding = { what : Arg, to : SealedExpr }
+let LetExpr_ = { bindings : List Binding, _in : SealedExpr }
 let Constrained_ = { constraints : List SealedExpr, expr : SealedExpr }
 let ConstrainedSeq_ = { constraints : List SealedExpr, expr : SealedExpr }
 let FnTypeDef_ = { items : List SealedExpr }
@@ -179,7 +235,8 @@ let Expr/render
             -> "(${SealedExpr/unseal expr})"
         , LetExpr
             =  \(le : LetExpr_)
-            -> "" -- FIXME
+            -> let Binding/render = \(b : Binding) -> "${Arg/render b.what} {{op:=}} ${SealedExpr/unseal b.to}"
+               in tt "{{kw:let}} {{break}} ${concatHelper Binding Binding/render "{{break}}" le.bindings} {{break}} {{kw:in}}{{break}} ${SealedExpr/unseal le._in}"
         , Var
             =  \(v : Var_)
             -> "{{var:${v}}}"
@@ -217,9 +274,79 @@ let Expr/render
         expr
 
 
+let Expr/renderRaw
+    : Expr -> Text
+    = \(expr : Expr) ->
+    merge
+        { Apply
+            =  \(ap : Apply_)
+            -> if (hasNone SealedExpr ap.arguments) then What/render ap.what
+                else "${What/renderRaw ap.what} ${concatExprsRaw " " ap.arguments}"
+        , ApplyExp
+            =  \(ap : ApplyExp_)
+            -> concatExprsRaw " " ap.items
+        , FnTypeDef
+            =  \(td : FnTypeDef_)
+            -> tt "${concatExprsRaw " -> " td.items}"
+        , FnDef
+            =  \(td : FnDef_)
+            -> tt "${td.fn} :: ${concatExprsRaw " -> " td.items}"
+        , OpDef
+            =  \(td : OpDef_)
+            -> tt "(${td.op}) :: ${concatExprsRaw " -> " td.items}"
+        , OperatorCall
+            =  \(oc : OperatorCall_)
+            -> tt "${SealedExpr/unsealRaw oc.left} ${oc.op} ${SealedExpr/unsealRaw oc.right}"
+        , InfixMethodCall
+            =  \(imc : InfixMethodCall_)
+            -> tt "${SealedExpr/unsealRaw imc.left} `${imc.method}` ${SealedExpr/unsealRaw imc.right}"
+        , Brackets
+            = \(expr : Brackets_)
+            -> "(${SealedExpr/unsealRaw expr})"
+        , LetExpr
+            =  \(le : LetExpr_)
+            -> let Binding/renderRaw = \(b : Binding) -> "${Arg/renderRaw b.what} = ${SealedExpr/unsealRaw b.to}"
+               in tt "let {{break}} ${concatHelper Binding Binding/renderRaw "{{break}}" le.bindings} {{break}} in {{break}} ${SealedExpr/unsealRaw le._in}"
+        , Var
+            =  \(v : Var_)
+            -> v
+        , Val
+            =  \(v : Val_)
+            -> v
+        , Single
+            =  \(aw : What)
+            -> What/renderRaw aw
+        , Operator
+            =  \(o : Operator_)
+            -> o
+        , Constrained
+            =  \(cs : Constrained_)
+            -> tt "(${concatExprsRaw ", " cs.constraints}) => ${SealedExpr/unsealRaw cs.expr}"
+        , ConstrainedSeq
+            =  \(cs : Constrained_)
+            -> tt "${concatExprsRaw " => " cs.constraints} => ${SealedExpr/unsealRaw cs.expr}"
+        , Lambda
+            =  \(lambda : Lambda_)
+            -> tt "\\${concatArgsRaw " " lambda.args} -> ${SealedExpr/unsealRaw lambda.body}"
+        , Forall
+            =  \(forall_ : Forall_)
+            -> tt "forall ${concatArgsRaw " " forall_.args}. ${SealedExpr/unsealRaw forall_.body}"
+        , PH = "_"
+        , Object
+            =  \(obj_ : Object_)
+            -> let Property/renderRaw = \(prop : Property) -> "${prop.mapKey} :: ${SealedExpr/unsealRaw prop.mapValue}"
+               in tt "{ ${concatHelper Property Property/renderRaw ", " obj_} }"
+        , Raw = \(raw : Text) -> raw
+        , Num = \(num : Text) -> num
+        , Keyword = \(kw : Text) -> kw
+        , Nothing = ""
+        }
+        expr
+
+
 let Expr/seal
     : Expr -> SealedExpr
-    = \(expr : Expr) -> SealedExpr.Source (Expr/render expr)
+    = \(expr : Expr) -> SealedExpr.Source { markdown = Expr/render expr, raw = Expr/renderRaw expr }
 
 
 let Expr/sealAll
@@ -264,7 +391,24 @@ let test_apply_2 = assert
     ≡ "{{subj:foo}} {{var:a}} {{method:f}}"
 
 
+let test_apply_raw = assert
+    : Expr/renderRaw
+        (Expr.Apply
+            { what = What.Subject "foo"
+            , arguments =
+                [ Expr/seal (Expr.Var "a")
+                , Expr/seal
+                    (Expr.Single (What.Function "f"))
+                ]
+            }
+        )
+    ≡ "foo a f"
+
+
 in
     { What, Arg, Property, Expr
-    , What/render, Arg/render, Expr/render, Expr/seal, Expr/sealAll, Expr/none
+    , Expr/seal, Expr/sealAll
+    , What/render, Arg/render, Expr/render
+    , What/renderRaw, Arg/renderRaw, Expr/renderRaw
+    , Expr/none
     }

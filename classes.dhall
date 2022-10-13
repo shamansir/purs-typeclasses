@@ -106,8 +106,8 @@ let defs =
     , ./def/profunctor/star.dhall
     , ./def/profunctor/strong.dhall
 
-    , ./def/unfoldable/unfoldable.unfoldable.dhall
-    , ./def/unfoldable/unfoldable.unfoldable1.dhall
+    , ./def/unfoldable/unfoldable.dhall
+    , ./def/unfoldable/unfoldable1.dhall
 
     ] : List tc.TClass
 

@@ -16,14 +16,14 @@
 * ForeignObject : https://pursuit.purescript.org/packages/purescript-foreign-object/4.0.0
 * Partial : https://pursuit.purescript.org/packages/purescript-partial
 * TailRec : https://pursuit.purescript.org/packages/purescript-tailrec
-* Lenses : https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0
 
+* Parsing : https://pursuit.purescript.org/packages/purescript-parsing/10.0.0/docs/Parsing
+* Lenses : https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0
 * Variant : https://pursuit.purescript.org/packages/purescript-variant/7.0.1
 * Heterogeneous : https://pursuit.purescript.org/packages/purescript-heterogeneous/0.3.0
 * Data.Bifunctor.Clown etc : https://pursuit.purescript.org/packages/purescript-bifunctors/3.0.0/docs/Data.Bifunctor
 * ST : https://pursuit.purescript.org/packages/purescript-st/6.0.0
 * Product.Nested (functors) : https://pursuit.purescript.org/packages/purescript-functors/5.0.0/docs/Data.Functor.Product.Nested
-* Lenses : https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0
 * Functions : https://pursuit.purescript.org/packages/purescript-functions/6.0.0
 
 * Math : https://pursuit.purescript.org/packages/purescript-math/4.0.0/docs/Math
