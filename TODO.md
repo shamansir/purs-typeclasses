@@ -1,10 +1,4 @@
-* `./def/foldable-traversable/traversablewithindex.dhall`
-* `./def/foldable-traversable/foldablewithindex.dhall`
-* `./def/foldable-traversable/traversable1.dhall`
-* `./def/foldable-traversable/traversablewithindex.dhall`
-
 * Prim : https://pursuit.purescript.org/builtins/docs/Prim
-* Unfoldable : https://pursuit.purescript.org/packages/purescript-unfoldable
 * Newtype : https://pursuit.purescript.org/packages/purescript-newtype/5.0.0
 * Maybe : https://pursuit.purescript.org/packages/purescript-maybe
 * Identity : https://pursuit.purescript.org/packages/purescript-identity/3.0.0/docs/Data.Identity
@@ -22,6 +16,7 @@
 * ForeignObject : https://pursuit.purescript.org/packages/purescript-foreign-object/4.0.0
 * Partial : https://pursuit.purescript.org/packages/purescript-partial
 * TailRec : https://pursuit.purescript.org/packages/purescript-tailrec
+* Lenses : https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0
 
 * Variant : https://pursuit.purescript.org/packages/purescript-variant/7.0.1
 * Heterogeneous : https://pursuit.purescript.org/packages/purescript-heterogeneous/0.3.0
