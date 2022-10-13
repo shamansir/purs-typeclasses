@@ -25,7 +25,11 @@ decode =
             D.map8
                 (TypeClass id name info what vars link)
                 (D.field "parents" <| D.list D.string)
-                (D.field "package" <| D.string)
+                (D.field "package"
+                    <| D.map2 Package
+                        (D.field "name" D.string)
+                        (D.field "version" <| D.list D.int)
+                    )
                 (D.field "module" <| D.list D.string)
                 (D.field "instances" <| D.list D.string)
                 (D.field "statements" <| D.list decodeStatement)

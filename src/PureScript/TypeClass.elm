@@ -36,7 +36,7 @@ type alias Member =
 type alias What = String
 
 
-type alias Package = String
+type alias Package = { name : String, version : List Int }
 
 
 type alias Instance = String

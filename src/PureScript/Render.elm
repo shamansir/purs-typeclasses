@@ -13,7 +13,7 @@ import IntDict as ID
 
 
 import PureScript.TypeClass exposing
-    ( TypeClass, Member, Law, Statement, LawExample(..), Instance, Var, Link )
+    ( TypeClass, Member, Law, Statement, LawExample(..), Instance, Var, Link, Package )
 import PureScript.Render.Setup exposing (..)
 import PureScript.Render.Forest as Render
 import PureScript.Render.Graph as Render
@@ -163,9 +163,10 @@ module_ =
             ]
 
 
-package_ : String -> Svg msg
+package_ : Package -> Svg msg
 package_ =
-    String.dropLeft (String.length "purescript-")
+    .name
+    >> String.dropLeft (String.length "purescript-")
     >> Svg.text
     >> List.singleton
     >> Svg.text_
@@ -498,7 +499,7 @@ graph state g =
                 Extends
         graphPrepared =
             g
-                |> Graph.filter (.package >> State.isShown state.packagesShown)
+                |> Graph.filter (.package >> .name >> State.isShown state.packagesShown)
                 |> Graph.mapContexts mapContext
 
         mapContext ctx =
