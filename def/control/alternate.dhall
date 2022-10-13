@@ -9,7 +9,7 @@ let alternate : tc.TClass =
     , vars = [ "f", "a" ]
     , info = "Monoid and Semigroup instances corresponding to Plus and Alt for f"
     , module = [ "Data", "Monoid" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Data.Monoid.Alternate#t:Alternate"
     , members =
         [

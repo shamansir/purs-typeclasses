@@ -9,7 +9,7 @@ let const : tc.TClass =
     , vars = [ "a", "b" ]
     , info = "Wraps its first type argument and ignores its second"
     , module = [ "Data" ]
-    , package = "purescript-const"
+    , package = tc.pkmj "purescript-const" +3
     , link = "purescript-const/3.0.0/docs/Data.Const"
     , members =
         [

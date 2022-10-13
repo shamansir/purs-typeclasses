@@ -7,7 +7,7 @@ let boolean : tc.TClass =
     , what = tc.What.Internal_
     , info = "Helpers for boolean types"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Boolean"
     , members =
         [

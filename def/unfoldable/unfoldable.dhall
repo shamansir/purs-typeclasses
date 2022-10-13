@@ -13,7 +13,7 @@ let unfoldable : tc.TClass =
     , parents = [ "unfoldable1" ]
     , info = "This class identifies (possibly empty) data structures which can be unfolded"
     , module = [ "Data" ]
-    , package = "purescript-unfoldable"
+    , package = tc.pkmj "purescript-unfoldable" +6
     , link = "purescript-unfoldable/6.0.0/docs/Data.Unfoldable"
     , members =
         [

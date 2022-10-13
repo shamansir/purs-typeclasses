@@ -9,7 +9,7 @@ let profunctor : tc.TClass =
     , vars = [ "p" ]
     , info = "Functor from the pair category"
     , module = [ "Data" ]
-    , package = "purescript-profunctor"
+    , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor"
     , laws =
         [

@@ -9,7 +9,7 @@ let predicate : tc.TClass =
     , vars = [ "a" ]
     , info = "An adaptor allowing >$< to map over the inputs of predicate"
     , module = [ "Data" ]
-    , package = "purescript-contravariant"
+    , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Predicate"
     , members =
         [

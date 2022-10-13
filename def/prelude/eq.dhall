@@ -9,7 +9,7 @@ let eq : tc.TClass =
     , vars = [ "a" ]
     , info = "Equality"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Eq"
     , members =
         [

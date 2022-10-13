@@ -134,7 +134,7 @@ let Value = Text
 
 let Var = Text -- TODO: e.What?
 
-let Package = Text
+let Package = { name : Text, version : List Integer }
 
 let Module = List Text
 
@@ -261,6 +261,20 @@ let oneEx
     : LawExample -> List LawExample
     = one LawExample
 
+let pk
+    : Text -> Integer -> Integer -> Integer -> Package
+    = \(name : Text) -> \(major : Integer) -> \(minor : Integer) -> \(patch : Integer) ->
+    { name, version = [ major, minor, patch ]}
+
+let pkmn
+    : Text -> Integer -> Integer -> Package
+    = \(name : Text) -> \(major : Integer) -> \(minor : Integer) ->
+    { name, version = [ major, minor, +0 ]}
+
+let pkmj
+    : Text -> Integer -> Package
+    = \(name : Text) -> \(major : Integer) ->
+    { name, version = [ major, +0, +0 ]}
 
 in
     { TClass, TClassText, TClass/toText
@@ -269,4 +283,5 @@ in
     , one, oneEx
     , noOp, noOps, noLaws, noParents, noMembers, noInstances, noValues, noStatements, noVars
     , lr, lmr, lrc, fc, of
+    , pk, pkmn, pkmj
     }

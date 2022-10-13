@@ -9,7 +9,7 @@ let alternative : tc.TClass =
     , parents = [ "plus", "applicative" ]
     , info = "To have both Plus and Applicative"
     , module = [ "Control" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Alternative#t:Alternative"
     , members =
         [

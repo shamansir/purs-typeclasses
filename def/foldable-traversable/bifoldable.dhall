@@ -10,7 +10,7 @@ let bifoldable : tc.TClass =
     , vars = [ "p" ]
     , info = "Represents data structures with two type arguments which can be folded."
     , module = [ "Control" ]
-    , package = "purescript-foldable-traversable"
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Bifoldable"
     , members =
         [

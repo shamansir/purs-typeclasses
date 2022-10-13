@@ -10,7 +10,7 @@ let cochoice : tc.TClass =
     , parents = [ "profunctor" ]
     , info = "Provides the dual operations of the Choice class"
     , module = [ "Data", "Profunctor" ]
-    , package = "purescript-profunctor"
+    , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Cochoice"
     , members =
         [

@@ -9,7 +9,7 @@ let ordering : tc.TClass =
     , values = [ "LT", "GT", "EQ" ]
     , info = "Just to know the order"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Ordering"
     , members =
         [

@@ -9,7 +9,7 @@ let functor : tc.TClass =
     , vars = [ "f" ]
     , info = "Convert and forget"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Functor"
     , members =
         [

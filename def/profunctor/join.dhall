@@ -8,7 +8,7 @@ let join : tc.TClass =
     , vars = [ "p", "a" ]
     , info = ""
     , module = [ "Data", "Profunctor" ]
-    , package = "purescript-profunctor"
+    , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Join"
     , members =
         [

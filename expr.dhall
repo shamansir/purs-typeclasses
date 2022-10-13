@@ -21,6 +21,15 @@ let SealedExpr =
     >
 
 
+let SealedExpr/getSource
+    : SealedExpr -> SealedSource
+    = \(re : SealedExpr) ->
+    merge
+        { Source = \(src : SealedSource) -> src
+        }
+        re
+
+
 let SealedExpr/unseal
     : SealedExpr -> Text
     = \(re : SealedExpr) ->
@@ -404,10 +413,9 @@ let test_apply_raw = assert
         )
     ≡ "foo a f"
 
-
 in
-    { What, Arg, Property, Expr
-    , Expr/seal, Expr/sealAll
+    { What, Arg, Property, Expr, SealedSource
+    , Expr/seal, Expr/sealAll, SealedExpr/getSource
     , What/render, Arg/render, Expr/render
     , What/renderRaw, Arg/renderRaw, Expr/renderRaw
     , Expr/none

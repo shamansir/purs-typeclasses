@@ -10,7 +10,7 @@ let alt : tc.TClass =
     , parents = [ "functor" ]
     , info = "Associative operation on a constructor"
     , module = [ "Control" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Alt#t:Alt"
     , members =
         [

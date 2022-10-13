@@ -10,7 +10,7 @@ let monadzero : tc.TClass =
     , parents = [ "monad", "alternative" ]
     , info = "Compose computations"
     , module = [ "Control" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.MonadZero"
     , laws =
         [

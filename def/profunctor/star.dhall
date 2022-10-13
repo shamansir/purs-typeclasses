@@ -9,7 +9,7 @@ let star : tc.TClass =
     , vars = [ "f", "a", "b" ]
     , info = ""
     , module = [ "Data", "Profunctor" ]
-    , package = "purescript-profunctor"
+    , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Star"
     , members =
         [

@@ -10,7 +10,7 @@ let closed : tc.TClass =
     , parents = [ "profunctor" ]
     , info = "Extends Profunctor to work with functions"
     , module = [ "Data", "Profunctor" ]
-    , package = "purescript-profunctor"
+    , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Closed"
     , members =
         [

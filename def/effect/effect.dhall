@@ -8,7 +8,7 @@ let effect : tc.TClass =
     , what = tc.What.Data_
     , info = "A native effect"
     , module = [ "Data" ]
-    , package = "purescript-effect"
+    , package = tc.pkmj "purescript-effect" +3
     , link = "purescript-effect/3.0.0/docs/Effect"
     , members =
         [

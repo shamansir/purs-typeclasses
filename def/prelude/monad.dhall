@@ -10,7 +10,7 @@ let monad : tc.TClass =
     , parents = [ "bind", "applicative" ]
     , info = "Compose computations"
     , module = [ "Control" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Monad"
     , laws =
         [

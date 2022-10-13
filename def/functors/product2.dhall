@@ -8,7 +8,7 @@ let product2 : tc.TClass =
     , vars = [ "f", "g", "a", "b" ]
     , info = ""
     , module = [ "Data", "Functor" ]
-    , package = "purescript-functors"
+    , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Product2"
     , members =
         [

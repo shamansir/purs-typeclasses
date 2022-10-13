@@ -10,7 +10,7 @@ let divisionRing : tc.TClass =
     , parents = [ "ring" ]
     , info = "Non-zero rings in which every non-zero element has a multiplicative inverse / skew fields"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.DivisionRing"
     , members =
         [

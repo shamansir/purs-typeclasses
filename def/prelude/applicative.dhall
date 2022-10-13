@@ -10,7 +10,7 @@ let applicative : tc.TClass =
     , parents = [ "apply" ]
     , info = "Lift with zero arguments, wrap values"
     , module = [ "Control" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Applicative#t:Applicative"
     , members =
         [

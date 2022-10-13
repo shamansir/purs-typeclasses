@@ -10,7 +10,7 @@ let plus : tc.TClass =
     , parents = [ "alt" ]
     , info = "Left and Right identity for Alt"
     , module = [ "Control" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Plus"
     , members =
         [

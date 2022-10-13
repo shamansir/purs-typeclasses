@@ -9,7 +9,7 @@ let bifunctor : tc.TClass =
     , vars = [ "f" ]
     , info = "Functor from the Pair category"
     , module = [ "Data" ]
-    , package = "purescript-bifunctors"
+    , package = tc.pkmj "purescript-bifunctors" +5
     , link = "purescript-bifunctors/5.0.0/docs/Data.Bifunctor"
     , laws =
         [

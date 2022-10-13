@@ -13,7 +13,7 @@ let bitraversable : tc.TClass =
     , parents = [ "bifunctor", "bifoldable" ]
     , info = "Data structures with two arguments which can be traversed"
     , module = [ "Data" ]
-    , package = "purescript-foldable-traversable"
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Bitraversable"
     , members =
         [

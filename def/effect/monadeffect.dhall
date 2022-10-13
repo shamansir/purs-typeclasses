@@ -10,7 +10,7 @@ let monadeffect : tc.TClass =
     , parents = [ "monad" ]
     , info = "Captures those monads which support native effects"
     , module = [ "Data" ]
-    , package = "purescript-effect"
+    , package = tc.pkmj "purescript-effect" +3
     , link = "purescript-effect/3.0.0/docs/Effect.Class"
     , members =
         [

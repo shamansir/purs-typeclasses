@@ -9,7 +9,7 @@ let first : tc.TClass =
     , vars = [ "a" ]
     , info = "Semigroup where append always takes the first option"
     , module = [ "Data", "Semigroup" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Semigroup.First"
     , members =
         [

@@ -8,7 +8,7 @@ let semigroupoid : tc.TClass =
     , vars = [ "a" ]
     , info = "Category without identity"
     , module = [ "Control" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Semigroupoid"
     , members =
         [

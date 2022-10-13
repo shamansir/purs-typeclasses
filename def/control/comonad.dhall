@@ -9,7 +9,7 @@ let comonad : tc.TClass =
     , parents = [ "extend" ]
     , info = "Comonad is the dual of Monad, and extract is the dual of pure"
     , module = [ "Control" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Comonad"
     , members =
         [

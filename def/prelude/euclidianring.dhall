@@ -10,7 +10,7 @@ let euclidianRing : tc.TClass =
     , parents = [ "commutativering" ]
     , info = "Divide and Conquer"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.EuclideanRing"
     , members =
         [

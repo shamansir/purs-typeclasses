@@ -9,7 +9,7 @@ let op : tc.TClass =
     , vars = [ "a", "b" ]
     , info = "The opposite of the function category"
     , module = [ "Data" ]
-    , package = "purescript-contravariant"
+    , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence"
     , members =
         [

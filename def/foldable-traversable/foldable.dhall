@@ -9,7 +9,7 @@ let foldable : tc.TClass =
     , vars = [ "f" ]
     , info = "Represents data structures which can be folded."
     , module = [ "Data" ]
-    , package = "purescript-foldable-traversable"
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Foldable"
     , members =
         [

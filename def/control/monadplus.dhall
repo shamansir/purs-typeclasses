@@ -10,7 +10,7 @@ let monadplus : tc.TClass =
     , info = "Distributivity for Monads"
     , parents = [ "monad", "alternative" ]
     , module = [ "Control" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.MonadPlus"
     , laws =
         [

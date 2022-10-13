@@ -9,7 +9,7 @@ let contravariant : tc.TClass =
     , vars = [ "f" ]
     , info = "A way of changing the input type of a consumer of input"
     , module = [ "Data", "Functor" ]
-    , package = "purescript-contravariant"
+    , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Functor.Contravariant"
     , laws =
         [

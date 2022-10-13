@@ -9,7 +9,7 @@ let invariant : tc.TClass =
     , vars = [ "f" ]
     , info = ""
     , module = [ "Data", "Functor" ]
-    , package = "purescript-invariant"
+    , package = tc.pkmj "purescript-invariant" +5
     , link = "purescript-invariant/5.0.0/docs/Data.Functor.Invariant#t:Invariant"
     , members =
         [

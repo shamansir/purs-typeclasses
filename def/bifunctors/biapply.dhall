@@ -10,7 +10,7 @@ let biapply : tc.TClass =
     , parents = [ "bifunctor" ]
     , info = "Captures type constructors of two arguments in Apply"
     , module = [ "Control" ]
-    , package = "purescript-bifunctors"
+    , package = tc.pkmj "purescript-bifunctors" +5
     , link = "purescript-bifunctors/5.0.0/docs/Control.Biapply"
     , members =
         [

@@ -9,7 +9,7 @@ let dual : tc.TClass =
     , vars = [ "a" ]
     , info = "Monoid under dualism"
     , module = [ "Data", "Monoid" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Dual"
     , members =
         [

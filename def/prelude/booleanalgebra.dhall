@@ -10,7 +10,7 @@ let booleanAlgebra : tc.TClass =
     , parents = [ "heytingalgebra" ]
     , info = "Behave like boolean"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.BooleanAlgebra"
     , laws =
         [

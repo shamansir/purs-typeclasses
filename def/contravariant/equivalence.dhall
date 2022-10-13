@@ -9,7 +9,7 @@ let equivalence : tc.TClass =
     , vars = [ "a" ]
     , info = "An adaptor allowing >$< to map over the inputs of an equivalence function"
     , module = [ "Data" ]
-    , package = "purescript-contravariant"
+    , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence"
     , members =
         [

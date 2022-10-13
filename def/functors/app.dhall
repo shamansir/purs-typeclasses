@@ -9,7 +9,7 @@ let app : tc.TClass =
     , vars = [ "f", "a" ]
     , info = ""
     , module = [ "Data", "Functor" ]
-    , package = "purescript-functors"
+    , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.App"
     , members =
         [

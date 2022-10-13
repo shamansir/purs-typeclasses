@@ -10,7 +10,7 @@ let extend : tc.TClass =
     , info = "Extend local computation to a global one"
     , parents = [ "functor" ]
     , module = [ "Control" ]
-    , package = "purescript-control"
+    , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Extend"
     , members =
         [

@@ -13,7 +13,7 @@ let traversableWithIndex : tc.TClass =
     , parents = [ "functorwithindex", "foldablewithindex", "traversable" ]
     , info = "A Traversable with an additional index"
     , module = [ "Data" ]
-    , package = "purescript-foldable-traversable"
+    , package = tc.pkmj "purescript-foldable-traversable" +6
     , link = "purescript-foldable-traversable/6.0.0/docs/Data.TraversableWithIndex"
     , statements =
         [

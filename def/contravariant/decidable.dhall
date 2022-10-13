@@ -10,7 +10,7 @@ let decidable : tc.TClass =
     , parents = [ "decide", "divisible" ]
     , info = "Contravariant analogue of Alternative"
     , module = [ "Data" ]
-    , package = "purescript-contravariant"
+    , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Decidable"
     , members =
         [

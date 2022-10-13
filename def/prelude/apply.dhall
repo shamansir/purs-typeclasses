@@ -11,7 +11,7 @@ let apply : tc.TClass =
     , parents = [ "functor" ]
     , info = "Unwrap, convert, and wrap again"
     , module = [ "Control" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Apply#t:Apply"
     , members =
         [

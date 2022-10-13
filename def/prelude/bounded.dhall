@@ -10,7 +10,7 @@ let bounded : tc.TClass =
     , parents = [ "ord" ]
     , info = "Have upper and lower boundary"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Bounded"
     , laws =
         [

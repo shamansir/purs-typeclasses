@@ -12,7 +12,7 @@ let unfoldable1 : tc.TClass =
     , vars = [ "t" ]
     , info = "This class identifies data structures which can be unfolded with guarantee not to be empty."
     , module = [ "Data" ]
-    , package = "purescript-unfoldable"
+    , package = tc.pkmj "purescript-unfoldable" +6
     , link = "purescript-unfoldable/6.0.0/docs/Data.Unfoldable1"
     , members =
         [

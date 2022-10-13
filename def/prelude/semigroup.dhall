@@ -9,7 +9,7 @@ let semigroup : tc.TClass =
     , vars = [ "a" ]
     , info = "Associativity"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Semigroup"
     , members =
         [

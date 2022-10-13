@@ -10,7 +10,7 @@ let divisible : tc.TClass =
     , parents = [ "divide" ]
     , info = "Contravariant analogue of Applicative"
     , module = [ "Data" ]
-    , package = "purescript-contravariant"
+    , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Divisible"
     , members =
         [

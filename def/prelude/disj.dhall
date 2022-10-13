@@ -9,7 +9,7 @@ let disj : tc.TClass =
     , vars = [ "a" ]
     , info = "Monoid under disjunction"
     , module = [ "Data", "Monoid" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Disj"
     , members =
         [

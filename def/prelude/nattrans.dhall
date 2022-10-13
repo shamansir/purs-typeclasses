@@ -8,7 +8,7 @@ let naturalTransformation : tc.TClass =
     , vars = [ "f", "g" ]
     , info = "Mapping b/w type constructors with no manipulation on inner value"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.NaturalTransformation"
     , members =
         [

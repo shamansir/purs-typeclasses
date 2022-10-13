@@ -10,7 +10,7 @@ let choice : tc.TClass =
     , parents = [ "profunctor" ]
     , info = "Extends Profunctor with combinators for working with sum types"
     , module = [ "Data", "Profunctor" ]
-    , package = "purescript-profunctor"
+    , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Choice"
     , members =
         [

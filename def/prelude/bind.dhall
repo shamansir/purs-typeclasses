@@ -11,7 +11,7 @@ let bind : tc.TClass =
     , parents = [ "apply" ]
     , info = "Compose computations"
     , module = [ "Control" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Bind"
     , members =
         [

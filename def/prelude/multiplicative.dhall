@@ -9,7 +9,7 @@ let multiplicative : tc.TClass =
     , vars = [ "a" ]
     , info = "May be multiplied on something"
     , module = [ "Data", "Monoid"]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Multiplicative"
     , members =
         [

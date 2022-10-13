@@ -10,7 +10,7 @@ let decide : tc.TClass =
     , parents = [ "divide" ]
     , info = "Contravariant analogue of Alt"
     , module = [ "Data" ]
-    , package = "purescript-contravariant"
+    , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Decide"
     , members =
         [

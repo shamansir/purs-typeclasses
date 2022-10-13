@@ -9,7 +9,7 @@ let semiRing : tc.TClass =
     , vars = [ "a" ]
     , info = "Sum and Multiply (a.k.a. extended Monoid)"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Semiring"
     , members =
         [

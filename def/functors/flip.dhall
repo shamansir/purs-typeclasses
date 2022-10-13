@@ -8,7 +8,7 @@ let flip : tc.TClass =
     , vars = [ "p", "a", "b" ]
     , info = ""
     , module = [ "Data", "Functor" ]
-    , package = "purescript-functors"
+    , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Flip"
     , members =
         [

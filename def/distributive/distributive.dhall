@@ -10,7 +10,7 @@ let traversable : tc.TClass =
     , parents = [ "functor" ]
     , info = "Categorical dual of Traversable"
     , module = [ "Data" ]
-    , package = "purescript-distributive"
+    , package = tc.pkmj "purescript-distributive" +5
     , link = "purescript-distributive/5.0.0/docs/Data.Distributive#t:Distributive"
     , statements =
         [

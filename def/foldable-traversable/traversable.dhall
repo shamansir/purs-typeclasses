@@ -10,7 +10,7 @@ let traversable : tc.TClass =
     , parents = [ "functor", "foldable" ]
     , info = "Data structures which can be traversed, accumulate in Applicative Functor"
     , module = [ "Data" ]
-    , package = "purescript-foldable-traversable"
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Traversable"
     , statements =
         [

@@ -9,7 +9,7 @@ let inject : tc.TClass =
     , vars = [ "f", "g" ]
     , info = ""
     , module = [ "Data", "Functor", "Coproduct" ]
-    , package = "purescript-functors"
+    , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Coproduct.Inject"
     , members =
         [

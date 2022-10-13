@@ -10,7 +10,7 @@ let monoid : tc.TClass =
     , parents = [ "semigroup" ]
     , info = "Folding empty collection"
     , module = [ "Data" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Monoid"
     , members =
         [

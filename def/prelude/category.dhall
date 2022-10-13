@@ -10,7 +10,7 @@ let category : tc.TClass =
     , parents = [ "semigroupoid" ]
     , info = "Objects and composable morphisms with their identity"
     , module = [ "Control" ]
-    , package = "purescript-prelude"
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Category#t:Category"
     , members =
         [
