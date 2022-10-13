@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Closed :: (Type -> Type -> Type) -> Constraint
+-- class (Profunctor p) <= Closed p where
+
 let closed : tc.TClass =
     { id = "closed"
     , name = "Closed"

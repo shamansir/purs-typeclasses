@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Flip :: forall k1 k2. (k1 -> k2 -> Type) -> k2 -> k1 -> Type
+-- newtype Flip p a b
+
 let flip : tc.TClass =
     { id = "fllip"
     , name = "Flip"

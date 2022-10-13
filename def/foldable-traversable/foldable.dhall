@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Foldable :: (Type -> Type) -> Constraint
+-- class Foldable f where
+
 let foldable : tc.TClass =
     { id = "foldable"
     , name = "Foldable"

@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class (HeytingAlgebra a) <= BooleanAlgebra a
+
 let booleanAlgebra : tc.TClass =
     { id = "booleanalgebra"
     , name = "BooleanAlgebra"

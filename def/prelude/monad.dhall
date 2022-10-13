@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Monad :: (Type -> Type) -> Constraint
+-- class (Applicative m, Bind m) <= Monad m
+
 let monad : tc.TClass =
     { id = "monad"
     , name = "Monad"

@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class (Ring a) <= CommutativeRing a
+
 let commutativeRing : tc.TClass =
     { id = "commutativering"
     , name = "CommutativeRing"

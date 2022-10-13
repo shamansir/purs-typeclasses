@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- newtype Star :: forall k. (k -> Type) -> Type -> k -> Type
+-- newtype Star f a b
+
 let star : tc.TClass =
     { id = "star"
     , name = "Star"

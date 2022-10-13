@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- newtype Disj a
+
 let disj : tc.TClass =
     { id = "disj"
     , name = "Disj"

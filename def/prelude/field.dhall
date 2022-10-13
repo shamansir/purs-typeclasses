@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class (EuclideanRing a, DivisionRing a) <= Field a
+
 let field : tc.TClass =
     { id = "field"
     , info = "Commutative fields"

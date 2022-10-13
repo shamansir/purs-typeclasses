@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Compose :: forall k1 k2. (k2 -> Type) -> (k1 -> k2) -> k1 -> Type
+-- newtype Compose f g a
+
 let compose : tc.TClass =
     { id = "compose"
     , name = "Compose"

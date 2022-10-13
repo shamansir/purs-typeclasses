@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- class Semigroupoid :: forall k. (k -> k -> Type) -> Constraint
+-- class Semigroupoid a where
+
 let semigroupoid : tc.TClass =
     { id = "semigroupoid"
     , name = "Semigroupoid"

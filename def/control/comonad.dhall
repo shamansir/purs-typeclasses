@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- class Comonad :: (Type -> Type) -> Constraint
+-- class (Extend w) <= Comonad w where
+
 let comonad : tc.TClass =
     { id = "comonad"
     , name = "Comonad"

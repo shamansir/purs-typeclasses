@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Coproduct :: forall k. (k -> Type) -> (k -> Type) -> k -> Type
+-- newtype Coproduct f g a
+
 let coproduct : tc.TClass =
     { id = "coproduct"
     , name = "Coproduct"
@@ -55,7 +58,9 @@ let coproduct : tc.TClass =
                     ]
                 -- (f a -> b) -> (g a -> b) -> Coproduct f g a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            , op = Some "<\\/>" -- defined in Data.Functor.Coproduct.Nested
+            , opEmoji = None Text
+            } /\ tc.noLaws
         ,
             { name = "bihoistCoproduct"
             , def =

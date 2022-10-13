@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Product :: forall k. (k -> Type) -> (k -> Type) -> k -> Type
+-- newtype Product f g a
+
 let product : tc.TClass =
     { id = "product"
     , name = "Product"
@@ -35,7 +38,9 @@ let product : tc.TClass =
                     (e.subj "Product" [ e.f "f", e.f "g", e.n "a" ])
                 -- f a -> g a -> Product f g a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            , op = Some "</\\>" -- defined in Data.Functor.Product.Nested
+            , opEmoji = None Text
+            } /\ tc.noLaws
         ,
             { name = "bihoistProduct"
             , def =

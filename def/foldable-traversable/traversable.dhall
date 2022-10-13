@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Traversable :: (Type -> Type) -> Constraint
+-- class (Functor t, Foldable t) <= Traversable t where
+
 let traversable : tc.TClass =
     { id = "traversable"
     , name = "Traversable"

@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Semiring a where
+
 let semiRing : tc.TClass =
     { id = "semiring"
     , name = "Semiring"

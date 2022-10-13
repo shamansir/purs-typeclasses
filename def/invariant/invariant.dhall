@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Invariant :: (Type -> Type) -> Constraint
+-- class Invariant f where
+
 let invariant : tc.TClass =
     { id = "invariant"
     , name = "Invariant"

@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- class MonadEffect :: (Type -> Type) -> Constraint
+-- class (Monad m) <= MonadEffect m where
+
 let monadeffect : tc.TClass =
     { id = "monadeffect"
     , name = "MonadEffect"

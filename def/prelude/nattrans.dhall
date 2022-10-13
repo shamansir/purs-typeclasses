@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- type NaturalTransformation :: forall k. (k -> Type) -> (k -> Type) -> Type
+-- type NaturalTransformation f g = forall a. f a -> g a
+
 let naturalTransformation : tc.TClass =
     { id = "ntransform"
     , name = "NaturalTransformation"

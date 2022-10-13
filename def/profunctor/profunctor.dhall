@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Profunctor :: (Type -> Type -> Type) -> Constraint
+-- class Profunctor p where
+
 let profunctor : tc.TClass =
     { id = "profunctor"
     , name = "Profunctor"

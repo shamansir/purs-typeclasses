@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- class Decidable :: (Type -> Type) -> Constraint
+-- class (Decide f, Divisible f) <= Decidable f where
+
 let decidable : tc.TClass =
     { id = "decidable"
     , name = "Decidable"

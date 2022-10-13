@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- class Plus :: (Type -> Type) -> Constraint
+-- class (Alt f) <= Plus f where
+
 let plus : tc.TClass =
     { id = "plus"
     , name = "Plus"

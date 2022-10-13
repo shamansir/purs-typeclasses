@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- class (Monad m, Alternative m, MonadZeroIsDeprecated) <= MonadZero m
+
 let monadzero : tc.TClass =
     { id = "monadzero"
     , name = "MonadZero"

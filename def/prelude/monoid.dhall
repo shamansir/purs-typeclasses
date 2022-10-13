@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class (Semigroup m) <= Monoid m where
+
 let monoid : tc.TClass =
     { id = "monoid"
     , name = "Monoid"

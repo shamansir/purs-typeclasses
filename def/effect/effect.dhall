@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- data Effect t0
+
 let effect : tc.TClass =
     { id = "effect"
     , name = "Effect"

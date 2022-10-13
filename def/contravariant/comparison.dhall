@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Comparison a
+
 let comparison : tc.TClass =
     { id = "comparison"
     , name = "Comparison"

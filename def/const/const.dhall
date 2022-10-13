@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Const :: forall k. Type -> k -> Type
+-- newtype Const a b
+
 let const : tc.TClass =
     { id = "const"
     , name = "Const"

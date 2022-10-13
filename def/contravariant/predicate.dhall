@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Predicate a
+
 let predicate : tc.TClass =
     { id = "predicate"
     , name = "Predicate"

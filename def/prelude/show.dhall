@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Show a where
+
 let show : tc.TClass =
     { id = "show"
     , name ="Show"

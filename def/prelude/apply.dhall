@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Apply :: (Type -> Type) -> Constraint
+-- class (Functor f) <= Apply f where
 
 let apply : tc.TClass =
     { id = "apply"

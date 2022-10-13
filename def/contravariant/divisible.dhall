@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- class Divisible :: (Type -> Type) -> Constraint
+-- class (Divide f) <= Divisible f where
+
 let divisible : tc.TClass =
     { id = "divisible"
     , name = "Divisible"

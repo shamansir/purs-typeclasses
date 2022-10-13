@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
 
+-- class (Eq a) <= Ord a where
+
 let ord : tc.TClass =
     { id = "ord"
     , name = "Ord"

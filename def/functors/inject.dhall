@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Inject :: forall k. (k -> Type) -> (k -> Type) -> Constraint
+-- class Inject f g where
+
 let inject : tc.TClass =
     { id = "inject"
     , name = "Inject"

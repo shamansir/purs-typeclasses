@@ -1,10 +1,12 @@
+* Reflectable : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Reflectable
+* Symbol (prelude) : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Symbol
 * Prim : https://pursuit.purescript.org/builtins/docs/Prim
 * Newtype : https://pursuit.purescript.org/packages/purescript-newtype/5.0.0
 * Maybe : https://pursuit.purescript.org/packages/purescript-maybe
 * Identity : https://pursuit.purescript.org/packages/purescript-identity/3.0.0/docs/Data.Identity
 * Enums : https://pursuit.purescript.org/packages/purescript-enums/6.0.1
-* Symbol (prelude) : https://pursuit.purescript.org/packages/purescript-prelude/6.0.0/docs/Data.Symbol
 * Record : https://pursuit.purescript.org/packages/purescript-record/3.0.0/docs/Record
+* Record.Unsafe : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Record.Unsafe
 * Either : https://pursuit.purescript.org/packages/purescript-either/6.1.0
 * Tuples : https://pursuit.purescript.org/packages/purescript-tuples/7.0.0
 * Strings : https://pursuit.purescript.org/packages/purescript-strings/6.0.0
@@ -16,6 +18,11 @@
 * ForeignObject : https://pursuit.purescript.org/packages/purescript-foreign-object/4.0.0
 * Partial : https://pursuit.purescript.org/packages/purescript-partial
 * TailRec : https://pursuit.purescript.org/packages/purescript-tailrec
+* GenericBottom: https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Bounded.Generic
+* Effect.Uncurried : https://pursuit.purescript.org/packages/purescript-effect/4.0.0/docs/Effect.Uncurried
+* Effect.Unsafe : https://pursuit.purescript.org/packages/purescript-effect/4.0.0/docs/Effect.Unsafe
+* GenericEq : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Eq.Generic
+
 
 * Parsing : https://pursuit.purescript.org/packages/purescript-parsing/10.0.0/docs/Parsing
 * Lenses : https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0

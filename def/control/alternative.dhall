@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- class Alternative :: (Type -> Type) -> Constraint
+-- class (Applicative f, Plus f) <= Alternative f
+
 let alternative : tc.TClass =
     { id = "alternative"
     , name = "Alternative"

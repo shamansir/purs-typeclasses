@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- class Decide :: (Type -> Type) -> Constraint
+-- class (Divide f) <= Decide f where
+
 let decide : tc.TClass =
     { id = "decide"
     , name = "Decide"

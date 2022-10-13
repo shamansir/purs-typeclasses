@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Costrong :: (Type -> Type -> Type) -> Constraint
+-- class (Profunctor p) <= Costrong p where
+
 let costrong : tc.TClass =
     { id = "costrong"
     , name = "Costrong"

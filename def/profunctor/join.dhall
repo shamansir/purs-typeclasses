@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Join :: forall k. (k -> k -> Type) -> k -> Type
+-- newtype Join p a
+
 let join : tc.TClass =
     { id = "join"
     , name = "Join"

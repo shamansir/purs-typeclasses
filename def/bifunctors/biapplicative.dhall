@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Biapplicative :: (Type -> Type -> Type) -> Constraint
+-- class (Biapply w) <= Biapplicative w where
+
 let bifunctor : tc.TClass =
     { id = "biapplicative"
     , name = "Biapplicative"

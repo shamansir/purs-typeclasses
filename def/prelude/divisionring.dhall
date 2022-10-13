@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class (Ring a) <= DivisionRing a where
+
 let divisionRing : tc.TClass =
     { id = "divisionring"
     , name = "DivisionRing"

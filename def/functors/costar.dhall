@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- newtype Costar :: (Type -> Type) -> Type -> Type -> Type
+-- newtype Costar f b a
+
 let costar : tc.TClass =
     { id = "costar"
     , name = "Costar"

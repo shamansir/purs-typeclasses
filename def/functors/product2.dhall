@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- data Product2 :: (Type -> Type -> Type) -> (Type -> Type -> Type) -> Type -> Type -> Type
+-- data Product2 f g a b
+
 let product2 : tc.TClass =
     { id = "product2"
     , name = "Product2"

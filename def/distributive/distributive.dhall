@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Distributive :: (Type -> Type) -> Constraint
+-- class (Functor f) <= Distributive f where
+
 let traversable : tc.TClass =
     { id = "distributive"
     , name = "Distributive"

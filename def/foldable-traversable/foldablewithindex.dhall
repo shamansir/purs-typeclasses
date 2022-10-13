@@ -1,8 +1,9 @@
--- class (Foldable f) <= FoldableWithIndex i f | f -> i where
-
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+
+-- class FoldableWithIndex :: Type -> (Type -> Type) -> Constraint
+-- class (Foldable f) <= FoldableWithIndex i f | f -> i where
 
 let foldableWithIndex : tc.TClass =
     { id = "foldablewithindex"

@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Bind :: (Type -> Type) -> Constraint
+-- class (Apply m) <= Bind m where
 
 let bind : tc.TClass =
     { id = "bind"

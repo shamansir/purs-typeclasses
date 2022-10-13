@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Choice :: (Type -> Type -> Type) -> Constraint
+-- class (Profunctor p) <= Choice p where
+
 let choice : tc.TClass =
     { id = "choice"
     , name = "Choice"

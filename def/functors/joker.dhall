@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- newtype Joker :: (Type -> Type) -> Type -> Type -> Type
+-- newtype Joker g a b
+
 let joker : tc.TClass =
     { id = "joker"
     , name = "Joker"

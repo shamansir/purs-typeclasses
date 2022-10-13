@@ -2,6 +2,8 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Semigroup a where
+
 let semigroup : tc.TClass =
     { id = "semigroup"
     , name = "Semigroup"

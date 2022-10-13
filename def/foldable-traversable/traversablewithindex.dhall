@@ -1,9 +1,9 @@
--- class TraversableWithIndex :: Type -> (Type -> Type) -> Constraint
--- class (FunctorWithIndex i t, FoldableWithIndex i t, Traversable t) <= TraversableWithIndex i t | t -> i where
-
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+
+-- class TraversableWithIndex :: Type -> (Type -> Type) -> Constraint
+-- class (FunctorWithIndex i t, FoldableWithIndex i t, Traversable t) <= TraversableWithIndex i t | t -> i where
 
 let traversableWithIndex : tc.TClass =
     { id = "traversablewithindex"

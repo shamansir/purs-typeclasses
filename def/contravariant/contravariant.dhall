@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e = ./../../build_expr.dhall
 
+-- class Contravariant :: (Type -> Type) -> Constraint
+-- class Contravariant f where
+
 let contravariant : tc.TClass =
     { id = "contravariant"
     , name = "Contravariant"

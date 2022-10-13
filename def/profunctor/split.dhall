@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- newtype Split :: (Type -> Type) -> Type -> Type -> Type
+-- newtype Split f a b
+
 let split : tc.TClass =
     { id = "split"
     , name = "Split"

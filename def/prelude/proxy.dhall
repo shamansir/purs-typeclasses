@@ -1,6 +1,9 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 
+-- data Proxy :: forall k. k -> Type
+-- data Proxy a // a is phantom
+
 let proxy : tc.TClass =
     { id = "proxy"
     , name ="Proxy"

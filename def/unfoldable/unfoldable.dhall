@@ -1,9 +1,9 @@
--- class Unfoldable :: (Type -> Type) -> Constraint
--- class (Unfoldable1 t) <= Unfoldable t where
-
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+
+-- class Unfoldable :: (Type -> Type) -> Constraint
+-- class (Unfoldable1 t) <= Unfoldable t where
 
 let unfoldable : tc.TClass =
     { id = "unfoldable"

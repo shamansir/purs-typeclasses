@@ -2,6 +2,9 @@ let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
+-- class Category :: forall k. (k -> k -> Type) -> Constraint
+-- class (Semigroupoid a) <= Category a where
+
 let category : tc.TClass =
     { id = "category"
     , name = "Category"

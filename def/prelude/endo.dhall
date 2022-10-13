@@ -3,6 +3,9 @@ let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
 
 
+-- newtype Endo :: forall k. (k -> k -> Type) -> k -> Type
+-- newtype Endo c a // a is nominal
+
 let endo : tc.TClass =
     { id = "endo"
     , name = "Endo"

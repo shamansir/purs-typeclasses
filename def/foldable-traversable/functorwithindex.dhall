@@ -1,9 +1,9 @@
--- class FunctorWithIndex :: Type -> (Type -> Type) -> Constraint
--- class (Functor f) <= FunctorWithIndex i f | f -> i where
-
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+
+-- class FunctorWithIndex :: Type -> (Type -> Type) -> Constraint
+-- class (Functor f) <= FunctorWithIndex i f | f -> i where
 
 let functorWithIndex : tc.TClass =
     { id = "functorwithindex"
