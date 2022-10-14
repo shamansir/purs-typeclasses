@@ -128,6 +128,7 @@ let What =
     | Type_
     | Internal_
     | Data_
+    | Package_
     >
 
 let Value = Text

@@ -23,7 +23,6 @@
 * Effect.Unsafe : https://pursuit.purescript.org/packages/purescript-effect/4.0.0/docs/Effect.Unsafe
 * GenericEq : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Eq.Generic
 
-
 * Parsing : https://pursuit.purescript.org/packages/purescript-parsing/10.0.0/docs/Parsing
 * Lenses : https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0
 * Variant : https://pursuit.purescript.org/packages/purescript-variant/7.0.1

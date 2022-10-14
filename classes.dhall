@@ -109,6 +109,12 @@ let defs =
     , ./def/unfoldable/unfoldable.dhall
     , ./def/unfoldable/unfoldable1.dhall
 
+    , ./def/parsing/parser.dhall
+    , ./def/parsing/parsert.dhall -- TODO: instances
+    , ./def/parsing/parseerror.dhall
+    , ./def/parsing/position.dhall
+    , ./def/parsing/parsestate.dhall
+
     ] : List tc.TClass
 
 in
