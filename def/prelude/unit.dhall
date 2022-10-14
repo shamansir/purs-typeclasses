@@ -17,7 +17,7 @@ let unit : tc.TClass =
             { name = "unit"
             , def = e.subjE "Unit" -- Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Show" "Unit"

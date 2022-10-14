@@ -28,7 +28,7 @@ let coproduct : tc.TClass =
                     )
                 -- Coproduct (Either (f a) (g a))
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "left"
             , def =
@@ -37,7 +37,7 @@ let coproduct : tc.TClass =
                     (e.subj "Coproduct" [ e.f "f", e.f "g", e.n "a" ])
                 -- f a -> Coproduct f g a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "right"
             , def =
@@ -46,7 +46,7 @@ let coproduct : tc.TClass =
                     (e.subj "Coproduct" [ e.f "f", e.f "g", e.n "a" ])
                 -- g a -> Coproduct f g a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "coproduct"
             , def =
@@ -60,7 +60,7 @@ let coproduct : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "<\\/>" -- defined in Data.Functor.Coproduct.Nested
             , opEmoji = None Text
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bihoistCoproduct"
             , def =
@@ -74,7 +74,7 @@ let coproduct : tc.TClass =
                     )
                 -- (f ~> h) -> (g ~> i) -> (Coproduct f g) ~> (Coproduct h i)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.class "Newtype" [ e.br (e.class "Coproduct" [ e.t "f", e.t "g", e.n "a" ]), e.ph ] -- Newtype (Coproduct f g a) _

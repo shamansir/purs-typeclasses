@@ -44,7 +44,7 @@ let monadzero : tc.TClass =
                         (e.ap2 (e.t "m") (e.classE "Unit"))
                     )
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Array"

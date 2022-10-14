@@ -20,7 +20,7 @@ let bifunctor : tc.TClass =
             { name = "bipure"
             , def = e.fn3 (e.n "a") (e.n "b") (e.ap (e.t "w") [ e.n "a", e.n "b" ]) -- a -> b -> w a b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Tuple" "Biapplicative"

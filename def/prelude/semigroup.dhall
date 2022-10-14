@@ -33,7 +33,7 @@ let semigroup : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "String"

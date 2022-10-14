@@ -18,7 +18,7 @@ let joker : tc.TClass =
             { name = "Joker"
             , def = e.subj1 "Joker" (e.br (e.ap2 (e.f "g") (e.n "b"))) -- Joker (g b)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistJoker"
             , def =
@@ -28,7 +28,7 @@ let joker : tc.TClass =
                     (e.subj "Joker" [ e.f "g", e.n "a", e.n "b" ])
                 -- (f ~> g) -> Joker f a b -> Joker g a b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.class "Newtype" [ e.br (e.class "Joker" [ e.t "f", e.n "a", e.n "b" ]), e.ph ] -- Newtype (Joker f a b) _

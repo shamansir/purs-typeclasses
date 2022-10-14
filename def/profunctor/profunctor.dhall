@@ -61,7 +61,7 @@ let profunctor : tc.TClass =
                     ]
                  -- (a -> b) -> (c -> d) -> p b c -> p a d
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lcmap"
             , def =
@@ -75,7 +75,7 @@ let profunctor : tc.TClass =
                     )
                 -- Profunctor p => (a -> b) -> p b c -> p a c
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "rmap"
             , def =
@@ -89,7 +89,7 @@ let profunctor : tc.TClass =
                     )
                  -- Profunctor p => (b -> c) -> p a b -> p a c
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "arr"
             , def =
@@ -101,7 +101,7 @@ let profunctor : tc.TClass =
                     )
                 -- Category p => Profunctor p => (a -> b) -> p a b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "unwrapIso"
             , def =
@@ -113,7 +113,7 @@ let profunctor : tc.TClass =
                     )
                 -- Profunctor p => Newtype t a => p t t -> p a a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "wrapIso"
             , def =
@@ -126,7 +126,7 @@ let profunctor : tc.TClass =
                     )
                 -- Profunctor p => Newtype t a => (a -> t) -> p a a -> p t t
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Function" "Profunctor"

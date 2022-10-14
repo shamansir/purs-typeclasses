@@ -19,7 +19,7 @@ let star : tc.TClass =
             { name = "Star"
             , def = e.subj1 "Star" (e.br (e.fn2 (e.n "a") (e.ap2 (e.f "f") (e.n "b")))) -- Star (a -> f b)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistStar"
             , def =
@@ -29,7 +29,7 @@ let star : tc.TClass =
                     (e.subj "Star" [ e.f "g", e.n "a", e.n "a" ])
                 -- (f ~> g) -> Star f a b -> Star g a b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.class "Newtype" [ e.br (e.class "Star" [ e.t "f", e.n "a", e.n "b" ]), e.ph ] -- Newtype (Star f a b) _

@@ -67,7 +67,7 @@ let alt : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Array"

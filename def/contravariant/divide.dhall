@@ -27,7 +27,7 @@ let divide : tc.TClass =
                     , e.ap2 (e.f "f") (e.n "a")
                     ]
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "divided"
             , def =
@@ -56,7 +56,7 @@ let divide : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Divide" "Comparison"

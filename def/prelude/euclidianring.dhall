@@ -19,7 +19,7 @@ let euclidianRing : tc.TClass =
             { name = "degree"
             , def = e.fn2 (e.n "a") (e.classE "Int") -- a -> Int
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "div"
             , def =
@@ -28,14 +28,14 @@ let euclidianRing : tc.TClass =
             , belongs = tc.Belongs.Yes
             , op = Some "/"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mod"
             , def =
                 e.fn3 (e.n "a") (e.n "a") (e.n "a")
                 -- a -> a -> a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "gcd"
             , def =
@@ -46,7 +46,7 @@ let euclidianRing : tc.TClass =
                     (e.fn3 (e.n "a") (e.n "a") (e.n "a"))
                 -- Eq a => EuclideanRing a => a -> a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lcm"
             , def =
@@ -57,7 +57,7 @@ let euclidianRing : tc.TClass =
                     (e.fn3 (e.n "a") (e.n "a") (e.n "a"))
                 -- Eq a => EuclideanRing a => a -> a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , laws =
         [

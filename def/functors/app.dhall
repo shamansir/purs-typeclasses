@@ -19,7 +19,7 @@ let app : tc.TClass =
             { name = "App"
             , def = e.subj1 "App" (e.br (e.ap2 (e.f "f") (e.n "a"))) -- App (f a)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistApp"
             , def =
@@ -32,7 +32,7 @@ let app : tc.TClass =
                     )
                 -- (f ~> g) -> (App f) ~> (App g)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistLiftApp"
             , def =
@@ -41,7 +41,7 @@ let app : tc.TClass =
                     (e.ap2 (e.f "f") (e.br (e.subj "App" [ e.f "g", e.n "a" ])))
                 -- f (g a) -> f (App g a)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistLowerApp"
             , def =
@@ -50,7 +50,7 @@ let app : tc.TClass =
                     (e.ap2 (e.f "f") (e.br (e.ap2 (e.f "g") (e.n "a"))))
                 -- f (App g a) -> f (g a)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceFA_ "Newtype" "App"

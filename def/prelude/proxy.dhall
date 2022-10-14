@@ -18,7 +18,7 @@ let proxy : tc.TClass =
             { name = "Proxy"
             , def = e.fall1 (e.av "k") (e.fn2 (e.n "k") (e.kw "Type")) -- forall k. k -> Type
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
 
         ]
     } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements /\ tc.noInstances

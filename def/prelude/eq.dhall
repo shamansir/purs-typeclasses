@@ -60,7 +60,7 @@ let eq : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "notEq"
             , def =
@@ -74,7 +74,7 @@ let eq : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "/="
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Boolean"

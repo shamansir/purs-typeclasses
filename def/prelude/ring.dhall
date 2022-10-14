@@ -33,7 +33,7 @@ let ring : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "negate"
             , def =
@@ -42,7 +42,7 @@ let ring : tc.TClass =
                     (e.fn2 (e.n "a") (e.n "a"))
                 -- Ring a => a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Int"

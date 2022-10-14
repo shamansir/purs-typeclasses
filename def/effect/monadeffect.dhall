@@ -24,7 +24,7 @@ let monadeffect : tc.TClass =
                     (e.class1 "Effect" (e.n "a"))
                     (e.ap2 (e.t "m") (e.n "a"))
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Effect" "MonadEffect"

@@ -64,7 +64,7 @@ let traversableWithIndex : tc.TClass =
                     )
                 -- Applicative m => (i -> a -> m b) -> t a -> m (t b)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "traverseWithIndexDefault"
             , def =
@@ -79,7 +79,7 @@ let traversableWithIndex : tc.TClass =
                     )
                 -- TraversableWithIndex i t => Applicative m => (i -> a -> m b) -> t a -> m (t b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "forWithIndex"
             , def =
@@ -95,7 +95,7 @@ let traversableWithIndex : tc.TClass =
 
                 -- Applicative m => TraversableWithIndex i t => t a -> (i -> a -> m b) -> m (t b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "scanlWithIndex"
             , def =
@@ -110,7 +110,7 @@ let traversableWithIndex : tc.TClass =
                     )
                 -- TraversableWithIndex i f => (i -> b -> a -> b) -> b -> f a -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "scanrWithIndex"
             , def =
@@ -125,7 +125,7 @@ let traversableWithIndex : tc.TClass =
                     )
                 -- TraversableWithIndex i f => (i -> a -> b -> b) -> b -> f a -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mapAccumLWithIndex"
             , def =
@@ -140,7 +140,7 @@ let traversableWithIndex : tc.TClass =
                     )
                 -- TraversableWithIndex i f => (i -> s -> a -> Accum s b) -> s -> f a -> Accum s (f b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mapAccumRWithIndex"
             , def =
@@ -155,7 +155,7 @@ let traversableWithIndex : tc.TClass =
                     )
                 -- TraversableWithIndex i f => (i -> s -> a -> Accum s b) -> s -> f a -> Accum s (f b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "traverseDefault"
             , def =
@@ -170,7 +170,7 @@ let traversableWithIndex : tc.TClass =
                     )
                 -- TraversableWithIndex i t => Applicative m => (a -> m b) -> t a -> m (t b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj2 "Int" "Array" "TraversableWithIndex"

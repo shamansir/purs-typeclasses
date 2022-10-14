@@ -48,7 +48,7 @@ let unfoldable1 : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ,
             { name = "replicate1"
             , def =
@@ -61,7 +61,7 @@ let unfoldable1 : tc.TClass =
                     )
                 -- Unfoldable1 f => Int -> a -> f a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "replicate1A"
             , def =
@@ -74,7 +74,7 @@ let unfoldable1 : tc.TClass =
                     )
                 -- Apply m => Unfoldable1 f => Traversable1 f => Int -> m a -> m (f a)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "singleton"
             , def =
@@ -86,7 +86,7 @@ let unfoldable1 : tc.TClass =
                     )
                 -- Unfoldable1 f => a -> f a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "range"
             , def =
@@ -99,7 +99,7 @@ let unfoldable1 : tc.TClass =
                     )
                 -- Unfoldable1 f => Int -> Int -> f Int
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "iterateN"
             , def =
@@ -114,7 +114,7 @@ let unfoldable1 : tc.TClass =
                     )
                 -- Unfoldable1 f => Int -> (a -> a) -> a -> f a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Array" "Unfoldable"

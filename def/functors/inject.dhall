@@ -21,14 +21,14 @@ let inject : tc.TClass =
                 e.fn2 (e.ap2 (e.f "f") (e.n "a")) (e.ap2 (e.f "g") (e.n "a"))
                 -- f a -> g a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "prj"
             , def =
                 e.fn2 (e.ap2 (e.f "g") (e.n "a")) (e.class1 "Maybe" (e.ap2 (e.f "f") (e.n "a")))
                 -- g a -> Maybe (f a)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.subj "Inject" [ e.f "f", e.f "f" ] -- Inject f f

@@ -20,7 +20,7 @@ let compose : tc.TClass =
                 e.subj1 "Compose" (e.br (e.ap2 (e.t "f") (e.br (e.ap2 (e.t "g") (e.n "a")))))
                 -- Compose (f (g a))
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bihoistCompose"
             , def =
@@ -37,7 +37,7 @@ let compose : tc.TClass =
                     )
                 -- Functor f => (f ~> h) -> (g ~> i) -> (Compose f g) ~> (Compose h i)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.class "Newtype" [ e.br (e.class "Compose" [ e.t "f", e.t "g", e.n "a" ]), e.ph ] -- Newtype (Compose f g a) _

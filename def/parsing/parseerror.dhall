@@ -19,21 +19,21 @@ let parseerror : tc.TClass =
                 e.subj "ParseError" [ e.classE "String", e.classE "Position" ]
                 -- ParseError String Position
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "parseErrorMessage"
             , def =
                 e.fn2 (e.classE "ParseError") (e.classE "String")
                 -- ParseError -> String
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "parseErrorPosition"
             , def =
                 e.fn2 (e.classE "ParseError") (e.classE "Position")
                 -- ParseError -> Position
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     } /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 

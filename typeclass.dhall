@@ -88,29 +88,43 @@ let Belongs =
     | Constructor
     >
 
+let Def = e.Expr
+
+let DefText = Text
+
+let Def/toText = e.Expr/render
+
+let Example = e.Expr
+
+let ExampleText = Text
+
+let Example/toText = e.Expr/render
+
 let Member =
     { name : Text
-    , def : e.Expr
+    , def : Def
     , op : Optional Text
     , opEmoji : Optional Text
     , laws : List Law
     , belongs : Belongs
+    , examples : List Example
     }
 
 let MemberText =
     { name : Text
-    , def : Text
+    , def : DefText
     , op : Optional Text
     , opEmoji : Optional Text
     , laws : List LawText
     , belongs : Belongs
+    , examples : List ExampleText
     }
 
 let Member/toText
     : Member -> MemberText
     = \(m : Member) ->
     { name = m.name
-    , def = e.Expr/render m.def
+    , def = Def/toText m.def
     , op = m.op
     , opEmoji = m.opEmoji
     , laws =
@@ -120,6 +134,12 @@ let Member/toText
             Law/toText
             m.laws
     , belongs = m.belongs
+    , examples =
+        List/map
+            Example
+            ExampleText
+            Example/toText
+            m.examples
     }
 
 let What =
@@ -234,6 +254,8 @@ let noVars = { vars = [] : List Var }
 
 let noStatements = { statements = [] : List Statement }
 
+let noExamples = { examples = [] : List Example }
+
 let lr =
     \(v : { left : e.Expr, right : e.Expr })
     -> { type = "lr", v = LawExample.LR v }
@@ -282,7 +304,7 @@ in
     , Id, Value
     , Law, LawExample, Member, What, Belongs
     , one, oneEx
-    , noOp, noOps, noLaws, noParents, noMembers, noInstances, noValues, noStatements, noVars
+    , noOp, noOps, noLaws, noParents, noMembers, noInstances, noValues, noStatements, noVars, noExamples
     , lr, lmr, lrc, fc, of
     , pk, pkmn, pkmj
     }

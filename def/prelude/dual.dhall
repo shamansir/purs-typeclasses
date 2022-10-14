@@ -18,7 +18,7 @@ let dual : tc.TClass =
             { name = "Dual a"
             , def = e.subj1 "Dual" (e.n "a") -- Dual a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

@@ -46,7 +46,7 @@ let monoid : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ,
             { name = "power"
             , def =
@@ -55,7 +55,7 @@ let monoid : tc.TClass =
                     (e.fn3 (e.t "m") (e.classE "Int") (e.t "m"))
                 -- Monoid m => m -> Int -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "guard"
             , def =
@@ -64,7 +64,7 @@ let monoid : tc.TClass =
                     (e.fn3 (e.classE "Boolean") (e.t "m") (e.t "m"))
                 -- Monoid m => Boolean -> m -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Unit"

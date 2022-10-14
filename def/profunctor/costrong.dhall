@@ -24,7 +24,7 @@ let costrong : tc.TClass =
                     (e.ap3 (e.t "p") (e.n "a") (e.n "b"))
                 -- p (Tuple a c) (Tuple b c) -> p a b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "unsecond"
             , def =
@@ -33,7 +33,7 @@ let costrong : tc.TClass =
                     (e.ap3 (e.t "p") (e.n "b") (e.n "c"))
                 -- p (Tuple a b) (Tuple a c) -> p b c
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Function" "Closed"

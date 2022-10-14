@@ -54,7 +54,7 @@ let traversable : tc.TClass =
                     )
                 -- Applicative m => (a -> m b) -> t a -> m (t b)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "sequence"
             , def =
@@ -66,7 +66,7 @@ let traversable : tc.TClass =
                     )
                 -- Applicative m => t (m a) -> m (t a)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "traverseDefault"
             , def =
@@ -81,7 +81,7 @@ let traversable : tc.TClass =
                     )
                 -- Traversable t => Applicative m => (a -> m b) -> t a -> m (t b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "sequenceDefault"
             , def =
@@ -95,7 +95,7 @@ let traversable : tc.TClass =
                     )
                 -- Traversable t => Applicative m => t (m a) -> m (t a)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "for"
             , def =
@@ -110,7 +110,7 @@ let traversable : tc.TClass =
                     )
                 -- Applicative m => Traversable t => t a -> (a -> m b) -> m (t b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "scanl"
             , def =
@@ -125,7 +125,7 @@ let traversable : tc.TClass =
                     )
                 -- Traversable f => (b -> a -> b) -> b -> f a -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "scanr"
             , def =
@@ -140,7 +140,7 @@ let traversable : tc.TClass =
                     )
                 -- Traversable f => (a -> b -> b) -> b -> f a -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mapAccumL"
             , def =
@@ -155,7 +155,7 @@ let traversable : tc.TClass =
                     )
                 -- Traversable f => (s -> a -> Accum s b) -> s -> f a -> Accum s (f b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mapAccumR"
             , def =
@@ -170,7 +170,7 @@ let traversable : tc.TClass =
                     )
                 -- Traversable f => (s -> a -> Accum s b) -> s -> f a -> Accum s (f b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Array" "Traversable"

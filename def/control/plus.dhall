@@ -61,7 +61,7 @@ let plus : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Array"

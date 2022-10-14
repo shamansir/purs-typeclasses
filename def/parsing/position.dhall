@@ -19,14 +19,14 @@ let position : tc.TClass =
                 e.subj1 "Position" (e.obj (toMap { column = e.classE "Int", index = e.classE "Int", line = e.classE "Int" }))
                 -- Position { column :: Int, index :: Int, line :: Int }
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "initialPos"
             , def =
                 e.classE "Position"
                 -- Position
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance_ "Generic" "Position"

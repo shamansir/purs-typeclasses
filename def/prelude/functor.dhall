@@ -53,7 +53,7 @@ let functor : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "mapFlipped"
             , def =
@@ -68,7 +68,7 @@ let functor : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "<#>"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "void"
             , def =
@@ -80,7 +80,7 @@ let functor : tc.TClass =
                     )
                 -- Functor f => f a -> f Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "voidRight"
             , op = Some "<$"
@@ -95,7 +95,7 @@ let functor : tc.TClass =
                 -- Functor f => a -> f b -> f a
             , belongs = tc.Belongs.No
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "voidLeft"
             , op = Some "$>"
@@ -111,7 +111,7 @@ let functor : tc.TClass =
                 -- Functor f => f a -> b -> f b
             , belongs = tc.Belongs.No
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "flap"
             , op = Some "<@>"
@@ -126,7 +126,7 @@ let functor : tc.TClass =
                 -- Functor f => f (a -> b) -> a -> f b
             , belongs = tc.Belongs.No
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Array"

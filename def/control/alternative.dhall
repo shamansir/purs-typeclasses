@@ -26,7 +26,7 @@ let alternative : tc.TClass =
                         (e.ap2 (e.t "m") (e.classE "Unit"))
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , laws =
         [

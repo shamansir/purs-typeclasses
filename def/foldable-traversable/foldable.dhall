@@ -26,7 +26,7 @@ let foldable : tc.TClass =
                     ]
                 -- (a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldl"
             , def =
@@ -38,7 +38,7 @@ let foldable : tc.TClass =
                     ]
                 -- (b -> a -> b) -> b -> f a -> b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldMap"
             , def =
@@ -51,7 +51,7 @@ let foldable : tc.TClass =
                     )
                 -- Monoid m => (a -> m) -> f a -> m
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldrDefault"
             , def =
@@ -66,7 +66,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => (a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldlDefault"
             , def =
@@ -81,7 +81,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => (b -> a -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldMapDefaultL"
             , def =
@@ -94,7 +94,7 @@ let foldable : tc.TClass =
                     )
                 --  Foldable f => Monoid m => (a -> m) -> f a -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldMapDefaultR"
             , def =
@@ -107,7 +107,7 @@ let foldable : tc.TClass =
                     )
                 --  Foldable f => Monoid m => (a -> m) -> f a -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "fold"
             , def =
@@ -119,7 +119,7 @@ let foldable : tc.TClass =
                     )
              --  Foldable f => Monoid m => f m -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldM"
             , def =
@@ -137,7 +137,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Monad m => (b -> a -> m b) -> b -> f a -> m b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "traverse_"
             , def =
@@ -150,7 +150,7 @@ let foldable : tc.TClass =
                     )
                 -- Applicative m => Foldable f => (a -> m b) -> f a -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "for_"
             , def =
@@ -163,7 +163,7 @@ let foldable : tc.TClass =
                     )
                 -- Applicative m => Foldable f => f a -> (a -> m b) -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "sequence_"
             , def =
@@ -175,7 +175,7 @@ let foldable : tc.TClass =
                     )
                 -- Applicative m => Foldable f => f (m a) -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "oneOf"
             , def =
@@ -187,7 +187,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Plus g => f (g a) -> g a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "oneOfMap"
             , def =
@@ -200,7 +200,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Plus g => (a -> g b) -> f a -> g b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "intercalate"
             , def =
@@ -213,7 +213,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Monoid m => m -> f m -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "surroundMap"
             , def =
@@ -228,7 +228,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Semigroup m => m -> (a -> m) -> f a -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "surround"
             , def =
@@ -241,7 +241,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Semigroup m => m -> f m -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "and"
             , def =
@@ -253,7 +253,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => HeytingAlgebra a => f a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "or"
             , def =
@@ -265,7 +265,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => HeytingAlgebra a => f a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "all"
             , def =
@@ -278,7 +278,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => HeytingAlgebra b => (a -> b) -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "any"
             , def =
@@ -291,7 +291,7 @@ let foldable : tc.TClass =
                     )
                  -- Foldable f => HeytingAlgebra b => (a -> b) -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "sum"
             , def =
@@ -303,7 +303,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Semiring a => f a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "product"
             , def =
@@ -315,7 +315,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Semiring a => f a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "elem"
             , def =
@@ -328,7 +328,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Eq a => a -> f a -> Boolean
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "notElem"
             , def =
@@ -341,7 +341,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Eq a => a -> f a -> Boolean
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "indexl"
             , def =
@@ -354,7 +354,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Int -> f a -> Maybe a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "indexr"
             , def =
@@ -367,7 +367,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Int -> f a -> Maybe a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "find"
             , def =
@@ -380,7 +380,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => (a -> Boolean) -> f a -> Maybe a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "findMap"
             , def =
@@ -393,7 +393,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => (a -> Maybe b) -> f a -> Maybe b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "maximum"
             , def =
@@ -405,7 +405,7 @@ let foldable : tc.TClass =
                     )
                 -- Ord a => Foldable f => f a -> Maybe a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "maximumBy"
             , def =
@@ -418,7 +418,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => (a -> a -> Ordering) -> f a -> Maybe a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "minimum"
             , def =
@@ -430,7 +430,7 @@ let foldable : tc.TClass =
                     )
                 -- Ord a => Foldable f => f a -> Maybe a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "minimumBy"
             , def =
@@ -443,7 +443,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => (a -> a -> Ordering) -> f a -> Maybe a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "null"
             , def =
@@ -455,7 +455,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => f a -> Boolean
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "length"
             , def =
@@ -467,7 +467,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Semiring b => f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lookup"
             , def =
@@ -480,7 +480,7 @@ let foldable : tc.TClass =
                     )
                 -- Foldable f => Eq a => a -> f (Tuple a b) -> Maybe b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Array" "Foldable"

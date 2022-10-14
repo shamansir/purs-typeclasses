@@ -18,7 +18,7 @@ let additive : tc.TClass =
             { name = "Additive"
             , def = e.subj1 "Additive" (e.n "a") -- Additive a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

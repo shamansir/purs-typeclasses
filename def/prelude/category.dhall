@@ -32,7 +32,7 @@ let category : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ]
     , instances =
         [ i.instanceArrow

@@ -18,7 +18,7 @@ let parser : tc.TClass =
             { name = "runParser"
             , def = e.fn3 (e.n "s") (e.subj "Parser" [ e.n "s", e.n "a" ]) (e.class "Either" [ e.classE "ParseError", e.n "a" ]) -- s -> Parser s a -> Either ParseError a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     } /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 

@@ -73,45 +73,45 @@ let ord : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "lessThan"
             , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some "<"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "greaterThan"
             , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some ">"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lessThanOrEq"
             , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some "<="
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "greaterThanOrEq"
             , def = ordA2B -- Ord a => a -> a -> Boolean
             , belongs = tc.Belongs.No
             , op = Some ">="
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "min"
             , def = ordA3 -- Ord a => a -> a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "max"
             , def = ordA3 -- Ord a => a -> a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "clamp"
             , def
@@ -120,7 +120,7 @@ let ord : tc.TClass =
                     (e.fn [ e.n "a", e.n "a", e.n "a", e.n "a" ])
                 -- Ord a => a -> a -> a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "between"
             , def
@@ -129,7 +129,7 @@ let ord : tc.TClass =
                     (e.fn [ e.n "a", e.n "a", e.n "a", e.classE "Boolean" ])
                  -- Ord a => a -> a -> a -> Boolean
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "abs"
             , def
@@ -138,7 +138,7 @@ let ord : tc.TClass =
                     (e.fn2 (e.n "a") (e.n "a"))
                 -- (Ord a, Ring a) => a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "signum"
             , def
@@ -147,7 +147,7 @@ let ord : tc.TClass =
                     (e.fn2 (e.n "a") (e.n "a"))
                 -- (Ord a, Ring a) => a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "comparing"
             , def =
@@ -159,7 +159,7 @@ let ord : tc.TClass =
                     )
                 -- Ord b => (a -> b) -> (a -> a -> Ordering)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
 
     } /\ tc.noInstances /\ tc.noLaws /\ tc.noValues /\ tc.noStatements

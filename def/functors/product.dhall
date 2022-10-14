@@ -28,7 +28,7 @@ let product : tc.TClass =
                     )
                 -- Product (Tuple (f a) (g a))
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "product"
             , def =
@@ -40,7 +40,7 @@ let product : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "</\\>" -- defined in Data.Functor.Product.Nested
             , opEmoji = None Text
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bihoistProduct"
             , def =
@@ -54,7 +54,7 @@ let product : tc.TClass =
                     )
                 -- (f ~> h) -> (g ~> i) -> (Product f g) ~> (Product h i)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.class "Newtype" [ e.br (e.class "Product" [ e.t "f", e.n "g", e.n "a" ]), e.ph ]  -- Newtype (Product f g a) _

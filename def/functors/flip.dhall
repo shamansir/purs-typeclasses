@@ -20,7 +20,7 @@ let flip : tc.TClass =
                 e.subj1 "Flip" (e.br (e.ap3 (e.t "p") (e.t "b") (e.n "a")))
                 -- Flip (p b a)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.class "Newtype" [ e.br (e.class "Flip" [ e.t "p", e.n "a", e.n "b" ]), e.ph ] -- Newtype (Flip p a b) _

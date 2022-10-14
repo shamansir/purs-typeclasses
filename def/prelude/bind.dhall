@@ -42,7 +42,7 @@ let bind : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "bindFlipped"
             , def =
@@ -57,7 +57,7 @@ let bind : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "==<<"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "join"
             , def =
@@ -69,7 +69,7 @@ let bind : tc.TClass =
                     )
                 -- Bind m => m (m a) -> m a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "composeKleisli"
             , def =
@@ -86,7 +86,7 @@ let bind : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some ">==>"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "composeKleisliFlipped"
             , def =
@@ -103,7 +103,7 @@ let bind : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "<==<"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "ifM"
             , def =
@@ -118,7 +118,7 @@ let bind : tc.TClass =
                     )
                 -- Bind m => m Boolean -> m a -> m a -> m a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Array"

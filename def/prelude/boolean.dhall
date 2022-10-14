@@ -14,7 +14,7 @@ let boolean : tc.TClass =
             { name = "otherwise"
             , def = e.classE "Boolean"
             , belongs = tc.Belongs.No
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
 
     } /\ tc.noInstances /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements /\ tc.noVars

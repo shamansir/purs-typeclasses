@@ -28,7 +28,7 @@ let closed : tc.TClass =
                     )
                 -- p a b -> p (x -> a) (x -> b)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Function" "Closed"

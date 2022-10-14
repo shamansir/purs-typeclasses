@@ -24,7 +24,7 @@ let naturalTransformation : tc.TClass =
             , belongs = tc.Belongs.Yes
             , op = Some "~>"
             , opEmoji = Some "🐛"
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ]
 
     } /\ tc.noLaws /\ tc.noParents /\ tc.noInstances /\ tc.noValues /\ tc.noStatements

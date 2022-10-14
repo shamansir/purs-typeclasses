@@ -18,7 +18,7 @@ let last : tc.TClass =
             { name = "Last"
             , def = e.subj1 "Last" (e.n "a") -- Last a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

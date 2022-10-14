@@ -27,7 +27,7 @@ let equivalence : tc.TClass =
                         ]
                     ))
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "defaultEquivalence"
             , def =
@@ -36,7 +36,7 @@ let equivalence : tc.TClass =
                     (e.class1 "Eq" (e.n "a"))
                     (e.subj1 "Equivalence" (e.n "a"))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "comparisonEquivalence"
             , def =
@@ -45,7 +45,7 @@ let equivalence : tc.TClass =
                     (e.class1 "Comparison" (e.n "a"))
                     (e.subj1 "Equivalence" (e.n "a"))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceA_ "Newtype" "Equivalence"

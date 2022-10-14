@@ -28,7 +28,7 @@ let bifoldable : tc.TClass =
                     ]
                 -- (a -> c -> c) -> (b -> c -> c) -> c -> p a b -> c
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifoldl"
             , def =
@@ -41,7 +41,7 @@ let bifoldable : tc.TClass =
                     ]
                 -- (c -> a -> c) -> (c -> b -> c) -> c -> p a b -> c
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifoldMap"
             , def =
@@ -56,7 +56,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Monoid m => (a -> m) -> (b -> m) -> p a b -> m
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifoldrDefault"
             , def =
@@ -72,7 +72,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Foldable f => (a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifoldlDefault"
             , def =
@@ -88,7 +88,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Bifoldable p => (c -> a -> c) -> (c -> b -> c) -> c -> p a b -> c
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifoldMapDefaultL"
             , def =
@@ -103,7 +103,7 @@ let bifoldable : tc.TClass =
                     )
                 --  Bifoldable p => Monoid m => (a -> m) -> (b -> m) -> p a b -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifold"
             , def =
@@ -115,7 +115,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Bifoldable t => Monoid m => t m m -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bitraverse_"
             , def =
@@ -130,7 +130,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Bifoldable t => Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifor_"
             , def =
@@ -145,7 +145,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Bifoldable t => Applicative f => t a b -> (a -> f c) -> (b -> f d) -> f Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bisequence_"
             , def =
@@ -157,7 +157,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Bifoldable t => Applicative f => t (f a) (f b) -> f Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "biany"
             , def =
@@ -172,7 +172,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Bifoldable t => BooleanAlgebra c => (a -> c) -> (b -> c) -> t a b -> c
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "biall"
             , def =
@@ -187,7 +187,7 @@ let bifoldable : tc.TClass =
                     )
                 -- Bifoldable t => BooleanAlgebra c => (a -> c) -> (b -> c) -> t a b -> c"
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceReqF2_ "Foldable" "Clown" "Bifoldable"

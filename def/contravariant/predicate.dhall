@@ -22,7 +22,7 @@ let predicate : tc.TClass =
                     "Predicate"
                     (e.fn2 (e.n "a") (e.classE "Boolean"))
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceA_ "Newtype" "Predicate"

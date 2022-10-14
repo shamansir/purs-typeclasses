@@ -24,7 +24,7 @@ let choice : tc.TClass =
                     (e.ap3 (e.t "p") (e.br (e.class "Either" [ e.n "a", e.n "c" ])) (e.br (e.class "Either" [ e.n "b", e.n "c" ])))
                 -- p a b -> p (Either a c) (Either b c)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "right"
             , def =
@@ -33,7 +33,7 @@ let choice : tc.TClass =
                     (e.ap3 (e.t "p") (e.br (e.class "Either" [ e.n "a", e.n "b" ])) (e.br (e.class "Either" [ e.n "a", e.n "c" ])))
                 --  p b c -> p (Either a b) (Either a c)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "splitChoice"
             , def =
@@ -67,7 +67,7 @@ let choice : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "fanin"
             , def =
@@ -101,7 +101,7 @@ let choice : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Function" "Choice"

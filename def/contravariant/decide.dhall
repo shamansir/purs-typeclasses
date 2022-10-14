@@ -27,7 +27,7 @@ let decide : tc.TClass =
                     , e.ap2 (e.f "f") (e.n "a")
                     ]
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "chosen"
             , def =
@@ -56,7 +56,7 @@ let decide : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Decide" "Comparison"

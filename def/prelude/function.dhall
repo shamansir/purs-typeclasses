@@ -21,14 +21,14 @@ let function : tc.TClass =
                     ]
                 -- (a -> b -> c) -> b -> a -> c
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "const"
             , def =
                 e.fn3 (e.n "a") (e.n "b") (e.n "a")
                 -- a -> b -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "apply"
             , def =
@@ -37,7 +37,7 @@ let function : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "$"
             , opEmoji = Some "💨"
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "applyFlipped"
             , def =
@@ -46,7 +46,7 @@ let function : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "#"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "on"
             , def =
@@ -59,7 +59,7 @@ let function : tc.TClass =
                     ]
                 -- (b -> b -> c) -> (a -> b) -> a -> a -> c
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
 
     } /\ tc.noLaws /\ tc.noParents /\ tc.noInstances /\ tc.noValues /\ tc.noStatements /\ tc.noVars

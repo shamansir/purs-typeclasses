@@ -20,7 +20,7 @@ let comparison : tc.TClass =
                 -- Comparison (a -> a -> Ordering)
                 e.subj1 "Comparison" (e.br (e.fn [ e.n "a", e.n "a", e.classE "Ordering" ]))
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "defaultComparison"
             , def =
@@ -29,7 +29,7 @@ let comparison : tc.TClass =
                     (e.class1 "Ord" (e.n "a"))
                     (e.subj1 "Comparison" (e.n "a"))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceA_ "Newtype" "Comparison"

@@ -30,7 +30,7 @@ let bitraversable : tc.TClass =
                     )
                 -- Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bisequence"
             , def =
@@ -42,7 +42,7 @@ let bitraversable : tc.TClass =
                     )
                 -- Applicative f => t (f a) (f b) -> f (t a b)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bitraverseDefault"
             , def =
@@ -57,7 +57,7 @@ let bitraversable : tc.TClass =
                     )
                 -- Bitraversable t => Applicative f => (a -> f c) -> (b -> f d) -> t a b -> f (t c d)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bisequenceDefault"
             , def =
@@ -69,7 +69,7 @@ let bitraversable : tc.TClass =
                     )
                 -- Bitraversable t => Applicative f => t (f a) (f b) -> f (t a b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bifor"
             , def =
@@ -85,7 +85,7 @@ let bitraversable : tc.TClass =
                     )
                 -- Bitraversable t => Applicative f => t a b -> (a -> f c) -> (b -> f d) -> f (t c d)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lfor"
             , def =
@@ -99,7 +99,7 @@ let bitraversable : tc.TClass =
                     )
                 -- Bitraversable t => Applicative f => t a b -> (a -> f c) -> f (t c b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "rfor"
             , def =
@@ -113,7 +113,7 @@ let bitraversable : tc.TClass =
                     )
                 -- Bitraversable t => Applicative f => t a b -> (b -> f c) -> f (t a c)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceReqF2_ "Traversable" "Clown" "Bitraversable"

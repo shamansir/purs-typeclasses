@@ -20,7 +20,7 @@ let parsestate : tc.TClass =
                 e.subj "ParseState" [ e.n "s", e.classE "Position", e.classE "Boolean" ]
                 -- ParseState s Position Boolean
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     } /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 

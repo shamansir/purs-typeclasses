@@ -18,7 +18,7 @@ let disj : tc.TClass =
             { name = "Disj a"
             , def =  e.subj1 "Disj" (e.n "a") -- Disj a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

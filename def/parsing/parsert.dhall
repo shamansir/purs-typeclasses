@@ -27,7 +27,7 @@ let parsert : tc.TClass =
                     )
                 -- MonadRec m => s -> ParserT s m a -> m (Either ParseError a)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "runParserT'"
             , def =
@@ -49,27 +49,27 @@ let parsert : tc.TClass =
                     )
                 -- MonadRec m => ParseState s -> ParserT s m a -> m (Tuple (Either ParseError a) (ParseState s))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "consume"
             , def = e.subj "ParserT" [ e.n "s", e.t "m", e.classE "Unit" ] -- ParserT s m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "position"
             , def = e.subj "ParserT" [ e.n "s", e.t "m", e.classE "Position" ] -- ParserT s m Position
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "fail"
             , def = e.fn2 (e.classE "String") (e.subj "ParserT" [ e.n "s", e.t "m", e.classE "a" ]) -- String -> ParserT s m a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "failWithPosition"
             , def = e.fn3 (e.classE "String") (e.classE "Position") (e.subj "ParserT" [ e.n "s", e.t "m", e.classE "a" ]) -- String -> Position -> ParserT s m a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "region"
             , def =
@@ -79,7 +79,7 @@ let parsert : tc.TClass =
                     (e.subj "ParserT" [ e.n "s", e.t "m", e.classE "a" ])
                 -- (ParseError -> ParseError) -> ParserT s m a -> ParserT s m a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "stateParserT"
             , def =
@@ -88,12 +88,12 @@ let parsert : tc.TClass =
                     (e.subj "ParserT" [ e.n "s", e.t "m", e.classE "a" ])
                 --  (ParseState s -> Tuple a (ParseState s)) -> ParserT s m a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "getParserT"
             , def = e.subj "ParserT" [ e.n "s", e.t "m", e.class1 "ParseState" (e.n "s") ] -- ParserT s m (ParseState s)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistParserT"
             , def =
@@ -103,7 +103,7 @@ let parsert : tc.TClass =
                     (e.subj "ParserT" [ e.n "s", e.t "n", e.classE "a" ])
                 -- (m ~> n) -> ParserT s m a -> ParserT s n a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mapParserT"
             , def =
@@ -135,7 +135,7 @@ let parsert : tc.TClass =
                     )
                 -- MonadRec m => Functor n => (m (Tuple (Either ParseError a) (ParseState s)) -> n (Tuple (Either ParseError b) (ParseState s))) -> ParserT s m a -> ParserT s n b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     } /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 

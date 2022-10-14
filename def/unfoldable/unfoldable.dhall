@@ -48,7 +48,7 @@ let unfoldable : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ,
             { name = "replicate"
             , def =
@@ -61,7 +61,7 @@ let unfoldable : tc.TClass =
                     )
                 -- Unfoldable f => Int -> a -> f a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "replicateA"
             , def =
@@ -74,7 +74,7 @@ let unfoldable : tc.TClass =
                     )
                 -- Applicative m => Unfoldable f => Traversable f => Int -> m a -> m (f a)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "none"
             , def =
@@ -83,7 +83,7 @@ let unfoldable : tc.TClass =
                     (e.ap2 (e.t "f") (e.n "a"))
                 -- Unfoldable f => f a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "fromMaybe"
             , def =
@@ -95,7 +95,7 @@ let unfoldable : tc.TClass =
                     )
                 -- Unfoldable f => Maybe a -> f a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Array" "Unfoldable"

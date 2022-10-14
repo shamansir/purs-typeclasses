@@ -18,7 +18,7 @@ let first : tc.TClass =
             { name = "First"
             , def = e.subj1 "First" (e.n "a") -- First a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

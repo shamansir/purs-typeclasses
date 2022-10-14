@@ -46,7 +46,7 @@ let semigroupoid : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "composeFlipped"
             , def =
@@ -61,7 +61,7 @@ let semigroupoid : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some ">>>"
             , opEmoji = Some "🔜"
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ]
 
     } /\ tc.noParents /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements

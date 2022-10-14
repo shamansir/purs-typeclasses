@@ -51,7 +51,7 @@ let divisionRing : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ,
             { name = "leftDiv"
             , def =
@@ -64,7 +64,7 @@ let divisionRing : tc.TClass =
                     )
                 -- DivisionRing a => a -> a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "rightDiv"
             , def =
@@ -77,7 +77,7 @@ let divisionRing : tc.TClass =
                     )
                 -- DivisionRing a => a -> a -> a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances = [ i.instanceSubj "Number" "DivisionRing" ]
 

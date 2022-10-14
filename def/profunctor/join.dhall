@@ -20,7 +20,7 @@ let join : tc.TClass =
                 e.subj1 "Join" (e.br (e.ap3 (e.t "p") (e.n "a") (e.n "a")))
                 -- Join (p a a)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.subj "Newtype" [ e.br (e.ap2 (e.t "p") (e.n "a")), e.ph ] -- Newtype (Join p a) _

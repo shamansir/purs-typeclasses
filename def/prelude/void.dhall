@@ -19,7 +19,7 @@ let void : tc.TClass =
             , belongs = tc.Belongs.No
             , op = tc.noOp
             , opEmoji = Some "💣"
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Show" "Void"

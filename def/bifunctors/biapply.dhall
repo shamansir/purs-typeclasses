@@ -27,7 +27,7 @@ let biapply : tc.TClass =
             , op = Some "<<*>>"
             , opEmoji = tc.noOp
             , belongs = tc.Belongs.Yes
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
 
             { name = "Control.Category.identity"
@@ -50,7 +50,7 @@ let biapply : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "biapplyFirst"
             , def =
@@ -65,7 +65,7 @@ let biapply : tc.TClass =
             , op = Some "*>>"
             , opEmoji = tc.noOp
             , belongs = tc.Belongs.No
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "biapplySecond"
             , def =
@@ -80,7 +80,7 @@ let biapply : tc.TClass =
             , op = Some "<<*"
             , opEmoji = tc.noOp
             , belongs = tc.Belongs.No
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "blift2"
             , def =
@@ -96,7 +96,7 @@ let biapply : tc.TClass =
                         ]
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "blift3"
             , def =
@@ -113,7 +113,7 @@ let biapply : tc.TClass =
                         ]
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Tuple" "Biapply"

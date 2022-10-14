@@ -24,7 +24,7 @@ let cochoice : tc.TClass =
                     (e.ap3 (e.t "p") (e.n "a") (e.n "b"))
                 -- p (Either a c) (Either b c) -> p a b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "unright"
             , def =
@@ -33,7 +33,7 @@ let cochoice : tc.TClass =
                     (e.ap3 (e.t "p") (e.n "b") (e.n "c"))
                 -- p (Either a b) (Either a c) -> p b c
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Function" "Closed"

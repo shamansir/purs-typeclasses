@@ -19,7 +19,7 @@ let alternate : tc.TClass =
             { name = "Alternate"
             , def = e.subj "Alternate" [ e.f "f", e.n "a" ] -- Alternate f a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

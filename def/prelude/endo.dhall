@@ -47,7 +47,7 @@ let endo : tc.TClass =
                     (e.ap3 (e.t "c") (e.n "a") (e.n "a"))
                 -- Endo (c a a)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         let

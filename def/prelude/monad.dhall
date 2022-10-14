@@ -53,7 +53,7 @@ let monad : tc.TClass =
                     )
                 -- Monad m => (a -> b) -> m a -> m b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "ap"
             , def =
@@ -66,7 +66,7 @@ let monad : tc.TClass =
                     )
             -- Monad m => m (a -> b) -> m a -> m b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "whenM"
             , def =
@@ -79,7 +79,7 @@ let monad : tc.TClass =
                     )
             -- Monad m => m Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "unlessM"
             , def =
@@ -92,7 +92,7 @@ let monad : tc.TClass =
                     )
             -- Monad m => m Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceArrowR

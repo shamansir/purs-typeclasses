@@ -18,7 +18,7 @@ let conj : tc.TClass =
             { name = "Conj a"
             , def = e.subj1 "Conj" (e.n "a") -- Conj a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

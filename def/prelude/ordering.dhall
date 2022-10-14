@@ -18,7 +18,7 @@ let ordering : tc.TClass =
             { name = "invert"
             , def = e.fn2 (e.classE "Ordering") (e.classE "Ordering") -- Ordering -> Ordering
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Eq" "Ordering"

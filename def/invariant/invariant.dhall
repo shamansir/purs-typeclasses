@@ -26,7 +26,7 @@ let invariant : tc.TClass =
                     ]
                 -- (a -> b) -> (b -> a) -> f a -> f b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ,
             { name = "imapF"
             , def =
@@ -41,7 +41,7 @@ let invariant : tc.TClass =
                     )
                 --  Functor f => (a -> b) -> (b -> a) -> f a -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubjA "Function" "Invariant"

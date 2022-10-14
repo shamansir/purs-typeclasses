@@ -21,7 +21,7 @@ let costar : tc.TClass =
                 e.subj1 "Costar" (e.br (e.fn2 (e.ap2 (e.f "f") (e.n "b")) (e.n "a")))
                 -- Costar (f b -> a)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistCostar"
             , def =
@@ -31,7 +31,7 @@ let costar : tc.TClass =
                     (e.subj "Costar" [ e.f "g", e.n "a", e.n "b" ])
                 -- (g ~> f) -> Costar f a b -> Costar g a b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceFAB_ "Newtype" "Costar"

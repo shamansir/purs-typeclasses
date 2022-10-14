@@ -18,7 +18,7 @@ let show : tc.TClass =
             { name = "show"
             , def = e.fn2 (e.n "a") (e.classE "String") -- a -> String
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
 
         ]
     , instances =

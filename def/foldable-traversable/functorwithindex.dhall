@@ -48,7 +48,7 @@ let functorWithIndex : tc.TClass =
                     ]
                 -- (i -> a -> b) -> b -> f a -> f b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mapDefault"
             , def =
@@ -61,7 +61,7 @@ let functorWithIndex : tc.TClass =
                     )
                 -- FunctorWithIndex f => (a -> b) -> f a -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj2 "Int" "Array" "FunctorWithIndex"

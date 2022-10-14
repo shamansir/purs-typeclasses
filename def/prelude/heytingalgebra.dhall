@@ -18,36 +18,36 @@ let heytingAlgebra : tc.TClass =
             { name = "ff"
             , def = e.n "a" -- a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "tt"
             , def = e.n "a" -- a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "implies"
             , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "conj"
             , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
             , op = Some "&&"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "disj"
             , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
             , op = Some "||"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "not"
             , def = e.n "a" -- a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , laws =
         [

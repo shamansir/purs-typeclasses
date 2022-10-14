@@ -17,14 +17,14 @@ let effect : tc.TClass =
             { name = "Effect"
             , def = e.fn2 (e.kw "Type") (e.kw "Type") -- Type -> Type
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "untilE"
             , def =
                 -- Effect Boolean -> Effect Unit
                 e.fn2 (e.subj1 "Effect" (e.classE "Boolean")) (e.subj1 "Effect" (e.classE "Unit"))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "whileE"
             , def =
@@ -35,7 +35,7 @@ let effect : tc.TClass =
                     , e.subj1 "Effect" (e.classE "Unit")
                     ]
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "forE"
             , def =
@@ -47,7 +47,7 @@ let effect : tc.TClass =
                     , e.subj1 "Effect" (e.classE "Unit")
                     ]
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "forEachE"
             , def =
@@ -58,7 +58,7 @@ let effect : tc.TClass =
                     , e.subj1 "Effect" (e.classE "Unit")
                     ]
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Functor" "Effect"

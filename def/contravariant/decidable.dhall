@@ -24,7 +24,7 @@ let decidable : tc.TClass =
                     (e.br (e.fn2 (e.n "a") (e.classE "Void")))
                     (e.ap2 (e.f "f") (e.n "a"))
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lost"
             , def =
@@ -33,7 +33,7 @@ let decidable : tc.TClass =
                     (e.subj1 "Decidable" (e.n "a"))
                     (e.ap2 (e.f "f") (e.classE "Void"))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Decidable" "Comparison"

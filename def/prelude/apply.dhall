@@ -40,7 +40,7 @@ let apply : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "applyFirst"
             , def =
@@ -55,7 +55,7 @@ let apply : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "<*"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "applySecond"
             , def =
@@ -70,7 +70,7 @@ let apply : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "*>"
             , opEmoji = Some "👉"
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lift2"
             , def =
@@ -85,7 +85,7 @@ let apply : tc.TClass =
                     )
                 -- Apply f => (a -> b -> c) -> f a -> f b -> f c
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lift3"
             , def =
@@ -101,7 +101,7 @@ let apply : tc.TClass =
                     )
                 -- Apply f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lift4"
             , def =
@@ -118,7 +118,7 @@ let apply : tc.TClass =
                     )
                 -- Apply f => (a -> b -> c -> d -> e) -> f a -> f b -> f c -> f d -> f e
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lift5"
             , def =
@@ -136,7 +136,7 @@ let apply : tc.TClass =
                     )
                 -- Apply f => (a -> b -> c -> d -> e -> g) -> f a -> f b -> f c -> f d -> f e -> f g
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Array"

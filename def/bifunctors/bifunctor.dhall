@@ -58,7 +58,7 @@ let bifunctor : tc.TClass =
                     ]
                 )
             , belongs = tc.Belongs.Yes
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ,
             { name = "lmap"
             , def =
@@ -72,7 +72,7 @@ let bifunctor : tc.TClass =
                         ]
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "rmap"
             , def =
@@ -86,7 +86,7 @@ let bifunctor : tc.TClass =
                         ]
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Either" "Bifunctor"

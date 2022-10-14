@@ -19,7 +19,7 @@ let const : tc.TClass =
             { name = "Const"
             , def = e.subj1 "Const" (e.n "a") -- Const a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceAB_ "Newtype" "Const"

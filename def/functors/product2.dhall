@@ -24,7 +24,7 @@ let product2 : tc.TClass =
                     ]
                 -- Product2 (f a b) (g a b)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ e.req

@@ -26,7 +26,7 @@ let split : tc.TClass =
                     ]
                 -- (a -> x) -> (x -> b) -> f x -> Split f a b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "unSplit"
             , def =
@@ -44,7 +44,7 @@ let split : tc.TClass =
                     (e.n "r")
                  -- (forall x. (a -> x) -> (x -> b) -> f x -> r) -> Split f a b -> r
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "liftSplit"
             , def =
@@ -53,7 +53,7 @@ let split : tc.TClass =
                     (e.subj "Split" [ e.f "f", e.n "a", e.n "a" ])
                 -- f a -> Split f a a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "lowerSplit"
             , def =
@@ -65,7 +65,7 @@ let split : tc.TClass =
                     )
                 -- Invariant f => Split f a a -> f a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistSplit"
             , def =
@@ -75,7 +75,7 @@ let split : tc.TClass =
                     (e.subj "Split" [ e.f "g", e.n "a", e.n "a" ])
                 -- (f ~> g) -> Split f a b -> Split g a b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceFA "Functor" "Split"

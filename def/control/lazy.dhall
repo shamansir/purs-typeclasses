@@ -22,7 +22,7 @@ let lazy : tc.TClass =
                     (e.br (e.fn2 (e.classE "Unit") (e.t "l")))
                     (e.t "l")
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "fix"
             , def =
@@ -34,7 +34,7 @@ let lazy : tc.TClass =
                         (e.t "l")
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceFn

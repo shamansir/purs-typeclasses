@@ -56,7 +56,7 @@ let traversable : tc.TClass =
                     )
                 -- Functor g => g (f a) -> f (g a)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "collect"
             , def =
@@ -69,7 +69,7 @@ let traversable : tc.TClass =
                     )
                 -- Functor g => (a -> f b) -> g a -> f (g b)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "distributeDefault"
             , def =
@@ -81,7 +81,7 @@ let traversable : tc.TClass =
                     )
                 -- Distributive f => Functor g => g (f a) -> f (g a)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "collectDefault"
             , def =
@@ -94,7 +94,7 @@ let traversable : tc.TClass =
                     )
                 -- Distributive f => Functor g => (a -> f b) -> g a -> f (g b)
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "cotraverse"
             , def =
@@ -107,7 +107,7 @@ let traversable : tc.TClass =
                     )
                 -- Distributive f => Functor g => (g a -> b) -> g (f a) -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Identity" "Distributive"

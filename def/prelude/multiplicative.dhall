@@ -18,7 +18,7 @@ let multiplicative : tc.TClass =
             { name = "Multiplicative"
             , def = e.subj1 "Multiplicative" (e.n "a") -- Multiplicative a
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noLaws /\ tc.noOps
+            } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
     , statements =
         [

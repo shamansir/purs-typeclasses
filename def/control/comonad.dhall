@@ -55,7 +55,7 @@ let comonad : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ]
 
     } /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements

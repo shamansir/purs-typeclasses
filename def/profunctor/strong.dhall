@@ -24,7 +24,7 @@ let strong : tc.TClass =
                     (e.ap3 (e.t "p") (e.br (e.class "Tuple" [ e.n "a", e.n "c" ])) (e.br (e.class "Tuple" [ e.n "b", e.n "c" ])))
                  -- p a b -> p (Tuple a c) (Tuple b c)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "second"
             , def =
@@ -33,7 +33,7 @@ let strong : tc.TClass =
                     (e.ap3 (e.t "p") (e.br (e.class "Tuple" [ e.n "a", e.n "b" ])) (e.br (e.class "Tuple" [ e.n "a", e.n "c" ])))
                 -- p b c -> p (Tuple a b) (Tuple a c)
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "splitStrong"
             , def =
@@ -68,7 +68,7 @@ let strong : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "fanout"
             , def =
@@ -102,7 +102,7 @@ let strong : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ]
     , instances =
         [ i.instance "Function" "Strong"

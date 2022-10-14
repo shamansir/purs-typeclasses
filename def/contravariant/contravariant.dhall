@@ -57,7 +57,7 @@ let contravariant : tc.TClass =
             , belongs = tc.Belongs.Yes
             , op = Some ">$<"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "cmapFlipped"
             , def =
@@ -73,7 +73,7 @@ let contravariant : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some ">#<"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "coerce"
             , def =
@@ -87,7 +87,7 @@ let contravariant : tc.TClass =
                         (e.ap2 (e.f "f") (e.n "b"))
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     } /\ tc.noParents /\ tc.noValues /\ tc.noStatements /\ tc.noInstances
 

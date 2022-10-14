@@ -20,7 +20,7 @@ let op : tc.TClass =
                 -- Op (b -> a)
                 e.subj1 "Op" (e.fn2 (e.n "b") (e.n "a"))
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "defaultEquivalence"
             , def =
@@ -29,7 +29,7 @@ let op : tc.TClass =
                     (e.class1 "Eq" (e.n "a"))
                     (e.subj1 "Equivalence" (e.n "a"))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "comparisonEquivalence"
             , def =
@@ -38,7 +38,7 @@ let op : tc.TClass =
                     (e.class1 "Comparison" (e.n "a"))
                     (e.class1 "Equivalence" (e.n "a"))
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceAB_ "Newtype" "Op"

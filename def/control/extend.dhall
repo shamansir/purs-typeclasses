@@ -45,7 +45,7 @@ let extend : tc.TClass =
                         ]
                     }
                 ]
-            }
+            } /\ tc.noExamples
         ,
             { name = "extendFlipped"
             , def =
@@ -61,7 +61,7 @@ let extend : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "==>>"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "composeCoKleisli"
             , def =
@@ -78,7 +78,7 @@ let extend : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "=>="
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "composeCoKleisliFlipped"
             , def =
@@ -95,7 +95,7 @@ let extend : tc.TClass =
             , belongs = tc.Belongs.No
             , op = Some "=<="
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "duplicate"
             , def =
@@ -107,7 +107,7 @@ let extend : tc.TClass =
                         (e.ap2 (e.t "w") (e.br (e.ap2 (e.t "w") (e.n "a"))))
                     )
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [  -- Semigroup w => Extend ((->) w)

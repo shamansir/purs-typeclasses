@@ -22,7 +22,7 @@ let divisible : tc.TClass =
                 -- f a
                 e.ap2 (e.f "f") (e.n "a")
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj "Divisible" "Comparison"

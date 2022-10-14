@@ -41,7 +41,7 @@ let foldableWithIndex : tc.TClass =
                     ]
                 -- (i -> a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldlWithIndex"
             , def =
@@ -53,7 +53,7 @@ let foldableWithIndex : tc.TClass =
                     ]
                 -- (i -> b -> a -> b) -> b -> f a -> b
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldMapWithIndex"
             , def =
@@ -66,7 +66,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- Monoid m => (i -> a -> m) -> f a -> m
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldrWithIndexDefault"
             , def =
@@ -81,7 +81,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => (i -> a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldlWithIndexDefault"
             , def =
@@ -96,7 +96,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => (i -> b -> a -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldMapWithIndexDefaultR"
             , def =
@@ -109,7 +109,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => Monoid m => (i -> a -> m) -> f a -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldMapDefaultL"
             , def =
@@ -122,7 +122,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => Monoid m => (i -> a -> m) -> f a -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldWithIndexM"
             , def =
@@ -142,7 +142,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => Monad m => (i -> a -> b -> m a) -> a -> f b -> m a
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "traverseWithIndex_"
             , def =
@@ -155,7 +155,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- Applicative m => FoldableWithIndex i f => (i -> a -> m b) -> f a -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "forWithIndex_"
             , def =
@@ -168,7 +168,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- Applicative m => FoldableWithIndex i f => f a -> (i -> a -> m b) -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "surroundMapWithIndex"
             , def =
@@ -183,7 +183,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => Semigroup m => m -> (i -> a -> m) -> f a -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "allWithIndex"
             , def =
@@ -196,7 +196,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => HeytingAlgebra b => (i -> a -> b) -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "anyWithIndex"
             , def =
@@ -209,7 +209,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => HeytingAlgebra b => (i -> a -> b) -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "findWithIndex"
             , def =
@@ -222,7 +222,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => (i -> a -> Boolean) -> f a -> Maybe { index :: i, value :: a }
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "findMapWithIndex"
             , def =
@@ -235,7 +235,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => (i -> a -> Maybe b) -> f a -> Maybe b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldrDefault"
             , def =
@@ -250,7 +250,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => (a -> b -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldlDefault"
             , def =
@@ -265,7 +265,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => (b -> a -> b) -> b -> f a -> b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "foldMapDefault"
             , def =
@@ -278,7 +278,7 @@ let foldableWithIndex : tc.TClass =
                     )
                 -- FoldableWithIndex i f => Monoid m => (a -> m) -> f a -> m
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceSubj2 "Int" "Array" "FoldableWithIndex"

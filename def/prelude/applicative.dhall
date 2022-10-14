@@ -92,7 +92,7 @@ let applicative : tc.TClass =
                         ]
                     }
                 ]
-            } /\ tc.noOps
+            } /\ tc.noOps /\ tc.noExamples
         ,
             { name = "liftA1"
             , def =
@@ -105,7 +105,7 @@ let applicative : tc.TClass =
                     )
                 -- Applicative f => (a -> b) -> f a -> f b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "when"
             , def =
@@ -118,7 +118,7 @@ let applicative : tc.TClass =
                     )
                 -- Applicative m => Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "unless"
             , def =
@@ -131,7 +131,7 @@ let applicative : tc.TClass =
                     )
                 -- Applicative m => Boolean -> m Unit -> m Unit
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceCl "Array"

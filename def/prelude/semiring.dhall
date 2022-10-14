@@ -20,24 +20,24 @@ let semiRing : tc.TClass =
             , belongs = tc.Belongs.Yes
             , op = Some "+"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "zero"
             , def = e.n "a" -- a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "mul"
             , def = e.fn3 (e.n "a") (e.n "a") (e.n "a") -- a -> a -> a
             , belongs = tc.Belongs.Yes
             , op = Some "*"
             , opEmoji = tc.noOp
-            } /\ tc.noLaws
+            } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "one"
             , def = e.n "a" -- a
             , belongs = tc.Belongs.Yes
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , laws =
         [

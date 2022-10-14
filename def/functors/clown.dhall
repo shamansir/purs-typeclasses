@@ -21,7 +21,7 @@ let clown : tc.TClass =
                 e.class1 "Clown" (e.br (e.ap2 (e.t "f") (e.n "a")))
                 -- Clown (f a)
             , belongs = tc.Belongs.Constructor
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "hoistClown"
             , def =
@@ -34,7 +34,7 @@ let clown : tc.TClass =
                     )
                 -- (f ~> g) -> Clown f a b -> Clown g a b
             , belongs = tc.Belongs.No
-            } /\ tc.noOps /\ tc.noLaws
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     , instances =
         [ i.instanceFAB_ "Newtype" "Clown"
