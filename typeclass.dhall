@@ -11,6 +11,32 @@ let e = ./expr.dhall
 
 let Id = Text
 
+let Package = { name : Text, version : List Integer }
+
+let Module = List Text
+
+let Def = e.Expr
+
+let DefText = Text
+
+let Example = e.Expr
+
+let ExampleText = Text
+
+let Value = Text
+
+let Var = Text -- TODO: e.What?
+
+let Instance = e.Expr
+
+let InstanceText = Text
+
+let Def/toText = e.Expr/render
+
+let Example/toText = e.Expr/render
+
+let Instance/toText = e.Expr/render
+
 let LawExample =
     < LR : { left : e.Expr, right : e.Expr }
     | LMR : { left : e.Expr, middle : e.Expr, right : e.Expr }
@@ -86,19 +112,8 @@ let Belongs =
     < Yes
     | No
     | Constructor
+    | Export : Module
     >
-
-let Def = e.Expr
-
-let DefText = Text
-
-let Def/toText = e.Expr/render
-
-let Example = e.Expr
-
-let ExampleText = Text
-
-let Example/toText = e.Expr/render
 
 let Member =
     { name : Text
@@ -150,18 +165,6 @@ let What =
     | Data_
     | Package_
     >
-
-let Value = Text
-
-let Var = Text -- TODO: e.What?
-
-let Package = { name : Text, version : List Integer }
-
-let Module = List Text
-
-let Instance = e.Expr
-
-let InstanceText = Text
 
 let TClass =
     { id : Id
@@ -223,9 +226,9 @@ let TClass/toText
             t.members
     , instances =
         List/map
-            e.Expr
-            Text
-            e.Expr/render
+            Instance
+            InstanceText
+            Instance/toText
             t.instances
     , values = t.values
     , statements =

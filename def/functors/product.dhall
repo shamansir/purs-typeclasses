@@ -39,7 +39,7 @@ let product : tc.TClass =
                 -- f a -> g a -> Product f g a
             , belongs = tc.Belongs.No
             , op = Some "</\\>" -- defined in Data.Functor.Product.Nested
-            , opEmoji = None Text
+            , opEmoji = tc.noOp
             } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bihoistProduct"

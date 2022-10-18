@@ -30,6 +30,7 @@ type alias Member =
     , op : Maybe Op
     , opEmoji : Maybe Op
     , laws : List Law
+    , examples : List Example
     }
 
 
@@ -61,6 +62,9 @@ type alias Parent = String
 
 
 type alias Var = String
+
+
+type alias Example = String
 
 
 type alias TypeClass =

@@ -31,6 +31,7 @@
 * ST : https://pursuit.purescript.org/packages/purescript-st/6.0.0
 * Product.Nested (functors) : https://pursuit.purescript.org/packages/purescript-functors/5.0.0/docs/Data.Functor.Product.Nested
 * Functions : https://pursuit.purescript.org/packages/purescript-functions/6.0.0
+* Pipes : https://pursuit.purescript.org/packages/purescript-pipes/8.0.0/docs/Pipes.Prelude#v:replicateM
 
 * Math : https://pursuit.purescript.org/packages/purescript-math/4.0.0/docs/Math
 * LinearAlgebra : https://pursuit.purescript.org/packages/purescript-linear-algebra/0.5.0

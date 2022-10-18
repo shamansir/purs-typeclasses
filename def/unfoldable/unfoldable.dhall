@@ -66,7 +66,7 @@ let unfoldable : tc.TClass =
             { name = "replicateA"
             , def =
                 e.reqseq
-                    [ e.class1 "Applicative" (e.t "m"), e.subj1 "Unfoldable" (e.t "f") ]
+                    [ e.class1 "Applicative" (e.t "m"), e.subj1 "Unfoldable" (e.t "f"), e.class1 "Traversable" (e.t "f") ]
                     (e.fn3
                         (e.classE "Int")
                         (e.ap2 (e.t "m") (e.n "a"))

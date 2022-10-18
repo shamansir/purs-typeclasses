@@ -40,13 +40,14 @@ decode =
 
 decodeMember : D.Decoder Member
 decodeMember =
-    D.map5
+    D.map6
         Member
         (D.field "name" D.string)
         (D.field "def" D.string)
         (D.maybe <| D.field "op" D.string)
         (D.maybe <| D.field "opEmoji" D.string)
         ("laws" |> maybeListOf decodeLaw)
+        ("examples" |> maybeListOf decodeExample)
 
 
 decodeLaw : D.Decoder Law
@@ -54,11 +55,16 @@ decodeLaw =
     D.map2
         Law
         (D.field "law" D.string)
-        (D.field "examples" <| D.list decodeExample)
+        (D.field "examples" <| D.list decodeLawExample)
 
 
-decodeExample : D.Decoder LawExample
+decodeExample : D.Decoder Example
 decodeExample =
+    D.string
+
+
+decodeLawExample : D.Decoder LawExample
+decodeLawExample =
     let
         lr_ l r = LR { left = l, right = r }
         lmr_ l m r = LMR { left = l, middle = m, right = r }

@@ -59,7 +59,7 @@ let coproduct : tc.TClass =
                 -- (f a -> b) -> (g a -> b) -> Coproduct f g a -> b
             , belongs = tc.Belongs.No
             , op = Some "<\\/>" -- defined in Data.Functor.Coproduct.Nested
-            , opEmoji = None Text
+            , opEmoji = tc.noOp
             } /\ tc.noLaws /\ tc.noExamples
         ,
             { name = "bihoistCoproduct"
