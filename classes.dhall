@@ -116,6 +116,7 @@ let defs =
     , ./def/parsing/parsestate.dhall
     , ./def/parsing/combinators.dhall
     , ./def/parsing/stringparsers.dhall
+    , ./def/parsing/indentparser.dhall
 
     ] : List tc.TClass
 
