@@ -114,6 +114,8 @@ let defs =
     , ./def/parsing/parseerror.dhall
     , ./def/parsing/position.dhall
     , ./def/parsing/parsestate.dhall
+    , ./def/parsing/combinators.dhall
+    , ./def/parsing/stringparsers.dhall
 
     ] : List tc.TClass
 
