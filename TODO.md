@@ -2,6 +2,7 @@
 * Symbol (prelude) : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Symbol
 * Prim : https://pursuit.purescript.org/builtins/docs/Prim
 * Newtype : https://pursuit.purescript.org/packages/purescript-newtype/5.0.0
+* Functions : https://pursuit.purescript.org/packages/purescript-functions/6.0.0
 * Maybe : https://pursuit.purescript.org/packages/purescript-maybe
 * Identity : https://pursuit.purescript.org/packages/purescript-identity/3.0.0/docs/Data.Identity
 * Enums : https://pursuit.purescript.org/packages/purescript-enums/6.0.1
@@ -23,14 +24,14 @@
 * Effect.Unsafe : https://pursuit.purescript.org/packages/purescript-effect/4.0.0/docs/Effect.Unsafe
 * GenericEq : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Eq.Generic
 
-* Parsing : https://pursuit.purescript.org/packages/purescript-parsing/10.0.0/docs/Parsing
+* Parsing.Expr : https://pursuit.purescript.org/packages/purescript-parsing/10.0.0/docs/Parsing.Expr
+* Parsing.Language : https://pursuit.purescript.org/packages/purescript-parsing/10.0.0/docs/Parsing.Language
 * Lenses : https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0
 * Variant : https://pursuit.purescript.org/packages/purescript-variant/7.0.1
 * Heterogeneous : https://pursuit.purescript.org/packages/purescript-heterogeneous/0.3.0
 * Data.Bifunctor.Clown etc : https://pursuit.purescript.org/packages/purescript-bifunctors/3.0.0/docs/Data.Bifunctor
 * ST : https://pursuit.purescript.org/packages/purescript-st/6.0.0
 * Product.Nested (functors) : https://pursuit.purescript.org/packages/purescript-functors/5.0.0/docs/Data.Functor.Product.Nested
-* Functions : https://pursuit.purescript.org/packages/purescript-functions/6.0.0
 * Pipes : https://pursuit.purescript.org/packages/purescript-pipes/8.0.0/docs/Pipes.Prelude#v:replicateM
 
 * Math : https://pursuit.purescript.org/packages/purescript-math/4.0.0/docs/Math
