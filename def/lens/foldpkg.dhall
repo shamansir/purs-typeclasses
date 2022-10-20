@@ -485,7 +485,7 @@ let foldpkg : tc.TClass =
                 e.req1
                     (e.class1 "Applicative" (e.f "f"))
                     (e.fn
-                        [ ifostab_br (e.class "Endo" [ e.classE "Function", e.br (e.ap2 (e.f "f") (e.classE "Unit")) ])
+                        [ ifistab_br (e.class "Endo" [ e.classE "Function", e.br (e.ap2 (e.f "f") (e.classE "Unit")) ])
                         , e.br (e.fn3 (e.n "i") (e.n "a") (e.ap2 (e.f "f") (e.n "r")))
                         , e.n "s"
                         , e.ap2 (e.f "f") (e.classE "Unit")
@@ -500,7 +500,7 @@ let foldpkg : tc.TClass =
                 e.req1
                     (e.class1 "Applicative" (e.f "f"))
                     (e.fn
-                        [ ifostab_br (e.class "Endo" [ e.classE "Function", e.br (e.ap2 (e.f "f") (e.classE "Unit")) ])
+                        [ ifistab_br (e.class "Endo" [ e.classE "Function", e.br (e.ap2 (e.f "f") (e.classE "Unit")) ])
                         , e.n "s"
                         , e.br (e.fn3 (e.n "i") (e.n "a") (e.ap2 (e.f "f") (e.n "r")))
                         , e.ap2 (e.f "f") (e.classE "Unit")
@@ -509,6 +509,36 @@ let foldpkg : tc.TClass =
                 -- Applicative f => IndexedFold (Endo Function (f Unit)) i s t a b -> s -> (i -> a -> f r) -> f Unit
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
+        ,
+            { name = "unsafeView"
+            , def =
+                e.req1
+                    (e.classE "Partial")
+                    (e.fn3
+                        (e.n "s")
+                        (fstab_br (e.class1 "First" (e.n "a")))
+                        (e.n "a")
+                    )
+                -- Partial => s -> Fold (First a) s t a b -> a
+            , belongs = tc.Belongs.Export [ "Data", "Lens", "Fold", "Partial" ]
+            , op = Some "^?!"
+            , opEmoji = tc.noOp
+            } /\ tc.noLaws /\ tc.noExamples
+        ,
+            { name = "unsafeIndexedFold"
+            , def =
+                e.req1
+                    (e.classE "Partial")
+                    (e.fn3
+                        (e.n "s")
+                        (ifistab_br (e.class1 "First" (e.br (e.class "Tuple" [ e.n "i", e.n "a" ]))))
+                        (e.class "Tuple" [ e.n "i", e.n "a" ])
+                    )
+                -- Partial => s -> IndexedFold (First (Tuple i a)) i s t a b -> Tuple i a
+            , op = Some "^@?!"
+            , opEmoji = tc.noOp
+            , belongs = tc.Belongs.Export [ "Data", "Lens", "Fold", "Partial" ]
+            } /\ tc.noLaws /\ tc.noExamples
         ]
     } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 

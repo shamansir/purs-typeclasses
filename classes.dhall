@@ -118,6 +118,14 @@ let defs =
     , ./def/parsing/stringparsers.dhall
     , ./def/parsing/indentparser.dhall
 
+    , ./def/lens/lens.dhall
+    , ./def/lens/fold.dhall
+    , ./def/lens/affinetraversal.dhall
+    , ./def/lens/anaffinetraversal.dhall
+    , ./def/lens/commonpkg.dhall
+    , ./def/lens/foldpkg.dhall
+    , ./def/lens/affinetraversalpkg.dhall
+
     ] : List tc.TClass
 
 in

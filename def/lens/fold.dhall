@@ -15,9 +15,9 @@ let fold : tc.TClass =
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens"
     , members =
         [
-            { name = "Lens"
+            { name = "Fold"
             , def =
-                e.class "Optic" [ e.br (e.class1 "Forget" (e.n "r")), e.n "s", e.n "p", e.n "p", e.n "p" ] )
+                e.class "Optic" [ e.br (e.class1 "Forget" (e.n "r")), e.n "s", e.n "p", e.n "p", e.n "p" ]
                 -- Optic (Forget r) s t a b
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples

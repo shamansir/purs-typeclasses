@@ -19,7 +19,7 @@ let lens : tc.TClass =
             , def =
                 e.req1
                     (e.class1 "Strong" (e.n "p"))
-                    (e.class "Optic" [ e.n "p", e.n "s", e.n "p", e.n "p", e.n "p" ] )
+                    (e.class "Optic" [ e.n "p", e.n "s", e.n "t", e.n "a", e.n "b" ] )
                 -- Strong p => Optic p s t a b
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
