@@ -120,12 +120,14 @@ let defs =
 
     , ./def/lens/lens.dhall
     , ./def/lens/optic.dhall
-    , ./def/lens/getter.dhall
-    , ./def/lens/agetter.dhall
     , ./def/lens/at.dhall -- TODO: instances, examples
     , ./def/lens/index.dhall -- TODO: instances, examples
+    , ./def/lens/getter.dhall
+    , ./def/lens/agetter.dhall
     , ./def/lens/indexed.dhall -- TODO: instances
     , ./def/lens/indexedgetter.dhall
+    , ./def/lens/setter.dhall
+    , ./def/lens/indexedsetter.dhall
     , ./def/lens/fold.dhall
     , ./def/lens/indexedfold.dhall
     , ./def/lens/affinetraversal.dhall
@@ -134,6 +136,7 @@ let defs =
     -- , ./def/lens/agrate.dhall
     , ./def/lens/commonpkg.dhall
     , ./def/lens/getterpkg.dhall
+    , ./def/lens/setterpkg.dhall
     , ./def/lens/foldpkg.dhall
     , ./def/lens/affinetraversalpkg.dhall
     -- , ./def/lens/indexedpkg.dhall

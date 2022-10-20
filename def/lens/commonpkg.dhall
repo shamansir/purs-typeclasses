@@ -83,6 +83,17 @@ let commonpkg : tc.TClass =
             -- > over united (\a -> a :: Unit) [1,2,3]
             -- [1 2 3]
         ,
+            { name = "devoid"
+            , def =
+                e.class "Lens'" [ e.classE "Void", e.n "a" ]
+                -- Lens' Void a
+            , belongs = tc.Belongs.Export [ "Data", "Lens", "Lens", "Void" ]
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
+            -- > view united [1,2,3]
+            -- unit
+            -- > over united (\a -> a :: Unit) [1,2,3]
+            -- [1 2 3]
+        ,
             { name = "right"
             , def =
                 e.req1
