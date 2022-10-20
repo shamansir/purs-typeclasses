@@ -122,16 +122,22 @@ let defs =
     , ./def/lens/optic.dhall
     , ./def/lens/getter.dhall
     , ./def/lens/agetter.dhall
-    , ./def/lens/indexed.dhall
+    , ./def/lens/at.dhall -- TODO: instances, examples
+    , ./def/lens/index.dhall -- TODO: instances, examples
+    , ./def/lens/indexed.dhall -- TODO: instances
     , ./def/lens/indexedgetter.dhall
     , ./def/lens/fold.dhall
     , ./def/lens/indexedfold.dhall
     , ./def/lens/affinetraversal.dhall
     , ./def/lens/anaffinetraversal.dhall
+    -- , ./def/lens/grate.dhall
+    -- , ./def/lens/agrate.dhall
     , ./def/lens/commonpkg.dhall
     , ./def/lens/getterpkg.dhall
     , ./def/lens/foldpkg.dhall
     , ./def/lens/affinetraversalpkg.dhall
+    -- , ./def/lens/indexedpkg.dhall
+    -- , ./def/lens/gratepkg.dhall
 
     ] : List tc.TClass
 
