@@ -119,10 +119,17 @@ let defs =
     , ./def/parsing/indentparser.dhall
 
     , ./def/lens/lens.dhall
+    , ./def/lens/optic.dhall
+    , ./def/lens/getter.dhall
+    , ./def/lens/agetter.dhall
+    , ./def/lens/indexed.dhall
+    , ./def/lens/indexedgetter.dhall
     , ./def/lens/fold.dhall
+    , ./def/lens/indexedfold.dhall
     , ./def/lens/affinetraversal.dhall
     , ./def/lens/anaffinetraversal.dhall
     , ./def/lens/commonpkg.dhall
+    , ./def/lens/getterpkg.dhall
     , ./def/lens/foldpkg.dhall
     , ./def/lens/affinetraversalpkg.dhall
 

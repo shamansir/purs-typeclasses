@@ -17,7 +17,7 @@ let fold : tc.TClass =
         [
             { name = "Fold"
             , def =
-                e.class "Optic" [ e.br (e.class1 "Forget" (e.n "r")), e.n "s", e.n "p", e.n "p", e.n "p" ]
+                e.class "Optic" [ e.br (e.class1 "Forget" (e.n "r")), e.n "s", e.n "t", e.n "a", e.n "b" ]
                 -- Optic (Forget r) s t a b
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
