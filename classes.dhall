@@ -121,16 +121,21 @@ let defs =
     , ./def/lens/lens.dhall
     , ./def/lens/optic.dhall
     , ./def/lens/iso.dhall
+    , ./def/lens/fold.dhall
     , ./def/lens/aniso.dhall
     , ./def/lens/at.dhall -- TODO: instances, examples
     , ./def/lens/index.dhall -- TODO: instances, examples
     , ./def/lens/getter.dhall
+    , ./def/lens/setter.dhall
+    , ./def/lens/alens.dhall
     , ./def/lens/agetter.dhall
     , ./def/lens/indexed.dhall -- TODO: instances
+    , ./def/lens/indexedoptic.dhall
+    , ./def/lens/indexedlens.dhall
+    , ./def/lens/anindexedlens.dhall
     , ./def/lens/indexedgetter.dhall
-    , ./def/lens/setter.dhall
     , ./def/lens/indexedsetter.dhall
-    , ./def/lens/fold.dhall
+    , ./def/lens/indexedtraversal.dhall
     , ./def/lens/indexedfold.dhall
     , ./def/lens/affinetraversal.dhall
     , ./def/lens/anaffinetraversal.dhall
@@ -140,6 +145,7 @@ let defs =
     -- , ./def/lens/grate.dhall
     -- , ./def/lens/agrate.dhall
     , ./def/lens/commonpkg.dhall
+    , ./def/lens/lenspkg.dhall
     , ./def/lens/getterpkg.dhall
     , ./def/lens/setterpkg.dhall
     , ./def/lens/foldpkg.dhall
@@ -147,6 +153,7 @@ let defs =
     , ./def/lens/isopkg.dhall
     -- , ./def/lens/indexedpkg.dhall
     -- , ./def/lens/gratepkg.dhall
+    -- , ./def/lens/wander.dhall
 
     ] : List tc.TClass
 

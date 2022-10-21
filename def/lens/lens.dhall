@@ -23,6 +23,7 @@ let lens : tc.TClass =
                 -- Strong p => Optic p s t a b
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
+            -- over _2 String.length $ Tuple "ignore" "four" == Tuple "ignore" 4
         ,
             { name = "Lens'"
             , def =
@@ -33,6 +34,11 @@ let lens : tc.TClass =
                 -- type Lens' s a = Lens s s a a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
+            -- _2 :: forall s t a b. Lens (Tuple s a) (Tuple t b) a b
+            -- set _2 "NEW" (Tuple 1 2) == (Tuple 1 "NEW")
+            -- set (_2 :: Lens' (Tuple Int Int) Int) "NEW" (Tuple 1 2)
+            --            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
         ]
     } /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
