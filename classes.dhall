@@ -120,6 +120,8 @@ let defs =
 
     , ./def/lens/lens.dhall
     , ./def/lens/optic.dhall
+    , ./def/lens/iso.dhall
+    , ./def/lens/aniso.dhall
     , ./def/lens/at.dhall -- TODO: instances, examples
     , ./def/lens/index.dhall -- TODO: instances, examples
     , ./def/lens/getter.dhall
@@ -132,6 +134,9 @@ let defs =
     , ./def/lens/indexedfold.dhall
     , ./def/lens/affinetraversal.dhall
     , ./def/lens/anaffinetraversal.dhall
+    , ./def/lens/re.dhall -- TODO: instances
+    , ./def/lens/exchange.dhall -- TODO: instances
+    , ./def/lens/newtype.dhall
     -- , ./def/lens/grate.dhall
     -- , ./def/lens/agrate.dhall
     , ./def/lens/commonpkg.dhall
@@ -139,6 +144,7 @@ let defs =
     , ./def/lens/setterpkg.dhall
     , ./def/lens/foldpkg.dhall
     , ./def/lens/affinetraversalpkg.dhall
+    , ./def/lens/isopkg.dhall
     -- , ./def/lens/indexedpkg.dhall
     -- , ./def/lens/gratepkg.dhall
 
