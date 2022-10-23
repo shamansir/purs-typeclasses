@@ -189,6 +189,30 @@ let commonpkg : tc.TClass =
                 -- Lens (Product f g a) (Product f h a) (g a) (h a)
             , belongs = tc.Belongs.Export [ "Data", "Lens", "Lens", "Product" ]
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
+        ,
+            { name = "_Left*"
+            , def =
+                e.class "Prism"
+                    [ e.br (e.class "Coproduct" [ e.f "f", e.f "g", e.n "a" ])
+                    , e.br (e.class "Coproduct" [ e.f "h", e.f "g", e.n "a" ])
+                    , e.br (e.ap2 (e.f "f") (e.n "a"))
+                    , e.br (e.ap2 (e.f "h") (e.n "a"))
+                    ]
+                -- Prism (Coproduct f g a) (Coproduct h g a) (f a) (h a)
+            , belongs = tc.Belongs.Export [ "Data", "Lens", "Prism", "Coproduct" ]
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
+        ,
+            { name = "_Right*"
+            , def =
+                e.class "Prism"
+                    [ e.br (e.class "Product" [ e.f "f", e.f "g", e.n "a" ])
+                    , e.br (e.class "Product" [ e.f "f", e.f "h", e.n "a" ])
+                    , e.br (e.ap2 (e.f "g") (e.n "a"))
+                    , e.br (e.ap2 (e.f "h") (e.n "a"))
+                    ]
+                -- Prism (Coproduct f g a) (Coproduct f h a) (g a) (h a)
+            , belongs = tc.Belongs.Export [ "Data", "Lens", "Prism", "Coproduct" ]
+            } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
     } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
