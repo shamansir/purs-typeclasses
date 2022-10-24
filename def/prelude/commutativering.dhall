@@ -1,6 +1,8 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
+
 
 -- class (Ring a) <= CommutativeRing a
 
@@ -14,6 +16,12 @@ let commutativeRing : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.CommutativeRing"
+    , def =
+        d.class_vp
+            (d.id "commutativering")
+            "CommutativeRing"
+            [ d.v "a" ]
+            [ d.p (d.id "ring") "Ring" [ d.v "a" ] ]
     , laws =
         [
             { law = "commutative"

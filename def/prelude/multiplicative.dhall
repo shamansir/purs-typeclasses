@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- newtype Multiplicative a
 
@@ -13,6 +14,7 @@ let multiplicative : tc.TClass =
     , module = [ "Data", "Monoid"]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Multiplicative"
+    , def = d.nt (d.id "multiplicative") "Multiplicative" [ d.v "a" ]
     , members =
         [
             { name = "Multiplicative"

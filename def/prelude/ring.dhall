@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class (Semiring a) <= Ring a where
 
@@ -14,6 +15,12 @@ let ring : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Ring"
+    , def =
+        d.class_vp
+            (d.id "ring")
+            "Ring"
+            [ d.v "a" ]
+            [ d.p (d.id "semiring") "Semiring" [ d.v "a" ] ]
     , members =
         [
             { name = "sub"

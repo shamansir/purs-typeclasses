@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Monad :: (Type -> Type) -> Constraint
 -- class (Applicative m, Bind m) <= Monad m
@@ -15,6 +16,15 @@ let monad : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Monad"
+    , def =
+        d.class_vpc
+            (d.id "monad")
+            "Monad"
+            [ d.v "m" ]
+            [ d.p (d.id "applicative") "Applicative" [ d.v "m" ]
+            , d.p (d.id "bind") "Bind" [ d.v "m" ]
+            ]
+            d.t2c
     , laws =
         [
             { law = "left identity"

@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Eq a where
 
@@ -13,6 +14,7 @@ let eq : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Eq"
+    , def = d.class_v (d.id "eq") "Eq" [ d.v "a" ]
     , members =
         [
             { name = "eq"

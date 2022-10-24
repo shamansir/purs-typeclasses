@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-let d = ../../typedef.dhall
+let d = ./../../typedef.dhall
 let e_ = ../../expr.dhall
 let e = ./../../build_expr.dhall
 

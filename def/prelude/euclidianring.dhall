@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class (CommutativeRing a) <= EuclideanRing a where
 
@@ -14,6 +15,12 @@ let euclidianRing : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.EuclideanRing"
+    , def =
+        d.class_vp
+            (d.id "euclidianring")
+            "EuclidianRing"
+            [ d.v "a" ]
+            [ d.p (d.id "commutativering") "CommutativeRing" [ d.v "a" ] ]
     , members =
         [
             { name = "degree"

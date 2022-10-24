@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 
 -- newtype Endo :: forall k. (k -> k -> Type) -> k -> Type
@@ -15,6 +16,7 @@ let endo : tc.TClass =
     , module = [ "Data", "Monoid" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Endo"
+    , def = d.nt_c (d.id "endo") "Endo" [ d.v "c", d.vn "a" ] d.kkt_kt
     , statements =
         [
             { left =

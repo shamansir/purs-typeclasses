@@ -60,6 +60,12 @@ let PackageDef =
     }
 
 
+let InternalDef =
+    { name : Text
+    , id : Id
+    }
+
+
 -- add module, info, package
 let Def =
     < Data_ : DataDef
@@ -67,6 +73,7 @@ let Def =
     | Newtype_ : NewtypeDef
     | Class_ : ClassDef
     | Package_ : PackageDef
+    | Internal_ : InternalDef
     >
 
 
@@ -155,6 +162,12 @@ let pkg
     Def.Package_ { id, name }
 
 
+let int
+    : Id -> Text -> Def
+    = \(id : Id) -> \(name : Text) ->
+    Def.Internal_ { id, name }
+
+
 let p
     : Id -> Text -> List e.Arg -> Parent
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
@@ -170,6 +183,16 @@ let pe
 let v
     : Text -> e.Arg
     = e.Arg.VarArg
+
+
+let vn
+    : Text -> e.Arg
+    = e.Arg.VarNominal
+
+
+let vp
+    : Text -> e.Arg
+    = e.Arg.VarPhantom
 
 
 let cv
@@ -504,6 +527,20 @@ d.nt_e (d.id "position") "Position"
 newtype Position
 -}
 
+{-
+d.nt_c (d.id "endo") "Endo" [ d.v "c", d.vn "a" ] d.kkt_kt
+
+newtype Endo :: forall k. (k -> k -> Type) -> k -> Type
+newtype Endo c a // a is nominal
+-}
+
+{-
+d.data_c (d.id "proxy") "Proxy" [ d.vp "a" ] d.kt
+
+data Proxy :: forall k. k -> Type
+data Proxy a // a is phantom
+-}
+
 -- (Type -> Type) -> Type -> Type -> Type
 let t2t3 : e.Constraint = [ cfn_br cctype2, ctype, ctype, ctype ]
 
@@ -531,14 +568,23 @@ let t3c : e.Constraint = [ cfn_br cctype3, ccon ]
 -- Type -> (Type -> Type) -> Constraint
 let tt2c : e.Constraint = [ ctype, cfn_br cctype2, ccon ]
 
+-- forall k. k -> Type
+let kt : e.Constraint = ccforall [ v "k" ] [ cv "k", ctype ]
+
 -- forall k. Type -> k -> Type
 let tkt : e.Constraint = ccforall [ v "k" ] [ ctype, cv "k", ctype ]
 
 -- forall k. (k -> Type) -> k -> Type
 let kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
 
+-- forall k. (k -> Type) -> (k -> Type) -> Type
+let kt_kt_t : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ctype ]
+
 -- forall k. (k -> Type) -> (k -> Type) -> k -> Type
 let kt_kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], cv "k", ctype ]
+
+-- forall k. (k -> k -> Type) -> k -> Type
+let kkt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], cv "k", ctype ]
 
 -- forall k1 k2. (k2 -> Type) -> (k1 -> k2) -> k1 -> Type
 let k12kt : e.Constraint = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k2", ctype ], cfn_br [ cv "k1", cv "k2" ], cv "k1", ctype ]
@@ -549,13 +595,16 @@ let kkt_kkt : e.Constraint = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k1", cv 
 -- forall k. (k -> Type) -> (k -> Type) -> Constraint
 let kt_kt_c : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ccon ]
 
+-- forall k. (k -> k -> Type) -> Constraint
+let kktc : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], ccon ]
+
 in
     { id
     , Def
     , ctype, cfn_br
     , cctype, cctype2, cctype3, ccon, ccforall
-    , p, pe, v, cv
+    , p, pe, v, vn, vp, cv
     , dep, dep1, deps1
-    , data, data_c, data_e, t, t_c, nt, nt_c, nt_e, pkg, class, class_v, class_c, class_vp, class_vc, class_vd, class_vpd, class_vpc, class_vpdc
-    , t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, tkt, kt_kt, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c, t_t2_t2
+    , data, data_c, data_e, t, t_c, nt, nt_c, nt_e, pkg, int, class, class_v, class_c, class_vp, class_vc, class_vd, class_vpd, class_vpc, class_vpdc
+    , t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, kt, tkt, t_t2_t2, kt_kt, kt_kt_t, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c, kktc, kkt_kt
     }

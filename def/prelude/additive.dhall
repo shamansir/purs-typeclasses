@@ -1,6 +1,8 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
+
 
 -- newtype Additive a
 
@@ -13,6 +15,7 @@ let additive : tc.TClass =
     , module = [ "Data", "Monoid" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Additive#t:Additive"
+    , def = d.nt (d.id "additive") "Additive" [ d.v "a" ]
     , members =
         [
             { name = "Additive"

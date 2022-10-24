@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- newtype Last a
 
@@ -13,6 +14,7 @@ let last : tc.TClass =
     , module = [ "Data", "Semigroup" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Semigroup.Last"
+    , def = d.nt (d.id "last") "Last" [ d.v "a" ]
     , members =
         [
             { name = "Last"

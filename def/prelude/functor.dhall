@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Functor :: (Type -> Type) -> Constraint
 -- class Functor f where
@@ -14,6 +15,12 @@ let functor : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Functor"
+    , def =
+        d.class_vc
+            (d.id "functor")
+            "Functor"
+            [ d.v "f" ]
+            d.t2c
     , members =
         [
             { name = "map"

@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Apply :: (Type -> Type) -> Constraint
 -- class (Functor f) <= Apply f where
@@ -15,6 +16,13 @@ let apply : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Apply#t:Apply"
+    , def =
+        d.class_vpc
+            (d.id "apply")
+            "Apply"
+            [ d.v "f" ]
+            [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
+            d.t2c
     , members =
         [
             { name = "apply"

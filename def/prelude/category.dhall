@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Category :: forall k. (k -> k -> Type) -> Constraint
 -- class (Semigroupoid a) <= Category a where
@@ -15,6 +16,13 @@ let category : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Category#t:Category"
+    , def =
+        d.class_vpc
+            (d.id "category")
+            "Category"
+            [ d.v "a" ]
+            [ d.p (d.id "semigroupoid") "Semigroupoid" [ d.v "a" ] ]
+            d.kktc
     , members =
         [
             { name = "identity"

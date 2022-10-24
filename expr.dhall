@@ -127,6 +127,8 @@ let What/renderRaw
 
 let Arg =
     < VarArg : Text
+    | VarNominal : Text
+    | VarPhantom : Text
     >
 
 
@@ -135,6 +137,8 @@ let Arg/render
     = \(arg : Arg) ->
     merge
         { VarArg = \(var : Text) -> "{{var:${var}}}"
+        , VarNominal = \(var : Text) -> "{{nominal:${var}}}"
+        , VarPhantom = \(var : Text) -> "{{phantom:${var}}}"
         }
         arg
 
@@ -144,6 +148,8 @@ let Arg/renderRaw
     = \(arg : Arg) ->
     merge
         { VarArg = \(var : Text) -> var
+        , VarNominal = \(var : Text) -> var
+        , VarPhantom = \(var : Text) -> var
         }
         arg
 

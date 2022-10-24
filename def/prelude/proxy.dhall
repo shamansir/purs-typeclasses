@@ -1,4 +1,6 @@
 let tc = ./../../typeclass.dhall
+let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- data Proxy :: forall k. k -> Type
@@ -13,6 +15,7 @@ let proxy : tc.TClass =
     , module = [ "Type" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Type.Proxy"
+    , def = d.data_c (d.id "proxy") "Proxy" [ d.vp "a" ] d.kt
     , members =
         [
             { name = "Proxy"

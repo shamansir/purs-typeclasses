@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ../../typedef.dhall
+let d = ./../../typedef.dhall
 let e_ = ./../../expr.dhall
 let e = ./../../build_expr.dhall
 
