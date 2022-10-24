@@ -18,11 +18,11 @@ let Module = List Text
 
 let Def = e.Expr
 
-let DefText = Text
+let DefText = Text -- TODO: e.SealedSource
 
 let Example = e.Expr
 
-let ExampleText = Text
+let ExampleText = Text -- TODO: e.SealedSource
 
 let Value = Text
 
@@ -30,7 +30,7 @@ let Var = Text -- TODO: e.What?
 
 let Instance = e.Expr
 
-let InstanceText = Text
+let InstanceText = Text -- TODO: e.SealedSource
 
 let Def/toText = e.Expr/render
 
@@ -194,6 +194,7 @@ let TClassText =
     , name : Text
     , info  : Text
     , parents : List Id
+    , def : d.DefText
     , package : Package
     , module : Module
     , laws : List LawText
@@ -215,6 +216,7 @@ let TClass/toText
     , parents = t.parents
     , package = t.package
     , module = t.module
+    , def = d.Def/render t.def
     , laws =
         List/map
             Law

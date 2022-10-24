@@ -66,8 +66,9 @@ let InternalDef =
     }
 
 
+-- id and name could be shared
 -- add module, info, package
-let Def =
+let Def = -- TODO: rename to `Spec`, we have `Def` in `typeclass.dhall`
     < Data_ : DataDef
     | Type_ : TypeDef
     | Newtype_ : NewtypeDef
@@ -325,22 +326,76 @@ let test_c07 = assert : e.Constraint/render [ ctype, ctype, ccon ] ≡ "{{kw:Typ
 let test_c08 = assert : e.Constraint/render [ cfn_br cctype3, ccon ] ≡ "({{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Constraint}}"
 
 
-let Def/renderConstraint = \(td : Def) -> Some "" -- TODO
+let Def/renderConstraint
+    : Def -> Optional Text
+    = \(def : Def) ->
+    merge
+                        -- TODO: render vars
+        { Data_ = \(dd : DataDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "{{kw:data}} {{class:${dd.name}}} {{op::}} ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                dd.constraint
+        , Type_ = \(td : TypeDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "{{kw:type}} {{type:${td.name}}} {{op::}} ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                td.constraint
+        , Newtype_ = \(ntd : NewtypeDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "{{kw:newtype}} {{type:${ntd.name}}} {{op::}} ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                ntd.constraint
+        , Class_ = \(cd : ClassDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "{{kw:class}} {{class:${cd.name}}} {{op::}} ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                cd.constraint
+        , Package_ = \(pd : PackageDef) -> None Text
+        , Internal_ = \(id : InternalDef) -> None Text
+        }
+        def
 
 
-let Def/renderSpec = \(td : Def) -> "" -- TODO
+let Def/renderConstraintRaw
+    : Def -> Optional Text
+    = \(def : Def) -> None Text
 
 
-let Def/renderConstraintRaw = \(td : Def) -> Some "" -- TODO
+let Def/renderSpec
+    : Def -> Text
+    = \(def : Def) -> ""
 
 
-let Def/renderSpecRaw = \(td : Def) -> "" -- TODO
+let Def/renderSpecRaw
+    : Def -> Text
+    = \(def : Def) -> ""
 
 
-let Def/render = \(td : Def) -> { constraint = Some "", def = "" } -- TODO
+let DefText =
+    { constraint : Optional Text
+    , spec : Text
+    }
 
 
-let Def/renderRaw = \(td : Def) -> { constraint = Some "", def = "" } -- TODO
+let Def/render
+    : Def -> DefText
+    = \(td : Def) ->
+    { constraint = Def/renderConstraint td
+    , spec = Def/renderSpec td
+    }
+
+
+let Def/renderRaw
+    : Def -> DefText
+    = \(td : Def) ->
+    { constraint = Def/renderConstraintRaw td
+    , spec = Def/renderSpecRaw td
+    }
 
 
 {-
@@ -603,7 +658,7 @@ let kktc : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ],
 
 in
     { id
-    , Def
+    , Def, DefText, Def/render, Def/renderRaw
     , ctype, cfn_br
     , cctype, cctype2, cctype3, ccon, ccforall
     , p, pe, v, vn, vp, cv
