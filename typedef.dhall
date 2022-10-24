@@ -14,6 +14,12 @@ let Id =
 let Constraint = List e.CItem
 
 
+let Parent = { id : Id, name : Text, vars : List e.Arg }
+
+
+let Dependencies = { from : List e.Arg, to : List e.Arg }
+
+
 let DataDef =
     { name : Text
     , id : Id
@@ -34,8 +40,8 @@ let ClassDef =
     { name : Text
     , id : Id
     , vars : List e.Arg
-    , parents : List { id : Id, name : Text, vars : List e.Arg }
-    , dependencies : { from : List e.Arg, to : List e.Arg }
+    , parents : List Parent
+    , dependencies : Optional Dependencies
     , constraint : Optional Constraint
     }
 
@@ -100,6 +106,103 @@ let nt_c
     TypeDef.Newtype_ { id, name, vars, constraint = Some constraint }
 
 
+let pkg
+    : Id -> Text -> TypeDef
+    = \(id : Id) -> \(name : Text) ->
+    TypeDef.Package_ { id, name }
+
+
+let p
+    : Id -> Text -> List e.Arg -> Parent
+    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
+    { id, name, vars }
+
+
+let class
+   : Id -> Text -> TypeDef
+    = \(id : Id) -> \(name : Text) ->
+    TypeDef.Class_
+        { id, name
+        , vars = [] : List e.Arg
+        , parents = [] : List Parent
+        , dependencies = None Dependencies
+        , constraint = None Constraint
+        }
+
+
+let class_v
+   : Id -> Text -> List e.Arg -> TypeDef
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
+   TypeDef.Class_
+        { id, name, vars
+        , parents = [] : List Parent
+        , dependencies = None Dependencies
+        , constraint = None Constraint
+        }
+
+
+let class_c
+   : Id -> Text -> Constraint -> TypeDef
+   = \(id : Id) -> \(name : Text) -> \(cnst : Constraint) ->
+   TypeDef.Class_
+        { id, name, vars = [] : List e.Arg
+        , parents = [] : List Parent
+        , dependencies = None Dependencies
+        , constraint = Some cnst
+        }
+
+
+let class_vp
+   : Id -> Text -> List e.Arg -> List Parent -> TypeDef
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) ->
+   TypeDef.Class_
+        { id, name, vars, parents
+        , dependencies = None Dependencies
+        , constraint = None Constraint
+        }
+
+
+let class_vc
+   : Id -> Text -> List e.Arg -> Constraint -> TypeDef
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(cnst : Constraint) ->
+   TypeDef.Class_
+        { id, name, vars
+        , parents = [] : List Parent
+        , dependencies = None Dependencies
+        , constraint = Some cnst
+        }
+
+
+let class_vpd
+   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> TypeDef
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) -> \(deps : Dependencies) ->
+   TypeDef.Class_
+        { id, name, vars, parents
+        , dependencies = Some deps
+        , constraint = None Constraint
+        }
+
+
+let class_vpc
+   : Id -> Text -> List e.Arg -> List Parent -> Constraint -> TypeDef
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) ->  \(cnst : Constraint) ->
+   TypeDef.Class_
+        { id, name, vars, parents
+        , dependencies = None Dependencies
+        , constraint = Some cnst
+        }
+
+
+let class_vpdc
+   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> Constraint -> TypeDef
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) -> \(deps : Dependencies) -> \(cnst : Constraint) ->
+   TypeDef.Class_
+        { id, name, vars, parents
+        , dependencies = Some deps
+        , constraint = Some cnst
+        }
+
+
 {-
 let test_c01 = assert : Constraint/render cctype ≡ "{{kw:Type}}"
 let test_c02 = assert : Constraint/render cctype2 ≡ "{{kw:Type}} {{op:->}} {{kw:Type}}"
@@ -118,5 +221,6 @@ in
     , Constraint/render
     , ctype, cfn
     , cctype, cctype2, cctype3
-    , data, data_c
+    , p
+    , data, data_c, nt, nt_c, pkg, class, class_v, class_c, class_vp, class_vc, class_vpd, class_vpc, class_vpdc
     }
