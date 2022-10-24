@@ -160,6 +160,7 @@ let concatArgsRaw
         concatHelper Arg Arg/renderRaw sep args
 
 
+
 let Apply_ = { what : What, arguments : List SealedExpr }
 let ApplyExp_ = { items : List SealedExpr }
 let OperatorCall_ = { left : SealedExpr, op : Text, right : SealedExpr }
@@ -179,6 +180,17 @@ let Lambda_ = { args : List Arg, body : SealedExpr }
 let Forall_ = { args : List Arg, body : SealedExpr }
 let Property = { mapKey : Text, mapValue : SealedExpr }
 let Object_ = List Property
+
+
+let CItem =
+    < CType
+    | CVar : Arg
+    | CKind
+    | CConstraint
+    | CFn : List SealedExpr
+    | CForall : Forall_
+    | CBr : SealedExpr
+    >
 
 
 let Expr =
@@ -205,12 +217,65 @@ let Expr =
     | Num : Text
     | Keyword : Text
     | Object : Object_
+    -- | Constraint : Constraint_
+    | ConstraintItem : CItem
     | Nothing
     >
 
 
 let hasNone
     = \(t : Type) -> \(list : List t) -> Natural/isZero (List/length t list)
+
+
+let CItem/render
+    : CItem -> Text
+    = \(citem : CItem) ->
+    merge
+        { CType = "{{kw:Type}}"
+        , CConstraint = "{{kw:Constraint}}"
+        , CKind = "{{kw:Kind}}"
+        , CVar = \(arg : Arg) -> "{{${Arg/render arg}}}"
+        , CFn = \(items : List SealedExpr) -> "${concatExprs " {{op:->}} " items}"
+        , CBr = \(expr : SealedExpr) -> "(${SealedExpr/unseal expr})"
+        , CForall
+            =  \(forall_ : Forall_)
+            -> tt "{{kw:forall}} ${concatArgs " " forall_.args}. ${SealedExpr/unseal forall_.body}"
+        }
+        citem
+
+
+let CItem/renderRaw
+    : CItem -> Text
+    = \(citem : CItem) ->
+    merge
+        { CType = "Type"
+        , CConstraint = "Constraint"
+        , CKind = "Kind"
+        , CVar = \(arg : Arg) -> Arg/renderRaw arg
+        , CFn = \(items : List SealedExpr) -> concatExprsRaw " -> " items
+        , CBr = \(expr : SealedExpr) -> "(${SealedExpr/unsealRaw expr})"
+        , CForall
+            =  \(forall_ : Forall_)
+            -> tt "kw:forall ${concatArgsRaw " " forall_.args}. ${SealedExpr/unsealRaw forall_.body}"
+        }
+        citem
+
+
+let CItem/toExpr
+    : CItem -> Expr
+    = Expr.ConstraintItem
+
+
+let concatCItems
+    : Text -> List CItem -> Text
+    = \(sep : Text) -> \(citems : List CItem) ->
+        concatHelper CItem CItem/render sep citems
+
+
+let concatCItemsRaw
+    : Text -> List CItem -> Text
+    = \(sep : Text) -> \(citems : List CItem) ->
+        concatHelper CItem CItem/renderRaw sep citems
 
 
 let Expr/render
@@ -278,6 +343,7 @@ let Expr/render
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"
         , Keyword = \(kw : Text) -> "{{kw:${kw}}}"
+        , ConstraintItem = \(citem : CItem) -> CItem/render citem
         , Nothing = ""
         }
         expr
@@ -348,6 +414,7 @@ let Expr/renderRaw
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> num
         , Keyword = \(kw : Text) -> kw
+        , ConstraintItem = \(citem : CItem) -> CItem/renderRaw citem
         , Nothing = ""
         }
         expr
@@ -414,9 +481,9 @@ let test_apply_raw = assert
     ≡ "foo a f"
 
 in
-    { What, Arg, Property, Expr, SealedSource
-    , Expr/seal, Expr/sealAll, SealedExpr/getSource
-    , What/render, Arg/render, Expr/render
-    , What/renderRaw, Arg/renderRaw, Expr/renderRaw
+    { What, Arg, Property, CItem, Expr, SealedSource
+    , Expr/seal, Expr/sealAll, SealedExpr/getSource, CItem/toExpr
+    , What/render, Arg/render, CItem/render, Expr/render
+    , What/renderRaw, Arg/renderRaw, CItem/renderRaw, Expr/renderRaw
     , Expr/none
     }

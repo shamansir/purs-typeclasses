@@ -166,6 +166,28 @@ let What =
     | Package_
     >
 
+
+let TypeDef =
+    < Data_ :
+        { vars : List e.Arg
+        , constraint : Optional e.Expr
+        }
+    -- | Type_
+    | Newtype_ :
+        { vars : List e.Arg
+        , constraint : Optional e.Expr
+        }
+    | Class_ :
+        { name : Text
+        , id : Text
+        , vars : List e.Arg
+        , parents : List { id : Text, name : Text, vars : List e.Arg }, dependencies : { from : List e.Arg, to : List e.Arg }
+        , constraint : Optional e.Expr
+        }
+    | Package_
+    >
+
+
 let TClass =
     { id : Id
     , what : What
