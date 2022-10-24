@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let d = ../../typedef.dhall
 let e_ = ../../expr.dhall
 let e = ./../../build_expr.dhall
 
@@ -17,6 +18,7 @@ let tokenParsers : tc.TClass =
     , module = [ "Parsing", "Token" ]
     , package = tc.pkmj "purescript-parsing" +10
     , link = "purescript-parsing/10.0.0/docs/Parsing"
+    , def = d.pkg (d.id "tokenparsers") "Parsing.Token"
     , members =
         [
             { name = "token"

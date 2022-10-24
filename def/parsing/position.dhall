@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Position
@@ -12,6 +13,7 @@ let position : tc.TClass =
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
     , link = "purescript-parsing/10.0.0/docs/Parsing"
+    , def = d.nt_e (d.id "position") "Position"
     , members =
         [
             { name = "Position"

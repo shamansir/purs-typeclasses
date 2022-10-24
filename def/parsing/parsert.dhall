@@ -1,9 +1,13 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype ParserT :: Type -> (Type -> Type) -> Type -> Type
 -- newtype ParserT s m a
+
+-- ParserT (forall r. Fn5 (ParseState s) ((Unit -> r) -> r) (m (Unit -> r) -> r) (Fn2 (ParseState s) ParseError r) (Fn2 (ParseState s) a r) r)
+
 
 let parsert : tc.TClass =
     { id = "parsert"
@@ -14,6 +18,7 @@ let parsert : tc.TClass =
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
     , link = "purescript-parsing/10.0.0/docs/Parsing"
+    , def = d.nt_c (d.id "parsert") "ParserT" [ d.v "s", d.v "m", d.v "a" ] d.t_t2_t2
     , members =
         [
             { name = "runParserT"

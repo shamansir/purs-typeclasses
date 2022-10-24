@@ -1,9 +1,13 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ../../typedef.dhall
 let e_ = ./../../expr.dhall
 let e = ./../../build_expr.dhall
 
 -- type IndentParser s a = ParserT s (State Position) a
+
+let cexpr = e.class "ParserT" [ e.n "s", e.br (e.class1 "State" (e.classE "Position")), e.n "a" ]
+    -- ParserT s (State Position) a
 
 let ips = \(last : e_.Expr) -> e.subj "IndentParser" [ e.n "s", last ]  -- IndentParser s <last>
 let ipsa = ips (e.n "a")                                                -- IndentParser s a
@@ -24,11 +28,11 @@ let indentparser : tc.TClass =
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
     , link = "purescript-parsing/10.0.0/docs/Parsing"
+    , def = d.t (d.id "indentparser") "IndentParser" [ d.v "s", d.v "a" ] cexpr
     , members =
         [
             { name = "IndentParser"
-            , def =
-                e.class "ParserT" [ e.n "s", e.br (e.class1 "State" (e.classE "Position")), e.n "a" ]
+            , def = cexpr
                 -- type IndentParser s a = ParserT s (State Position) a
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples

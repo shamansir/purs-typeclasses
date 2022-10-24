@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- data ParseState s
@@ -13,6 +14,7 @@ let parsestate : tc.TClass =
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
     , link = "purescript-parsing/10.0.0/docs/Parsing"
+    , def = d.data (d.id "parsestate") "ParseState" [ d.v "s" ]
     , members =
         [
             { name = "ParseState"

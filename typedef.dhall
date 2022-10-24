@@ -113,6 +113,12 @@ let data_c
     Def.Data_ { id, name, vars, constraint = Some constraint }
 
 
+let data_e
+    : Id -> Text -> Def
+    = \(id : Id) -> \(name : Text) ->
+    data id name ([] : List e.Arg)
+
+
 let nt
     : Id -> Text -> List e.Arg -> Def
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
@@ -123,6 +129,12 @@ let nt_c
     : Id -> Text -> List e.Arg -> e.Constraint -> Def
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.Constraint) ->
     Def.Newtype_ { id, name, vars, constraint = Some constraint }
+
+
+let nt_e
+    : Id -> Text ->  Def
+    = \(id : Id) -> \(name : Text) ->
+    nt id name ([] : List e.Arg)
 
 
 let t
@@ -475,6 +487,21 @@ type IndexedOptic p i s t a b = Indexed p i a b -> p s t
 
 {-
 d.nt_c (d.id "re") "Re" [ d.v "p", d.v "s", d.v "t", d.v "a", d.v "b" ] d.t3t5
+
+newtype Re :: (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type
+newtype Re p s t a b
+-}
+
+{-
+d.data_e (d.id "parseerror") "ParseError"
+
+data ParseError
+-}
+
+{-
+d.nt_e (d.id "position") "Position"
+
+newtype Position
 -}
 
 -- (Type -> Type) -> Type -> Type -> Type
@@ -491,6 +518,9 @@ let t3t5 : e.Constraint = [ cfn_br cctype3, ctype, ctype, ctype, ctype, ctype ]
 
 -- (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type -> Type
 let t3t6 : e.Constraint = [ cfn_br cctype3, ctype, ctype, ctype, ctype, ctype, ctype ]
+
+-- Type -> (Type -> Type) -> Type -> Type
+let t_t2_t2 : e.Constraint = [ ctype, cfn_br cctype2, ctype, ctype ]
 
 -- (Type -> Type) -> Constraint
 let t2c : e.Constraint = [ cfn_br cctype2, ccon ]
@@ -526,6 +556,6 @@ in
     , cctype, cctype2, cctype3, ccon, ccforall
     , p, pe, v, cv
     , dep, dep1, deps1
-    , data, data_c, t, t_c, nt, nt_c, pkg, class, class_v, class_c, class_vp, class_vc, class_vd, class_vpd, class_vpc, class_vpdc
-    , t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, tkt, kt_kt, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c
+    , data, data_c, data_e, t, t_c, nt, nt_c, nt_e, pkg, class, class_v, class_c, class_vp, class_vc, class_vd, class_vpd, class_vpc, class_vpdc
+    , t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, tkt, kt_kt, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c, t_t2_t2
     }
