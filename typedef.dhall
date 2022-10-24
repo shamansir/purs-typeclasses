@@ -48,7 +48,8 @@ let PackageDef =
     }
 
 
-let TypeDef =
+-- add module, info, package
+let Def =
     < Data_ : DataDef
     -- | Type_
     | Newtype_ : NewtypeDef
@@ -89,33 +90,33 @@ let id = Id.Id
 
 
 let data
-    : Id -> Text -> List e.Arg -> TypeDef
+    : Id -> Text -> List e.Arg -> Def
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-    TypeDef.Data_ { id, name, vars, constraint = None e.Constraint }
+    Def.Data_ { id, name, vars, constraint = None e.Constraint }
 
 
 let data_c
-    : Id -> Text -> List e.Arg -> e.Constraint -> TypeDef
+    : Id -> Text -> List e.Arg -> e.Constraint -> Def
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.Constraint) ->
-    TypeDef.Data_ { id, name, vars, constraint = Some constraint }
+    Def.Data_ { id, name, vars, constraint = Some constraint }
 
 
 let nt
-    : Id -> Text -> List e.Arg -> TypeDef
+    : Id -> Text -> List e.Arg -> Def
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-    TypeDef.Newtype_ { id, name, vars, constraint = None e.Constraint }
+    Def.Newtype_ { id, name, vars, constraint = None e.Constraint }
 
 
 let nt_c
-    : Id -> Text -> List e.Arg -> e.Constraint -> TypeDef
+    : Id -> Text -> List e.Arg -> e.Constraint -> Def
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.Constraint) ->
-    TypeDef.Newtype_ { id, name, vars, constraint = Some constraint }
+    Def.Newtype_ { id, name, vars, constraint = Some constraint }
 
 
 let pkg
-    : Id -> Text -> TypeDef
+    : Id -> Text -> Def
     = \(id : Id) -> \(name : Text) ->
-    TypeDef.Package_ { id, name }
+    Def.Package_ { id, name }
 
 
 let p
@@ -140,9 +141,9 @@ let ccon
 
 
 let class
-   : Id -> Text -> TypeDef
+   : Id -> Text -> Def
     = \(id : Id) -> \(name : Text) ->
-    TypeDef.Class_
+    Def.Class_
         { id, name
         , vars = [] : List e.Arg
         , parents = [] : List Parent
@@ -152,9 +153,9 @@ let class
 
 
 let class_v
-   : Id -> Text -> List e.Arg -> TypeDef
+   : Id -> Text -> List e.Arg -> Def
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-   TypeDef.Class_
+   Def.Class_
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = None Dependencies
@@ -163,9 +164,9 @@ let class_v
 
 
 let class_c
-   : Id -> Text -> e.Constraint -> TypeDef
+   : Id -> Text -> e.Constraint -> Def
    = \(id : Id) -> \(name : Text) -> \(cnst : e.Constraint) ->
-   TypeDef.Class_
+   Def.Class_
         { id, name, vars = [] : List e.Arg
         , parents = [] : List Parent
         , dependencies = None Dependencies
@@ -174,9 +175,9 @@ let class_c
 
 
 let class_vp
-   : Id -> Text -> List e.Arg -> List Parent -> TypeDef
+   : Id -> Text -> List e.Arg -> List Parent -> Def
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) ->
-   TypeDef.Class_
+   Def.Class_
         { id, name, vars, parents
         , dependencies = None Dependencies
         , constraint = None e.Constraint
@@ -184,9 +185,9 @@ let class_vp
 
 
 let class_vc
-   : Id -> Text -> List e.Arg -> e.Constraint -> TypeDef
+   : Id -> Text -> List e.Arg -> e.Constraint -> Def
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(cnst : e.Constraint) ->
-   TypeDef.Class_
+   Def.Class_
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = None Dependencies
@@ -195,9 +196,9 @@ let class_vc
 
 
 let class_vpd
-   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> TypeDef
+   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> Def
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) -> \(deps : Dependencies) ->
-   TypeDef.Class_
+   Def.Class_
         { id, name, vars, parents
         , dependencies = Some deps
         , constraint = None e.Constraint
@@ -205,9 +206,9 @@ let class_vpd
 
 
 let class_vpc
-   : Id -> Text -> List e.Arg -> List Parent -> e.Constraint -> TypeDef
+   : Id -> Text -> List e.Arg -> List Parent -> e.Constraint -> Def
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) ->  \(cnst : e.Constraint) ->
-   TypeDef.Class_
+   Def.Class_
         { id, name, vars, parents
         , dependencies = None Dependencies
         , constraint = Some cnst
@@ -215,9 +216,9 @@ let class_vpc
 
 
 let class_vpdc
-   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> e.Constraint -> TypeDef
+   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> e.Constraint -> Def
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) -> \(deps : Dependencies) -> \(cnst : e.Constraint) ->
-   TypeDef.Class_
+   Def.Class_
         { id, name, vars, parents
         , dependencies = Some deps
         , constraint = Some cnst
@@ -234,9 +235,40 @@ let test_c07 = assert : e.Constraint/render [ ctype, ctype, ccon ] ≡ "{{kw:Typ
 let test_c08 = assert : e.Constraint/render [ cfn_br cctype3, ccon ] ≡ "({{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Constraint}}"
 
 
+let Def/renderConstraint = \(td : Def) -> Some "" -- TODO
+
+
+let Def/renderSpec = \(td : Def) -> "" -- TODO
+
+
+let Def/renderConstraintRaw = \(td : Def) -> Some "" -- TODO
+
+
+let Def/renderSpecRaw = \(td : Def) -> "" -- TODO
+
+
+let Def/render = \(td : Def) -> { constraint = Some "", def = "" } -- TODO
+
+
+let Def/renderRaw = \(td : Def) -> { constraint = Some "", def = "" } -- TODO
+
+
+{-
+d.class_vpc
+    (d.id "biapplicative")
+    "Biapplicative"
+    [ d.v "w" ]
+    [ d.p (d.id "biapply") "Biapply" [ d.v "w" ] ]
+    [ d.cfn_br d.cctype3, d.ccon ]
+
+class Biapplicative :: (Type -> Type -> Type) -> Constraint
+class (Biapply w) <= Biapplicative w where
+-}
+
+
 in
     { id
-    , TypeDef
+    , Def
     , ctype, cfn_br
     , cctype, cctype2, cctype3, ccon
     , p, v, cv
