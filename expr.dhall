@@ -191,6 +191,7 @@ let CItem =
     | CForall : Forall_
     | CBr : SealedExpr
     >
+let Constraint = List CItem
 
 
 let Expr =
@@ -217,7 +218,7 @@ let Expr =
     | Num : Text
     | Keyword : Text
     | Object : Object_
-    -- | Constraint : Constraint_
+    | Constraint : Constraint
     | ConstraintItem : CItem
     | Nothing
     >
@@ -234,7 +235,7 @@ let CItem/render
         { CType = "{{kw:Type}}"
         , CConstraint = "{{kw:Constraint}}"
         , CKind = "{{kw:Kind}}"
-        , CVar = \(arg : Arg) -> "{{${Arg/render arg}}}"
+        , CVar = \(arg : Arg) -> "${Arg/render arg}"
         , CFn = \(items : List SealedExpr) -> "${concatExprs " {{op:->}} " items}"
         , CBr = \(expr : SealedExpr) -> "(${SealedExpr/unseal expr})"
         , CForall
@@ -266,6 +267,11 @@ let CItem/toExpr
     = Expr.ConstraintItem
 
 
+let Constraint/toExpr
+    : Constraint -> Expr
+    = Expr.Constraint
+
+
 let concatCItems
     : Text -> List CItem -> Text
     = \(sep : Text) -> \(citems : List CItem) ->
@@ -276,6 +282,26 @@ let concatCItemsRaw
     : Text -> List CItem -> Text
     = \(sep : Text) -> \(citems : List CItem) ->
         concatHelper CItem CItem/renderRaw sep citems
+
+
+let CItem/renderChain
+    : List CItem -> Text
+    = concatCItems " {{op:->}} "
+
+
+let CItem/renderChainRaw
+    : List CItem -> Text
+    = concatCItemsRaw " -> "
+
+
+let Constraint/render :
+    Constraint -> Text =
+    CItem/renderChain
+
+
+let Constraint/renderRaw :
+    Constraint -> Text =
+    CItem/renderChainRaw
 
 
 let Expr/render
@@ -343,6 +369,7 @@ let Expr/render
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"
         , Keyword = \(kw : Text) -> "{{kw:${kw}}}"
+        , Constraint = \(c : Constraint) -> Constraint/render c
         , ConstraintItem = \(citem : CItem) -> CItem/render citem
         , Nothing = ""
         }
@@ -414,6 +441,7 @@ let Expr/renderRaw
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> num
         , Keyword = \(kw : Text) -> kw
+        , Constraint = \(c : Constraint) -> Constraint/renderRaw c
         , ConstraintItem = \(citem : CItem) -> CItem/renderRaw citem
         , Nothing = ""
         }
@@ -481,9 +509,9 @@ let test_apply_raw = assert
     ≡ "foo a f"
 
 in
-    { What, Arg, Property, CItem, Expr, SealedSource
-    , Expr/seal, Expr/sealAll, SealedExpr/getSource, CItem/toExpr
-    , What/render, Arg/render, CItem/render, Expr/render
-    , What/renderRaw, Arg/renderRaw, CItem/renderRaw, Expr/renderRaw
+    { What, Arg, Property, CItem, Expr, Constraint, SealedSource
+    , Expr/seal, Expr/sealAll, SealedExpr/getSource, CItem/toExpr, Constraint/toExpr
+    , What/render, Arg/render, CItem/render, Constraint/render, Expr/render
+    , What/renderRaw, Arg/renderRaw, CItem/renderRaw, Constraint/renderRaw, Expr/renderRaw
     , Expr/none
     }
