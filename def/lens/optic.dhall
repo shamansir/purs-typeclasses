@@ -1,9 +1,16 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- type Optic :: (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type
 -- type Optic p s t a b = p a b -> p s t
+
+let cexpr =
+    e.fn2
+        (e.ap3 (e.t "p") (e.n "a") (e.n "b"))
+        (e.ap3 (e.t "p") (e.n "s") (e.n "t"))
+    -- p a b -> p s t
 
 
 let optic : tc.TClass =
@@ -15,14 +22,11 @@ let optic : tc.TClass =
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
+    , def = d.t_c (d.id "optic") "Optic" [ d.v "p", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr d.t3t5
     , members =
         [
             { name = "Optic"
-            , def =
-                e.fn2
-                    (e.ap3 (e.t "p") (e.n "a") (e.n "b"))
-                    (e.ap3 (e.t "p") (e.n "s") (e.n "t"))
-                -- p a b -> p s t
+            , def = cexpr
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]

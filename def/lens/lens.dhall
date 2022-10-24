@@ -1,8 +1,15 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- type Lens s t a b = forall p. Strong p => Optic p s t a b
+
+let cexpr =
+    e.req1
+        (e.class1 "Strong" (e.n "p"))
+        (e.class "Optic" [ e.n "p", e.n "s", e.n "t", e.n "a", e.n "b" ] )
+    -- Strong p => Optic p s t a b
 
 let lens : tc.TClass =
     { id = "lens"
@@ -13,14 +20,11 @@ let lens : tc.TClass =
     , module = [ "Data", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens"
+    , def = d.t (d.id "lens") "Lens" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Lens"
-            , def =
-                e.req1
-                    (e.class1 "Strong" (e.n "p"))
-                    (e.class "Optic" [ e.n "p", e.n "s", e.n "t", e.n "a", e.n "b" ] )
-                -- Strong p => Optic p s t a b
+            , def = cexpr
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
             -- over _2 String.length $ Tuple "ignore" "four" == Tuple "ignore" 4

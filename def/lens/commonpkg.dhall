@@ -1,17 +1,19 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- type Lens s t a b = forall p. Strong p => Optic p s t a b
 
 let commonpkg : tc.TClass =
-    { id = "lenscommon"
+    { id = "lenscommonpkg"
     , name = "Lens.Common"
     , what = tc.What.Package_
     , info = "Common set of lenses"
     , module = [ "Data", "Lens", "Common" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Common"
+    , def = d.pkg (d.id "lenscommonpkg") "Lens.Common"
     , members =
         [
             { name = "simple"

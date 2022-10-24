@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let e_ = ./../../expr.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 
@@ -12,6 +12,7 @@ let affinetraversalpkg : tc.TClass =
     , module = [ "Data", "Lens", "AffineTraversal" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.AffineTraversal"
+    , def = d.pkg (d.id "affinetraversalpkg") "Lens.AffineTraversal"
     , members =
         [
             { name = "affineTraversal"

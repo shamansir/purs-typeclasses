@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Indexed :: (Type -> Type -> Type) -> Type -> Type -> Type -> Type
@@ -7,13 +8,14 @@ let e = ./../../build_expr.dhall
 
 let indexed : tc.TClass =
     { id = "indexed"
-    , name = "IndexedG"
+    , name = "Indexed"
     , what = tc.What.Type_
     , vars = [ "p", "i", "s", "t" ]
     , info = "An indexed getter."
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
+    , def = d.nt_c (d.id "indexed") "Indexed" [ d.v "p", d.v "i", d.v "s", d.v "t" ] d.t3t4
     , members =
         [
             { name = "Indexed"

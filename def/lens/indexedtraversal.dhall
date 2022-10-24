@@ -1,9 +1,19 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- type IndexedTraversal i s t a b = forall p. Wander p => IndexedOptic p i s t a b
 
+
+let cexpr =
+    e.fall1
+        (e.av "p")
+        (e.req1
+            (e.class1 "Wander" (e.n "p"))
+            (e.class "IndexedOptic" [ e.n "p", e.n "i", e.n "s", e.n "t", e.n "a", e.n "b" ] )
+        )
+    -- forall p. Wander p => IndexedOptic p i s t a b
 
 let indexedtraversal : tc.TClass =
     { id = "indexedtraversal"
@@ -14,17 +24,11 @@ let indexedtraversal : tc.TClass =
     , module = [ "Data", "Lens", "Types" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Types"
+    , def = d.t (d.id "indexedtraversal") "IndexedTraversal" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "IndexedTraversal"
-            , def =
-                e.fall1
-                    (e.av "p")
-                    (e.req1
-                        (e.class1 "Wander" (e.n "p"))
-                        (e.class "IndexedOptic" [ e.n "p", e.n "i", e.n "s", e.n "t", e.n "a", e.n "b" ] )
-                    )
-                -- forall p. Wander p => IndexedOptic p i s t a b
+            , def = cexpr
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,

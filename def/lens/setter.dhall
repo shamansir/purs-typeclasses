@@ -1,8 +1,12 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- type Setter s t a b = Optic Function s t a b
+
+let cexpr = e.class "Optic" [ e.classE "Function", e.n "s", e.n "t", e.n "a", e.n "b" ]
+    -- Optic Function s t a b
 
 let setter : tc.TClass =
     { id = "setter"
@@ -13,11 +17,11 @@ let setter : tc.TClass =
     , module = [ "Data", "Lens", "Setter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Setter"
+    , def = d.t (d.id "setter") "Setter" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Lens"
-            , def = e.class "Optic" [ e.classE "Function", e.n "s", e.n "t", e.n "a", e.n "b" ]
-                -- Optic Function s t a b
+            , def = cexpr
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ,

@@ -22,7 +22,7 @@ let functorwithindex : tc.TClass =
             "FunctorWithIndex"
             [ d.v "i", d.v "f" ]
             [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
-            (d.dep1 (d.v "f") (d.v "i"))
+            (d.deps1 (d.v "f") (d.v "i"))
             d.tt2c
     , statements =
         [

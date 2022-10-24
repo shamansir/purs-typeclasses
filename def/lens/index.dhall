@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Index m a b | m -> a, m -> b where
@@ -14,6 +15,14 @@ let index : tc.TClass =
     , module = [ "Data", "Lens", "Index" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Index"
+    , def =
+        d.class_vd
+            (d.id "index")
+            "Index"
+            [ d.v "m", d.v "a", d.v "b" ]
+            [ d.dep1 (d.v "m") (d.v "a")
+            , d.dep1 (d.v "m") (d.v "b")
+            ]
     , members =
         [
             { name = "ix"

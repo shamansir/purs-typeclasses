@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
 let e_ = ./../../expr.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 
@@ -17,6 +18,7 @@ let getterpkg : tc.TClass =
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
+    , def = d.pkg (d.id "getterpkg") "Lens.Getter"
     , members =
         [
             { name = "viewOn"

@@ -25,7 +25,7 @@ let traversableWithIndex : tc.TClass =
             , d.p (d.id "foldablewithindex") "FoldableWithIndex" [ d.v "i", d.v "t" ]
             , d.p (d.id "traversable") "Traversable" [ d.v "t" ]
             ]
-            (d.dep1 (d.v "t") (d.v "i"))
+            (d.deps1 (d.v "t") (d.v "i"))
             d.tt2c
     , statements =
         [
