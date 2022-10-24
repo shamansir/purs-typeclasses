@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Closed :: (Type -> Type -> Type) -> Constraint
 -- class (Profunctor p) <= Closed p where
@@ -15,6 +16,13 @@ let closed : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Closed"
+    , def =
+        d.class_vpc
+            (d.id "closed")
+            "Closed"
+            [ d.v "p" ]
+            [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
+            d.t3c
     , members =
         [
             { name = "closed"

@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Profunctor :: (Type -> Type -> Type) -> Constraint
 -- class Profunctor p where
@@ -14,6 +15,12 @@ let profunctor : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor"
+    , def =
+        d.class_vc
+            (d.id "profunctor")
+            "Profunctor"
+            [ d.v "p" ]
+            d.t3c
     , laws =
         [
             { law = "identity"

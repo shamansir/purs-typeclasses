@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- newtype Star :: forall k. (k -> Type) -> Type -> k -> Type
 -- newtype Star f a b
@@ -14,6 +15,7 @@ let star : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Star"
+    , def = d.nt_c (d.id "star") "Star" [ d.v "f", d.v "a", d.v "b" ] d.kt_tkt
     , members =
         [
             { name = "Star"

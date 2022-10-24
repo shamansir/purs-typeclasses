@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Costrong :: (Type -> Type -> Type) -> Constraint
 -- class (Profunctor p) <= Costrong p where
@@ -15,6 +16,13 @@ let costrong : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Costrong"
+    , def =
+        d.class_vpc
+            (d.id "costrong")
+            "Costrong"
+            [ d.v "p" ]
+            [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
+            d.t3c
     , members =
         [
             { name = "unfirst"

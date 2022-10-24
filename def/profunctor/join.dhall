@@ -1,4 +1,6 @@
 let tc = ./../../typeclass.dhall
+let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Join :: forall k. (k -> k -> Type) -> k -> Type
@@ -13,6 +15,7 @@ let join : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Join"
+    , def = d.nt_c (d.id "join") "Join" [ d.v "p", d.v "a" ] d.kkt_kt
     , members =
         [
             { name = "Join"

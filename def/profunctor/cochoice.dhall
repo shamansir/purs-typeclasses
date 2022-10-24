@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Cochoice :: (Type -> Type -> Type) -> Constraint
 -- class (Profunctor p) <= Cochoice p where
@@ -15,6 +16,13 @@ let cochoice : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Cochoice"
+    , def =
+        d.class_vpc
+            (d.id "cochoice")
+            "Cochoice"
+            [ d.v "p" ]
+            [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
+            d.t3c
     , members =
         [
             { name = "unleft"

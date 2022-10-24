@@ -577,6 +577,9 @@ let tkt : e.Constraint = ccforall [ v "k" ] [ ctype, cv "k", ctype ]
 -- forall k. (k -> Type) -> k -> Type
 let kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
 
+-- forall k. (k -> Type) -> Type -> k -> Type
+let kt_tkt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
+
 -- forall k. (k -> Type) -> (k -> Type) -> Type
 let kt_kt_t : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ctype ]
 
@@ -606,5 +609,5 @@ in
     , p, pe, v, vn, vp, cv
     , dep, dep1, deps1
     , data, data_c, data_e, t, t_c, nt, nt_c, nt_e, pkg, int, class, class_v, class_c, class_vp, class_vc, class_vd, class_vpd, class_vpc, class_vpdc
-    , t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, kt, tkt, t_t2_t2, kt_kt, kt_kt_t, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c, kktc, kkt_kt
+    , t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, kt, tkt, t_t2_t2, kt_kt, kt_tkt, kt_kt_t, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c, kktc, kkt_kt
     }

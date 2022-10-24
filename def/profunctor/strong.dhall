@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Strong :: (Type -> Type -> Type) -> Constraint
 -- class (Profunctor p) <= Strong p where
@@ -15,6 +16,13 @@ let strong : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Strong"
+    , def =
+        d.class_vpc
+            (d.id "strong")
+            "Strong"
+            [ d.v "p" ]
+            [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
+            d.t3c
     , members =
         [
             { name = "first"
