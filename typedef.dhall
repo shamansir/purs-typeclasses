@@ -370,6 +370,11 @@ class TraversableWithIndex :: Type -> (Type -> Type) -> Constraint
 class (FunctorWithIndex i t, FoldableWithIndex i t, Traversable t) <= TraversableWithIndex i t | t -> i where
 -}
 
+-- (Type -> Type) -> Type -> Type -> Type
+let t2t3 : e.Constraint = [ cfn_br cctype2, ctype, ctype, ctype ]
+
+-- (Type -> Type -> Type) -> (Type -> Type -> Type) -> Type -> Type -> Type
+let t3t3t3 : e.Constraint = [ cfn_br cctype2, cfn_br cctype3, ctype, ctype, ctype ]
 
 -- (Type -> Type) -> Constraint
 let t2c : e.Constraint = [ cfn_br cctype2, ccon ]
@@ -377,15 +382,26 @@ let t2c : e.Constraint = [ cfn_br cctype2, ccon ]
 -- (Type -> Type -> Type) -> Constraint
 let t3c : e.Constraint = [ cfn_br cctype3, ccon ]
 
+-- Type -> (Type -> Type) -> Constraint
+let tt2c : e.Constraint = [ ctype, cfn_br cctype2, ccon ]
+
 -- forall k. Type -> k -> Type
 let tkt : e.Constraint = ccforall [ v "k" ] [ ctype, cv "k", ctype ]
 
 -- forall k. (k -> Type) -> k -> Type
 let kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
 
--- Type -> (Type -> Type) -> Constraint
-let tt2c : e.Constraint = [ ctype, cfn_br cctype2, ccon ]
+-- forall k. (k -> Type) -> (k -> Type) -> k -> Type
+let kt_kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], cv "k", ctype ]
 
+-- forall k1 k2. (k2 -> Type) -> (k1 -> k2) -> k1 -> Type
+let k12kt : e.Constraint = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k2", ctype ], cfn_br [ cv "k1", cv "k2" ], cv "k1", ctype ]
+
+-- forall k1 k2. (k1 -> k2 -> Type) -> k2 -> k1 -> Type
+let kkt_kkt : e.Constraint = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k1", cv "k2", ctype ], cv "k2", cv "k1", ctype ]
+
+-- forall k. (k -> Type) -> (k -> Type) -> Constraint
+let kt_kt_c : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ccon ]
 
 in
     { id
@@ -395,5 +411,5 @@ in
     , p, pe, v, cv
     , dep1
     , data, data_c, nt, nt_c, pkg, class, class_v, class_c, class_vp, class_vc, class_vpd, class_vpc, class_vpdc
-    , t2c, t3c, tkt, kt_kt, tt2c
+    , t2c, t3c, t3t3t3, tkt, kt_kt, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c
     }

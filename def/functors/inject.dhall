@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
+let d = ./../../typedef.dhall
 let i = ./../../instances.dhall
 
 -- class Inject :: forall k. (k -> Type) -> (k -> Type) -> Constraint
@@ -14,6 +15,7 @@ let inject : tc.TClass =
     , module = [ "Data", "Functor", "Coproduct" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Coproduct.Inject"
+    , def = d.nt_c (d.id "inject") "Inject" [ d.v "f", d.v "g" ] d.kt_kt_c
     , members =
         [
             { name = "inj"

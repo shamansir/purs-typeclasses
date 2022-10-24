@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Invariant :: (Type -> Type) -> Constraint
 -- class Invariant f where
@@ -14,6 +15,12 @@ let invariant : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pkmj "purescript-invariant" +5
     , link = "purescript-invariant/5.0.0/docs/Data.Functor.Invariant#t:Invariant"
+    , def =
+        d.class_vc
+            (d.id "invariant")
+            "Invariant"
+            [ d.v "f" ]
+            d.t2c
     , members =
         [
             { name = "imap"

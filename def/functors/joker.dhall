@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Joker :: (Type -> Type) -> Type -> Type -> Type
@@ -13,6 +14,7 @@ let joker : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Joker"
+    , def = d.nt_c (d.id "joker") "Joker" [ d.v "g", d.v "a", d.v "b" ] d.t2t3
     , members =
         [
             { name = "Joker"

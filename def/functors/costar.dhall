@@ -1,6 +1,8 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
+
 
 -- newtype Costar :: (Type -> Type) -> Type -> Type -> Type
 -- newtype Costar f b a
@@ -14,6 +16,7 @@ let costar : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Costar"
+    , def = d.nt_c (d.id "costar") "Costar" [ d.v "f", d.v "b", d.v "a" ] d.t2t3
     , members =
         [
             { name = "Costar"

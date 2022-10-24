@@ -1,11 +1,12 @@
 let tc = ./../../typeclass.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Flip :: forall k1 k2. (k1 -> k2 -> Type) -> k2 -> k1 -> Type
 -- newtype Flip p a b
 
 let flip : tc.TClass =
-    { id = "fllip"
+    { id = "flip"
     , name = "Flip"
     , what = tc.What.Newtype_
     , vars = [ "p", "a", "b" ]
@@ -13,6 +14,7 @@ let flip : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Flip"
+    , def = d.nt_c (d.id "flip") "Flip" [ d.v "p", d.v "a", d.v "b" ] d.kkt_kkt
     , members =
         [
             { name = "Flip"

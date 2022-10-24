@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Product :: forall k. (k -> Type) -> (k -> Type) -> k -> Type
@@ -13,6 +14,7 @@ let product : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Product"
+    , def = d.nt_c (d.id "product") "Product" [ d.v "f", d.v "g", d.v "a" ] d.kt_kt_kt
     , members =
         [
             { name = "Product"

@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Compose :: forall k1 k2. (k2 -> Type) -> (k1 -> k2) -> k1 -> Type
@@ -13,6 +14,7 @@ let compose : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Compose"
+    , def = d.nt_c (d.id "compose") "Compose" [ d.v "f", d.v "g", d.v "a" ] d.k12kt
     , members =
         [
             { name = "Compose"
