@@ -45,6 +45,10 @@ knownPackages =
     , "profunctor"
     , "distributive"
     , "invariant"
+    , "parsing"
+    , "profunctor-lenses"
+    , "unfoldable"
+    , "distributive"
     ]
 
 
