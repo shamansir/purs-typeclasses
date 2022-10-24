@@ -1,6 +1,7 @@
 let tc = ./../../typeclass.dhall
-let e = ./../../build_expr.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
+let e = ./../../build_expr.dhall
 
 -- class Biapplicative :: (Type -> Type -> Type) -> Constraint
 -- class (Biapply w) <= Biapplicative w where
@@ -15,6 +16,13 @@ let bifunctor : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-bifunctors" +5
     , link = "purescript-bifunctors/5.0.0/docs/Control.Biapplicative"
+    , def =
+        d.class_vpc
+            (d.id "biapplicative")
+            "Biapplicative"
+            [ d.v "w" ]
+            [ d.p (d.id "biapply") "Biapply" [ d.v "w" ] ]
+            [ d.cfn_br d.cctype3, d.ccon ]
     , members =
         [
             { name = "bipure"

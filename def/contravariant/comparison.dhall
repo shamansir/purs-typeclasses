@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Comparison a
@@ -13,6 +14,7 @@ let comparison : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Comparison"
+    , def = d.nt (d.id "comparison") "Comparison" [ d.v "a" ]
     , members =
         [
             { name = "Comparison"

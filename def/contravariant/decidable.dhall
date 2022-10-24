@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Decidable :: (Type -> Type) -> Constraint
@@ -15,6 +16,15 @@ let decidable : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Decidable"
+    , def =
+        d.class_vpc
+            (d.id "decidable")
+            "Decidable"
+            [ d.v "f" ]
+            [ d.p (d.id "decide") "Decide" [ d.v "f" ]
+            , d.p (d.id "divisible") "Divisible" [ d.v "f" ]
+            ]
+            [ d.cfn_br d.cctype2, d.ccon ]
     , members =
         [
             { name = "lose"

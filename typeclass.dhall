@@ -2,6 +2,7 @@ let List/map =
       https://prelude.dhall-lang.org/List/map
 
 let e = ./expr.dhall
+let d = ./typedef.dhall
 
 -- let List/length =
 --       https://prelude.dhall-lang.org/List/length
@@ -167,35 +168,15 @@ let What =
     >
 
 
-let TypeDef =
-    < Data_ :
-        { vars : List e.Arg
-        , constraint : Optional e.Expr
-        }
-    -- | Type_
-    | Newtype_ :
-        { vars : List e.Arg
-        , constraint : Optional e.Expr
-        }
-    | Class_ :
-        { name : Text
-        , id : Text
-        , vars : List e.Arg
-        , parents : List { id : Text, name : Text, vars : List e.Arg }, dependencies : { from : List e.Arg, to : List e.Arg }
-        , constraint : Optional e.Expr
-        }
-    | Package_
-    >
-
-
 let TClass =
-    { id : Id
-    , what : What
-    , vars : List Var
-    , link : Text -- TODO: version
-    , name : Text
-    , info  : Text
-    , parents : List Id
+    { id : Id -- TODO: remove in favor of TypeDef
+    , what : What -- TODO: remove in favor of TypeDef
+    , vars : List Var -- TODO: remove in favor of TypeDef
+    , link : Text -- TODO: version -- TODO: remove, contained in Package + Version
+    , name : Text -- TODO: remove in favor of TypeDef
+    , info  : Text -- TODO: support multiline
+    , parents : List Id -- TODO: remove in favor of TypeDef
+    , def : d.Def
     , package : Package
     , module : Module
     , laws : List Law

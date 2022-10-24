@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Divisible :: (Type -> Type) -> Constraint
@@ -15,6 +16,13 @@ let divisible : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Divisible"
+    , def =
+        d.class_vpc
+            (d.id "divisible")
+            "Divisible"
+            [ d.v "f" ]
+            [ d.p (d.id "divide") "Divide" [ d.v "f" ] ]
+            [ d.cfn_br d.cctype2, d.ccon ]
     , members =
         [
             { name = "conquer"

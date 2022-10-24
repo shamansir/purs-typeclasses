@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Const :: forall k. Type -> k -> Type
@@ -14,6 +15,12 @@ let const : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-const" +3
     , link = "purescript-const/3.0.0/docs/Data.Const"
+    , def =
+        d.nt_c
+            (d.id "const")
+            "Const"
+            [ d.v "a", d.v "b" ]
+            (d.ccforall [ d.v "k" ] [ d.ctype, d.cv "k", d.ctype ])
     , members =
         [
             { name = "Const"

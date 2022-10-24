@@ -270,7 +270,7 @@ in
     { id
     , Def
     , ctype, cfn_br
-    , cctype, cctype2, cctype3, ccon
+    , cctype, cctype2, cctype3, ccon, ccforall
     , p, v, cv
     , data, data_c, nt, nt_c, pkg, class, class_v, class_c, class_vp, class_vc, class_vpd, class_vpc, class_vpdc
     }

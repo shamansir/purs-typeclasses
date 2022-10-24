@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Bifunctor :: (Type -> Type -> Type) -> Constraint
@@ -14,6 +15,12 @@ let bifunctor : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-bifunctors" +5
     , link = "purescript-bifunctors/5.0.0/docs/Data.Bifunctor"
+    , def =
+        d.class_vc
+            (d.id "bifunctor")
+            "Bifunctor"
+            [ d.v "w" ]
+            [ d.cfn_br d.cctype3, d.ccon ]
     , laws =
         [
             { law = "identity"

@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Contravariant :: (Type -> Type) -> Constraint
@@ -14,6 +15,12 @@ let contravariant : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Functor.Contravariant"
+    , def =
+        d.class_vc
+            (d.id "contravariant")
+            "Contravariant"
+            [ d.v "f" ]
+            [ d.cfn_br d.cctype2, d.ccon ]
     , laws =
         [
             { law = "identity"
