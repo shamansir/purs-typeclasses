@@ -125,6 +125,12 @@ let p
     { id, name, vars }
 
 
+let pe
+    : Id -> Text -> Parent
+    = \(id : Id) -> \(name : Text) ->
+    p id name ([] : List e.Arg)
+
+
 let v
     : Text -> e.Arg
     = e.Arg.VarArg
@@ -225,6 +231,11 @@ let class_vpdc
         }
 
 
+let dep1
+    : e.Arg -> e.Arg -> Dependencies
+    = \(from : e.Arg) -> \(to : e.Arg) -> { from = [ from ], to = [ to ]}
+
+
 let test_c01 = assert : e.Constraint/render cctype ≡ "{{kw:Type}}"
 let test_c02 = assert : e.Constraint/render cctype2 ≡ "{{kw:Type}} {{op:->}} {{kw:Type}}"
 let test_c03 = assert : e.Constraint/render cctype3 ≡ "{{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Type}}"
@@ -265,12 +276,124 @@ class Biapplicative :: (Type -> Type -> Type) -> Constraint
 class (Biapply w) <= Biapplicative w where
 -}
 
+{-
+d.class_vpc
+    (d.id "decidable")
+    "Decidable"
+    [ d.v "f" ]
+    [ d.p (d.id "decide") "Decide" [ d.v "f" ]
+    , d.p (d.id "divisible") "Divisible" [ d.v "f" ]
+    ]
+    [ d.cfn_br d.cctype2, d.ccon ]
+
+class Decidable :: (Type -> Type) -> Constraint
+class (Decide f, Divisible f) <= Decidable f where
+-}
+
+{-
+d.class_vc
+    (d.id "bifunctor")
+    "Bifunctor"
+    [ d.v "w" ]
+    [ d.cfn_br d.cctype3, d.ccon ]
+
+class Bifunctor :: (Type -> Type -> Type) -> Constraint
+class Bifunctor f where
+-}
+
+{-
+d.class_v (d.id "lazy") "Lazy" [ d.v "l" ]
+
+class Lazy l where
+-}
+
+{-
+d.nt_c
+    (d.id "alternate")
+    "Alternate"
+    [ d.v "f", d.v "a" ]
+    (d.ccforall [ d.v "k" ] [ d.cfn_br [ d.cv "k", d.ctype ], d.cv "k", d.ctype ])
+
+newtype Alternate :: forall k. (k -> Type) -> k -> Type
+newtype Alternate f a
+-}
+
+{-
+d.nt_c
+    (d.id "const")
+    "Const"
+    [ d.v "a", d.v "b" ]
+    (d.ccforall [ d.v "k" ] [ d.ctype, d.cv "k", d.ctype ])
+
+newtype Const :: forall k. Type -> k -> Type
+newtype Const a b
+-}
+
+{-
+d.nt (d.id "op") "Op" [ d.v "a", d.v "b" ]
+
+newtype Op a b
+-}
+
+{-
+d.data (d.id "effect") "Effect" [ d.v "t0" ]
+
+data Effect t0
+-}
+
+{-
+d.class_vpdc
+    (d.id "foldablewithindex")
+    "FoldableWithIndex"
+    [ d.v "i", d.v "f" ]
+    [ d.p (d.id "foldable") "Foldable" [ d.v "f" ] ]
+    (d.dep1 (d.v "f") (d.v "i"))
+    d.tt2c
+
+class FoldableWithIndex :: Type -> (Type -> Type) -> Constraint
+class (Foldable f) <= FoldableWithIndex i f | f -> i where
+-}
+
+{-
+d.class_vpdc
+    (d.id "traversablewithindex")
+    "TraversableWithIndex"
+    [ d.v "i", d.v "t" ]
+    [ d.p (d.id "functorwithindex") "FunctorWithIndex" [ d.v "i", d.v "t" ]
+    , d.p (d.id "foldablewithindex") "FoldableWithIndex" [ d.v "i", d.v "t" ]
+    , d.p (d.id "traversable") "Traversable" [ d.v "t" ]
+    ]
+    (d.dep1 (d.v "t") (d.v "i"))
+    d.tt2c
+
+class TraversableWithIndex :: Type -> (Type -> Type) -> Constraint
+class (FunctorWithIndex i t, FoldableWithIndex i t, Traversable t) <= TraversableWithIndex i t | t -> i where
+-}
+
+
+-- (Type -> Type) -> Constraint
+let t2c : e.Constraint = [ cfn_br cctype2, ccon ]
+
+-- (Type -> Type -> Type) -> Constraint
+let t3c : e.Constraint = [ cfn_br cctype3, ccon ]
+
+-- forall k. Type -> k -> Type
+let tkt : e.Constraint = ccforall [ v "k" ] [ ctype, cv "k", ctype ]
+
+-- forall k. (k -> Type) -> k -> Type
+let kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
+
+-- Type -> (Type -> Type) -> Constraint
+let tt2c : e.Constraint = [ ctype, cfn_br cctype2, ccon ]
+
 
 in
     { id
     , Def
     , ctype, cfn_br
     , cctype, cctype2, cctype3, ccon, ccforall
-    , p, v, cv
+    , p, pe, v, cv
+    , dep1
     , data, data_c, nt, nt_c, pkg, class, class_v, class_c, class_vp, class_vc, class_vpd, class_vpc, class_vpdc
+    , t2c, t3c, tkt, kt_kt, tt2c
     }

@@ -22,7 +22,7 @@ let bifunctor : tc.TClass =
             "Biapplicative"
             [ d.v "w" ]
             [ d.p (d.id "biapply") "Biapply" [ d.v "w" ] ]
-            [ d.cfn_br d.cctype3, d.ccon ]
+            d.t3c
     , members =
         [
             { name = "bipure"

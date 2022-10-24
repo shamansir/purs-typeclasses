@@ -22,7 +22,7 @@ let decide : tc.TClass =
             "Decide"
             [ d.v "f" ]
             [ d.p (d.id "divide") "Divide" [ d.v "f" ] ]
-            [ d.cfn_br d.cctype2, d.ccon ]
+            d.t2c
     , members =
         [
             { name = "choose"

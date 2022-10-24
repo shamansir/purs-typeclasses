@@ -22,7 +22,7 @@ let divide : tc.TClass =
             "Divide"
             [ d.v "f" ]
             [ d.p (d.id "contravariant") "Contravariant" [ d.v "f" ] ]
-            [ d.cfn_br d.cctype2, d.ccon ]
+            d.t2c
     , members =
         [
             { name = "divide"

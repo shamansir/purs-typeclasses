@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
+let d = ./../../typedef.dhall
 let i = ./../../instances.dhall
 
 -- class Traversable :: (Type -> Type) -> Constraint
@@ -15,6 +16,15 @@ let traversable : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Traversable"
+    , def =
+        d.class_vpc
+            (d.id "traversable")
+            "Traversable"
+            [ d.v "t" ]
+            [ d.p (d.id "functor") "Functor" [ d.v "t" ]
+            , d.p (d.id "foldable") "Foldable" [ d.v "t" ]
+            ]
+            d.t2c
     , statements =
         [
             { left =

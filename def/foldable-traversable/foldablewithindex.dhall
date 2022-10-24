@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
+let d = ./../../typedef.dhall
 let i = ./../../instances.dhall
 
 -- class FoldableWithIndex :: Type -> (Type -> Type) -> Constraint
@@ -15,6 +16,14 @@ let foldableWithIndex : tc.TClass =
     , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , parents = [ "foldable" ]
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.FoldableWithIndex"
+    , def =
+        d.class_vpdc
+            (d.id "foldablewithindex")
+            "FoldableWithIndex"
+            [ d.v "i", d.v "f" ]
+            [ d.p (d.id "foldable") "Foldable" [ d.v "f" ] ]
+            (d.dep1 (d.v "f") (d.v "i"))
+            d.tt2c
     , statements =
         [
             { left = e.call1 "foldr" (e.f "f") -- foldr f

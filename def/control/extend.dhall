@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Extend :: (Type -> Type) -> Constraint
@@ -15,6 +16,13 @@ let extend : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Extend"
+    , def =
+        d.class_vpc
+            (d.id "extend")
+            "Extend"
+            [ d.v "w" ]
+            [ d.p (d.id "functor") "Functor" [ d.v "w" ] ]
+            d.t2c
     , members =
         [
             { name = "extend"

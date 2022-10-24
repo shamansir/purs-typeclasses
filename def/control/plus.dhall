@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Plus :: (Type -> Type) -> Constraint
@@ -15,6 +16,13 @@ let plus : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Plus"
+    , def =
+        d.class_vpc
+            (d.id "plus")
+            "Plus"
+            [ d.v "f" ]
+            [ d.p (d.id "alt") "Alt" [ d.v "f" ] ]
+            d.t2c
     , members =
         [
             { name = "empty"

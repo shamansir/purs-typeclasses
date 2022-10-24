@@ -1,11 +1,12 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
+let d = ./../../typedef.dhall
 let i = ./../../instances.dhall
 
 -- class FunctorWithIndex :: Type -> (Type -> Type) -> Constraint
 -- class (Functor f) <= FunctorWithIndex i f | f -> i where
 
-let functorWithIndex : tc.TClass =
+let functorwithindex : tc.TClass =
     { id = "functorwithindex"
     , name = "FunctorWithIndex"
     , what = tc.What.Class_
@@ -15,6 +16,14 @@ let functorWithIndex : tc.TClass =
     , package = tc.pkmj "purescript-foldable-traversable" +6
     , parents = [ "functor" ]
     , link = "purescript-foldable-traversable/6.0.0/docs/Data.FunctorWithIndex"
+    , def =
+        d.class_vpdc
+            (d.id "functorwithindex")
+            "FunctorWithIndex"
+            [ d.v "i", d.v "f" ]
+            [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
+            (d.dep1 (d.v "f") (d.v "i"))
+            d.tt2c
     , statements =
         [
             { left = e.call1 "mapWithIndex" (e.br (e.lbd [ e.av "_", e.av "a" ] (e.n "a"))) -- mapWithIndex (\_ a -> a)
@@ -116,4 +125,4 @@ let functorWithIndex : tc.TClass =
 
     } /\ tc.noLaws /\ tc.noValues
 
-in functorWithIndex
+in functorwithindex

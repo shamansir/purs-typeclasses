@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class (Monad m, Alternative m, MonadZeroIsDeprecated) <= MonadZero m
@@ -14,6 +15,15 @@ let monadzero : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.MonadZero"
+    , def =
+        d.class_vp
+            (d.id "monadzero")
+            "MonadZero"
+            [ d.v "m" ]
+            [ d.p (d.id "monad") "Monad" [ d.v "m" ]
+            , d.p (d.id "alternative") "Alternative" [ d.v "m" ]
+            , d.pe (d.id "monadzeroisdeprecated") "MonadZeroIsDeprecated"
+            ]
     , laws =
         [
             { law = "annihilation"

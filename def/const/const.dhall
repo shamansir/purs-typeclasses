@@ -20,7 +20,7 @@ let const : tc.TClass =
             (d.id "const")
             "Const"
             [ d.v "a", d.v "b" ]
-            (d.ccforall [ d.v "k" ] [ d.ctype, d.cv "k", d.ctype ])
+            d.tkt
     , members =
         [
             { name = "Const"

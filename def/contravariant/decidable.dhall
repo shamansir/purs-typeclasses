@@ -24,7 +24,7 @@ let decidable : tc.TClass =
             [ d.p (d.id "decide") "Decide" [ d.v "f" ]
             , d.p (d.id "divisible") "Divisible" [ d.v "f" ]
             ]
-            [ d.cfn_br d.cctype2, d.ccon ]
+            d.t2c
     , members =
         [
             { name = "lose"

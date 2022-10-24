@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
+let d = ./../../typedef.dhall
 let i = ./../../instances.dhall
 
 -- class Distributive :: (Type -> Type) -> Constraint
@@ -15,6 +16,13 @@ let traversable : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-distributive" +5
     , link = "purescript-distributive/5.0.0/docs/Data.Distributive#t:Distributive"
+    , def =
+        d.class_vpc
+            (d.id "distributive")
+            "Distributive"
+            [ d.v "f" ]
+            [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
+            d.t2c
     , statements =
         [
             { left = e.callE "distribute" -- distribute

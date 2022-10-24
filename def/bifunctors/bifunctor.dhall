@@ -20,7 +20,7 @@ let bifunctor : tc.TClass =
             (d.id "bifunctor")
             "Bifunctor"
             [ d.v "w" ]
-            [ d.cfn_br d.cctype3, d.ccon ]
+            d.t3c
     , laws =
         [
             { law = "identity"

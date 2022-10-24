@@ -20,7 +20,7 @@ let contravariant : tc.TClass =
             (d.id "contravariant")
             "Contravariant"
             [ d.v "f" ]
-            [ d.cfn_br d.cctype2, d.ccon ]
+            d.t2c
     , laws =
         [
             { law = "identity"

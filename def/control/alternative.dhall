@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Alternative :: (Type -> Type) -> Constraint
@@ -14,6 +15,15 @@ let alternative : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Alternative#t:Alternative"
+    , def =
+        d.class_vpc
+            (d.id "alternative")
+            "Alternative"
+            [ d.v "f" ]
+            [ d.p (d.id "applicative") "Applicative" [ d.v "f" ]
+            , d.p (d.id "plus") "Plus" [ d.v "f" ]
+            ]
+            d.t2c
     , members =
         [
             { name = "guard"

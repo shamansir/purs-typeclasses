@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Alternate :: forall k. (k -> Type) -> k -> Type
@@ -14,6 +15,12 @@ let alternate : tc.TClass =
     , module = [ "Data", "Monoid" ]
     , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Data.Monoid.Alternate#t:Alternate"
+    , def =
+        d.nt_c
+            (d.id "alternate")
+            "Alternate"
+            [ d.v "f", d.v "a" ]
+            d.kt_kt
     , members =
         [
             { name = "Alternate"

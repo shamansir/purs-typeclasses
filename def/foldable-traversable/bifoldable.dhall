@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
-
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Bifoldable :: (Type -> Type -> Type) -> Constraint
@@ -15,6 +15,12 @@ let bifoldable : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Bifoldable"
+    , def =
+        d.class_vc
+            (d.id "bifoldable")
+            "Bifoldable"
+            [ d.v "p" ]
+            d.t3c
     , members =
         [
             { name = "bifoldr"

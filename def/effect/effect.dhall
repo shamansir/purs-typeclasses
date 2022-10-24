@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- data Effect t0
@@ -12,6 +13,7 @@ let effect : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-effect" +3
     , link = "purescript-effect/3.0.0/docs/Effect"
+    , def = d.data (d.id "effect") "Effect" [ d.v "t0" ]
     , members =
         [
             { name = "Effect"

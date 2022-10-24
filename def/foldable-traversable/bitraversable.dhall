@@ -1,5 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
+let d = ./../../typedef.dhall
 let i = ./../../instances.dhall
 
 -- class Bitraversable :: (Type -> Type -> Type) -> Constraint
@@ -15,6 +16,15 @@ let bitraversable : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Bitraversable"
+    , def =
+        d.class_vpc
+            (d.id "bitraversable")
+            "Bitraversable"
+            [ d.v "t" ]
+            [ d.p (d.id "bifunctor") "Bifunctor" [ d.v "t" ]
+            , d.p (d.id "bifoldable") "Bifoldable" [ d.v "t" ]
+            ]
+            d.t3c
     , members =
         [
             { name = "bitraverse"

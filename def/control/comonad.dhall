@@ -1,4 +1,5 @@
 let tc = ./../../typeclass.dhall
+let d = ./../../typedef.dhall
 let e = ./../../build_expr.dhall
 
 -- class Comonad :: (Type -> Type) -> Constraint
@@ -14,6 +15,13 @@ let comonad : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Comonad"
+    , def =
+        d.class_vpc
+            (d.id "comonad")
+            "Comonad"
+            [ d.v "w" ]
+            [ d.p (d.id "extend") "Extend" [ d.v "w" ] ]
+            d.t2c
     , members =
         [
             { name = "extract"
