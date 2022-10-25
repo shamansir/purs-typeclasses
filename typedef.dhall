@@ -1,8 +1,13 @@
 
 let e = ./expr.dhall
 
+let Text/concatSep =
+    https://prelude.dhall-lang.org/Text/concatSep
+
 let List/map =
     https://prelude.dhall-lang.org/List/map
+
+let tt = \(text : Text) -> Text/replace "  " " " text
 
 
 let Id =
@@ -330,10 +335,9 @@ let Def/renderConstraint
     : Def -> Optional Text
     = \(def : Def) ->
     merge
-                        -- TODO: render vars
         { Data_ = \(dd : DataDef) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "{{kw:data}} {{class:${dd.name}}} {{op::}} ${e.Constraint/render ct}"
+                { Some = \(ct : e.Constraint) -> Some "{{kw:data}} {{type:${dd.name}}} {{op::}} ${e.Constraint/render ct}"
                 , None = None Text
                 }
                 dd.constraint
@@ -363,17 +367,158 @@ let Def/renderConstraint
 
 let Def/renderConstraintRaw
     : Def -> Optional Text
-    = \(def : Def) -> None Text
+    = \(def : Def) ->
+    merge
+        { Data_ = \(dd : DataDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "data ${dd.name} :: ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                dd.constraint
+        , Type_ = \(td : TypeDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "type ${td.name} :: ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                td.constraint
+        , Newtype_ = \(ntd : NewtypeDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "newtype ${ntd.name} :: ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                ntd.constraint
+        , Class_ = \(cd : ClassDef) ->
+            merge
+                { Some = \(ct : e.Constraint) -> Some "class ${cd.name} :: ${e.Constraint/render ct}"
+                , None = None Text
+                }
+                cd.constraint
+        , Package_ = \(pd : PackageDef) -> None Text
+        , Internal_ = \(id : InternalDef) -> None Text
+        }
+        def
+
+
+let concatHelper
+    : forall(a : Type) -> (a -> Text) -> Text -> List a -> Text
+    = \(a : Type) -> \(render : a -> Text) -> \(sep : Text) -> \(res : List a) ->
+        Text/concatSep sep (List/map a Text render res)
+
+
+let concatArgs
+    : Text -> List e.Arg -> Text
+    = \(sep : Text) -> \(args : List e.Arg) ->
+        concatHelper e.Arg e.Arg/render sep args
+
+
+let concatArgsRaw
+    : Text -> List e.Arg -> Text
+    = \(sep : Text) -> \(args : List e.Arg) ->
+        concatHelper e.Arg e.Arg/renderRaw sep args
+
+
+let Parent/render
+    : Parent -> Text
+    = \(parent : Parent) ->
+    tt "{{class:${parent.name}}} ${concatArgs " " parent.vars}"
+
+
+let Parent/renderRaw
+    : Parent -> Text
+    = \(parent : Parent) ->
+    tt "${parent.name} ${concatArgsRaw " " parent.vars}"
+
+
+let concatParents
+    : Text -> List Parent -> Text
+    = \(sep : Text) -> \(parents : List Parent) ->
+        concatHelper Parent Parent/render sep parents
+
+
+let concatParentsRaw
+    : Text -> List Parent -> Text
+    = \(sep : Text) -> \(parents : List Parent) ->
+        concatHelper Parent Parent/renderRaw sep parents
+
+
+let Dependency/render
+    : Dependency -> Text
+    = \(dep : Dependency) ->
+    tt ((concatArgs "{{op:,}} " dep.from) ++ " {{op:->}} " ++ (concatArgs "{{op:,}} " dep.to))
+
+
+let Dependency/renderRaw
+    : Dependency -> Text
+    = \(dep : Dependency) ->
+    tt ((concatArgsRaw ", " dep.from) ++ " -> " ++ (concatArgsRaw ", " dep.to))
+
+
+let Dependencies/render
+    : Dependencies -> Text
+    = \(deps : Dependencies) ->
+    {-"{{op:|}} " ++ -} concatHelper Dependency Dependency/render "{{op:,}} " deps
+
+
+let Dependencies/renderRaw
+    : Dependencies -> Text
+    = \(deps : Dependencies) ->
+    {-"| " ++ -} concatHelper Dependency Dependency/renderRaw ", " deps
 
 
 let Def/renderSpec
     : Def -> Text
-    = \(def : Def) -> ""
+    = \(def : Def) ->
+    merge
+        { Data_ = \(dd : DataDef) ->
+            tt "{{kw:data}} {{type:${dd.name}}} ${concatArgs " " dd.vars}"
+        , Type_ = \(td : TypeDef) ->
+            tt "{{kw:type}} {{type:${td.name}}} ${concatArgs " " td.vars} {{op:=}} ${e.Expr/render td.expr}"
+        , Newtype_ = \(ntd : NewtypeDef) ->
+            tt "{{kw:newtype}} {{type:${ntd.name}}} ${concatArgs " " ntd.vars}"
+        , Class_ = \(cd : ClassDef) ->
+            tt ("{{kw:class}} (${concatParents "{{op:,}} " cd.parents}) {{op:<=}} {{type:${cd.name}}} ${concatArgs " " cd.vars}" ++
+                (merge
+                    { Some = \(deps : Dependencies) -> " {{op:|}} " ++ Dependencies/render deps ++ " "
+                    , None = " "
+                    }
+                    cd.dependencies
+                )
+            ) ++ "{{kw:where}}"
+        , Package_ = \(pd : PackageDef) ->
+            -- "{{kw:package}} {{package:${pd.name}}}"
+            "{{package:${pd.name}}}"
+        , Internal_ = \(id : InternalDef) ->
+            "{{internal:${id.name}}}"
+        }
+        def
 
 
 let Def/renderSpecRaw
     : Def -> Text
-    = \(def : Def) -> ""
+    = \(def : Def) ->
+    merge
+        { Data_ = \(dd : DataDef) ->
+            tt "data ${dd.name} ${concatArgsRaw " " dd.vars}"
+        , Type_ = \(td : TypeDef) ->
+            tt "type ${td.name} ${concatArgs " " td.vars} = ${e.Expr/render td.expr}"
+        , Newtype_ = \(ntd : NewtypeDef) ->
+            tt "newtype ${ntd.name} ${concatArgs " " ntd.vars}"
+        , Class_ = \(cd : ClassDef) ->
+            tt ("class (${concatParents ", " cd.parents}) <= ${cd.name} ${concatArgs " " cd.vars}" ++
+                (merge
+                    { Some = \(deps : Dependencies) -> " | " ++ Dependencies/render deps ++ " "
+                    , None = " "
+                    }
+                    cd.dependencies
+                )
+            ) ++ "where"
+        , Package_ = \(pd : PackageDef) ->
+            -- "package ${pd.name}"
+            pd.name
+        , Internal_ = \(id : InternalDef) ->
+            id.name
+        }
+        def
 
 
 let DefText =
@@ -508,6 +653,31 @@ d.class_vpdc
 
 class TraversableWithIndex :: Type -> (Type -> Type) -> Constraint
 class (FunctorWithIndex i t, FoldableWithIndex i t, Traversable t) <= TraversableWithIndex i t | t -> i where
+-}
+
+{-
+d.class_vpd
+    (d.id "at")
+    "At"
+    [ d.v "m", d.v "a", d.v "b" ]
+    [ d.p (d.id "index") "Index" [ d.v "m", d.v "a", d.v "b" ] ]
+    [ d.dep1 (d.v "m") (d.v "a")
+    , d.dep1 (d.v "m") (d.v "b")
+    ]
+
+class (Index m a b) <= At m a b | m -> a, m -> b where
+-}
+
+{-
+d.class_vd
+    (d.id "index")
+    "Index"
+    [ d.v "m", d.v "a", d.v "b" ]
+    [ d.dep1 (d.v "m") (d.v "a")
+    , d.dep1 (d.v "m") (d.v "b")
+    ]
+
+class Index m a b | m -> a, m -> b where
 -}
 
 {-
