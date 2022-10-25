@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Lazy l where
@@ -14,7 +14,7 @@ let lazy : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-control" +5
     , link = "purescript-control/5.0.0/docs/Control.Lazy"
-    , def = d.class_v (d.id "lazy") "Lazy" [ d.v "l" ]
+    , spec = d.class_v (d.id "lazy") "Lazy" [ d.v "l" ]
     , members =
         [
             { name = "defer"

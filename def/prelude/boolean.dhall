@@ -1,5 +1,5 @@
 let tc = ./../../typeclass.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 let boolean : tc.TClass =
@@ -10,7 +10,7 @@ let boolean : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.Boolean"
-    , def = d.int (d.id "boolean") "Boolean"
+    , spec = d.int (d.id "boolean") "Boolean"
     , members =
         [
             { name = "otherwise"

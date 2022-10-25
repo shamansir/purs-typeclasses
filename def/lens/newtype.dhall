@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- _Newtype :: forall t a s b. Newtype t a => Newtype s b => Iso t s a b
@@ -13,7 +13,7 @@ let _newtype : tc.TClass =
     , module = [ "Data", "Lens", "Iso", "Newtype"]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Iso.Newtype"
-    , def = d.pkg (d.id "_newtype") "_Newtype"
+    , spec = d.pkg (d.id "_newtype") "_Newtype"
     , members =
         [
             { name = "_Newtype"

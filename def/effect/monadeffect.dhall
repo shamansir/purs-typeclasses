@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class MonadEffect :: (Type -> Type) -> Constraint
@@ -16,7 +16,7 @@ let monadeffect : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-effect" +3
     , link = "purescript-effect/3.0.0/docs/Effect.Class"
-    , def =
+    , spec =
         d.class_vpc
             (d.id "monadeffect")
             "MonadEffect"

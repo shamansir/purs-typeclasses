@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Biapply :: (Type -> Type -> Type) -> Constraint
@@ -16,7 +16,7 @@ let biapply : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-bifunctors" +5
     , link = "purescript-bifunctors/5.0.0/docs/Control.Biapply"
-    , def =
+    , spec =
         d.class_vpc
             (d.id "biapply")
             "Biapply"

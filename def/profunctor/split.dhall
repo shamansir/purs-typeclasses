@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Split :: (Type -> Type) -> Type -> Type -> Type
@@ -15,7 +15,7 @@ let split : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Split"
-    , def = d.nt_c (d.id "split") "Split" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
+    , spec = d.nt_c (d.id "split") "Split" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
     , members =
         [
             { name = "split"

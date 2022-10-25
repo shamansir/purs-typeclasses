@@ -24,48 +24,48 @@ let Dependency = { from : List e.Arg, to : List e.Arg }
 let Dependencies = List Dependency
 
 
-let DataDef =
+let DataSpec =
     { name : Text
     , id : Id
     , vars : List e.Arg
-    , constraint : Optional e.Constraint
+    , constraint : Optional e.KindSeq
     }
 
 
-let NewtypeDef =
+let NewtypeSpec =
     { name : Text
     , id : Id
     , vars : List e.Arg
-    , constraint : Optional e.Constraint
+    , constraint : Optional e.KindSeq
     }
 
 
-let ClassDef =
+let ClassSpec =
     { name : Text
     , id : Id
     , vars : List e.Arg
     , parents : List Parent
     , dependencies : Optional Dependencies
-    , constraint : Optional e.Constraint
+    , constraint : Optional e.KindSeq
     }
 
 
-let TypeDef =
+let TypeSpec =
     { name : Text
     , id : Id
     , vars : List e.Arg
     , expr : e.Expr
-    , constraint : Optional e.Constraint
+    , constraint : Optional e.KindSeq
     }
 
 
-let PackageDef =
+let PackageSpec =
     { name : Text
     , id : Id
     }
 
 
-let InternalDef =
+let InternalSpec =
     { name : Text
     , id : Id
     }
@@ -73,105 +73,105 @@ let InternalDef =
 
 -- id and name could be shared
 -- add module, info, package
-let Def = -- TODO: rename to `Spec`, we have `Def` in `typeclass.dhall`
-    < Data_ : DataDef
-    | Type_ : TypeDef
-    | Newtype_ : NewtypeDef
-    | Class_ : ClassDef
-    | Package_ : PackageDef
-    | Internal_ : InternalDef
+let Spec =
+    < Data_ : DataSpec
+    | Type_ : TypeSpec
+    | Newtype_ : NewtypeSpec
+    | Class_ : ClassSpec
+    | Package_ : PackageSpec
+    | Internal_ : InternalSpec
     >
 
 
-let ctype : e.CItem = e.CItem.CType
+let ctype : e.KindItem = e.KindItem.CType
 
 
 let cfn
-    : List e.CItem -> e.CItem
-    = \(items : List e.CItem) ->
-    e.CItem.CFn (e.Expr/sealAll (List/map e.CItem e.Expr e.CItem/toExpr items))
+    : List e.KindItem -> e.KindItem
+    = \(items : List e.KindItem) ->
+    e.KindItem.CFn (e.Expr/sealAll (List/map e.KindItem e.Expr e.KindItem/toExpr items))
 
 
 let cfn_br
-    : List e.CItem -> e.CItem
-    = \(items : List e.CItem) ->
-    e.CItem.CBr
+    : List e.KindItem -> e.KindItem
+    = \(items : List e.KindItem) ->
+    e.KindItem.CBr
         (e.Expr/seal
-            (e.CItem/toExpr (cfn items) )
+            (e.KindItem/toExpr (cfn items) )
         )
 
 
-let cctype : e.Constraint = [ ctype ]
-let cctype2 : e.Constraint = [ ctype, ctype ]
-let cctype3 : e.Constraint = [ ctype, ctype, ctype ]
+let cctype : e.KindSeq = [ ctype ]
+let cctype2 : e.KindSeq = [ ctype, ctype ]
+let cctype3 : e.KindSeq = [ ctype, ctype, ctype ]
 
 
 let ccforall
-    : List e.Arg -> e.Constraint -> e.Constraint
-    = \(args : List e.Arg) -> \(body : e.Constraint) -> [ e.CItem.CForall { args, body = e.Expr/seal (e.Constraint/toExpr body) } ]
+    : List e.Arg -> e.KindSeq -> e.KindSeq
+    = \(args : List e.Arg) -> \(body : e.KindSeq) -> [ e.KindItem.CForall { args, body = e.Expr/seal (e.KindSeq/toExpr body) } ]
 
 
 let id = Id.Id
 
 
 let data
-    : Id -> Text -> List e.Arg -> Def
+    : Id -> Text -> List e.Arg -> Spec
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-    Def.Data_ { id, name, vars, constraint = None e.Constraint }
+    Spec.Data_ { id, name, vars, constraint = None e.KindSeq }
 
 
 let data_c
-    : Id -> Text -> List e.Arg -> e.Constraint -> Def
-    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.Constraint) ->
-    Def.Data_ { id, name, vars, constraint = Some constraint }
+    : Id -> Text -> List e.Arg -> e.KindSeq -> Spec
+    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.KindSeq) ->
+    Spec.Data_ { id, name, vars, constraint = Some constraint }
 
 
 let data_e
-    : Id -> Text -> Def
+    : Id -> Text -> Spec
     = \(id : Id) -> \(name : Text) ->
     data id name ([] : List e.Arg)
 
 
 let nt
-    : Id -> Text -> List e.Arg -> Def
+    : Id -> Text -> List e.Arg -> Spec
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-    Def.Newtype_ { id, name, vars, constraint = None e.Constraint }
+    Spec.Newtype_ { id, name, vars, constraint = None e.KindSeq }
 
 
 let nt_c
-    : Id -> Text -> List e.Arg -> e.Constraint -> Def
-    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.Constraint) ->
-    Def.Newtype_ { id, name, vars, constraint = Some constraint }
+    : Id -> Text -> List e.Arg -> e.KindSeq -> Spec
+    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.KindSeq) ->
+    Spec.Newtype_ { id, name, vars, constraint = Some constraint }
 
 
 let nt_e
-    : Id -> Text ->  Def
+    : Id -> Text ->  Spec
     = \(id : Id) -> \(name : Text) ->
     nt id name ([] : List e.Arg)
 
 
 let t
-    : Id -> Text -> List e.Arg -> e.Expr -> Def
+    : Id -> Text -> List e.Arg -> e.Expr -> Spec
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(expr : e.Expr) ->
-    Def.Type_ { id, name, vars, expr, constraint = None e.Constraint }
+    Spec.Type_ { id, name, vars, expr, constraint = None e.KindSeq }
 
 
 let t_c
-    : Id -> Text -> List e.Arg -> e.Expr -> e.Constraint -> Def
-    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(expr : e.Expr) -> \(constraint : e.Constraint) ->
-    Def.Type_ { id, name, vars, expr, constraint = Some constraint }
+    : Id -> Text -> List e.Arg -> e.Expr -> e.KindSeq -> Spec
+    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(expr : e.Expr) -> \(constraint : e.KindSeq) ->
+    Spec.Type_ { id, name, vars, expr, constraint = Some constraint }
 
 
 let pkg
-    : Id -> Text -> Def
+    : Id -> Text -> Spec
     = \(id : Id) -> \(name : Text) ->
-    Def.Package_ { id, name }
+    Spec.Package_ { id, name }
 
 
 let int
-    : Id -> Text -> Def
+    : Id -> Text -> Spec
     = \(id : Id) -> \(name : Text) ->
-    Def.Internal_ { id, name }
+    Spec.Internal_ { id, name }
 
 
 let p
@@ -202,42 +202,42 @@ let vp
 
 
 let cv
-    : Text -> e.CItem
-    = \(v_ : Text) -> e.CItem.CVar (v v_)
+    : Text -> e.KindItem
+    = \(v_ : Text) -> e.KindItem.CVar (v v_)
 
 
 let ccon
-    : e.CItem
-    = e.CItem.CConstraint
+    : e.KindItem
+    = e.KindItem.CConstraint
 
 
 let class
-   : Id -> Text -> Def
+   : Id -> Text -> Spec
     = \(id : Id) -> \(name : Text) ->
-    Def.Class_
+    Spec.Class_
         { id, name
         , vars = [] : List e.Arg
         , parents = [] : List Parent
         , dependencies = None Dependencies
-        , constraint = None e.Constraint
+        , constraint = None e.KindSeq
         }
 
 
 let class_v
-   : Id -> Text -> List e.Arg -> Def
+   : Id -> Text -> List e.Arg -> Spec
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-   Def.Class_
+   Spec.Class_
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = None Dependencies
-        , constraint = None e.Constraint
+        , constraint = None e.KindSeq
         }
 
 
 let class_c
-   : Id -> Text -> e.Constraint -> Def
-   = \(id : Id) -> \(name : Text) -> \(cnst : e.Constraint) ->
-   Def.Class_
+   : Id -> Text -> e.KindSeq -> Spec
+   = \(id : Id) -> \(name : Text) -> \(cnst : e.KindSeq) ->
+   Spec.Class_
         { id, name, vars = [] : List e.Arg
         , parents = [] : List Parent
         , dependencies = None Dependencies
@@ -246,19 +246,19 @@ let class_c
 
 
 let class_vp
-   : Id -> Text -> List e.Arg -> List Parent -> Def
+   : Id -> Text -> List e.Arg -> List Parent -> Spec
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) ->
-   Def.Class_
+   Spec.Class_
         { id, name, vars, parents
         , dependencies = None Dependencies
-        , constraint = None e.Constraint
+        , constraint = None e.KindSeq
         }
 
 
 let class_vc
-   : Id -> Text -> List e.Arg -> e.Constraint -> Def
-   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(cnst : e.Constraint) ->
-   Def.Class_
+   : Id -> Text -> List e.Arg -> e.KindSeq -> Spec
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(cnst : e.KindSeq) ->
+   Spec.Class_
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = None Dependencies
@@ -266,30 +266,30 @@ let class_vc
         }
 
 let class_vd
-   : Id -> Text -> List e.Arg -> Dependencies -> Def
+   : Id -> Text -> List e.Arg -> Dependencies -> Spec
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(deps : Dependencies) ->
-   Def.Class_
+   Spec.Class_
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = Some deps
-        , constraint = None e.Constraint
+        , constraint = None e.KindSeq
         }
 
 
 let class_vpd
-   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> Def
+   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> Spec
    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) -> \(deps : Dependencies) ->
-   Def.Class_
+   Spec.Class_
         { id, name, vars, parents
         , dependencies = Some deps
-        , constraint = None e.Constraint
+        , constraint = None e.KindSeq
         }
 
 
 let class_vpc
-   : Id -> Text -> List e.Arg -> List Parent -> e.Constraint -> Def
-   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) ->  \(cnst : e.Constraint) ->
-   Def.Class_
+   : Id -> Text -> List e.Arg -> List Parent -> e.KindSeq -> Spec
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) ->  \(cnst : e.KindSeq) ->
+   Spec.Class_
         { id, name, vars, parents
         , dependencies = None Dependencies
         , constraint = Some cnst
@@ -297,9 +297,9 @@ let class_vpc
 
 
 let class_vpdc
-   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> e.Constraint -> Def
-   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) -> \(deps : Dependencies) -> \(cnst : e.Constraint) ->
-   Def.Class_
+   : Id -> Text -> List e.Arg -> List Parent -> Dependencies -> e.KindSeq -> Spec
+   = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(parents : List Parent) -> \(deps : Dependencies) -> \(cnst : e.KindSeq) ->
+   Spec.Class_
         { id, name, vars, parents
         , dependencies = Some deps
         , constraint = Some cnst
@@ -321,82 +321,82 @@ let deps1
     = \(from : e.Arg) -> \(to : e.Arg) -> [ dep1 from to ]
 
 
-let test_c01 = assert : e.Constraint/render cctype ≡ "{{kw:Type}}"
-let test_c02 = assert : e.Constraint/render cctype2 ≡ "{{kw:Type}} {{op:->}} {{kw:Type}}"
-let test_c03 = assert : e.Constraint/render cctype3 ≡ "{{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Type}}"
-let test_c04 = assert : e.Constraint/render [ ctype, cfn_br [ ctype, ctype ], ctype ] ≡ "{{kw:Type}} {{op:->}} ({{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Type}}"
-let test_c05 = assert : e.Constraint/render [ ctype, cfn_br cctype2, ctype ] ≡ "{{kw:Type}} {{op:->}} ({{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Type}}"
-let test_c06 = assert : e.Constraint/render (ccforall [ v "k" ] [ ctype, cfn_br cctype2, cv "k" ]) ≡ "{{kw:forall}} {{var:k}}. {{kw:Type}} {{op:->}} ({{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{var:k}}"
-let test_c07 = assert : e.Constraint/render [ ctype, ctype, ccon ] ≡ "{{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Constraint}}"
-let test_c08 = assert : e.Constraint/render [ cfn_br cctype3, ccon ] ≡ "({{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Constraint}}"
+let test_c01 = assert : e.KindSeq/render cctype ≡ "{{kw:Type}}"
+let test_c02 = assert : e.KindSeq/render cctype2 ≡ "{{kw:Type}} {{op:->}} {{kw:Type}}"
+let test_c03 = assert : e.KindSeq/render cctype3 ≡ "{{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Type}}"
+let test_c04 = assert : e.KindSeq/render [ ctype, cfn_br [ ctype, ctype ], ctype ] ≡ "{{kw:Type}} {{op:->}} ({{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Type}}"
+let test_c05 = assert : e.KindSeq/render [ ctype, cfn_br cctype2, ctype ] ≡ "{{kw:Type}} {{op:->}} ({{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Type}}"
+let test_c06 = assert : e.KindSeq/render (ccforall [ v "k" ] [ ctype, cfn_br cctype2, cv "k" ]) ≡ "{{kw:forall}} {{var:k}}. {{kw:Type}} {{op:->}} ({{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{var:k}}"
+let test_c07 = assert : e.KindSeq/render [ ctype, ctype, ccon ] ≡ "{{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Constraint}}"
+let test_c08 = assert : e.KindSeq/render [ cfn_br cctype3, ccon ] ≡ "({{kw:Type}} {{op:->}} {{kw:Type}} {{op:->}} {{kw:Type}}) {{op:->}} {{kw:Constraint}}"
 
 
-let Def/renderConstraint
-    : Def -> Optional Text
-    = \(def : Def) ->
+let Spec/renderKind
+    : Spec -> Optional Text
+    = \(spec : Spec) ->
     merge
-        { Data_ = \(dd : DataDef) ->
+        { Data_ = \(dd : DataSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "{{kw:data}} {{type:${dd.name}}} {{op::}} ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:data}} {{type:${dd.name}}} {{op::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 dd.constraint
-        , Type_ = \(td : TypeDef) ->
+        , Type_ = \(td : TypeSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "{{kw:type}} {{type:${td.name}}} {{op::}} ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:type}} {{type:${td.name}}} {{op::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 td.constraint
-        , Newtype_ = \(ntd : NewtypeDef) ->
+        , Newtype_ = \(ntd : NewtypeSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "{{kw:newtype}} {{type:${ntd.name}}} {{op::}} ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:newtype}} {{type:${ntd.name}}} {{op::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 ntd.constraint
-        , Class_ = \(cd : ClassDef) ->
+        , Class_ = \(cd : ClassSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "{{kw:class}} {{class:${cd.name}}} {{op::}} ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:class}} {{class:${cd.name}}} {{op::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 cd.constraint
-        , Package_ = \(pd : PackageDef) -> None Text
-        , Internal_ = \(id : InternalDef) -> None Text
+        , Package_ = \(pd : PackageSpec) -> None Text
+        , Internal_ = \(id : InternalSpec) -> None Text
         }
-        def
+        spec
 
 
-let Def/renderConstraintRaw
-    : Def -> Optional Text
-    = \(def : Def) ->
+let Spec/renderKindRaw
+    : Spec -> Optional Text
+    = \(spec : Spec) ->
     merge
-        { Data_ = \(dd : DataDef) ->
+        { Data_ = \(dd : DataSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "data ${dd.name} :: ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "data ${dd.name} :: ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 dd.constraint
-        , Type_ = \(td : TypeDef) ->
+        , Type_ = \(td : TypeSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "type ${td.name} :: ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "type ${td.name} :: ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 td.constraint
-        , Newtype_ = \(ntd : NewtypeDef) ->
+        , Newtype_ = \(ntd : NewtypeSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "newtype ${ntd.name} :: ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "newtype ${ntd.name} :: ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 ntd.constraint
-        , Class_ = \(cd : ClassDef) ->
+        , Class_ = \(cd : ClassSpec) ->
             merge
-                { Some = \(ct : e.Constraint) -> Some "class ${cd.name} :: ${e.Constraint/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "class ${cd.name} :: ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 cd.constraint
-        , Package_ = \(pd : PackageDef) -> None Text
-        , Internal_ = \(id : InternalDef) -> None Text
+        , Package_ = \(pd : PackageSpec) -> None Text
+        , Internal_ = \(id : InternalSpec) -> None Text
         }
-        def
+        spec
 
 
 let concatHelper
@@ -473,17 +473,17 @@ let Dependencies/renderRaw
     {-"| " ++ -} concatHelper Dependency Dependency/renderRaw ", " deps
 
 
-let Def/renderSpec
-    : Def -> Text
-    = \(def : Def) ->
+let Spec/renderHeader
+    : Spec -> Text
+    = \(spec : Spec) ->
     merge
-        { Data_ = \(dd : DataDef) ->
+        { Data_ = \(dd : DataSpec) ->
             tt "{{kw:data}} {{type(${Id/render dd.id}):${dd.name}}} ${concatArgs " " dd.vars}"
-        , Type_ = \(td : TypeDef) ->
+        , Type_ = \(td : TypeSpec) ->
             tt "{{kw:type}} {{type(${Id/render td.id}):${td.name}}} ${concatArgs " " td.vars} {{op:=}} ${e.Expr/render td.expr}"
-        , Newtype_ = \(ntd : NewtypeDef) ->
+        , Newtype_ = \(ntd : NewtypeSpec) ->
             tt "{{kw:newtype}} {{type(${Id/render ntd.id}):${ntd.name}}} ${concatArgs " " ntd.vars}"
-        , Class_ = \(cd : ClassDef) ->
+        , Class_ = \(cd : ClassSpec) ->
             tt ("{{kw:class}} (${concatParents "{{op:,}} " cd.parents}) {{op:<=}} {{class(${Id/render cd.id}):${cd.name}}} ${concatArgs " " cd.vars}" ++
                 (merge
                     { Some = \(deps : Dependencies) -> " {{op:|}} " ++ Dependencies/render deps ++ " "
@@ -492,26 +492,26 @@ let Def/renderSpec
                     cd.dependencies
                 )
             ) ++ "{{kw:where}}"
-        , Package_ = \(pd : PackageDef) ->
+        , Package_ = \(pd : PackageSpec) ->
             -- "{{kw:package}} {{package:${pd.name}}}"
             "{{package(${Id/render pd.id}):${pd.name}}}"
-        , Internal_ = \(id : InternalDef) ->
+        , Internal_ = \(id : InternalSpec) ->
             "{{internal(${Id/render id.id}):${id.name}}}"
         }
-        def
+        spec
 
 
-let Def/renderSpecRaw
-    : Def -> Text
-    = \(def : Def) ->
+let Spec/renderHeaderRaw
+    : Spec -> Text
+    = \(spec : Spec) ->
     merge
-        { Data_ = \(dd : DataDef) ->
+        { Data_ = \(dd : DataSpec) ->
             tt "data ${dd.name} ${concatArgsRaw " " dd.vars}"
-        , Type_ = \(td : TypeDef) ->
+        , Type_ = \(td : TypeSpec) ->
             tt "type ${td.name} ${concatArgsRaw " " td.vars} = ${e.Expr/renderRaw td.expr}"
-        , Newtype_ = \(ntd : NewtypeDef) ->
+        , Newtype_ = \(ntd : NewtypeSpec) ->
             tt "newtype ${ntd.name} ${concatArgsRaw " " ntd.vars}"
-        , Class_ = \(cd : ClassDef) ->
+        , Class_ = \(cd : ClassSpec) ->
             tt ("class (${concatParentsRaw ", " cd.parents}) <= ${cd.name} ${concatArgsRaw " " cd.vars}" ++
                 (merge
                     { Some = \(deps : Dependencies) -> " | " ++ Dependencies/renderRaw deps ++ " "
@@ -520,34 +520,34 @@ let Def/renderSpecRaw
                     cd.dependencies
                 )
             ) ++ "where"
-        , Package_ = \(pd : PackageDef) ->
+        , Package_ = \(pd : PackageSpec) ->
             -- "package ${pd.name}"
             pd.name
-        , Internal_ = \(id : InternalDef) ->
+        , Internal_ = \(id : InternalSpec) ->
             id.name
         }
-        def
+        spec
 
 
-let DefText =
-    { constraint : Optional Text
-    , spec : Text
+let SpecText =
+    { kind : Optional Text
+    , header : Text
     }
 
 
-let Def/render
-    : Def -> DefText
-    = \(td : Def) ->
-    { constraint = Def/renderConstraint td
-    , spec = Def/renderSpec td
+let Spec/render
+    : Spec -> SpecText
+    = \(td : Spec) ->
+    { kind = Spec/renderKind td
+    , header = Spec/renderHeader td
     }
 
 
-let Def/renderRaw
-    : Def -> DefText
-    = \(td : Def) ->
-    { constraint = Def/renderConstraintRaw td
-    , spec = Def/renderSpecRaw td
+let Spec/renderRaw
+    : Spec -> SpecText
+    = \(td : Spec) ->
+    { kind = Spec/renderKindRaw td
+    , header = Spec/renderHeaderRaw td
     }
 
 
@@ -775,68 +775,68 @@ data Proxy a // a is phantom
 -}
 
 -- (Type -> Type) -> Type -> Type -> Type
-let t2t3 : e.Constraint = [ cfn_br cctype2, ctype, ctype, ctype ]
+let t2t3 : e.KindSeq = [ cfn_br cctype2, ctype, ctype, ctype ]
 
 -- (Type -> Type -> Type) -> (Type -> Type -> Type) -> Type -> Type -> Type
-let t3t3t3 : e.Constraint = [ cfn_br cctype3, cfn_br cctype3, ctype, ctype, ctype ]
+let t3t3t3 : e.KindSeq = [ cfn_br cctype3, cfn_br cctype3, ctype, ctype, ctype ]
 
 -- (Type -> Type -> Type) -> Type -> Type -> Type -> Type
-let t3t4 : e.Constraint = [ cfn_br cctype3, ctype, ctype, ctype, ctype ]
+let t3t4 : e.KindSeq = [ cfn_br cctype3, ctype, ctype, ctype, ctype ]
 
 -- (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type
-let t3t5 : e.Constraint = [ cfn_br cctype3, ctype, ctype, ctype, ctype, ctype ]
+let t3t5 : e.KindSeq = [ cfn_br cctype3, ctype, ctype, ctype, ctype, ctype ]
 
 -- (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type -> Type
-let t3t6 : e.Constraint = [ cfn_br cctype3, ctype, ctype, ctype, ctype, ctype, ctype ]
+let t3t6 : e.KindSeq = [ cfn_br cctype3, ctype, ctype, ctype, ctype, ctype, ctype ]
 
 -- Type -> (Type -> Type) -> Type -> Type
-let t_t2_t2 : e.Constraint = [ ctype, cfn_br cctype2, ctype, ctype ]
+let t_t2_t2 : e.KindSeq = [ ctype, cfn_br cctype2, ctype, ctype ]
 
 -- (Type -> Type) -> Constraint
-let t2c : e.Constraint = [ cfn_br cctype2, ccon ]
+let t2c : e.KindSeq = [ cfn_br cctype2, ccon ]
 
 -- (Type -> Type -> Type) -> Constraint
-let t3c : e.Constraint = [ cfn_br cctype3, ccon ]
+let t3c : e.KindSeq = [ cfn_br cctype3, ccon ]
 
 -- Type -> (Type -> Type) -> Constraint
-let tt2c : e.Constraint = [ ctype, cfn_br cctype2, ccon ]
+let tt2c : e.KindSeq = [ ctype, cfn_br cctype2, ccon ]
 
 -- forall k. k -> Type
-let kt : e.Constraint = ccforall [ v "k" ] [ cv "k", ctype ]
+let kt : e.KindSeq = ccforall [ v "k" ] [ cv "k", ctype ]
 
 -- forall k. Type -> k -> Type
-let tkt : e.Constraint = ccforall [ v "k" ] [ ctype, cv "k", ctype ]
+let tkt : e.KindSeq = ccforall [ v "k" ] [ ctype, cv "k", ctype ]
 
 -- forall k. (k -> Type) -> k -> Type
-let kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
+let kt_kt : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
 
 -- forall k. (k -> Type) -> Type -> k -> Type
-let kt_tkt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
+let kt_tkt : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cv "k", ctype ]
 
 -- forall k. (k -> Type) -> (k -> Type) -> Type
-let kt_kt_t : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ctype ]
+let kt_kt_t : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ctype ]
 
 -- forall k. (k -> Type) -> (k -> Type) -> k -> Type
-let kt_kt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], cv "k", ctype ]
+let kt_kt_kt : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], cv "k", ctype ]
 
 -- forall k. (k -> k -> Type) -> k -> Type
-let kkt_kt : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], cv "k", ctype ]
+let kkt_kt : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], cv "k", ctype ]
 
 -- forall k1 k2. (k2 -> Type) -> (k1 -> k2) -> k1 -> Type
-let k12kt : e.Constraint = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k2", ctype ], cfn_br [ cv "k1", cv "k2" ], cv "k1", ctype ]
+let k12kt : e.KindSeq = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k2", ctype ], cfn_br [ cv "k1", cv "k2" ], cv "k1", ctype ]
 
 -- forall k1 k2. (k1 -> k2 -> Type) -> k2 -> k1 -> Type
-let kkt_kkt : e.Constraint = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k1", cv "k2", ctype ], cv "k2", cv "k1", ctype ]
+let kkt_kkt : e.KindSeq = ccforall [ v "k1", v "k2" ] [ cfn_br [ cv "k1", cv "k2", ctype ], cv "k2", cv "k1", ctype ]
 
 -- forall k. (k -> Type) -> (k -> Type) -> Constraint
-let kt_kt_c : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ccon ]
+let kt_kt_c : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", ctype ], cfn_br [ cv "k", ctype ], ccon ]
 
 -- forall k. (k -> k -> Type) -> Constraint
-let kktc : e.Constraint = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], ccon ]
+let kktc : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], ccon ]
 
 in
     { id
-    , Def, DefText, Def/render, Def/renderRaw
+    , Spec, SpecText, Spec/render, Spec/renderRaw
     , ctype, cfn_br
     , cctype, cctype2, cctype3, ccon, ccforall
     , p, pe, v, vn, vp, cv

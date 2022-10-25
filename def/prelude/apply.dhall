@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Apply :: (Type -> Type) -> Constraint
@@ -16,7 +16,7 @@ let apply : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Apply#t:Apply"
-    , def =
+    , spec =
         d.class_vpc
             (d.id "apply")
             "Apply"

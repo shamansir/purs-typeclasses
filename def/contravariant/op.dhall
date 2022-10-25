@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Op a b
@@ -14,7 +14,7 @@ let op : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence"
-    , def = d.nt (d.id "op") "Op" [ d.v "a", d.v "b" ]
+    , spec = d.nt (d.id "op") "Op" [ d.v "a", d.v "b" ]
     , members =
         [
             { name = "Op"

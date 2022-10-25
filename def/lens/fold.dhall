@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- type Fold r s t a b = Optic (Forget r) s t a b
@@ -18,7 +18,7 @@ let fold : tc.TClass =
     , module = [ "Data", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens"
-    , def = d.t (d.id "fold") "Fold" [ d.v "r", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
+    , spec = d.t (d.id "fold") "Fold" [ d.v "r", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Fold"

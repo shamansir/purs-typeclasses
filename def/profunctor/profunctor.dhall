@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Profunctor :: (Type -> Type -> Type) -> Constraint
@@ -15,7 +15,7 @@ let profunctor : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor"
-    , def =
+    , spec =
         d.class_vc
             (d.id "profunctor")
             "Profunctor"

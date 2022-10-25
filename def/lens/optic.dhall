@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- type Optic :: (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type
@@ -22,7 +22,7 @@ let optic : tc.TClass =
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
-    , def = d.t_c (d.id "optic") "Optic" [ d.v "p", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr d.t3t5
+    , spec = d.t_c (d.id "optic") "Optic" [ d.v "p", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr d.t3t5
     , members =
         [
             { name = "Optic"

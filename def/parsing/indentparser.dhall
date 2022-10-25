@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e_ = ./../../expr.dhall
 let e = ./../../build_expr.dhall
 
@@ -28,7 +28,7 @@ let indentparser : tc.TClass =
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
     , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , def = d.t (d.id "indentparser") "IndentParser" [ d.v "s", d.v "a" ] cexpr
+    , spec = d.t (d.id "indentparser") "IndentParser" [ d.v "s", d.v "a" ] cexpr
     , members =
         [
             { name = "IndentParser"

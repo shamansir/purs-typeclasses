@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Equivalence a
@@ -14,7 +14,7 @@ let equivalence : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence"
-    , def = d.nt (d.id "equivalence") "Equivalence" [ d.v "a" ]
+    , spec = d.nt (d.id "equivalence") "Equivalence" [ d.v "a" ]
     , members =
         [
             { name = "Equivalence"

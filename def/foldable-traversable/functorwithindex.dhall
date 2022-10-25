@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let i = ./../../instances.dhall
 
 -- class FunctorWithIndex :: Type -> (Type -> Type) -> Constraint
@@ -16,7 +16,7 @@ let functorwithindex : tc.TClass =
     , package = tc.pkmj "purescript-foldable-traversable" +6
     , parents = [ "functor" ]
     , link = "purescript-foldable-traversable/6.0.0/docs/Data.FunctorWithIndex"
-    , def =
+    , spec =
         d.class_vpdc
             (d.id "functorwithindex")
             "FunctorWithIndex"

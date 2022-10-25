@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e_ = ./../../expr.dhall
 let e = ./../../build_expr.dhall
 
@@ -13,7 +13,7 @@ let traversalpkg : tc.TClass =
     , module = [ "Data", "Lens", "Traversal" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Traversal"
-    , def = d.pkg (d.id "traversalpkg") "Lens.Traversal"
+    , spec = d.pkg (d.id "traversalpkg") "Lens.Traversal"
     -- over    traversed negate [1, 2, 3] == [-1, -2, -3]
     -- preview traversed [1, 2, 3] == Just 1
     -- firstOf traversed [1, 2, 3] == Just 1  -- same as `preview`

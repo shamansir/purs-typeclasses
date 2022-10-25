@@ -188,7 +188,7 @@ let Property = { mapKey : Text, mapValue : SealedExpr }
 let Object_ = List Property
 
 
-let CItem =
+let KindItem =
     < CType
     | CVar : Arg
     | CKind
@@ -197,7 +197,7 @@ let CItem =
     | CForall : Forall_
     | CBr : SealedExpr
     >
-let Constraint = List CItem
+let KindSeq = List KindItem
 
 
 let Expr =
@@ -224,8 +224,8 @@ let Expr =
     | Num : Text
     | Keyword : Text
     | Object : Object_
-    | Constraint : Constraint
-    | ConstraintItem : CItem
+    | KindSeq : KindSeq
+    | KindItem : KindItem
     | Nothing
     >
 
@@ -234,9 +234,9 @@ let hasNone
     = \(t : Type) -> \(list : List t) -> Natural/isZero (List/length t list)
 
 
-let CItem/render
-    : CItem -> Text
-    = \(citem : CItem) ->
+let KindItem/render
+    : KindItem -> Text
+    = \(citem : KindItem) ->
     merge
         { CType = "{{kw:Type}}"
         , CConstraint = "{{kw:Constraint}}"
@@ -251,9 +251,9 @@ let CItem/render
         citem
 
 
-let CItem/renderRaw
-    : CItem -> Text
-    = \(citem : CItem) ->
+let KindItem/renderRaw
+    : KindItem -> Text
+    = \(citem : KindItem) ->
     merge
         { CType = "Type"
         , CConstraint = "Constraint"
@@ -268,46 +268,46 @@ let CItem/renderRaw
         citem
 
 
-let CItem/toExpr
-    : CItem -> Expr
-    = Expr.ConstraintItem
+let KindItem/toExpr
+    : KindItem -> Expr
+    = Expr.KindItem
 
 
-let Constraint/toExpr
-    : Constraint -> Expr
-    = Expr.Constraint
+let KindSeq/toExpr
+    : KindSeq -> Expr
+    = Expr.KindSeq
 
 
-let concatCItems
-    : Text -> List CItem -> Text
-    = \(sep : Text) -> \(citems : List CItem) ->
-        concatHelper CItem CItem/render sep citems
+let concatKindItems
+    : Text -> List KindItem -> Text
+    = \(sep : Text) -> \(citems : List KindItem) ->
+        concatHelper KindItem KindItem/render sep citems
 
 
-let concatCItemsRaw
-    : Text -> List CItem -> Text
-    = \(sep : Text) -> \(citems : List CItem) ->
-        concatHelper CItem CItem/renderRaw sep citems
+let concatKindItemsRaw
+    : Text -> List KindItem -> Text
+    = \(sep : Text) -> \(citems : List KindItem) ->
+        concatHelper KindItem KindItem/renderRaw sep citems
 
 
-let CItem/renderChain
-    : List CItem -> Text
-    = concatCItems " {{op:->}} "
+let KindItem/renderChain
+    : List KindItem -> Text
+    = concatKindItems " {{op:->}} "
 
 
-let CItem/renderChainRaw
-    : List CItem -> Text
-    = concatCItemsRaw " -> "
+let KindItem/renderChainRaw
+    : List KindItem -> Text
+    = concatKindItemsRaw " -> "
 
 
-let Constraint/render :
-    Constraint -> Text =
-    CItem/renderChain
+let KindSeq/render :
+    KindSeq -> Text =
+    KindItem/renderChain
 
 
-let Constraint/renderRaw :
-    Constraint -> Text =
-    CItem/renderChainRaw
+let KindSeq/renderRaw :
+    KindSeq -> Text =
+    KindItem/renderChainRaw
 
 
 let Expr/render
@@ -375,8 +375,8 @@ let Expr/render
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> "{{num:${num}}}"
         , Keyword = \(kw : Text) -> "{{kw:${kw}}}"
-        , Constraint = \(c : Constraint) -> Constraint/render c
-        , ConstraintItem = \(citem : CItem) -> CItem/render citem
+        , KindSeq = \(c : KindSeq) -> KindSeq/render c
+        , KindItem = \(citem : KindItem) -> KindItem/render citem
         , Nothing = ""
         }
         expr
@@ -447,8 +447,8 @@ let Expr/renderRaw
         , Raw = \(raw : Text) -> raw
         , Num = \(num : Text) -> num
         , Keyword = \(kw : Text) -> kw
-        , Constraint = \(c : Constraint) -> Constraint/renderRaw c
-        , ConstraintItem = \(citem : CItem) -> CItem/renderRaw citem
+        , KindSeq = \(c : KindSeq) -> KindSeq/renderRaw c
+        , KindItem = \(citem : KindItem) -> KindItem/renderRaw citem
         , Nothing = ""
         }
         expr
@@ -515,9 +515,9 @@ let test_apply_raw = assert
     ≡ "foo a f"
 
 in
-    { What, Arg, Property, CItem, Expr, Constraint, SealedSource
-    , Expr/seal, Expr/sealAll, SealedExpr/getSource, CItem/toExpr, Constraint/toExpr
-    , What/render, Arg/render, CItem/render, Constraint/render, Expr/render
-    , What/renderRaw, Arg/renderRaw, CItem/renderRaw, Constraint/renderRaw, Expr/renderRaw
+    { What, Arg, Property, KindItem, Expr, KindSeq, SealedSource
+    , Expr/seal, Expr/sealAll, SealedExpr/getSource, KindItem/toExpr, KindSeq/toExpr
+    , What/render, Arg/render, KindItem/render, KindSeq/render, Expr/render
+    , What/renderRaw, Arg/renderRaw, KindItem/renderRaw, KindSeq/renderRaw, Expr/renderRaw
     , Expr/none
     }

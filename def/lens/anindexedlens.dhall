@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- type AnIndexedLens i s t a b = IndexedOptic (Shop (Tuple i a) b) i s t a b
@@ -21,7 +21,7 @@ let anindexedlens : tc.TClass =
     , module = [ "Data", "Lens", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Lens"
-    , def = d.t (d.id "anindexedlens") "AnIndexedLens" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
+    , spec = d.t (d.id "anindexedlens") "AnIndexedLens" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "AnIndexedLens"

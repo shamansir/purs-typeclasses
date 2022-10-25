@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- type AnAffineTraversal s t a b = Optic (Stall a b) s t a b
@@ -17,7 +17,7 @@ let anaffinetraversal : tc.TClass =
     , module = [ "Data", "Lens", "AffineTraversal" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.AffineTraversal"
-    , def = d.t (d.id "anaffinetraversal") "AnAffineTraversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
+    , spec = d.t (d.id "anaffinetraversal") "AnAffineTraversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "AnAffineTraversal"

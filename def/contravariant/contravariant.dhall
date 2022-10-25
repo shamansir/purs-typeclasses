@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Contravariant :: (Type -> Type) -> Constraint
@@ -15,7 +15,7 @@ let contravariant : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Functor.Contravariant"
-    , def =
+    , spec =
         d.class_vc
             (d.id "contravariant")
             "Contravariant"

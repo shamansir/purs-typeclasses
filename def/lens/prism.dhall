@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- type Prism s t a b = forall p. Choice p => Optic p s t a b
@@ -20,7 +20,7 @@ let prism : tc.TClass =
     , module = [ "Data", "Lens", "Prism" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Prism"
-    , def = d.t (d.id "prism") "Prism" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
+    , spec = d.t (d.id "prism") "Prism" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Prism"

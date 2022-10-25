@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let i = ./../../instances.dhall
 
 -- newtype Clown :: (Type -> Type) -> Type -> Type -> Type
@@ -15,7 +15,7 @@ let clown : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.Clown"
-    , def = d.nt_c (d.id "clown") "Clown" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
+    , spec = d.nt_c (d.id "clown") "Clown" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
     , members =
         [
             { name = "Clown"

@@ -2,7 +2,7 @@ let List/map =
       https://prelude.dhall-lang.org/List/map
 
 let e = ./expr.dhall
-let d = ./typedef.dhall
+let d = ./spec.dhall
 
 -- let List/length =
 --       https://prelude.dhall-lang.org/List/length
@@ -176,7 +176,7 @@ let TClass =
     , name : Text -- TODO: remove in favor of TypeDef
     , info  : Text -- TODO: support multiline
     , parents : List Id -- TODO: remove in favor of TypeDef
-    , def : d.Def
+    , spec : d.Spec
     , package : Package
     , module : Module
     , laws : List Law
@@ -194,7 +194,7 @@ let TClassText =
     , name : Text
     , info  : Text
     , parents : List Id
-    , def : d.DefText
+    , spec : d.SpecText
     , package : Package
     , module : Module
     , laws : List LawText
@@ -216,7 +216,7 @@ let TClass/toText
     , parents = t.parents
     , package = t.package
     , module = t.module
-    , def = d.Def/render t.def
+    , spec = d.Spec/render t.spec
     , laws =
         List/map
             Law

@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Category :: forall k. (k -> k -> Type) -> Constraint
@@ -16,7 +16,7 @@ let category : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Category#t:Category"
-    , def =
+    , spec =
         d.class_vpc
             (d.id "category")
             "Category"

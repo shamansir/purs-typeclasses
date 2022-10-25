@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Unfoldable1 :: (Type -> Type) -> Constraint
@@ -15,7 +15,7 @@ let unfoldable1 : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-unfoldable" +6
     , link = "purescript-unfoldable/6.0.0/docs/Data.Unfoldable1"
-    , def =
+    , spec =
         d.class_vc
             (d.id "unfoldable1")
             "Unfoldable1"

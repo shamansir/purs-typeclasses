@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e_ = ./../../expr.dhall
 let e = ./../../build_expr.dhall
 
@@ -13,7 +13,7 @@ let recordpkg : tc.TClass =
     , module = [ "Data", "Lens", "Record" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
     , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Record"
-    , def = d.pkg (d.id "recordpkg") "Lens.Record"
+    , spec = d.pkg (d.id "recordpkg") "Lens.Record"
     , members =
         [
             { name = "prop"

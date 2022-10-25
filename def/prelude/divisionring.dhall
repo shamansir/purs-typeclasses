@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class (Ring a) <= DivisionRing a where
@@ -15,7 +15,7 @@ let divisionRing : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Data.DivisionRing"
-    , def =
+    , spec =
         d.class_vp
             (d.id "divisionring")
             "DivisionRing"

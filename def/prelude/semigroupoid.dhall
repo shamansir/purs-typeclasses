@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Semigroupoid :: forall k. (k -> k -> Type) -> Constraint
@@ -15,7 +15,7 @@ let semigroupoid : tc.TClass =
     , module = [ "Control" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
     , link = "purescript-prelude/5.0.1/docs/Control.Semigroupoid"
-    , def =
+    , spec =
         d.class_vc
             (d.id "semigroupoid")
             "Semigroupoid"

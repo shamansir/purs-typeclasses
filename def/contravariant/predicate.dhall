@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- newtype Predicate a
@@ -14,7 +14,7 @@ let predicate : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
     , link = "purescript-contravariant/3.0.0/docs/Data.Predicate"
-    , def = d.nt (d.id "predicate") "Predicate" [ d.v "a" ]
+    , spec = d.nt (d.id "predicate") "Predicate" [ d.v "a" ]
     , members =
         [
             { name = "Predicate"

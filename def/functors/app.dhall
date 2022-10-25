@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let i = ./../../instances.dhall
 
 -- newtype App :: forall k. (k -> Type) -> k -> Type
@@ -15,7 +15,7 @@ let app : tc.TClass =
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
     , link = "purescript-functors/4.1.1/docs/Data.Functor.App"
-    , def = d.nt_c (d.id "app") "App" [ d.v "f", d.v "a" ] d.kt_kt
+    , spec = d.nt_c (d.id "app") "App" [ d.v "f", d.v "a" ] d.kt_kt
     , members =
         [
             { name = "App"

@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let i = ./../../instances.dhall
 
 -- class Foldable :: (Type -> Type) -> Constraint
@@ -15,7 +15,7 @@ let foldable : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , link = "purescript-foldable-traversable/5.0.1/docs/Data.Foldable"
-    , def =
+    , spec =
         d.class_vc
             (d.id "foldable")
             "Foldable"

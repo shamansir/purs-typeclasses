@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- class Cochoice :: (Type -> Type -> Type) -> Constraint
@@ -16,7 +16,7 @@ let cochoice : tc.TClass =
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
     , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Cochoice"
-    , def =
+    , spec =
         d.class_vpc
             (d.id "cochoice")
             "Cochoice"

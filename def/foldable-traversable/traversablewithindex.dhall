@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let e = ./../../build_expr.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let i = ./../../instances.dhall
 
 -- class TraversableWithIndex :: Type -> (Type -> Type) -> Constraint
@@ -16,7 +16,7 @@ let traversableWithIndex : tc.TClass =
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-foldable-traversable" +6
     , link = "purescript-foldable-traversable/6.0.0/docs/Data.TraversableWithIndex"
-    , def =
+    , spec =
         d.class_vpdc
             (d.id "traversablewithindex")
             "TraversableWithIndex"

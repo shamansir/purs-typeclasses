@@ -1,6 +1,6 @@
 let tc = ./../../typeclass.dhall
 let i = ./../../instances.dhall
-let d = ./../../typedef.dhall
+let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 -- type Parser s = ParserT s Identity
@@ -16,7 +16,7 @@ let parser : tc.TClass =
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
     , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , def = d.t (d.id "parser") "Parser" [ d.v "s" ] cexpr
+    , spec = d.t (d.id "parser") "Parser" [ d.v "s" ] cexpr
     , members =
         [
             { name = "Parser"
