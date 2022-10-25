@@ -7,12 +7,23 @@ let Text/concatSep =
 let List/map =
     https://prelude.dhall-lang.org/List/map
 
+let List/null =
+    https://prelude.dhall-lang.org/List/null
+
 let tt = \(text : Text) -> Text/replace "  " " " text
 
 
 let Id =
     < Id : Text
     >
+
+
+let Id/render
+    : Id -> Text
+    = \(id : Id) ->
+    merge
+        { Id = \(txt : Text) -> txt }
+        id
 
 
 let Parent = { id : Id, name : Text, vars : List e.Arg }
@@ -337,25 +348,25 @@ let Spec/renderKind
     merge
         { Data_ = \(dd : DataSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "{{kw:data}} {{type:${dd.name}}} {{op::}} ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:data}} {{type(${Id/render dd.id}):${dd.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 dd.constraint
         , Type_ = \(td : TypeSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "{{kw:type}} {{type:${td.name}}} {{op::}} ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:type}} {{type(${Id/render td.id}):${td.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 td.constraint
         , Newtype_ = \(ntd : NewtypeSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "{{kw:newtype}} {{type:${ntd.name}}} {{op::}} ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:newtype}} {{type(${Id/render ntd.id}):${ntd.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 ntd.constraint
         , Class_ = \(cd : ClassSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "{{kw:class}} {{class:${cd.name}}} {{op::}} ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "{{kw:class}} {{class(${Id/render cd.id}):${cd.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
                 cd.constraint
@@ -371,25 +382,25 @@ let Spec/renderKindRaw
     merge
         { Data_ = \(dd : DataSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "data ${dd.name} :: ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "data ${dd.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
                 dd.constraint
         , Type_ = \(td : TypeSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "type ${td.name} :: ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "type ${td.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
                 td.constraint
         , Newtype_ = \(ntd : NewtypeSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "newtype ${ntd.name} :: ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "newtype ${ntd.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
                 ntd.constraint
         , Class_ = \(cd : ClassSpec) ->
             merge
-                { Some = \(ct : e.KindSeq) -> Some "class ${cd.name} :: ${e.KindSeq/render ct}"
+                { Some = \(ct : e.KindSeq) -> Some "class ${cd.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
                 cd.constraint
@@ -415,14 +426,6 @@ let concatArgsRaw
     : Text -> List e.Arg -> Text
     = \(sep : Text) -> \(args : List e.Arg) ->
         concatHelper e.Arg e.Arg/renderRaw sep args
-
-
-let Id/render
-    : Id -> Text
-    = \(id : Id) ->
-    merge
-        { Id = \(txt : Text) -> txt }
-        id
 
 
 let Parent/render
@@ -473,6 +476,20 @@ let Dependencies/renderRaw
     {-"| " ++ -} concatHelper Dependency Dependency/renderRaw ", " deps
 
 
+let Parents/render
+    : List Parent -> Text
+    = \(parents: List Parent) ->
+    if List/null Parent parents then ""
+    else "(${concatParents "{{op:,}} " parents}) {{op:<=}}"
+
+
+let Parents/renderRaw
+    : List Parent -> Text
+    = \(parents: List Parent) ->
+    if List/null Parent parents then ""
+    else "(${concatParentsRaw ", " parents}) <="
+
+
 let Spec/renderHeader
     : Spec -> Text
     = \(spec : Spec) ->
@@ -484,7 +501,7 @@ let Spec/renderHeader
         , Newtype_ = \(ntd : NewtypeSpec) ->
             tt "{{kw:newtype}} {{type(${Id/render ntd.id}):${ntd.name}}} ${concatArgs " " ntd.vars}"
         , Class_ = \(cd : ClassSpec) ->
-            tt ("{{kw:class}} (${concatParents "{{op:,}} " cd.parents}) {{op:<=}} {{class(${Id/render cd.id}):${cd.name}}} ${concatArgs " " cd.vars}" ++
+            tt ("{{kw:class}} ${Parents/render cd.parents} {{subj(${Id/render cd.id}):${cd.name}}} ${concatArgs " " cd.vars}" ++
                 (merge
                     { Some = \(deps : Dependencies) -> " {{op:|}} " ++ Dependencies/render deps ++ " "
                     , None = " "
@@ -512,7 +529,7 @@ let Spec/renderHeaderRaw
         , Newtype_ = \(ntd : NewtypeSpec) ->
             tt "newtype ${ntd.name} ${concatArgsRaw " " ntd.vars}"
         , Class_ = \(cd : ClassSpec) ->
-            tt ("class (${concatParentsRaw ", " cd.parents}) <= ${cd.name} ${concatArgsRaw " " cd.vars}" ++
+            tt ("class ${Parents/renderRaw cd.parents} ${cd.name} ${concatArgsRaw " " cd.vars}" ++
                 (merge
                     { Some = \(deps : Dependencies) -> " | " ++ Dependencies/renderRaw deps ++ " "
                     , None = " "
@@ -550,229 +567,6 @@ let Spec/renderRaw
     , header = Spec/renderHeaderRaw td
     }
 
-
-{-
-d.class_vpc
-    (d.id "biapplicative")
-    "Biapplicative"
-    [ d.v "w" ]
-    [ d.p (d.id "biapply") "Biapply" [ d.v "w" ] ]
-    [ d.cfn_br d.cctype3, d.ccon ]
-
-class Biapplicative :: (Type -> Type -> Type) -> Constraint
-class (Biapply w) <= Biapplicative w where
--}
-
-{-
-d.class_vpc
-    (d.id "decidable")
-    "Decidable"
-    [ d.v "f" ]
-    [ d.p (d.id "decide") "Decide" [ d.v "f" ]
-    , d.p (d.id "divisible") "Divisible" [ d.v "f" ]
-    ]
-    [ d.cfn_br d.cctype2, d.ccon ]
-
-class Decidable :: (Type -> Type) -> Constraint
-class (Decide f, Divisible f) <= Decidable f where
--}
-
-{-
-d.class_vc
-    (d.id "bifunctor")
-    "Bifunctor"
-    [ d.v "w" ]
-    [ d.cfn_br d.cctype3, d.ccon ]
-
-class Bifunctor :: (Type -> Type -> Type) -> Constraint
-class Bifunctor f where
--}
-
-{-
-d.class_v (d.id "lazy") "Lazy" [ d.v "l" ]
-
-class Lazy l where
--}
-
-{-
-d.nt_c
-    (d.id "alternate")
-    "Alternate"
-    [ d.v "f", d.v "a" ]
-    (d.ccforall [ d.v "k" ] [ d.cfn_br [ d.cv "k", d.ctype ], d.cv "k", d.ctype ])
-
-newtype Alternate :: forall k. (k -> Type) -> k -> Type
-newtype Alternate f a
--}
-
-{-
-d.nt_c
-    (d.id "const")
-    "Const"
-    [ d.v "a", d.v "b" ]
-    (d.ccforall [ d.v "k" ] [ d.ctype, d.cv "k", d.ctype ])
-
-newtype Const :: forall k. Type -> k -> Type
-newtype Const a b
--}
-
-{-
-d.nt (d.id "op") "Op" [ d.v "a", d.v "b" ]
-
-newtype Op a b
--}
-
-{-
-d.data (d.id "effect") "Effect" [ d.v "t0" ]
-
-data Effect t0
--}
-
-{-
-d.data (d.id "exchange") "Exchange" [ d.v "a", d.v "b", d.v "s", d.v "t" ]
-
-data Exchange a b s t
--}
-
-{-
-d.class_vpdc
-    (d.id "foldablewithindex")
-    "FoldableWithIndex"
-    [ d.v "i", d.v "f" ]
-    [ d.p (d.id "foldable") "Foldable" [ d.v "f" ] ]
-    (d.deps1 (d.v "f") (d.v "i"))
-    d.tt2c
-
-class FoldableWithIndex :: Type -> (Type -> Type) -> Constraint
-class (Foldable f) <= FoldableWithIndex i f | f -> i where
--}
-
-{-
-d.class_vpdc
-    (d.id "traversablewithindex")
-    "TraversableWithIndex"
-    [ d.v "i", d.v "t" ]
-    [ d.p (d.id "functorwithindex") "FunctorWithIndex" [ d.v "i", d.v "t" ]
-    , d.p (d.id "foldablewithindex") "FoldableWithIndex" [ d.v "i", d.v "t" ]
-    , d.p (d.id "traversable") "Traversable" [ d.v "t" ]
-    ]
-    (d.deps1 (d.v "t") (d.v "i"))
-    d.tt2c
-
-class TraversableWithIndex :: Type -> (Type -> Type) -> Constraint
-class (FunctorWithIndex i t, FoldableWithIndex i t, Traversable t) <= TraversableWithIndex i t | t -> i where
--}
-
-{-
-d.class_vpd
-    (d.id "at")
-    "At"
-    [ d.v "m", d.v "a", d.v "b" ]
-    [ d.p (d.id "index") "Index" [ d.v "m", d.v "a", d.v "b" ] ]
-    [ d.dep1 (d.v "m") (d.v "a")
-    , d.dep1 (d.v "m") (d.v "b")
-    ]
-
-class (Index m a b) <= At m a b | m -> a, m -> b where
--}
-
-{-
-d.class_vd
-    (d.id "index")
-    "Index"
-    [ d.v "m", d.v "a", d.v "b" ]
-    [ d.dep1 (d.v "m") (d.v "a")
-    , d.dep1 (d.v "m") (d.v "b")
-    ]
-
-class Index m a b | m -> a, m -> b where
--}
-
-{-
-d.t (d.id "affinetraversal") "AffineTraversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ]
-    (e.reqseq
-        [ e.class1 "Strong" (e.n "p"), e.class1 "Choice" (e.n "p") ]
-        (e.class "Optic" [ e.n "p", e.n "s", e.n "t", e.n "a", e.n "b" ])
-    )
-
-type AffineTraversal s t a b = forall p. Strong p => Choice p => Optic p s t a b
--}
-
-{-
-d.class_vpd
-    (d.id "at")
-    "At"
-    [ d.v "m", d.v "a", d.v "b" ]
-    [ d.p (d.id "index") "Index" [ d.v "m", d.v "a", d.v "b" ] ]
-    [ d.dep1 (d.v "m") (d.v "a")
-    , d.dep1 (d.v "m") (d.v "b")
-    ]
-
-class (Index m a b) <= At m a b | m -> a, m -> b where
--}
-
-{-
-d.class_vd
-    (d.id "index")
-    "Index"
-    [ d.v "m", d.v "a", d.v "b" ]
-    [ d.dep1 (d.v "m") (d.v "a")
-    , d.dep1 (d.v "m") (d.v "b")
-    ]
-
-class Index m a b | m -> a, m -> b where
--}
-
-{-
-d.nt_c (d.id "indexed") "Indexed" [ d.v "p", d.v "i", d.v "s", d.v "t" ] d.t3t4
-
-newtype Indexed :: (Type -> Type -> Type) -> Type -> Type -> Type -> Type
-newtype Indexed p i s t
--}
-
-{-
-let cexpr =
-    e.fn2
-        (e.class "Indexed" [ e.t "p", e.n "i", e.n "a", e.n "b" ])
-        (e.ap3 (e.t "p") (e.n "s") (e.n "t"))
-d.t_c (d.id "indexedoptic") "IndexedOptic" [ d.v "p", d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr d.t3t6
-
-type IndexedOptic :: (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type -> Type
-type IndexedOptic p i s t a b = Indexed p i a b -> p s t
--}
-
-{-
-d.nt_c (d.id "re") "Re" [ d.v "p", d.v "s", d.v "t", d.v "a", d.v "b" ] d.t3t5
-
-newtype Re :: (Type -> Type -> Type) -> Type -> Type -> Type -> Type -> Type
-newtype Re p s t a b
--}
-
-{-
-d.data_e (d.id "parseerror") "ParseError"
-
-data ParseError
--}
-
-{-
-d.nt_e (d.id "position") "Position"
-
-newtype Position
--}
-
-{-
-d.nt_c (d.id "endo") "Endo" [ d.v "c", d.vn "a" ] d.kkt_kt
-
-newtype Endo :: forall k. (k -> k -> Type) -> k -> Type
-newtype Endo c a // a is nominal
--}
-
-{-
-d.data_c (d.id "proxy") "Proxy" [ d.vp "a" ] d.kt
-
-data Proxy :: forall k. k -> Type
-data Proxy a // a is phantom
--}
 
 -- (Type -> Type) -> Type -> Type -> Type
 let t2t3 : e.KindSeq = [ cfn_br cctype2, ctype, ctype, ctype ]
@@ -837,6 +631,7 @@ let kktc : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], cc
 in
     { id
     , Spec, SpecText, Spec/render, Spec/renderRaw
+    , Spec/renderKind, Spec/renderKindRaw, Spec/renderHeader, Spec/renderHeaderRaw
     , ctype, cfn_br
     , cctype, cctype2, cctype3, ccon, ccforall
     , p, pe, v, vn, vp, cv

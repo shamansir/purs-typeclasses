@@ -263,7 +263,7 @@ let KindItem/renderRaw
         , CBr = \(expr : SealedExpr) -> "(${SealedExpr/unsealRaw expr})"
         , CForall
             =  \(forall_ : Forall_)
-            -> tt "kw:forall ${concatArgsRaw " " forall_.args}. ${SealedExpr/unsealRaw forall_.body}"
+            -> tt "forall ${concatArgsRaw " " forall_.args}. ${SealedExpr/unsealRaw forall_.body}"
         }
         citem
 
