@@ -6,9 +6,12 @@ let e = ./../../build_expr.dhall
 -- type AffineTraversal s t a b = forall p. Strong p => Choice p => Optic p s t a b
 
 let cexpr =
-    e.reqseq
-        [ e.class1 "Strong" (e.n "p"), e.class1 "Choice" (e.n "p") ]
-        (e.class "Optic" [ e.n "p", e.n "s", e.n "t", e.n "a", e.n "b" ])
+    e.fall1
+        (e.av "p")
+        (e.reqseq
+            [ e.class1 "Strong" (e.n "p"), e.class1 "Choice" (e.n "p") ]
+            (e.class "Optic" [ e.n "p", e.n "s", e.n "t", e.n "a", e.n "b" ])
+        )
         -- Strong p => Choice p => Optic p s t a b
 
 let affinetraversal : tc.TClass =
