@@ -417,10 +417,18 @@ let concatArgsRaw
         concatHelper e.Arg e.Arg/renderRaw sep args
 
 
+let Id/render
+    : Id -> Text
+    = \(id : Id) ->
+    merge
+        { Id = \(txt : Text) -> txt }
+        id
+
+
 let Parent/render
     : Parent -> Text
     = \(parent : Parent) ->
-    tt "{{class:${parent.name}}} ${concatArgs " " parent.vars}"
+    tt "{{class(${Id/render parent.id}):${parent.name}}} ${concatArgs " " parent.vars}"
 
 
 let Parent/renderRaw
@@ -470,13 +478,13 @@ let Def/renderSpec
     = \(def : Def) ->
     merge
         { Data_ = \(dd : DataDef) ->
-            tt "{{kw:data}} {{type:${dd.name}}} ${concatArgs " " dd.vars}"
+            tt "{{kw:data}} {{type(${Id/render dd.id}):${dd.name}}} ${concatArgs " " dd.vars}"
         , Type_ = \(td : TypeDef) ->
-            tt "{{kw:type}} {{type:${td.name}}} ${concatArgs " " td.vars} {{op:=}} ${e.Expr/render td.expr}"
+            tt "{{kw:type}} {{type(${Id/render td.id}):${td.name}}} ${concatArgs " " td.vars} {{op:=}} ${e.Expr/render td.expr}"
         , Newtype_ = \(ntd : NewtypeDef) ->
-            tt "{{kw:newtype}} {{type:${ntd.name}}} ${concatArgs " " ntd.vars}"
+            tt "{{kw:newtype}} {{type(${Id/render ntd.id}):${ntd.name}}} ${concatArgs " " ntd.vars}"
         , Class_ = \(cd : ClassDef) ->
-            tt ("{{kw:class}} (${concatParents "{{op:,}} " cd.parents}) {{op:<=}} {{type:${cd.name}}} ${concatArgs " " cd.vars}" ++
+            tt ("{{kw:class}} (${concatParents "{{op:,}} " cd.parents}) {{op:<=}} {{class(${Id/render cd.id}):${cd.name}}} ${concatArgs " " cd.vars}" ++
                 (merge
                     { Some = \(deps : Dependencies) -> " {{op:|}} " ++ Dependencies/render deps ++ " "
                     , None = " "
@@ -486,9 +494,9 @@ let Def/renderSpec
             ) ++ "{{kw:where}}"
         , Package_ = \(pd : PackageDef) ->
             -- "{{kw:package}} {{package:${pd.name}}}"
-            "{{package:${pd.name}}}"
+            "{{package(${Id/render pd.id}):${pd.name}}}"
         , Internal_ = \(id : InternalDef) ->
-            "{{internal:${id.name}}}"
+            "{{internal(${Id/render id.id}):${id.name}}}"
         }
         def
 
@@ -500,13 +508,13 @@ let Def/renderSpecRaw
         { Data_ = \(dd : DataDef) ->
             tt "data ${dd.name} ${concatArgsRaw " " dd.vars}"
         , Type_ = \(td : TypeDef) ->
-            tt "type ${td.name} ${concatArgs " " td.vars} = ${e.Expr/render td.expr}"
+            tt "type ${td.name} ${concatArgsRaw " " td.vars} = ${e.Expr/renderRaw td.expr}"
         , Newtype_ = \(ntd : NewtypeDef) ->
-            tt "newtype ${ntd.name} ${concatArgs " " ntd.vars}"
+            tt "newtype ${ntd.name} ${concatArgsRaw " " ntd.vars}"
         , Class_ = \(cd : ClassDef) ->
-            tt ("class (${concatParents ", " cd.parents}) <= ${cd.name} ${concatArgs " " cd.vars}" ++
+            tt ("class (${concatParentsRaw ", " cd.parents}) <= ${cd.name} ${concatArgsRaw " " cd.vars}" ++
                 (merge
-                    { Some = \(deps : Dependencies) -> " | " ++ Dependencies/render deps ++ " "
+                    { Some = \(deps : Dependencies) -> " | " ++ Dependencies/renderRaw deps ++ " "
                     , None = " "
                     }
                     cd.dependencies
