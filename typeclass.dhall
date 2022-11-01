@@ -1,5 +1,7 @@
 let List/map =
-      https://prelude.dhall-lang.org/List/map
+    https://prelude.dhall-lang.org/List/map
+let Text/concatSep =
+    https://prelude.dhall-lang.org/Text/concatSep
 
 let e = ./expr.dhall
 let d = ./spec.dhall
@@ -221,6 +223,20 @@ let Spec/getId
         spec)
 
 
+let Spec/getName
+    : d.Spec -> Text
+    = \(spec : d.Spec) ->
+    merge
+        { Data_ = \(ds : d.DataSpec) -> ds.name
+        , Type_ = \(ts : d.TypeSpec) -> ts.name
+        , Newtype_ = \(nts : d.NewtypeSpec) -> nts.name
+        , Class_ = \(cs : d.ClassSpec) -> cs.name
+        , Package_ = \(ps : d.PackageSpec) -> ps.name
+        , Internal_ = \(is : d.InternalSpec) -> is.name
+        }
+        spec
+
+
 let Spec/extractWhat
     : d.Spec -> What
     = \(spec : d.Spec) ->
@@ -288,11 +304,42 @@ let Spec/extractConnections
             spec)
 
 
-let Spec/makeLink
-    : Package -> Text
+let Package/makeLink
+    : Package -> Module -> Text -> Text
     = \(pkg : Package) ->
-    "" -- FIXME: implement
+      \(module : Module) ->
+      \(name : Text) ->
+    pkg.name
+    ++ "/" ++ Text/concatSep "."
+        (List/map Natural Text Natural/show
+            (List/map Integer Natural Integer/clamp pkg.version))
+    ++ "/docs/"
+    ++ (Text/concatSep "." module)
+    ++ "." ++ name
 
+
+let Package/makeTLink
+    : Package -> Module -> Text -> Text
+    = \(pkg : Package) ->
+      \(module : Module) ->
+      \(name : Text) ->
+    Package/makeLink pkg module name ++ "#t:" ++ name
+
+let test_makeLink1
+    = assert : Package/makeLink { name = "purescript-bifunctors", version = [ +5, +0, +0 ] } [ "Control" ] "Biapplicative"
+    ≡ "purescript-bifunctors/5.0.0/docs/Control.Biapplicative"
+
+let test_makeLink2
+    = assert : Package/makeLink { name = "purescript-control", version = [ +1, +2, +3 ] } [ "Data", "Monoid" ] "Alternate"
+    ≡ "purescript-control/1.2.3/docs/Data.Monoid.Alternate"
+
+let test_makeTLink3
+    = assert : Package/makeTLink { name = "purescript-control", version = [ +1, +2, +3 ] } [ "Data", "Monoid" ] "Alternate"
+    ≡ "purescript-control/1.2.3/docs/Data.Monoid.Alternate#t:Alternate"
+
+    -- purescript-bifunctors/5.0.0/docs/Control.Biapplicative"
+    -- "purescript-control/5.0.0/docs/Data.Monoid.Alternate#t:Alternate"
+    -- purescript-control/5.0.0/docs/Control.Alt#t:Alt
 
 let TClassText =
     { id : Id
@@ -313,16 +360,17 @@ let TClassText =
     , statements : List StatementText
     }
 
+
 let TClass/toText
     : TClass -> TClassText
     = \(t : TClass) ->
-    { id = t.id -- TODO: use Spec
-    , what = t.what -- TODO: use Spec
-    , vars = t.vars -- TODO: use Spec
-    , link = t.link -- TODO: use Spec
-    , name = t.name -- TODO: use Spec
+    { id = {- t.id -} Spec/getId t.spec
+    , what = {- t.what -} Spec/extractWhat t.spec
+    , vars = {- t.vars -}  Spec/extractVars t.spec
+    , link = {- t.link -} Package/makeLink t.package t.module t.name
+    , name = {- t.name -} Spec/getName t.spec
     , info = t.info
-    , parents = t.parents -- TODO: use Spec
+    , parents = Spec/extractParents t.spec
     , package = t.package
     , module = t.module
     , spec = d.Spec/render t.spec

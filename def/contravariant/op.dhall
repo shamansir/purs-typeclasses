@@ -13,7 +13,7 @@ let op : tc.TClass =
     , info = "The opposite of the function category"
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence"
+    , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence" -- FIXME: wrong link?
     , spec = d.nt (d.id "op") "Op" [ d.v "a", d.v "b" ]
     , members =
         [
