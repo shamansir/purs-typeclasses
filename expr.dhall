@@ -143,7 +143,18 @@ let Arg/render
         arg
 
 
-let Arg/renderRaw
+let Arg/kindText
+: Arg -> Text
+    = \(arg : Arg) ->
+    merge
+        { VarArg = \(_ : Text) -> "var"
+        , VarNominal = \(_ : Text) -> "nominal"
+        , VarPhantom = \(_ : Text) -> "phantom"
+        }
+        arg
+
+
+let Arg/varName
     : Arg -> Text
     = \(arg : Arg) ->
     merge
@@ -152,6 +163,11 @@ let Arg/renderRaw
         , VarPhantom = \(var : Text) -> var
         }
         arg
+
+
+let Arg/renderRaw
+    : Arg -> Text
+    = Arg/varName
 
 
 let concatArgs
@@ -519,5 +535,6 @@ in
     , Expr/seal, Expr/sealAll, SealedExpr/getSource, KindItem/toExpr, KindSeq/toExpr
     , What/render, Arg/render, KindItem/render, KindSeq/render, Expr/render
     , What/renderRaw, Arg/renderRaw, KindItem/renderRaw, KindSeq/renderRaw, Expr/renderRaw
+    , Arg/kindText, Arg/varName
     , Expr/none
     }

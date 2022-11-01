@@ -28,6 +28,8 @@ let Value = Text
 
 let Var = Text -- TODO: e.What?
 
+let VarWithKind = { name : Text, kind : Text }
+
 let Instance = e.Expr
 
 let InstanceText = Text -- TODO: e.SealedSource
@@ -168,14 +170,33 @@ let What =
     >
 
 
+let Connection =
+    { parent : { id : Id, name : Text }, vars : List VarWithKind }
+
+
+let Parent/toConnection
+    : d.Parent -> Connection
+    = \(p : d.Parent) ->
+    { parent = { id = d.Id/render p.id, name = p.name }
+    , vars =
+        List/map
+            e.Arg
+            VarWithKind
+            (\(arg : e.Arg) ->
+                { name = e.Arg/varName arg, kind = e.Arg/kindText arg }
+            )
+            p.vars
+    }
+
+
 let TClass =
-    { id : Id -- TODO: remove in favor of TypeDef
-    , what : What -- TODO: remove in favor of TypeDef
-    , vars : List Var -- TODO: remove in favor of TypeDef
+    { id : Id -- TODO: remove in favor of Spec
+    , what : What -- TODO: remove in favor of Spec
+    , vars : List Var -- TODO: remove in favor of Spec
     , link : Text -- TODO: version -- TODO: remove, contained in Package + Version
-    , name : Text -- TODO: remove in favor of TypeDef
+    , name : Text -- TODO: remove in favor of Spec
     , info  : Text -- TODO: support multiline
-    , parents : List Id -- TODO: remove in favor of TypeDef
+    , parents : List Id -- TODO: remove in favor of Spec
     , spec : d.Spec
     , package : Package
     , module : Module
@@ -186,6 +207,93 @@ let TClass =
     , statements : List Statement
     }
 
+let Spec/getId
+    : d.Spec -> Id
+    = \(spec : d.Spec) ->
+    d.Id/render (merge
+        { Data_ = \(ds : d.DataSpec) -> ds.id
+        , Type_ = \(ts : d.TypeSpec) -> ts.id
+        , Newtype_ = \(nts : d.NewtypeSpec) -> nts.id
+        , Class_ = \(cs : d.ClassSpec) -> cs.id
+        , Package_ = \(ps : d.PackageSpec) -> ps.id
+        , Internal_ = \(is : d.InternalSpec) -> is.id
+        }
+        spec)
+
+
+let Spec/extractWhat
+    : d.Spec -> What
+    = \(spec : d.Spec) ->
+    merge
+        { Data_ = \(_ : d.DataSpec) -> What.Data_
+        , Type_ = \(_ : d.TypeSpec) -> What.Type_
+        , Newtype_ = \(_ : d.NewtypeSpec) -> What.Newtype_
+        , Class_ = \(_ : d.ClassSpec) -> What.Class_
+        , Package_ = \(_ : d.PackageSpec) -> What.Package_
+        , Internal_ = \(_ : d.InternalSpec) -> What.Internal_
+        }
+        spec
+
+
+let Spec/extractVars
+    : d.Spec -> List Var
+    = \(spec : d.Spec) ->
+    List/map
+        e.Arg
+        Var
+        e.Arg/varName
+        (merge
+            { Data_ = \(ds : d.DataSpec) -> ds.vars
+            , Type_ = \(ts : d.TypeSpec) -> ts.vars
+            , Newtype_ = \(nts : d.NewtypeSpec) -> nts.vars
+            , Class_ = \(cs : d.ClassSpec) -> cs.vars
+            , Package_ = \(ps : d.PackageSpec) -> [] : List e.Arg
+            , Internal_ = \(is : d.InternalSpec) -> [] : List e.Arg
+            }
+            spec)
+
+
+let Spec/extractParents
+    : d.Spec -> List Id
+    = \(spec : d.Spec) ->
+    List/map
+        d.Parent
+        Id
+        (\(p : d.Parent) -> d.Id/render p.id)
+        (merge
+            { Data_ = \(ds : d.DataSpec) -> [] : List d.Parent
+            , Type_ = \(ts : d.TypeSpec) -> [] : List d.Parent
+            , Newtype_ = \(nts : d.NewtypeSpec) -> [] : List d.Parent
+            , Class_ = \(cs : d.ClassSpec) -> cs.parents
+            , Package_ = \(ps : d.PackageSpec) -> [] : List d.Parent
+            , Internal_ = \(is : d.InternalSpec) -> [] : List d.Parent
+            }
+            spec)
+
+let Spec/extractConnections
+    : d.Spec -> List Connection
+    = \(spec : d.Spec) ->
+    List/map
+        d.Parent
+        Connection
+        Parent/toConnection
+        (merge
+            { Data_ = \(ds : d.DataSpec) -> [] : List d.Parent
+            , Type_ = \(ts : d.TypeSpec) -> [] : List d.Parent
+            , Newtype_ = \(nts : d.NewtypeSpec) -> [] : List d.Parent
+            , Class_ = \(cs : d.ClassSpec) -> cs.parents
+            , Package_ = \(ps : d.PackageSpec) -> [] : List d.Parent
+            , Internal_ = \(is : d.InternalSpec) -> [] : List d.Parent
+            }
+            spec)
+
+
+let Spec/makeLink
+    : Package -> Text
+    = \(pkg : Package) ->
+    "" -- FIXME: implement
+
+
 let TClassText =
     { id : Id
     , what : What
@@ -194,6 +302,7 @@ let TClassText =
     , name : Text
     , info  : Text
     , parents : List Id
+    , connections : List Connection
     , spec : d.SpecText
     , package : Package
     , module : Module
@@ -207,16 +316,17 @@ let TClassText =
 let TClass/toText
     : TClass -> TClassText
     = \(t : TClass) ->
-    { id = t.id
-    , what = t.what
-    , vars = t.vars
-    , link = t.link
-    , name = t.name
+    { id = t.id -- TODO: use Spec
+    , what = t.what -- TODO: use Spec
+    , vars = t.vars -- TODO: use Spec
+    , link = t.link -- TODO: use Spec
+    , name = t.name -- TODO: use Spec
     , info = t.info
-    , parents = t.parents
+    , parents = t.parents -- TODO: use Spec
     , package = t.package
     , module = t.module
     , spec = d.Spec/render t.spec
+    , connections = Spec/extractConnections t.spec
     , laws =
         List/map
             Law

@@ -39,7 +39,7 @@ let DataSpec =
     { name : Text
     , id : Id
     , vars : List e.Arg
-    , constraint : Optional e.KindSeq
+    , kindSeq : Optional e.KindSeq
     }
 
 
@@ -47,7 +47,7 @@ let NewtypeSpec =
     { name : Text
     , id : Id
     , vars : List e.Arg
-    , constraint : Optional e.KindSeq
+    , kindSeq : Optional e.KindSeq
     }
 
 
@@ -57,7 +57,7 @@ let ClassSpec =
     , vars : List e.Arg
     , parents : List Parent
     , dependencies : Optional Dependencies
-    , constraint : Optional e.KindSeq
+    , kindSeq : Optional e.KindSeq
     }
 
 
@@ -66,7 +66,7 @@ let TypeSpec =
     , id : Id
     , vars : List e.Arg
     , expr : e.Expr
-    , constraint : Optional e.KindSeq
+    , kindSeq : Optional e.KindSeq
     }
 
 
@@ -128,13 +128,13 @@ let id = Id.Id
 let data
     : Id -> Text -> List e.Arg -> Spec
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-    Spec.Data_ { id, name, vars, constraint = None e.KindSeq }
+    Spec.Data_ { id, name, vars, kindSeq = None e.KindSeq }
 
 
 let data_c
     : Id -> Text -> List e.Arg -> e.KindSeq -> Spec
-    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.KindSeq) ->
-    Spec.Data_ { id, name, vars, constraint = Some constraint }
+    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(kindSeq : e.KindSeq) ->
+    Spec.Data_ { id, name, vars, kindSeq = Some kindSeq }
 
 
 let data_e
@@ -146,13 +146,13 @@ let data_e
 let nt
     : Id -> Text -> List e.Arg -> Spec
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
-    Spec.Newtype_ { id, name, vars, constraint = None e.KindSeq }
+    Spec.Newtype_ { id, name, vars, kindSeq = None e.KindSeq }
 
 
 let nt_c
     : Id -> Text -> List e.Arg -> e.KindSeq -> Spec
-    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(constraint : e.KindSeq) ->
-    Spec.Newtype_ { id, name, vars, constraint = Some constraint }
+    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(kindSeq : e.KindSeq) ->
+    Spec.Newtype_ { id, name, vars, kindSeq = Some kindSeq }
 
 
 let nt_e
@@ -164,13 +164,13 @@ let nt_e
 let t
     : Id -> Text -> List e.Arg -> e.Expr -> Spec
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(expr : e.Expr) ->
-    Spec.Type_ { id, name, vars, expr, constraint = None e.KindSeq }
+    Spec.Type_ { id, name, vars, expr, kindSeq = None e.KindSeq }
 
 
 let t_c
     : Id -> Text -> List e.Arg -> e.Expr -> e.KindSeq -> Spec
-    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(expr : e.Expr) -> \(constraint : e.KindSeq) ->
-    Spec.Type_ { id, name, vars, expr, constraint = Some constraint }
+    = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) -> \(expr : e.Expr) -> \(kindSeq : e.KindSeq) ->
+    Spec.Type_ { id, name, vars, expr, kindSeq = Some kindSeq }
 
 
 let pkg
@@ -230,7 +230,7 @@ let class
         , vars = [] : List e.Arg
         , parents = [] : List Parent
         , dependencies = None Dependencies
-        , constraint = None e.KindSeq
+        , kindSeq = None e.KindSeq
         }
 
 
@@ -241,7 +241,7 @@ let class_v
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = None Dependencies
-        , constraint = None e.KindSeq
+        , kindSeq = None e.KindSeq
         }
 
 
@@ -252,7 +252,7 @@ let class_c
         { id, name, vars = [] : List e.Arg
         , parents = [] : List Parent
         , dependencies = None Dependencies
-        , constraint = Some cnst
+        , kindSeq = Some cnst
         }
 
 
@@ -262,7 +262,7 @@ let class_vp
    Spec.Class_
         { id, name, vars, parents
         , dependencies = None Dependencies
-        , constraint = None e.KindSeq
+        , kindSeq = None e.KindSeq
         }
 
 
@@ -273,7 +273,7 @@ let class_vc
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = None Dependencies
-        , constraint = Some cnst
+        , kindSeq = Some cnst
         }
 
 let class_vd
@@ -283,7 +283,7 @@ let class_vd
         { id, name, vars
         , parents = [] : List Parent
         , dependencies = Some deps
-        , constraint = None e.KindSeq
+        , kindSeq = None e.KindSeq
         }
 
 
@@ -293,7 +293,7 @@ let class_vpd
    Spec.Class_
         { id, name, vars, parents
         , dependencies = Some deps
-        , constraint = None e.KindSeq
+        , kindSeq = None e.KindSeq
         }
 
 
@@ -303,7 +303,7 @@ let class_vpc
    Spec.Class_
         { id, name, vars, parents
         , dependencies = None Dependencies
-        , constraint = Some cnst
+        , kindSeq = Some cnst
         }
 
 
@@ -313,7 +313,7 @@ let class_vpdc
    Spec.Class_
         { id, name, vars, parents
         , dependencies = Some deps
-        , constraint = Some cnst
+        , kindSeq = Some cnst
         }
 
 
@@ -351,25 +351,25 @@ let Spec/renderKind
                 { Some = \(ct : e.KindSeq) -> Some "{{kw:data}} {{type(${Id/render dd.id}):${dd.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
-                dd.constraint
+                dd.kindSeq
         , Type_ = \(td : TypeSpec) ->
             merge
                 { Some = \(ct : e.KindSeq) -> Some "{{kw:type}} {{type(${Id/render td.id}):${td.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
-                td.constraint
+                td.kindSeq
         , Newtype_ = \(ntd : NewtypeSpec) ->
             merge
                 { Some = \(ct : e.KindSeq) -> Some "{{kw:newtype}} {{type(${Id/render ntd.id}):${ntd.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
-                ntd.constraint
+                ntd.kindSeq
         , Class_ = \(cd : ClassSpec) ->
             merge
                 { Some = \(ct : e.KindSeq) -> Some "{{kw:class}} {{class(${Id/render cd.id}):${cd.name}}} {{op:::}} ${e.KindSeq/render ct}"
                 , None = None Text
                 }
-                cd.constraint
+                cd.kindSeq
         , Package_ = \(pd : PackageSpec) -> None Text
         , Internal_ = \(id : InternalSpec) -> None Text
         }
@@ -385,25 +385,25 @@ let Spec/renderKindRaw
                 { Some = \(ct : e.KindSeq) -> Some "data ${dd.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
-                dd.constraint
+                dd.kindSeq
         , Type_ = \(td : TypeSpec) ->
             merge
                 { Some = \(ct : e.KindSeq) -> Some "type ${td.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
-                td.constraint
+                td.kindSeq
         , Newtype_ = \(ntd : NewtypeSpec) ->
             merge
                 { Some = \(ct : e.KindSeq) -> Some "newtype ${ntd.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
-                ntd.constraint
+                ntd.kindSeq
         , Class_ = \(cd : ClassSpec) ->
             merge
                 { Some = \(ct : e.KindSeq) -> Some "class ${cd.name} :: ${e.KindSeq/renderRaw ct}"
                 , None = None Text
                 }
-                cd.constraint
+                cd.kindSeq
         , Package_ = \(pd : PackageSpec) -> None Text
         , Internal_ = \(id : InternalSpec) -> None Text
         }
@@ -630,8 +630,10 @@ let kktc : e.KindSeq = ccforall [ v "k" ] [ cfn_br [ cv "k", cv "k", ctype ], cc
 
 in
     { id
+    , DataSpec, NewtypeSpec, ClassSpec, TypeSpec, InternalSpec, PackageSpec
     , Spec, SpecText, Spec/render, Spec/renderRaw
-    , Spec/renderKind, Spec/renderKindRaw, Spec/renderHeader, Spec/renderHeaderRaw
+    , Id/render, Spec/renderKind, Spec/renderKindRaw, Spec/renderHeader, Spec/renderHeaderRaw
+    , Parent, Parent/render, Parent/renderRaw
     , ctype, cfn_br
     , cctype, cctype2, cctype3, ccon, ccforall
     , p, pe, v, vn, vp, cv
