@@ -5,9 +5,9 @@ let e = ./../../build_expr.dhall
 
 -- class (CommutativeRing a) <= EuclideanRing a where
 
-let euclidianRing : tc.TClass =
-    { id = "euclidianring"
-    , name = "EuclidianRing"
+let euclideanRing : tc.TClass =
+    { id = "euclideanring"
+    , name = "EuclideanRing"
     , what = tc.What.Class_
     , vars = [ "a" ]
     , parents = [ "commutativering" ]
@@ -17,8 +17,8 @@ let euclidianRing : tc.TClass =
     , link = "purescript-prelude/5.0.1/docs/Data.EuclideanRing"
     , spec =
         d.class_vp
-            (d.id "euclidianring")
-            "EuclidianRing"
+            (d.id "euclideanring")
+            "EuclideanRing"
             [ d.v "a" ]
             [ d.p (d.id "commutativering") "CommutativeRing" [ d.v "a" ] ]
     , members =
@@ -122,4 +122,4 @@ let euclidianRing : tc.TClass =
 
     } /\ tc.noValues /\ tc.noStatements
 
-in euclidianRing
+in euclideanRing

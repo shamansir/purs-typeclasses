@@ -19,7 +19,7 @@ let defs =
     , ./def/prelude/dual.dhall
     , ./def/prelude/endo.dhall
     , ./def/prelude/eq.dhall
-    , ./def/prelude/euclidianring.dhall
+    , ./def/prelude/euclideanring.dhall
     , ./def/prelude/field.dhall
     , ./def/prelude/first.dhall
     , ./def/prelude/function.dhall
