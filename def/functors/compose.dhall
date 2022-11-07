@@ -62,6 +62,6 @@ let compose : tc.TClass =
         -- (Alternative f, Applicative g) => Alternative (Compose f g)
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in compose

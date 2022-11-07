@@ -127,6 +127,6 @@ let biapply : tc.TClass =
         [ i.instanceSubj "Tuple" "Biapply"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in biapply

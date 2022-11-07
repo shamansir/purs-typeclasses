@@ -75,6 +75,6 @@ let plus : tc.TClass =
         [ i.instanceCl "Array"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in plus

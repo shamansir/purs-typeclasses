@@ -96,6 +96,6 @@ let coproduct : tc.TClass =
         -- (TraversableWithIndex a f, TraversableWithIndex b g) => TraversableWithIndex (Either a b) (Coproduct f g)
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in coproduct

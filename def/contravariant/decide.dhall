@@ -74,6 +74,6 @@ let decide : tc.TClass =
             (e.br (e.class1 "Semigroup" (e.n "r" )))
             (e.subj1 "Decide" (e.br (e.class1 "Op" (e.n "r")))) -- (Semigroup r) => Decide (Op r)
         ]
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in decide

@@ -126,6 +126,6 @@ let lenspkg : tc.TClass =
             --      LensStoreA i -> map LensStoreA <$> lensStore identity i
             --      LensStoreB i -> map LensStoreB <$> lensStore _2 i
         ]
-    } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in lenspkg

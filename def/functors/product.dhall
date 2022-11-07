@@ -72,6 +72,6 @@ let product : tc.TClass =
         -- (Monad f, Monad g) => Monad (Product f g)
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in product

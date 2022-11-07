@@ -216,6 +216,6 @@ let commonpkg : tc.TClass =
             , belongs = tc.Belongs.Export [ "Data", "Lens", "Prism", "Coproduct" ]
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in commonpkg

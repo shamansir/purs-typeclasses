@@ -38,6 +38,6 @@ let flip : tc.TClass =
         -- (Category p) => Category (Flip p)
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in flip

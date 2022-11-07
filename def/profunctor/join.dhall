@@ -53,6 +53,6 @@ let join : tc.TClass =
             -- (Profunctor p) => Invariant (Join p)
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
 
 in join

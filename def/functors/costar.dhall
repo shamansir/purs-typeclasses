@@ -53,6 +53,6 @@ let costar : tc.TClass =
         , i.instanceReqF2 "Functor" "Closed" "Costar"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in costar

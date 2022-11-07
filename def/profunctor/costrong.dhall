@@ -47,6 +47,6 @@ let costrong : tc.TClass =
         [ i.instance "Function" "Closed"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in costrong

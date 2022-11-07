@@ -63,6 +63,6 @@ let dual : tc.TClass =
         , i.instanceReqA "Monoid" "Dual"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
 
 in dual

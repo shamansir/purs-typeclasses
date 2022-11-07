@@ -48,6 +48,6 @@ let last : tc.TClass =
         , i.instanceA "Semigroup" "Last"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
 
 in last

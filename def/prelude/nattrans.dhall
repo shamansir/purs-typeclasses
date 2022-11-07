@@ -35,6 +35,6 @@ let naturalTransformation : tc.TClass =
             } /\ tc.noLaws /\ tc.noExamples
         ]
 
-    } /\ tc.noLaws /\ tc.noParents /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
 
 in naturalTransformation

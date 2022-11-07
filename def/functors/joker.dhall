@@ -49,6 +49,6 @@ let joker : tc.TClass =
         -- (Functor f) => Choice (Joker f)
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in joker

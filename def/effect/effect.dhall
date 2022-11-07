@@ -72,6 +72,6 @@ let effect : tc.TClass =
         , i.instanceReqA "Monoid" "Effect"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noVars /\ tc.noValues
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noVars /\ tc.noValues
 
 in effect

@@ -66,6 +66,6 @@ let comonad : tc.TClass =
             } /\ tc.noOps /\ tc.noExamples
         ]
 
-    } /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
 
 in comonad

@@ -365,6 +365,6 @@ let combinators : tc.TClass =
             , belongs = tc.Belongs.Export [ "Parsing", "Combinators", "Array" ]
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in combinators

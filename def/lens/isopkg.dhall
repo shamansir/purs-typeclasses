@@ -210,6 +210,6 @@ let isopkg : tc.TClass =
             -- deletedUser :: DeletedUserId
             -- deletedUser = review (simple coerced) 42
         ]
-    } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in isopkg

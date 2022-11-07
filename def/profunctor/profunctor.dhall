@@ -139,6 +139,6 @@ let profunctor : tc.TClass =
         [ i.instance "Function" "Profunctor"
         ]
 
-    } /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in profunctor

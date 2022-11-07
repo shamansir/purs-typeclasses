@@ -41,6 +41,6 @@ let inject : tc.TClass =
             -- (Inject f g) => Inject f (Coproduct h g)
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in inject

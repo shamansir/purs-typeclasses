@@ -115,6 +115,6 @@ let choice : tc.TClass =
         [ i.instance "Function" "Choice"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in choice

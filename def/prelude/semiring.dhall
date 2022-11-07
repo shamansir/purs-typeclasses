@@ -168,6 +168,6 @@ let semiRing : tc.TClass =
         , i.instanceReqSubjArrow "Semiring"
         ]
 
-    } /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in semiRing

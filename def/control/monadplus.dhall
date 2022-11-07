@@ -50,6 +50,6 @@ let monadplus : tc.TClass =
         [ i.instanceCl "Array"
         ]
 
-    } /\ tc.noValues /\ tc.noMembers /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noMembers /\ tc.noStatements
 
 in monadplus

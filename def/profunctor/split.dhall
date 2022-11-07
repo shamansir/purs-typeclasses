@@ -84,6 +84,6 @@ let split : tc.TClass =
         , i.instanceF "Profunctor" "Split"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
 
 in split

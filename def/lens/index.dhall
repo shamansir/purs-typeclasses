@@ -38,7 +38,7 @@ let index : tc.TClass =
                     -- (set (ix "k") "new" $ Map.empty) == Map.empty
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 
 

@@ -110,6 +110,6 @@ let unfoldable : tc.TClass =
         , i.instanceSubj "Maybe" "Unfoldable"
         ]
 
-    } /\ tc.noStatements /\ tc.noValues /\ tc.noLaws
+    } /\ tc.aw /\ tc.noStatements /\ tc.noValues /\ tc.noLaws
 
 in unfoldable

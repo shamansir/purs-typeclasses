@@ -120,6 +120,6 @@ let euclideanRing : tc.TClass =
         , i.instanceCl "Number"
         ]
 
-    } /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
 
 in euclideanRing

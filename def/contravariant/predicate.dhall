@@ -30,6 +30,6 @@ let predicate : tc.TClass =
         [ i.instanceA_ "Newtype" "Predicate"
         , i.instance "Contravariant" "predicate"
         ]
-    } /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in predicate

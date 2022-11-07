@@ -186,6 +186,6 @@ let heytingAlgebra : tc.TClass =
         , i.instanceFn
         ]
 
-    } /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in heytingAlgebra

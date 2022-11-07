@@ -191,6 +191,21 @@ let Parent/toConnection
     }
 
 
+let Weight =
+    < Auto
+    | Custom : Double
+    >
+
+
+let Weight/toValue
+    = \(w : Weight)
+    -> merge
+        { Auto = 1.0
+        , Custom = \(n : Double) -> n
+        }
+        w
+
+
 let TClass =
     { id : Id -- TODO: remove in favor of Spec
     , what : What -- TODO: remove in favor of Spec
@@ -199,6 +214,7 @@ let TClass =
     , name : Text -- TODO: remove in favor of Spec
     , info  : Text -- TODO: support multiline
     , parents : List Id -- TODO: remove in favor of Spec
+    , weight : Weight
     , spec : d.Spec
     , package : Package
     , module : Module
@@ -358,6 +374,7 @@ let TClassText =
     , instances : List InstanceText
     , values : List Value
     , statements : List StatementText
+    , weight : Double
     }
 
 
@@ -369,6 +386,7 @@ let TClass/toText
     , vars = {- t.vars -}  Spec/extractVars t.spec
     , link = {- t.link -} Package/makeLink t.package t.module t.name
     , name = {- t.name -} Spec/getName t.spec
+    , weight = Weight/toValue t.weight
     , info = t.info
     , parents = Spec/extractParents t.spec
     , package = t.package
@@ -422,6 +440,14 @@ let noStatements = { statements = [] : List Statement }
 
 let noExamples = { examples = [] : List Example }
 
+let autoWeight = { weight = Weight.Auto }
+
+let aw = autoWeight
+
+let weight = \(n : Double) -> { weight = Weight.Custom n }
+
+let w = weight
+
 let lr =
     \(v : { left : e.Expr, right : e.Expr })
     -> { type = "lr", v = LawExample.LR v }
@@ -471,6 +497,7 @@ in
     , Law, LawExample, Member, What, Belongs
     , one, oneEx
     , noOp, noOps, noLaws, noParents, noMembers, noInstances, noValues, noStatements, noVars, noExamples
+    , autoWeight, aw, weight, w
     , lr, lmr, lrc, fc, of
     , pk, pkmn, pkmj
     }

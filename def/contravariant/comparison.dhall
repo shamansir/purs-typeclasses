@@ -39,6 +39,6 @@ let comparison : tc.TClass =
         , i.instanceA "Semigroup" "Comparison"
         , i.instanceA "Monoid" "Comparison"
         ]
-    } /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in comparison

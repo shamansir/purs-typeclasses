@@ -542,6 +542,6 @@ let foldpkg : tc.TClass =
             , belongs = tc.Belongs.Export [ "Data", "Lens", "Fold", "Partial" ]
             } /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in foldpkg

@@ -101,6 +101,6 @@ let bifunctor : tc.TClass =
         , i.instanceSubj "Const" "Bifunctor"
         ]
 
-    } /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in bifunctor

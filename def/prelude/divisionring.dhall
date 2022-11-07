@@ -88,6 +88,6 @@ let divisionRing : tc.TClass =
         ]
     , instances = [ i.instanceSubj "Number" "DivisionRing" ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in divisionRing

@@ -123,6 +123,6 @@ let functorwithindex : tc.TClass =
             ) -- (FunctorWithIndex a f) => FunctorWithIndex a (App f)
         ]
 
-    } /\ tc.noLaws /\ tc.noValues
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in functorwithindex

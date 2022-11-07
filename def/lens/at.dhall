@@ -53,7 +53,7 @@ let at : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 
 

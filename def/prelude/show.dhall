@@ -36,6 +36,6 @@ let show : tc.TClass =
         , i.instanceReqASubj "Array" "Show"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in show

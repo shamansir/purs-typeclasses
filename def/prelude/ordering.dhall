@@ -28,6 +28,6 @@ let ordering : tc.TClass =
         , i.instance "Show" "Ordering"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noVars
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noVars
 
 in ordering

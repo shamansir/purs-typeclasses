@@ -60,6 +60,6 @@ let monadzero : tc.TClass =
         [ i.instanceCl "Array"
         ]
 
-    } /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
 
 in monadzero

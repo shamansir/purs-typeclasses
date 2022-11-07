@@ -234,6 +234,6 @@ let traversableWithIndex : tc.TClass =
             ) -- (TraversableWithIndex a f) => TraversableWithIndex a (App f)
         ]
 
-    } /\ tc.noValues /\ tc.noLaws
+    } /\ tc.aw /\ tc.noValues /\ tc.noLaws
 
 in traversableWithIndex

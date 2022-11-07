@@ -53,6 +53,6 @@ let decidable : tc.TClass =
             (e.br (e.class1 "Monoid" (e.n "r")))
             (e.subj1 "Decidable" (e.br (e.class1 "Op" (e.n "r")))) -- (Monoid r) => Decidable (Op r)
         ]
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in decidable

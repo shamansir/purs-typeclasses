@@ -126,6 +126,6 @@ let traversable : tc.TClass =
         -- (TypeEquals a Unit) => Distributive (Tuple a)
         ]
 
-    } /\ tc.noValues /\ tc.noLaws
+    } /\ tc.aw /\ tc.noValues /\ tc.noLaws
 
 in traversable

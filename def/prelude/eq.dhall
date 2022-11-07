@@ -89,6 +89,6 @@ let eq : tc.TClass =
         , i.instanceReqASubj "Array" "Eq"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in eq

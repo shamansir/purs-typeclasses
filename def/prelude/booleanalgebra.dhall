@@ -39,6 +39,6 @@ let booleanAlgebra : tc.TClass =
         , i.instanceReqSubjArrow "BooleanAlgebra"
         ]
 
-    } /\ tc.noMembers /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noMembers /\ tc.noValues /\ tc.noStatements
 
 in booleanAlgebra

@@ -37,6 +37,6 @@ let monadeffect : tc.TClass =
     , instances =
         [ i.instanceSubj "Effect" "MonadEffect"
         ]
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in monadeffect

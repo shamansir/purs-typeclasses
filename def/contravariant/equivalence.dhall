@@ -55,6 +55,6 @@ let equivalence : tc.TClass =
         , i.instanceA "Semigroup" "Equivalence"
         , i.instanceA "Monoid" "Equivalence"
         ]
-    } /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in equivalence

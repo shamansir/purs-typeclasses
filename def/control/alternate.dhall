@@ -68,6 +68,6 @@ let alternate : tc.TClass =
         -- FIXME: incorrect instances
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
 
 in alternate

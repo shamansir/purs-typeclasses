@@ -78,6 +78,6 @@ let app : tc.TClass =
         , i.instanceReqF "Comonad" "App"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in app

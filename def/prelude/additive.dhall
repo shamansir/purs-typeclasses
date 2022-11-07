@@ -51,7 +51,7 @@ let additive : tc.TClass =
         , i.instanceReqA2 "Semiring" "Monoid" "Additive"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
     : tc.TClass
 
 in additive

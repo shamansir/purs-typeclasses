@@ -205,6 +205,6 @@ let bifoldable : tc.TClass =
         , i.instanceSubj "Const" "Bifoldable"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in bifoldable

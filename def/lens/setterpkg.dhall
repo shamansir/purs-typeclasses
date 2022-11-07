@@ -213,6 +213,6 @@ let setterpkg : tc.TClass =
             , opEmoji = tc.noOp
             } /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in setterpkg

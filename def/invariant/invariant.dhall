@@ -62,6 +62,6 @@ let invariant : tc.TClass =
         , i.instanceReqASubj "Alternate" "Invariant"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in invariant

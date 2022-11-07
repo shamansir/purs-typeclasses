@@ -39,6 +39,6 @@ let field : tc.TClass =
         , i.instanceCl "Number"
         ]
 
-    } /\ tc.noValues /\ tc.noMembers /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noMembers /\ tc.noStatements
 
 in field

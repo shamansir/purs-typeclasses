@@ -40,6 +40,6 @@ let divisible : tc.TClass =
             (e.br (e.class1 "Monoid" (e.n "r")))
             (e.subj1 "Divisible" (e.br (e.class1 "Op" (e.n "r")))) -- (Monoid r) => Divisible (Op r)
         ]
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in divisible

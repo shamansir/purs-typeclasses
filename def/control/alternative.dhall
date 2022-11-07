@@ -76,6 +76,6 @@ let alternative : tc.TClass =
             }
         ]
 
-    } /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
 
 in alternative

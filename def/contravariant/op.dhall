@@ -48,6 +48,6 @@ let op : tc.TClass =
         , i.instance "Category" "Op"
         , i.instanceA "Contravariant" "Op"
         ]
-    } /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in op

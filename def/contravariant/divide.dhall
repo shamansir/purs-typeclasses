@@ -74,6 +74,6 @@ let divide : tc.TClass =
             (e.class1 "Semigroup" (e.n "r"))
             (e.subj1 "Divide" (e.br (e.class1 "Op" (e.n "r")))) -- (Semigroup r) => Divide (Op r)
         ]
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in divide

@@ -96,6 +96,6 @@ let contravariant : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.noParents /\ tc.noValues /\ tc.noStatements /\ tc.noInstances
+    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements /\ tc.noInstances
 
 in contravariant

@@ -54,6 +54,6 @@ let const : tc.TClass =
         , i.instanceA "Traversable" "Const"
         ]
 
-    } /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in const

@@ -52,6 +52,6 @@ let semigroup : tc.TClass =
             -- Semigroup s' => Semigroup (s -> s')"
         ]
 
-    } /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
 
 in semigroup

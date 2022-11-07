@@ -339,6 +339,6 @@ let foldableWithIndex : tc.TClass =
             ) -- (FoldableWithIndex a f) => FoldableWithIndex a (App f)
         ]
 
-    } /\ tc.noLaws /\ tc.noValues
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in foldableWithIndex

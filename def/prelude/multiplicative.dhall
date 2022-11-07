@@ -50,6 +50,6 @@ let multiplicative : tc.TClass =
         , i.instanceReqA2 "Semiring" "Monoid" "Multiplicative"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
 
 in multiplicative

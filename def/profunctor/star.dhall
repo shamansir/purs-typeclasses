@@ -54,6 +54,6 @@ let star : tc.TClass =
         , i.instanceReqF2 "Applicative" "Choice" "Star"
         , i.instanceReqF2 "Distributive" "Closed" "Star"
         ]
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
 
 in star

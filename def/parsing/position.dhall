@@ -36,6 +36,6 @@ let position : tc.TClass =
         , i.instance "Eq" "Position"
         , i.instance "Ord" "Position"
         ]
-    } /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in position

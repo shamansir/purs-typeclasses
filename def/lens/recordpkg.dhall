@@ -33,6 +33,6 @@ let recordpkg : tc.TClass =
             -- prop (Proxy :: Proxy "foo")
             --      :: forall a b r. Lens { foo :: a | r } { foo :: b | r } a b
         ]
-    } /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in recordpkg

@@ -58,6 +58,6 @@ let ring : tc.TClass =
         , i.instanceReqSubjArrow "Ring"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in ring

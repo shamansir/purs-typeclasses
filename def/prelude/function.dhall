@@ -65,6 +65,6 @@ let function : tc.TClass =
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
 
-    } /\ tc.noLaws /\ tc.noParents /\ tc.noInstances /\ tc.noValues /\ tc.noStatements /\ tc.noVars
+    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noInstances /\ tc.noValues /\ tc.noStatements /\ tc.noVars
 
 in function

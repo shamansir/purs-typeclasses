@@ -116,6 +116,6 @@ let strong : tc.TClass =
         [ i.instance "Function" "Strong"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in strong

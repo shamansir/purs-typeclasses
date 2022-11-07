@@ -55,6 +55,6 @@ let bounded : tc.TClass =
         , i.instanceCl "Unit"
         ]
 
-    } /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
 
 in bounded

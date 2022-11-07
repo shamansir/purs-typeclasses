@@ -63,6 +63,6 @@ let disj : tc.TClass =
         , i.instanceReqA2 "HeytingAlgebra" "Semiring" "Disj"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
 
 in disj

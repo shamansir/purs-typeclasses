@@ -65,6 +65,6 @@ let conj : tc.TClass =
         , i.instanceReqA2 "HeytingAlgebra" "Semiring" "Conj"
         ]
 
-    } /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
 
 in conj

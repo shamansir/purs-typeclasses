@@ -19,6 +19,6 @@ let boolean : tc.TClass =
             } /\ tc.noLaws /\ tc.noOps /\ tc.noExamples
         ]
 
-    } /\ tc.noInstances /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements /\ tc.noVars
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements /\ tc.noVars
 
 in boolean
