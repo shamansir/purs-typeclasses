@@ -7,16 +7,7 @@ let i = ./../../instances.dhall
 -- class (Functor f) <= FunctorWithIndex i f | f -> i where
 
 let functorwithindex : tc.TClass =
-    { id = "functorwithindex"
-    , name = "FunctorWithIndex"
-    , what = tc.What.Class_
-    , vars = [ "i", "f" ]
-    , info = "A Functor with an additional index."
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-foldable-traversable" +6
-    , parents = [ "functor" ]
-    , link = "purescript-foldable-traversable/6.0.0/docs/Data.FunctorWithIndex"
-    , spec =
+    { spec =
         d.class_vpdc
             (d.id "functorwithindex")
             "FunctorWithIndex"
@@ -24,6 +15,9 @@ let functorwithindex : tc.TClass =
             [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
             (d.deps1 (d.v "f") (d.v "i"))
             d.tt2c
+    , info = "A Functor with an additional index."
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-foldable-traversable" +6
     , statements =
         [
             { left = e.call1 "mapWithIndex" (e.br (e.lbd [ e.av "_", e.av "a" ] (e.n "a"))) -- mapWithIndex (\_ a -> a)

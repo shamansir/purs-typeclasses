@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype First a
 
 let first : tc.TClass =
-    { id = "first"
-    , name = "First"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "first") "First" [ d.v "a" ]
     , info = "Semigroup where append always takes the first option"
     , module = [ "Data", "Semigroup" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Semigroup.First"
-    , spec = d.nt (d.id "first") "First" [ d.v "a" ]
     , members =
         [
             { name = "First"
@@ -48,6 +43,6 @@ let first : tc.TClass =
         , i.instanceA "Semigroup" "First"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in first

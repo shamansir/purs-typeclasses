@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Functor f where
 
 let functor : tc.TClass =
-    { id = "functor"
-    , name = "Functor"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , info = "Convert and forget"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Functor"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "functor")
             "Functor"
             [ d.v "f" ]
             d.t2c
+    , info = "Convert and forget"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "map"
@@ -140,6 +135,6 @@ let functor : tc.TClass =
         , i.instanceArrowR
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in functor

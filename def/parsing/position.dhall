@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Position
 
 let position : tc.TClass =
-    { id = "position"
-    , name = "Position"
-    , what = tc.What.Newtype_
+    { spec = d.nt_e (d.id "position") "Position"
     , info = "The `Parser s` monad, where `s` is the type of the input stream"
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.nt_e (d.id "position") "Position"
     , members =
         [
             { name = "Position"
@@ -36,6 +32,6 @@ let position : tc.TClass =
         , i.instance "Eq" "Position"
         , i.instance "Ord" "Position"
         ]
-    } /\ tc.aw /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in position

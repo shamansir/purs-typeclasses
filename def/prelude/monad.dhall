@@ -7,16 +7,7 @@ let e = ./../../build_expr.dhall
 -- class (Applicative m, Bind m) <= Monad m
 
 let monad : tc.TClass =
-    { id = "monad"
-    , name = "Monad"
-    , what = tc.What.Class_
-    , vars = [ "m" ]
-    , parents = [ "bind", "applicative" ]
-    , info = "Compose computations"
-    , module = [ "Control" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Control.Monad"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "monad")
             "Monad"
@@ -25,6 +16,9 @@ let monad : tc.TClass =
             , d.p (d.id "bind") "Bind" [ d.v "m" ]
             ]
             d.t2c
+    , info = "Compose computations"
+    , module = [ "Control" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , laws =
         [
             { law = "left identity"

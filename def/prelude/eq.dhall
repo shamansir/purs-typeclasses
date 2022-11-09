@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- class Eq a where
 
 let eq : tc.TClass =
-    { id = "eq"
-    , name = "Eq"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
+    { spec = d.class_v (d.id "eq") "Eq" [ d.v "a" ]
     , info = "Equality"
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Eq"
-    , spec = d.class_v (d.id "eq") "Eq" [ d.v "a" ]
     , members =
         [
             { name = "eq"
@@ -89,6 +84,6 @@ let eq : tc.TClass =
         , i.instanceReqASubj "Array" "Eq"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in eq

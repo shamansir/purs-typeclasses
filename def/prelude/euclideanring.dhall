@@ -6,21 +6,15 @@ let e = ./../../build_expr.dhall
 -- class (CommutativeRing a) <= EuclideanRing a where
 
 let euclideanRing : tc.TClass =
-    { id = "euclideanring"
-    , name = "EuclideanRing"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , parents = [ "commutativering" ]
-    , info = "Divide and Conquer"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.EuclideanRing"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "euclideanring")
             "EuclideanRing"
             [ d.v "a" ]
             [ d.p (d.id "commutativering") "CommutativeRing" [ d.v "a" ] ]
+    , info = "Divide and Conquer"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "degree"

@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 
 
 let recordpkg : tc.TClass =
-    { id = "recordpkg"
-    , name = "Lens.Record"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "recordpkg") "Lens.Record"
     , info = "Lens for a record property, by providing a proxy for the Symbol which corresponds to the property label"
     , module = [ "Data", "Lens", "Record" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Record"
-    , spec = d.pkg (d.id "recordpkg") "Lens.Record"
     , members =
         [
             { name = "prop"
@@ -33,6 +29,6 @@ let recordpkg : tc.TClass =
             -- prop (Proxy :: Proxy "foo")
             --      :: forall a b r. Lens { foo :: a | r } { foo :: b | r } a b
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in recordpkg

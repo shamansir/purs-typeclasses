@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- newtype Alternate f a
 
 let alternate : tc.TClass =
-    { id = "alternate"
-    , name = "Alternate"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "a" ]
-    , info = "Monoid and Semigroup instances corresponding to Plus and Alt for f"
-    , module = [ "Data", "Monoid" ]
-    , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Data.Monoid.Alternate#t:Alternate"
-    , spec =
+    { spec =
         d.nt_c
             (d.id "alternate")
             "Alternate"
             [ d.v "f", d.v "a" ]
             d.kt_kt
+    , info = "Monoid and Semigroup instances corresponding to Plus and Alt for f"
+    , module = [ "Data", "Monoid" ]
+    , package = tc.pkmj "purescript-control" +5
     , members =
         [
             { name = "Alternate"
@@ -68,6 +63,6 @@ let alternate : tc.TClass =
         -- FIXME: incorrect instances
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in alternate

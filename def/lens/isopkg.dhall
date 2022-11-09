@@ -10,14 +10,10 @@ let anistab = e.class "AnIso" [ e.n "s", e.n "t", e.n "a", e.n "b" ] -- AnIso s 
 let anissttaabb = e.class "AnIso" [ e.n "ss", e.n "tt", e.n "aa", e.n "bb" ] -- AnIso ss tt aa bb
 
 let isopkg : tc.TClass =
-    { id = "isopkg"
-    , name = "Lens.Iso"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "isopkg") "Lens.Iso"
     , info = "Functions for working with isomorphisms"
     , module = [ "Data", "Lens", "Iso" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Common"
-    , spec = d.pkg (d.id "isopkg") "Lens.Iso"
     , members =
         [
             { name = "iso"
@@ -210,6 +206,6 @@ let isopkg : tc.TClass =
             -- deletedUser :: DeletedUserId
             -- deletedUser = review (simple coerced) 42
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in isopkg

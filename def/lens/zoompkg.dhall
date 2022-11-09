@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 
 
 let zoompkg : tc.TClass =
-    { id = "zoompkg"
-    , name = "Lens.Zoom"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "zoompkg") "Lens.Zoom"
     , info = "Zooms into a substate in a StateT transformer"
     , module = [ "Data", "Lens", "Zoom" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Zoom"
-    , spec = d.pkg (d.id "zoompkg") "Lens.Zoom"
     , members =
         [
             { name = "zoom"
@@ -28,6 +24,6 @@ let zoompkg : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in zoompkg

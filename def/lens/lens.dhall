@@ -12,15 +12,10 @@ let cexpr =
     -- Strong p => Optic p s t a b
 
 let lens : tc.TClass =
-    { id = "lens"
-    , name = "Lens"
-    , what = tc.What.Type_
-    , vars = [ "s", "t", "a", "b" ]
+    { spec = d.t (d.id "lens") "Lens" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "Given a type whose \"focus element\" always exists, a lens provides a convenient way to view, set, and transform that element."
     , module = [ "Data", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens"
-    , spec = d.t (d.id "lens") "Lens" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Lens"
@@ -44,6 +39,6 @@ let lens : tc.TClass =
             --            ^^^^^^^^^^^^^^^^^^^^^^^^^
 
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in lens

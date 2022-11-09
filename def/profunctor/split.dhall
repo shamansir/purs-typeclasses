@@ -7,15 +7,10 @@ let e = ./../../build_expr.dhall
 -- newtype Split f a b
 
 let split : tc.TClass =
-    { id = "split"
-    , name = "Split"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "a", "b" ]
+    { spec = d.nt_c (d.id "split") "Split" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
     , info = ""
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Split"
-    , spec = d.nt_c (d.id "split") "Split" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
     , members =
         [
             { name = "split"
@@ -84,6 +79,6 @@ let split : tc.TClass =
         , i.instanceF "Profunctor" "Split"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in split

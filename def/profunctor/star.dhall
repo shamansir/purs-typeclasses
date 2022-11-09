@@ -7,15 +7,10 @@ let e = ./../../build_expr.dhall
 -- newtype Star f a b
 
 let star : tc.TClass =
-    { id = "star"
-    , name = "Star"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "a", "b" ]
+    { spec = d.nt_c (d.id "star") "Star" [ d.v "f", d.v "a", d.v "b" ] d.kt_tkt
     , info = ""
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Star"
-    , spec = d.nt_c (d.id "star") "Star" [ d.v "f", d.v "a", d.v "b" ] d.kt_tkt
     , members =
         [
             { name = "Star"
@@ -54,6 +49,6 @@ let star : tc.TClass =
         , i.instanceReqF2 "Applicative" "Choice" "Star"
         , i.instanceReqF2 "Distributive" "Closed" "Star"
         ]
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in star

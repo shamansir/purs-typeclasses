@@ -7,22 +7,16 @@ let i = ./../../instances.dhall
 -- class (Functor f) <= Distributive f where
 
 let traversable : tc.TClass =
-    { id = "distributive"
-    , name = "Distributive"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "functor" ]
-    , info = "Categorical dual of Traversable"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-distributive" +5
-    , link = "purescript-distributive/5.0.0/docs/Data.Distributive#t:Distributive"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "distributive")
             "Distributive"
             [ d.v "f" ]
             [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
             d.t2c
+    , info = "Categorical dual of Traversable"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-distributive" +5
     , statements =
         [
             { left = e.callE "distribute" -- distribute

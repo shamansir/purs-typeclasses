@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Apply m) <= Bind m where
 
 let bind : tc.TClass =
-    { id = "bind"
-    , name = "Bind"
-    , what = tc.What.Class_
-    , vars = [ "m" ]
-    , parents = [ "apply" ]
-    , info = "Compose computations"
-    , module = [ "Control" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Control.Bind"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "bind")
             "Bind"
             [ d.v "m" ]
             [ d.p (d.id "apply") "Apply" [ d.v "f" ] ]
             d.t2c
+    , info = "Compose computations"
+    , module = [ "Control" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "bind"

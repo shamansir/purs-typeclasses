@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 -- _Newtype :: forall t a s b. Newtype t a => Newtype s b => Iso t s a b
 
 let _newtype : tc.TClass =
-    { id = "_newtype"
-    , name = "_Newtype"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "_newtype") "_Newtype"
     , info = "An Iso between a newtype and its inner type."
     , module = [ "Data", "Lens", "Iso", "Newtype"]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Iso.Newtype"
-    , spec = d.pkg (d.id "_newtype") "_Newtype"
     , members =
         [
             { name = "_Newtype"
@@ -43,6 +39,6 @@ let _newtype : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in _newtype

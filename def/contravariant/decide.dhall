@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Divide f) <= Decide f where
 
 let decide : tc.TClass =
-    { id = "decide"
-    , name = "Decide"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "divide" ]
-    , info = "Contravariant analogue of Alt"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Decide"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "decide")
             "Decide"
             [ d.v "f" ]
             [ d.p (d.id "divide") "Divide" [ d.v "f" ] ]
             d.t2c
+    , info = "Contravariant analogue of Alt"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-contravariant" +3
     , members =
         [
             { name = "choose"

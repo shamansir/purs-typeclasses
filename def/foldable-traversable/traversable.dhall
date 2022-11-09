@@ -7,16 +7,7 @@ let i = ./../../instances.dhall
 -- class (Functor t, Foldable t) <= Traversable t where
 
 let traversable : tc.TClass =
-    { id = "traversable"
-    , name = "Traversable"
-    , what = tc.What.Class_
-    , vars = [ "t" ]
-    , parents = [ "functor", "foldable" ]
-    , info = "Data structures which can be traversed, accumulate in Applicative Functor"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
-    , link = "purescript-foldable-traversable/5.0.1/docs/Data.Traversable"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "traversable")
             "Traversable"
@@ -25,6 +16,9 @@ let traversable : tc.TClass =
             , d.p (d.id "foldable") "Foldable" [ d.v "t" ]
             ]
             d.t2c
+    , info = "Data structures which can be traversed, accumulate in Applicative Functor"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , statements =
         [
             { left =

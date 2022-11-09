@@ -11,14 +11,10 @@ let ilistab = e.class "IndexedLens" [ e.n "i", e.n "s", e.n "t", e.n "a", e.n "b
 let anilistab = e.class "AnIndexedLens" [ e.n "i", e.n "s", e.n "t", e.n "a", e.n "b" ] -- AnIndexedLens i s t a b
 
 let lenspkg : tc.TClass =
-    { id = "lenspkg"
-    , name = "Lens.Lens"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "lenspkg") "Lens.Lens"
     , info = "Functions for working with lenses"
     , module = [ "Data", "Lens", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Common"
-    , spec = d.pkg (d.id "lenspkg") "Lens.Lens"
     , members =
         [
             { name = "lens"
@@ -126,6 +122,6 @@ let lenspkg : tc.TClass =
             --      LensStoreA i -> map LensStoreA <$> lensStore identity i
             --      LensStoreB i -> map LensStoreB <$> lensStore _2 i
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in lenspkg

@@ -6,18 +6,14 @@ let e = ./../../build_expr.dhall
 -- data Unit
 
 let unit : tc.TClass =
-    { id = "unit"
-    , name = "Unit"
-    , what = tc.What.Type_ -- data Unit :: Type
+    { spec = d.data_ce (d.id "unit") "Unit" d.t1
     , info = "No computation needed"
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Unit"
-    , spec = d.data_e (d.id "unit") "Unit"
     , members =
         [
             { name = "unit"
-            , def = e.subjE "Unit" -- Unit
+            , def = e.subjE "Unit" -- Unit -- data Unit :: Type
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
@@ -25,6 +21,6 @@ let unit : tc.TClass =
         [ i.instance "Show" "Unit"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements /\ tc.noVars
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in unit

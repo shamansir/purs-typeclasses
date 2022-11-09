@@ -6,16 +6,7 @@ let e = ./../../build_expr.dhall
 -- class (Monad m, Alternative m, MonadZeroIsDeprecated) <= MonadZero m
 
 let monadzero : tc.TClass =
-    { id = "monadzero"
-    , name = "MonadZero"
-    , what = tc.What.Class_
-    , vars = [ "m" ]
-    , parents = [ "monad", "alternative" ]
-    , info = "Compose computations"
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Control.MonadZero"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "monadzero")
             "MonadZero"
@@ -24,6 +15,9 @@ let monadzero : tc.TClass =
             , d.p (d.id "alternative") "Alternative" [ d.v "m" ]
             , d.pe (d.id "monadzeroisdeprecated") "MonadZeroIsDeprecated"
             ]
+    , info = "Compose computations"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-control" +5
     , laws =
         [
             { law = "annihilation"

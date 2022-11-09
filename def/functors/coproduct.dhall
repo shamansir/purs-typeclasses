@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Coproduct f g a
 
 let coproduct : tc.TClass =
-    { id = "coproduct"
-    , name = "Coproduct"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "g", "a" ]
+    { spec = d.nt_c (d.id "coproduct") "Coproduct" [ d.v "f", d.v "g", d.v "a" ] d.kt_kt_kt
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Coproduct"
-    , spec = d.nt_c (d.id "coproduct") "Coproduct" [ d.v "f", d.v "g", d.v "a" ] d.kt_kt_kt
     , members =
         [
             { name = "Coproduct"
@@ -96,6 +91,6 @@ let coproduct : tc.TClass =
         -- (TraversableWithIndex a f, TraversableWithIndex b g) => TraversableWithIndex (Either a b) (Coproduct f g)
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in coproduct

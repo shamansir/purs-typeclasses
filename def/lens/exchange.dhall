@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- data Exchange a b s t
 
 let exchange : tc.TClass =
-    { id = "exchange"
-    , name = "Exchange"
-    , what = tc.What.Newtype_
-    , vars = [ "a", "b", "s", "t" ]
+    { spec = d.data (d.id "exchange") "Exchange" [ d.v "a", d.v "b", d.v "s", d.v "t" ]
     , info = ""
     , module = [ "Data", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens"
-    , spec = d.data (d.id "exchange") "Exchange" [ d.v "a", d.v "b", d.v "s", d.v "t" ]
     , members =
         [
             { name = "Exchange"
@@ -27,7 +22,7 @@ let exchange : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in exchange
 

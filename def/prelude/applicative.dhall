@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Apply f) <= Applicative f where
 
 let applicative : tc.TClass =
-    { id = "applicative"
-    , name = "Applicative"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "apply" ]
-    , info = "Lift with zero arguments, wrap values"
-    , module = [ "Control" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Control.Applicative#t:Applicative"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "applicative")
             "Applicative"
             [ d.v "f" ]
             [ d.p (d.id "apply") "Apply" [ d.v "f" ] ]
             d.t2c
+    , info = "Lift with zero arguments, wrap values"
+    , module = [ "Control" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "pure"

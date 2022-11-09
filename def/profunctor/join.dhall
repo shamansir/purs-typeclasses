@@ -7,15 +7,10 @@ let e = ./../../build_expr.dhall
 -- newtype Join p a
 
 let join : tc.TClass =
-    { id = "join"
-    , name = "Join"
-    , what = tc.What.Newtype_
-    , vars = [ "p", "a" ]
+    { spec = d.nt_c (d.id "join") "Join" [ d.v "p", d.v "a" ] d.kkt_kt
     , info = ""
     , module = [ "Data", "Profunctor" ]
     , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Join"
-    , spec = d.nt_c (d.id "join") "Join" [ d.v "p", d.v "a" ] d.kkt_kt
     , members =
         [
             { name = "Join"
@@ -53,6 +48,6 @@ let join : tc.TClass =
             -- (Profunctor p) => Invariant (Join p)
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in join

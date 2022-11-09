@@ -7,15 +7,10 @@ let i = ./../../instances.dhall
 -- newtype Clown f a b
 
 let clown : tc.TClass =
-    { id = "clown"
-    , name = "Clown"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "a", "b" ]
+    { spec = d.nt_c (d.id "clown") "Clown" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Clown"
-    , spec = d.nt_c (d.id "clown") "Clown" [ d.v "f", d.v "a", d.v "b" ] d.t2t3
     , members =
         [
             { name = "Clown"
@@ -50,6 +45,6 @@ let clown : tc.TClass =
         , i.instanceReqA2 "Contravariant" "Profunctor" "Clown"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in clown

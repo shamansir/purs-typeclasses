@@ -6,19 +6,14 @@ let e = ./../../build_expr.dhall
 -- class Semiring a where
 
 let semiRing : tc.TClass =
-    { id = "semiring"
-    , name = "Semiring"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , info = "Sum and Multiply (a.k.a. extended Monoid)"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Semiring"
-    , spec =
+    { spec =
         d.class_v
             (d.id "semiring")
             "Semiring"
             [ d.v "a" ]
+    , info = "Sum and Multiply (a.k.a. extended Monoid)"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "add"
@@ -168,6 +163,6 @@ let semiRing : tc.TClass =
         , i.instanceReqSubjArrow "Semiring"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
 
 in semiRing

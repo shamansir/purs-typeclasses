@@ -10,15 +10,10 @@ let e = ./../../build_expr.dhall
 
 
 let parsert : tc.TClass =
-    { id = "parsert"
-    , name = "ParserT"
-    , vars = [ "s", "m", "a" ]
-    , what = tc.What.Type_
+    { spec = d.nt_c (d.id "parsert") "ParserT" [ d.v "s", d.v "m", d.v "a" ] d.t_t2_t2
     , info = "The `Parser s` monad with a monad transformer parameter m."
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.nt_c (d.id "parsert") "ParserT" [ d.v "s", d.v "m", d.v "a" ] d.t_t2_t2
     , members =
         [
             { name = "runParserT"
@@ -142,7 +137,7 @@ let parsert : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 -- Lazy (ParserT s m a)
 -- (Semigroup a) => Semigroup (ParserT s m a)

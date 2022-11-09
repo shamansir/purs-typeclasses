@@ -7,16 +7,7 @@ let e = ./../../build_expr.dhall
 -- class (Monad m, Alternative m) <= MonadPlus m
 
 let monadplus : tc.TClass =
-    { id = "monadplus"
-    , name = "MonadPlus"
-    , what = tc.What.Class_
-    , vars = [ "m" ]
-    , info = "Distributivity for Monads"
-    , parents = [ "monad", "alternative" ]
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Control.MonadPlus"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "monadplus")
             "MonadPlus"
@@ -25,6 +16,9 @@ let monadplus : tc.TClass =
             , d.p (d.id "alternative") "Alternative" [ d.v "m" ]
             ]
             d.t2c
+    , info = "Distributivity for Monads"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-control" +5
     , laws =
         [
             { law = "distributivity"

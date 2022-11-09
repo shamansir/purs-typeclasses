@@ -6,20 +6,16 @@ let e = ./../../build_expr.dhall
 
 
 let traversalpkg : tc.TClass =
-    { id = "traversalpkg"
-    , name = "Lens.Traversal"
-    , what = tc.What.Package_
-    , info = "Traversal is an optic that focuses on zero or more values"
-    , module = [ "Data", "Lens", "Traversal" ]
-    , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Traversal"
-    , spec = d.pkg (d.id "traversalpkg") "Lens.Traversal"
+    { spec = d.pkg (d.id "traversalpkg") "Lens.Traversal"
     -- over    traversed negate [1, 2, 3] == [-1, -2, -3]
     -- preview traversed [1, 2, 3] == Just 1
     -- firstOf traversed [1, 2, 3] == Just 1  -- same as `preview`
     -- lastOf  traversed [1, 2, 3] == Just 3
     --
     -- view traversed ["D", "a", "w", "n"] == "Dawn"
+    , info = "Traversal is an optic that focuses on zero or more values"
+    , module = [ "Data", "Lens", "Traversal" ]
+    , package = tc.pkmj "purescript-profunctor-lenses" +8
     , members =
         [
             { name = "traversed"
@@ -169,6 +165,6 @@ let traversalpkg : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in traversalpkg

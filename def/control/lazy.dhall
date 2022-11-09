@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- class Lazy l where
 
 let lazy : tc.TClass =
-    { id = "lazy"
-    , name = "Lazy"
-    , what = tc.What.Class_
-    , vars = [ "l" ]
+    { spec = d.class_v (d.id "lazy") "Lazy" [ d.v "l" ]
     , info = "Deferred operations"
     , module = [ "Control" ]
     , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Control.Lazy"
-    , spec = d.class_v (d.id "lazy") "Lazy" [ d.v "l" ]
     , members =
         [
             { name = "defer"
@@ -43,6 +38,6 @@ let lazy : tc.TClass =
         , i.instanceCl "Unit"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in lazy

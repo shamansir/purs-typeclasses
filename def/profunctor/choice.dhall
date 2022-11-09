@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Profunctor p) <= Choice p where
 
 let choice : tc.TClass =
-    { id = "choice"
-    , name = "Choice"
-    , what = tc.What.Class_
-    , vars = [ "p" ]
-    , parents = [ "profunctor" ]
-    , info = "Extends Profunctor with combinators for working with sum types"
-    , module = [ "Data", "Profunctor" ]
-    , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Choice"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "choice")
             "Choice"
             [ d.v "p" ]
             [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
             d.t3c
+    , info = "Extends Profunctor with combinators for working with sum types"
+    , module = [ "Data", "Profunctor" ]
+    , package = tc.pkmj "purescript-profunctor" +5
     , members =
         [
             { name = "left"

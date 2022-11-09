@@ -9,14 +9,10 @@ let pstab = e.class "Prism" [ e.n "s", e.n "t", e.n "a", e.n "b" ] -- Prism s t 
 let apstab = e.class "APrism" [ e.n "s", e.n "t", e.n "a", e.n "b" ] -- APrism s t a b
 
 let prismpkg : tc.TClass =
-    { id = "prismpkg"
-    , name = "Lens.Prism"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "prismpkg") "Lens.Prism"
     , info = "Prisms are used for selecting cases of a type, most often a sum type"
     , module = [ "Data", "Lens", "Prism" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Prism"
-    , spec = d.pkg (d.id "prismpkg") "Lens.Prism"
     , members =
         [
             { name = "prism'"
@@ -152,6 +148,6 @@ let prismpkg : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in prismpkg

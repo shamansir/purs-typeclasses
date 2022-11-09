@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Op a b
 
 let op : tc.TClass =
-    { id = "op"
-    , name = "Op"
-    , what = tc.What.Newtype_
-    , vars = [ "a", "b" ]
+    { spec = d.nt (d.id "op") "Op" [ d.v "a", d.v "b" ]
     , info = "The opposite of the function category"
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence" -- FIXME: wrong link?
-    , spec = d.nt (d.id "op") "Op" [ d.v "a", d.v "b" ]
     , members =
         [
             { name = "Op"
@@ -48,6 +43,6 @@ let op : tc.TClass =
         , i.instance "Category" "Op"
         , i.instanceA "Contravariant" "Op"
         ]
-    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in op

@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Profunctor p) <= Strong p where
 
 let strong : tc.TClass =
-    { id = "strong"
-    , name = "Strong"
-    , what = tc.What.Class_
-    , vars = [ "p" ]
-    , parents = [ "profunctor" ]
-    , info = "Extends Profunctor with combinators for working with product types"
-    , module = [ "Data", "Profunctor" ]
-    , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Strong"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "strong")
             "Strong"
             [ d.v "p" ]
             [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
             d.t3c
+    , info = "Extends Profunctor with combinators for working with product types"
+    , module = [ "Data", "Profunctor" ]
+    , package = tc.pkmj "purescript-profunctor" +5
     , members =
         [
             { name = "first"

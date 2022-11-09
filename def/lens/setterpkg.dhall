@@ -13,14 +13,10 @@ let ssa = e.class "Setter'" [ e.n "s", e.n "a" ]   -- Setter' s a
 let isistab = e.class "IndexedSetter" [ e.n "i", e.n "s", e.n "t", e.n "a", e.n "b" ]   -- IndexedSetter i s t a b
 
 let setterpkg : tc.TClass =
-    { id = "setterpkg"
-    , name = "Lens.Setter"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "setterpkg") "Lens.Setter"
     , info = "Setters"
     , module = [ "Data", "Lens", "Setter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Setter"
-    , spec = d.pkg (d.id "setterpkg") "Lens.Setter"
     , members =
         [
             { name = "over"
@@ -213,6 +209,6 @@ let setterpkg : tc.TClass =
             , opEmoji = tc.noOp
             } /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in setterpkg

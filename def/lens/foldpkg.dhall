@@ -18,14 +18,10 @@ let ifistab_br = \(first : e_.Expr) -> ifistab (e.br first)                     
 let ifristab = ifistab (e.n "r")                                                               -- IndexedFold r i s t a b
 
 let foldpkg : tc.TClass =
-    { id = "foldpkg"
-    , name = "Lens.Fold"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "foldpkg") "Lens.Fold"
     , info = "Lenses for folds"
     , module = [ "Data", "Lens", "Fold" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Common"
-    , spec = d.pkg (d.id "foldpkg") "Lens.Fold"
     , members =
         [
             { name = "previewOn"
@@ -542,6 +538,6 @@ let foldpkg : tc.TClass =
             , belongs = tc.Belongs.Export [ "Data", "Lens", "Fold", "Partial" ]
             } /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in foldpkg

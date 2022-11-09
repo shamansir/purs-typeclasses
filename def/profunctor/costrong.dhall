@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Profunctor p) <= Costrong p where
 
 let costrong : tc.TClass =
-    { id = "costrong"
-    , name = "Costrong"
-    , what = tc.What.Class_
-    , vars = [ "p" ]
-    , parents = [ "profunctor" ]
-    , info = "Provides the dual operations of the Strong class"
-    , module = [ "Data", "Profunctor" ]
-    , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Costrong"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "costrong")
             "Costrong"
             [ d.v "p" ]
             [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
             d.t3c
+    , info = "Provides the dual operations of the Strong class"
+    , module = [ "Data", "Profunctor" ]
+    , package = tc.pkmj "purescript-profunctor" +5
     , members =
         [
             { name = "unfirst"

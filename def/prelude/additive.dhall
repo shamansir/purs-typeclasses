@@ -7,15 +7,10 @@ let e = ./../../build_expr.dhall
 -- newtype Additive a
 
 let additive : tc.TClass =
-    { id = "additive"
-    , name = "Additive"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "additive") "Additive" [ d.v "a" ]
     , info = "May be added to something"
     , module = [ "Data", "Monoid" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Additive#t:Additive"
-    , spec = d.nt (d.id "additive") "Additive" [ d.v "a" ]
     , members =
         [
             { name = "Additive"
@@ -51,7 +46,7 @@ let additive : tc.TClass =
         , i.instanceReqA2 "Semiring" "Monoid" "Additive"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
     : tc.TClass
 
 in additive

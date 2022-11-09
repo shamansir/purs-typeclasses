@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Contravariant f) <= Divide f where
 
 let divide : tc.TClass =
-    { id = "divide"
-    , name = "Divide"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "contravariant" ]
-    , info = "Contravariant analogue of Apply"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Divide"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "divide")
             "Divide"
             [ d.v "f" ]
             [ d.p (d.id "contravariant") "Contravariant" [ d.v "f" ] ]
             d.t2c
+    , info = "Contravariant analogue of Apply"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-contravariant" +3
     , members =
         [
             { name = "divide"

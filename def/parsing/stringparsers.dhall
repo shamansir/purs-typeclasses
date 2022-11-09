@@ -14,14 +14,10 @@ let pmtsa = pma (e.br (e.class "Tuple" [ e.classE "String", e.n "a" ]))         
 
 
 let stringParsers : tc.TClass =
-    { id = "stringparsers"
-    , name = "String"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "stringparsers") "Parsing.String"
     , info = "Primitive parsers for working with an input stream of type String"
     , module = [ "Parsing", "String" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.pkg (d.id "stringparsers") "Parsing.String"
     , members =
         [
             { name = "char"
@@ -302,6 +298,6 @@ let stringParsers : tc.TClass =
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
             -- ...
         ]
-    } /\ tc.aw /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in stringParsers

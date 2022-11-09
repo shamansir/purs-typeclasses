@@ -7,16 +7,7 @@ let i = ./../../instances.dhall
 -- class (Bifunctor t, Bifoldable t) <= Bitraversable t where
 
 let bitraversable : tc.TClass =
-    { id = "bitraversable"
-    , name = "Bitraversable"
-    , what = tc.What.Class_
-    , vars = [ "t" ]
-    , parents = [ "bifunctor", "bifoldable" ]
-    , info = "Data structures with two arguments which can be traversed"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
-    , link = "purescript-foldable-traversable/5.0.1/docs/Data.Bitraversable"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "bitraversable")
             "Bitraversable"
@@ -25,6 +16,9 @@ let bitraversable : tc.TClass =
             , d.p (d.id "bifoldable") "Bifoldable" [ d.v "t" ]
             ]
             d.t3c
+    , info = "Data structures with two arguments which can be traversed"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , members =
         [
             { name = "bitraverse"

@@ -6,15 +6,11 @@ let e = ./../../build_expr.dhall
 -- data Ordering
 
 let ordering : tc.TClass =
-    { id = "ordering"
-    , name = "Ordering"
-    , what = tc.What.Data_
+    { spec = d.data_e (d.id "ordering") "Ordering"
     , values = [ "LT", "GT", "EQ" ]
     , info = "Just to know the order"
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Ordering"
-    , spec = d.data_e (d.id "ordering") "Ordering"
     , members =
         [
             { name = "invert"
@@ -28,6 +24,6 @@ let ordering : tc.TClass =
         , i.instance "Show" "Ordering"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noVars
+    } /\ tc.aw /\ tc.noLaws /\ tc.noStatements
 
 in ordering

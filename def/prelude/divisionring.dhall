@@ -6,21 +6,15 @@ let e = ./../../build_expr.dhall
 -- class (Ring a) <= DivisionRing a where
 
 let divisionRing : tc.TClass =
-    { id = "divisionring"
-    , name = "DivisionRing"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , parents = [ "ring" ]
-    , info = "Non-zero rings in which every non-zero element has a multiplicative inverse / skew fields"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.DivisionRing"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "divisionring")
             "DivisionRing"
             [ d.v "a" ]
             [ d.p (d.id "ring") "Ring" [ d.v "a" ] ]
+    , info = "Non-zero rings in which every non-zero element has a multiplicative inverse / skew fields"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "recip"

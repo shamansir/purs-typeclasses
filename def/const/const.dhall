@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- newtype Const a b
 
 let const : tc.TClass =
-    { id = "const"
-    , name = "Const"
-    , what = tc.What.Newtype_
-    , vars = [ "a", "b" ]
-    , info = "Wraps its first type argument and ignores its second"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-const" +3
-    , link = "purescript-const/3.0.0/docs/Data.Const"
-    , spec =
+    { spec =
         d.nt_c
             (d.id "const")
             "Const"
             [ d.v "a", d.v "b" ]
             d.tkt
+    , info = "Wraps its first type argument and ignores its second"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-const" +3
     , members =
         [
             { name = "Const"
@@ -54,6 +49,6 @@ let const : tc.TClass =
         , i.instanceA "Traversable" "Const"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in const

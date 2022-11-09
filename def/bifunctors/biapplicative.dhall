@@ -6,23 +6,17 @@ let e = ./../../build_expr.dhall
 -- class Biapplicative :: (Type -> Type -> Type) -> Constraint
 -- class (Biapply w) <= Biapplicative w where
 
-let bifunctor : tc.TClass =
-    { id = "biapplicative"
-    , name = "Biapplicative"
-    , what = tc.What.Class_
-    , vars = [ "w" ]
-    , parents = [ "biapply" ]
-    , info = "Captures type constructors of two arguments in Applicative"
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-bifunctors" +5
-    , link = "purescript-bifunctors/5.0.0/docs/Control.Biapplicative"
-    , spec =
+let biapplicative : tc.TClass =
+    { spec =
         d.class_vpc
             (d.id "biapplicative")
             "Biapplicative"
             [ d.v "w" ]
             [ d.p (d.id "biapply") "Biapply" [ d.v "w" ] ]
             d.t3c
+    , info = "Captures type constructors of two arguments in Applicative"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-bifunctors" +5
     , members =
         [
             { name = "bipure"
@@ -36,4 +30,4 @@ let bifunctor : tc.TClass =
 
     } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
-in bifunctor
+in biapplicative

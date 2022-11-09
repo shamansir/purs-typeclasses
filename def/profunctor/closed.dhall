@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Profunctor p) <= Closed p where
 
 let closed : tc.TClass =
-    { id = "closed"
-    , name = "Closed"
-    , what = tc.What.Class_
-    , vars = [ "p" ]
-    , parents = [ "profunctor" ]
-    , info = "Extends Profunctor to work with functions"
-    , module = [ "Data", "Profunctor" ]
-    , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Closed"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "closed")
             "Closed"
             [ d.v "p" ]
             [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
             d.t3c
+    , info = "Extends Profunctor to work with functions"
+    , module = [ "Data", "Profunctor" ]
+    , package = tc.pkmj "purescript-profunctor" +5
     , members =
         [
             { name = "closed"

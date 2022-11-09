@@ -6,22 +6,16 @@ let e = ./../../build_expr.dhall
 -- class (Extend w) <= Comonad w where
 
 let comonad : tc.TClass =
-    { id = "comonad"
-    , name = "Comonad"
-    , what = tc.What.Class_
-    , vars = [ "w" ]
-    , parents = [ "extend" ]
-    , info = "Comonad is the dual of Monad, and extract is the dual of pure"
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Control.Comonad"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "comonad")
             "Comonad"
             [ d.v "w" ]
             [ d.p (d.id "extend") "Extend" [ d.v "w" ] ]
             d.t2c
+    , info = "Comonad is the dual of Monad, and extract is the dual of pure"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-control" +5
     , members =
         [
             { name = "extract"

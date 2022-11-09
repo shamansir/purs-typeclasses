@@ -12,15 +12,10 @@ let cexpr =
     -- Strong p => Optic p s t a b
 
 let prism : tc.TClass =
-    { id = "prism"
-    , name = "Prism"
-    , what = tc.What.Type_
-    , vars = [ "s", "t", "a", "b" ]
+    { spec = d.t (d.id "prism") "Prism" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "A prism."
     , module = [ "Data", "Lens", "Prism" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Prism"
-    , spec = d.t (d.id "prism") "Prism" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Prism"
@@ -38,6 +33,6 @@ let prism : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in prism

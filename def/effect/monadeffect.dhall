@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Monad m) <= MonadEffect m where
 
 let monadeffect : tc.TClass =
-    { id = "monadeffect"
-    , name = "MonadEffect"
-    , what = tc.What.Class_
-    , vars = [ "m" ]
-    , parents = [ "monad" ]
-    , info = "Captures those monads which support native effects"
-    , module = [ "Data" ] -- FIXME: wrong module?
-    , package = tc.pkmj "purescript-effect" +3
-    , link = "purescript-effect/3.0.0/docs/Effect.Class"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "monadeffect")
             "MonadEffect"
             [ d.v "m" ]
             [ d.p (d.id "monad") "Monad" [ d.v "m" ] ]
             d.t2c
+    , info = "Captures those monads which support native effects"
+    , module = [ "Data" ] -- FIXME: wrong module?
+    , package = tc.pkmj "purescript-effect" +3
     , members =
         [
             { name = "liftEffect"

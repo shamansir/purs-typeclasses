@@ -13,15 +13,10 @@ let cexpr =
                 -- Optic (Shop a b) s t a b
 
 let alens : tc.TClass =
-    { id = "alens"
-    , name = "ALens"
-    , what = tc.What.Type_
-    , vars = [ "i", "s", "t", "a", "b" ]
+    { spec = d.t (d.id "alens") "ALens" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "A lens defined in terms of Shop."
     , module = [ "Data", "Lens", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Lens"
-    , spec = d.t (d.id "alens") "ALens" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "ALens"
@@ -40,6 +35,6 @@ let alens : tc.TClass =
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
 
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in alens

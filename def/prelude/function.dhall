@@ -4,14 +4,10 @@ let d = ./../../spec.dhall
 let e = ./../../build_expr.dhall
 
 let function : tc.TClass =
-    { id = "function"
-    , name = "Function"
-    , what = tc.What.Internal_
+    { spec = d.int (d.id "function") "Function"
     , info = "Helpers for the core functions"
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Function"
-    , spec = d.int (d.id "function") "Function"
     , members =
         [
             { name = "flip"
@@ -65,6 +61,6 @@ let function : tc.TClass =
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noInstances /\ tc.noValues /\ tc.noStatements /\ tc.noVars
+    } /\ tc.aw /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
 
 in function

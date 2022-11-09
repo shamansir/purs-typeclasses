@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Flip p a b
 
 let flip : tc.TClass =
-    { id = "flip"
-    , name = "Flip"
-    , what = tc.What.Newtype_
-    , vars = [ "p", "a", "b" ]
+    { spec = d.nt_c (d.id "flip") "Flip" [ d.v "p", d.v "a", d.v "b" ] d.kkt_kkt
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Flip"
-    , spec = d.nt_c (d.id "flip") "Flip" [ d.v "p", d.v "a", d.v "b" ] d.kkt_kkt
     , members =
         [
             { name = "Flip"
@@ -38,6 +33,6 @@ let flip : tc.TClass =
         -- (Category p) => Category (Flip p)
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in flip

@@ -7,15 +7,10 @@ let e = ./../../build_expr.dhall
 -- newtype Indexed p i s t
 
 let indexed : tc.TClass =
-    { id = "indexed"
-    , name = "Indexed"
-    , what = tc.What.Type_
-    , vars = [ "p", "i", "s", "t" ]
+    { spec = d.nt_c (d.id "indexed") "Indexed" [ d.v "p", d.v "i", d.v "s", d.v "t" ] d.t3t4
     , info = "An indexed getter."
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
-    , spec = d.nt_c (d.id "indexed") "Indexed" [ d.v "p", d.v "i", d.v "s", d.v "t" ] d.t3t4
     , members =
         [
             { name = "Indexed"
@@ -27,7 +22,7 @@ let indexed : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in indexed
 

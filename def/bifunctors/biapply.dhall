@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Bifunctor w) <= Biapply w where
 
 let biapply : tc.TClass =
-    { id = "biapply"
-    , name = "Biapply"
-    , what = tc.What.Class_
-    , vars = [ "w" ]
-    , parents = [ "bifunctor" ]
-    , info = "Captures type constructors of two arguments in Apply"
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-bifunctors" +5
-    , link = "purescript-bifunctors/5.0.0/docs/Control.Biapply"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "biapply")
             "Biapply"
             [ d.v "w" ]
             [ d.p (d.id "bifunctor") "Bifunctor" [ d.v "w" ] ]
             d.t3c
+    , info = "Captures type constructors of two arguments in Apply"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-bifunctors" +5
     , members =
         [
             { name = "biapply"

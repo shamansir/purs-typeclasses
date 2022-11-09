@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- data Product2 f g a b
 
 let product2 : tc.TClass =
-    { id = "product2"
-    , name = "Product2"
-    , what = tc.What.Data_
-    , vars = [ "f", "g", "a", "b" ]
+    { spec = d.nt_c (d.id "product2") "Product2" [ d.v "f", d.v "g", d.v "a", d.v "b" ] d.t3t3t3
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Product2"
-    , spec = d.nt_c (d.id "product2") "Product2" [ d.v "f", d.v "g", d.v "a", d.v "b" ] d.t3t3t3
     , members =
         [
             { name = "Product2"
@@ -45,6 +40,6 @@ let product2 : tc.TClass =
         -- (Profunctor f, Profunctor g) => Profunctor (Product2 f g)
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in product2

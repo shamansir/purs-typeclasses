@@ -9,15 +9,10 @@ let cexpr = e.class "Optic" [ e.br (e.class "Stall" [ e.n "a", e.n "b" ]), e.n "
 -- Optic (Stall a b) s t a b
 
 let anaffinetraversal : tc.TClass =
-    { id = "anaffinetraversal"
-    , name = "AnAffineTraversal"
-    , what = tc.What.Type_
-    , vars = [ "s", "t", "a", "b" ]
+    { spec = d.t (d.id "anaffinetraversal") "AnAffineTraversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "An affine traversal defined in terms of Stall, which can be used to avoid issues with impredicativity."
     , module = [ "Data", "Lens", "AffineTraversal" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.AffineTraversal"
-    , spec = d.t (d.id "anaffinetraversal") "AnAffineTraversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "AnAffineTraversal"
@@ -35,6 +30,6 @@ let anaffinetraversal : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in anaffinetraversal

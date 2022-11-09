@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Invariant f where
 
 let invariant : tc.TClass =
-    { id = "invariant"
-    , name = "Invariant"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , info = ""
-    , module = [ "Data", "Functor" ]
-    , package = tc.pkmj "purescript-invariant" +5
-    , link = "purescript-invariant/5.0.0/docs/Data.Functor.Invariant#t:Invariant"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "invariant")
             "Invariant"
             [ d.v "f" ]
             d.t2c
+    , info = ""
+    , module = [ "Data", "Functor" ]
+    , package = tc.pkmj "purescript-invariant" +5
     , members =
         [
             { name = "imap"
@@ -62,6 +57,6 @@ let invariant : tc.TClass =
         , i.instanceReqASubj "Alternate" "Invariant"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in invariant

@@ -9,15 +9,10 @@ let cexpr = e.class "IndexedOptic" [ e.classE "Function", e.n "i", e.n "s", e.n 
                 -- IndexedOptic Function i s t a b
 
 let indexedsetter : tc.TClass =
-    { id = "indexedsetter"
-    , name = "IndexedSetter"
-    , what = tc.What.Type_
-    , vars = [ "i", "s", "t", "a", "b" ]
+    { spec = d.t (d.id "indexedsetter") "IndexedSetter" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "An indexed setter."
     , module = [ "Data", "Lens", "Setter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Setter"
-    , spec = d.t (d.id "indexedsetter") "IndexedSetter" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "IndexedSetter"
@@ -25,6 +20,6 @@ let indexedsetter : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in indexedsetter

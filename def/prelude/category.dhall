@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Semigroupoid a) <= Category a where
 
 let category : tc.TClass =
-    { id = "category"
-    , name = "Category"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , parents = [ "semigroupoid" ]
-    , info = "Objects and composable morphisms with their identity"
-    , module = [ "Control" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Control.Category#t:Category"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "category")
             "Category"
             [ d.v "a" ]
             [ d.p (d.id "semigroupoid") "Semigroupoid" [ d.v "a" ] ]
             d.kktc
+    , info = "Objects and composable morphisms with their identity"
+    , module = [ "Control" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "identity"

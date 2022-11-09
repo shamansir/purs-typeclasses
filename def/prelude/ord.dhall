@@ -7,21 +7,15 @@ let e = ./../../build_expr.dhall
 -- class (Eq a) <= Ord a where
 
 let ord : tc.TClass =
-    { id = "ord"
-    , name = "Ord"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , parents = [ "eq" ]
-    , info = "Ordering"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Ord"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "ord")
             "Ord"
             [ d.v "a" ]
             [ d.p (d.id "eq") "Eq" [ d.v "a" ] ]
+    , info = "Ordering"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         let ordA2B
             = e.req1

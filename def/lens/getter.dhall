@@ -9,15 +9,10 @@ let cexpr = e.fall1 (e.av "r") (e.class "Fold" [ e.n "r", e.n "s", e.n "t", e.n 
 -- forall r. Fold r s t a b
 
 let getter : tc.TClass =
-    { id = "getter"
-    , name = "Getter"
-    , what = tc.What.Type_
-    , vars = [ "s", "t", "a", "b" ]
+    { spec = d.t (d.id "getter") "Getter" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "A getter."
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
-    , spec = d.t (d.id "getter") "Getter" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Getter"
@@ -26,6 +21,6 @@ let getter : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in getter

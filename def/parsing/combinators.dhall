@@ -19,14 +19,10 @@ let br_tuple = \(a : e_.Expr) -> \(b : e_.Expr) -> e.br (e.class "Tuple" [ a, b 
 
 
 let combinators : tc.TClass =
-    { id = "combinators"
-    , name = "Combinators"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "combinators") "combinators"
     , info = "A “parser combinator” is a function which takes some parsers as arguments and returns a new parser"
     , module = [ "Parsing", "Combinators" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.pkg (d.id "combinators") "combinators"
     , members =
         [
             { name = "try"
@@ -365,6 +361,6 @@ let combinators : tc.TClass =
             , belongs = tc.Belongs.Export [ "Parsing", "Combinators", "Array" ]
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in combinators

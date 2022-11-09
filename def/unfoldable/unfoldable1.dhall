@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Unfoldable1 t where
 
 let unfoldable1 : tc.TClass =
-    { id = "unfoldable1"
-    , name = "Unfoldable1"
-    , what = tc.What.Class_
-    , vars = [ "t" ]
-    , info = "This class identifies data structures which can be unfolded with guarantee not to be empty."
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-unfoldable" +6
-    , link = "purescript-unfoldable/6.0.0/docs/Data.Unfoldable1"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "unfoldable1")
             "Unfoldable1"
             [ d.v "t" ]
             d.t2c
+    , info = "This class identifies data structures which can be unfolded with guarantee not to be empty."
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-unfoldable" +6
     , members =
         [
             { name = "unfoldr1"
@@ -128,6 +123,6 @@ let unfoldable1 : tc.TClass =
         , i.instanceSubj "Maybe" "Unfoldable"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noStatements /\ tc.noValues /\ tc.noLaws
+    } /\ tc.aw /\ tc.noStatements /\ tc.noValues /\ tc.noLaws
 
 in unfoldable1

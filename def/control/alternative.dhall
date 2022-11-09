@@ -6,16 +6,7 @@ let e = ./../../build_expr.dhall
 -- class (Applicative f, Plus f) <= Alternative f
 
 let alternative : tc.TClass =
-    { id = "alternative"
-    , name = "Alternative"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "plus", "applicative" ]
-    , info = "To have both Plus and Applicative"
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Control.Alternative#t:Alternative"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "alternative")
             "Alternative"
@@ -24,6 +15,9 @@ let alternative : tc.TClass =
             , d.p (d.id "plus") "Plus" [ d.v "f" ]
             ]
             d.t2c
+    , info = "To have both Plus and Applicative"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-control" +5
     , members =
         [
             { name = "guard"

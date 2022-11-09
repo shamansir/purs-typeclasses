@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- data ParseState s
 
 let parsestate : tc.TClass =
-    { id = "parsestate"
-    , name = "ParseState"
-    , vars = [ "s" ]
-    , what = tc.What.Data_
+    { spec = d.data (d.id "parsestate") "ParseState" [ d.v "s" ]
     , info = "The internal state of the `ParserT s m` monad."
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.data (d.id "parsestate") "ParseState" [ d.v "s" ]
     , members =
         [
             { name = "ParseState"
@@ -24,6 +19,6 @@ let parsestate : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in parsestate

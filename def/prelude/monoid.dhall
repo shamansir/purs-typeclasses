@@ -6,22 +6,16 @@ let e = ./../../build_expr.dhall
 -- class (Semigroup m) <= Monoid m where
 
 let monoid : tc.TClass =
-    { id = "monoid"
-    , name = "Monoid"
-    , what = tc.What.Class_
-    , vars = [ "m" ]
-    , parents = [ "semigroup" ]
-    , info = "Folding empty collection"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Monoid"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "monoid")
             "Monoid"
             [ d.v "m" ]
             [ d.p (d.id "semigroup") "Semigroup" [ d.v "m" ]
             ]
+    , info = "Folding empty collection"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "mempty"

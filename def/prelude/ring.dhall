@@ -6,21 +6,15 @@ let e = ./../../build_expr.dhall
 -- class (Semiring a) <= Ring a where
 
 let ring : tc.TClass =
-    { id = "ring"
-    , name = "Ring"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , parents = [ "semiring" ]
-    , info = "Subtraction"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Ring"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "ring")
             "Ring"
             [ d.v "a" ]
             [ d.p (d.id "semiring") "Semiring" [ d.v "a" ] ]
+    , info = "Subtraction"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "sub"

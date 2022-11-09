@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Divide f) <= Divisible f where
 
 let divisible : tc.TClass =
-    { id = "divisible"
-    , name = "Divisible"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "divide" ]
-    , info = "Contravariant analogue of Applicative"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Divisible"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "divisible")
             "Divisible"
             [ d.v "f" ]
             [ d.p (d.id "divide") "Divide" [ d.v "f" ] ]
             d.t2c
+    , info = "Contravariant analogue of Applicative"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-contravariant" +3
     , members =
         [
             { name = "conquer"

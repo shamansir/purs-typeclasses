@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 -- data ParseError
 
 let parseerror : tc.TClass =
-    { id = "parseerror"
-    , name = "ParseError"
-    , what = tc.What.Data_
+    { spec = d.data_e (d.id "parseerror") "ParseError"
     , info = "The `Parser s` monad, where `s` is the type of the input stream"
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.data_e (d.id "parseerror") "ParseError"
     , members =
         [
             { name = "ParseError"
@@ -37,6 +33,6 @@ let parseerror : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in parseerror

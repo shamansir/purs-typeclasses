@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Unfoldable1 t) <= Unfoldable t where
 
 let unfoldable : tc.TClass =
-    { id = "unfoldable"
-    , name = "Unfoldable"
-    , what = tc.What.Class_
-    , vars = [ "t" ]
-    , parents = [ "unfoldable1" ]
-    , info = "This class identifies (possibly empty) data structures which can be unfolded"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-unfoldable" +6
-    , link = "purescript-unfoldable/6.0.0/docs/Data.Unfoldable"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "unfoldable")
             "Unfoldable"
             [ d.v "t" ]
             [ d.p (d.id "unfoldable1") "Unfoldable1" [ d.v "t" ] ]
             d.t2c
+    , info = "This class identifies (possibly empty) data structures which can be unfolded"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-unfoldable" +6
     , members =
         [
             { name = "unfoldr"

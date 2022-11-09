@@ -5,14 +5,10 @@ let e = ./../../build_expr.dhall
 
 
 let affinetraversalpkg : tc.TClass =
-    { id = "affinetraversalpkg"
-    , name = "Lens.AffineTraversal"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "affinetraversalpkg") "Lens.AffineTraversal"
     , info = "Lenses for Affine Traversals"
     , module = [ "Data", "Lens", "AffineTraversal" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.AffineTraversal"
-    , spec = d.pkg (d.id "affinetraversalpkg") "Lens.AffineTraversal"
     , members =
         [
             { name = "affineTraversal"
@@ -70,6 +66,6 @@ let affinetraversalpkg : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in affinetraversalpkg

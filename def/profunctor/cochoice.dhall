@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Profunctor p) <= Cochoice p where
 
 let cochoice : tc.TClass =
-    { id = "cochoice"
-    , name = "Cochoice"
-    , what = tc.What.Class_
-    , vars = [ "p" ]
-    , parents = [ "profunctor" ]
-    , info = "Provides the dual operations of the Choice class"
-    , module = [ "Data", "Profunctor" ]
-    , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor.Cochoice"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "cochoice")
             "Cochoice"
             [ d.v "p" ]
             [ d.p (d.id "profunctor") "Profunctor" [ d.v "p" ] ]
             d.t3c
+    , info = "Provides the dual operations of the Choice class"
+    , module = [ "Data", "Profunctor" ]
+    , package = tc.pkmj "purescript-profunctor" +5
     , members =
         [
             { name = "unleft"

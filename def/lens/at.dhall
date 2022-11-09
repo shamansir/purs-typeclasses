@@ -7,16 +7,7 @@ let e = ./../../build_expr.dhall
 
 
 let at : tc.TClass =
-    { id = "at"
-    , name = "At"
-    , what = tc.What.Class_
-    , vars = [ "m", "a", "b" ]
-    , parents = [ "index" ]
-    , info = "Type class whose instances let you add new elements or delete old ones from \"container-like\" types"
-    , module = [ "Data", "Lens", "At" ]
-    , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.At"
-    , spec =
+    { spec =
         d.class_vpd
             (d.id "at")
             "At"
@@ -25,6 +16,9 @@ let at : tc.TClass =
             [ d.dep1 (d.v "m") (d.v "a")
             , d.dep1 (d.v "m") (d.v "b")
             ]
+    , info = "Type class whose instances let you add new elements or delete old ones from \"container-like\" types"
+    , module = [ "Data", "Lens", "At" ]
+    , package = tc.pkmj "purescript-profunctor-lenses" +8
     , members =
         [
             { name = "at"

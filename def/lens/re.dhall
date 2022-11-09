@@ -8,15 +8,10 @@ let e = ./../../build_expr.dhall
 
 
 let re : tc.TClass =
-    { id = "re"
-    , name = "Re"
-    , what = tc.What.Newtype_
-    , vars = [ "p", "s", "t", "a", "b" ]
+    { spec = d.nt_c (d.id "re") "Re" [ d.v "p", d.v "s", d.v "t", d.v "a", d.v "b" ] d.t3t5
     , info = ""
     , module = [ "Data", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens"
-    , spec = d.nt_c (d.id "re") "Re" [ d.v "p", d.v "s", d.v "t", d.v "a", d.v "b" ] d.t3t5
     , members =
         [
             { name = "Re"
@@ -26,7 +21,7 @@ let re : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in re
 

@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Joker g a b
 
 let joker : tc.TClass =
-    { id = "joker"
-    , name = "Joker"
-    , what = tc.What.Newtype_
-    , vars = [ "g", "a", "b" ]
+    { spec = d.nt_c (d.id "joker") "Joker" [ d.v "g", d.v "a", d.v "b" ] d.t2t3
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Joker"
-    , spec = d.nt_c (d.id "joker") "Joker" [ d.v "g", d.v "a", d.v "b" ] d.t2t3
     , members =
         [
             { name = "Joker"
@@ -49,6 +44,6 @@ let joker : tc.TClass =
         -- (Functor f) => Choice (Joker f)
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in joker

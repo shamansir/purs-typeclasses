@@ -143,6 +143,12 @@ let data_e
     data id name ([] : List e.Arg)
 
 
+let data_ce
+    : Id -> Text -> e.KindSeq ->Spec
+    = \(id : Id) -> \(name : Text) -> \(kindSeq : e.KindSeq) ->
+    data_c id name ([] : List e.Arg) kindSeq
+
+
 let nt
     : Id -> Text -> List e.Arg -> Spec
     = \(id : Id) -> \(name : Text) -> \(vars : List e.Arg) ->
@@ -568,6 +574,9 @@ let Spec/renderRaw
     }
 
 
+-- Type
+let t1 : e.KindSeq = [ ctype ]
+
 -- (Type -> Type) -> Type -> Type -> Type
 let t2t3 : e.KindSeq = [ cfn_br cctype2, ctype, ctype, ctype ]
 
@@ -638,6 +647,6 @@ in
     , cctype, cctype2, cctype3, ccon, ccforall
     , p, pe, v, vn, vp, cv
     , dep, dep1, deps1
-    , data, data_c, data_e, t, t_c, nt, nt_c, nt_e, pkg, int, class, class_v, class_c, class_vp, class_vc, class_vd, class_vpd, class_vpc, class_vpdc
-    , t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, kt, tkt, t_t2_t2, kt_kt, kt_tkt, kt_kt_t, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c, kktc, kkt_kt
+    , data, data_c, data_e, data_ce, t, t_c, nt, nt_c, nt_e, pkg, int, class, class_v, class_c, class_vp, class_vc, class_vd, class_vpd, class_vpc, class_vpdc
+    , t1, t2c, t3c, t3t3t3, t3t4, t3t5, t3t6, kt, tkt, t_t2_t2, kt_kt, kt_tkt, kt_kt_t, kt_kt_kt, tt2c, t2t3, k12kt, kkt_kkt, kt_kt_c, kktc, kkt_kt
     }

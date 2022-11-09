@@ -7,15 +7,10 @@ let i = ./../../instances.dhall
 -- newtype App f a
 
 let app : tc.TClass =
-    { id = "app"
-    , name = "App"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "a" ]
+    { spec = d.nt_c (d.id "app") "App" [ d.v "f", d.v "a" ] d.kt_kt
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.App"
-    , spec = d.nt_c (d.id "app") "App" [ d.v "f", d.v "a" ] d.kt_kt
     , members =
         [
             { name = "App"
@@ -78,6 +73,6 @@ let app : tc.TClass =
         , i.instanceReqF "Comonad" "App"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in app

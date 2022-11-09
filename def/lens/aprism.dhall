@@ -10,15 +10,10 @@ let cexpr =
     -- Optic (Market a b) s t a b
 
 let aprism : tc.TClass =
-    { id = "aprism"
-    , name = "APrism"
-    , what = tc.What.Type_
-    , vars = [ "s", "t", "a", "b" ]
+    { spec = d.t (d.id "aprism") "APrism" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "A prism defined in terms of Market"
     , module = [ "Data", "Lens", "Prism" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Prism"
-    , spec = d.t (d.id "aprism") "APrism" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "APrism"
@@ -36,6 +31,6 @@ let aprism : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in aprism

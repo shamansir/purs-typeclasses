@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Predicate a
 
 let predicate : tc.TClass =
-    { id = "predicate"
-    , name = "Predicate"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "predicate") "Predicate" [ d.v "a" ]
     , info = "An adaptor allowing >$< to map over the inputs of predicate"
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Predicate"
-    , spec = d.nt (d.id "predicate") "Predicate" [ d.v "a" ]
     , members =
         [
             { name = "Predicate"
@@ -30,6 +25,6 @@ let predicate : tc.TClass =
         [ i.instanceA_ "Newtype" "Predicate"
         , i.instance "Contravariant" "predicate"
         ]
-    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in predicate

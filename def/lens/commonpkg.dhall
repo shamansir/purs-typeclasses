@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 -- type Lens s t a b = forall p. Strong p => Optic p s t a b
 
 let commonpkg : tc.TClass =
-    { id = "lenscommonpkg"
-    , name = "Lens.Common"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "lenscommonpkg") "Lens.Common"
     , info = "Common set of lenses"
     , module = [ "Data", "Lens", "Common" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Common"
-    , spec = d.pkg (d.id "lenscommonpkg") "Lens.Common"
     , members =
         [
             { name = "simple"
@@ -216,6 +212,6 @@ let commonpkg : tc.TClass =
             , belongs = tc.Belongs.Export [ "Data", "Lens", "Prism", "Coproduct" ]
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in commonpkg

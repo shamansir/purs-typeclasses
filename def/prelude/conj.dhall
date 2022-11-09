@@ -7,15 +7,10 @@ let e = ./../../build_expr.dhall
 -- newtype Conj a
 
 let conj : tc.TClass =
-    { id = "conj"
-    , name = "Conj"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "conj") "Conj" [ d.v "a" ]
     , info = "Monoid under conjunction"
     , module = [ "Data", "Monoid" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Conj"
-    , spec = d.nt (d.id "conj") "Conj" [ d.v "a" ]
     , members =
         [
             { name = "Conj a"
@@ -65,6 +60,6 @@ let conj : tc.TClass =
         , i.instanceReqA2 "HeytingAlgebra" "Semiring" "Conj"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in conj

@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Functor f) <= Apply f where
 
 let apply : tc.TClass =
-    { id = "apply"
-    , name = "Apply"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "functor" ]
-    , info = "Unwrap, convert, and wrap again"
-    , module = [ "Control" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Control.Apply#t:Apply"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "apply")
             "Apply"
             [ d.v "f" ]
             [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
             d.t2c
+    , info = "Unwrap, convert, and wrap again"
+    , module = [ "Control" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "apply"

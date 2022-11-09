@@ -7,15 +7,10 @@ let i = ./../../instances.dhall
 -- class Inject f g where
 
 let inject : tc.TClass =
-    { id = "inject"
-    , name = "Inject"
-    , what = tc.What.Class_
-    , vars = [ "f", "g" ]
+    { spec = d.nt_c (d.id "inject") "Inject" [ d.v "f", d.v "g" ] d.kt_kt_c
     , info = ""
     , module = [ "Data", "Functor", "Coproduct" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Coproduct.Inject"
-    , spec = d.nt_c (d.id "inject") "Inject" [ d.v "f", d.v "g" ] d.kt_kt_c
     , members =
         [
             { name = "inj"
@@ -41,6 +36,6 @@ let inject : tc.TClass =
             -- (Inject f g) => Inject f (Coproduct h g)
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in inject

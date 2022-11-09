@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Profunctor p where
 
 let profunctor : tc.TClass =
-    { id = "profunctor"
-    , name = "Profunctor"
-    , what = tc.What.Class_
-    , vars = [ "p" ]
-    , info = "Functor from the pair category"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-profunctor" +5
-    , link = "purescript-profunctor/5.0.0/docs/Data.Profunctor"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "profunctor")
             "Profunctor"
             [ d.v "p" ]
             d.t3c
+    , info = "Functor from the pair category"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-profunctor" +5
     , laws =
         [
             { law = "identity"
@@ -139,6 +134,6 @@ let profunctor : tc.TClass =
         [ i.instance "Function" "Profunctor"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
 
 in profunctor

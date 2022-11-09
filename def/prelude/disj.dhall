@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Disj a
 
 let disj : tc.TClass =
-    { id = "disj"
-    , name = "Disj"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "disj") "Disj" [ d.v "a" ]
     , info = "Monoid under disjunction"
     , module = [ "Data", "Monoid" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Disj"
-    , spec = d.nt (d.id "disj") "Disj" [ d.v "a" ]
     , members =
         [
             { name = "Disj a"
@@ -63,6 +58,6 @@ let disj : tc.TClass =
         , i.instanceReqA2 "HeytingAlgebra" "Semiring" "Disj"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in disj

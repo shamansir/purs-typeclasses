@@ -12,15 +12,10 @@ let cexpr =
     -- Strong p => IndexedOptic p i s t a b
 
 let indexedlens : tc.TClass =
-    { id = "indexedlens"
-    , name = "IndexedLens"
-    , what = tc.What.Type_
-    , vars = [ "i", "s", "t", "a", "b" ]
+    { spec = d.t (d.id "indexedlens") "IndexedLens" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "An indexed lens."
     , module = [ "Data", "Lens", "Lens" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Lens"
-    , spec = d.t (d.id "indexedlens") "IndexedLens" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "IndexedLens"
@@ -38,6 +33,6 @@ let indexedlens : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in indexedlens

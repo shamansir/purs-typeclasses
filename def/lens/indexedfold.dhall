@@ -10,15 +10,10 @@ let cexpr =
     -- IndexedOptic (Forget r) i s t a b
 
 let indexedfold : tc.TClass =
-    { id = "indexedfold"
-    , name = "IndexedFold"
-    , what = tc.What.Type_
-    , vars = [ "r", "i", "s", "t", "a", "b" ]
+    { spec = d.t (d.id "indexedfold") "IndexedFold" [ d.v "r", d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "An indexed fold."
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
-    , spec = d.t (d.id "indexedfold") "IndexedFold" [ d.v "r", d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "IndexedFold"
@@ -26,6 +21,6 @@ let indexedfold : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in indexedfold

@@ -207,13 +207,7 @@ let Weight/toValue
 
 
 let TClass =
-    { id : Id -- TODO: remove in favor of Spec
-    , what : What -- TODO: remove in favor of Spec
-    , vars : List Var -- TODO: remove in favor of Spec
-    , link : Text -- TODO: version -- TODO: remove, contained in Package + Version
-    , name : Text -- TODO: remove in favor of Spec
-    , info  : Text -- TODO: support multiline
-    , parents : List Id -- TODO: remove in favor of Spec
+    { info  : Text -- TODO: support multiline
     , weight : Weight
     , spec : d.Spec
     , package : Package
@@ -381,11 +375,11 @@ let TClassText =
 let TClass/toText
     : TClass -> TClassText
     = \(t : TClass) ->
-    { id = {- t.id -} Spec/getId t.spec
-    , what = {- t.what -} Spec/extractWhat t.spec
-    , vars = {- t.vars -}  Spec/extractVars t.spec
-    , link = {- t.link -} Package/makeLink t.package t.module t.name
-    , name = {- t.name -} Spec/getName t.spec
+    { id = Spec/getId t.spec
+    , what = Spec/extractWhat t.spec
+    , vars = Spec/extractVars t.spec
+    , link = Package/makeLink t.package t.module (Spec/getName t.spec)
+    , name = Spec/getName t.spec
     , weight = Weight/toValue t.weight
     , info = t.info
     , parents = Spec/extractParents t.spec
@@ -422,8 +416,6 @@ let TClass/toText
 
 let noOp : Optional Text = None Text
 
-let noParents = { parents = [] : List Id }
-
 let noInstances = { instances = [] : List Instance }
 
 let noOps = { op = noOp, opEmoji = noOp }
@@ -433,8 +425,6 @@ let noLaws = { laws = [] : List Law }
 let noMembers = { members = [] : List Member }
 
 let noValues = { values = [] : List Value }
-
-let noVars = { vars = [] : List Var }
 
 let noStatements = { statements = [] : List Statement }
 
@@ -496,7 +486,7 @@ in
     , Id, Value
     , Law, LawExample, Member, What, Belongs
     , one, oneEx
-    , noOp, noOps, noLaws, noParents, noMembers, noInstances, noValues, noStatements, noVars, noExamples
+    , noOp, noOps, noLaws, noMembers, noInstances, noValues, noStatements, noExamples
     , autoWeight, aw, weight, w
     , lr, lmr, lrc, fc, of
     , pk, pkmn, pkmj

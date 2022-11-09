@@ -8,15 +8,10 @@ let e = ./../../build_expr.dhall
 -- newtype Endo c a // a is nominal
 
 let endo : tc.TClass =
-    { id = "endo"
-    , name = "Endo"
-    , what = tc.What.Newtype_
-    , vars = [ "c", "a" ]
+    { spec = d.nt_c (d.id "endo") "Endo" [ d.v "c", d.vn "a" ] d.kkt_kt
     , info = "By itself"
     , module = [ "Data", "Monoid" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Endo"
-    , spec = d.nt_c (d.id "endo") "Endo" [ d.v "c", d.vn "a" ] d.kkt_kt
     , statements =
         [
             { left =
@@ -81,6 +76,6 @@ let endo : tc.TClass =
             -- (Category c) => Monoid (Endo c a)
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in endo

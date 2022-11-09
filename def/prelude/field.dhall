@@ -6,16 +6,7 @@ let e = ./../../build_expr.dhall
 -- class (EuclideanRing a, DivisionRing a) <= Field a
 
 let field : tc.TClass =
-    { id = "field"
-    , info = "Commutative fields"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , parents = [ "euclideanring", "divisionring" ]
-    , name = "Field"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Field"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "field")
             "Field"
@@ -23,6 +14,9 @@ let field : tc.TClass =
             [ d.p (d.id "euclideanring") "EuclideanRing" [ d.v "a" ]
             , d.p (d.id "divisionring") "DivisionRing" [ d.v "a" ]
             ]
+    , info = "Commutative fields"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , laws =
         [
             { law = "non-zero multiplicative inverse"

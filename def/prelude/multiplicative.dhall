@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Multiplicative a
 
 let multiplicative : tc.TClass =
-    { id = "multiplicative"
-    , name = "Multiplicative"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "multiplicative") "Multiplicative" [ d.v "a" ]
     , info = "May be multiplied on something"
     , module = [ "Data", "Monoid"]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Multiplicative"
-    , spec = d.nt (d.id "multiplicative") "Multiplicative" [ d.v "a" ]
     , members =
         [
             { name = "Multiplicative"
@@ -50,6 +45,6 @@ let multiplicative : tc.TClass =
         , i.instanceReqA2 "Semiring" "Monoid" "Multiplicative"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in multiplicative

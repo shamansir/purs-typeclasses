@@ -8,15 +8,10 @@ let e = ./../../build_expr.dhall
 -- newtype Costar f b a
 
 let costar : tc.TClass =
-    { id = "costar"
-    , name = "Costar"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "b", "a" ]
+    { spec = d.nt_c (d.id "costar") "Costar" [ d.v "f", d.v "b", d.v "a" ] d.t2t3
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Costar"
-    , spec = d.nt_c (d.id "costar") "Costar" [ d.v "f", d.v "b", d.v "a" ] d.t2t3
     , members =
         [
             { name = "Costar"
@@ -53,6 +48,6 @@ let costar : tc.TClass =
         , i.instanceReqF2 "Functor" "Closed" "Costar"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in costar

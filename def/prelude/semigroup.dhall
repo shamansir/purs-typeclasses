@@ -6,19 +6,14 @@ let e = ./../../build_expr.dhall
 -- class Semigroup a where
 
 let semigroup : tc.TClass =
-    { id = "semigroup"
-    , name = "Semigroup"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , info = "Associativity"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Semigroup"
-    , spec =
+    { spec =
         d.class_v
             (d.id "semigroup")
             "Semigroup"
             [ d.v "a" ]
+    , info = "Associativity"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "append"
@@ -52,6 +47,6 @@ let semigroup : tc.TClass =
             -- Semigroup s' => Semigroup (s -> s')"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in semigroup

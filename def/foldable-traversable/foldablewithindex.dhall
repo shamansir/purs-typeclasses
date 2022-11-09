@@ -7,16 +7,7 @@ let i = ./../../instances.dhall
 -- class (Foldable f) <= FoldableWithIndex i f | f -> i where
 
 let foldableWithIndex : tc.TClass =
-    { id = "foldablewithindex"
-    , name = "FoldableWithIndex"
-    , what = tc.What.Class_
-    , vars = [ "i", "f" ]
-    , info = "A Foldable with an additional index."
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
-    , parents = [ "foldable" ]
-    , link = "purescript-foldable-traversable/5.0.1/docs/Data.FoldableWithIndex"
-    , spec =
+    { spec =
         d.class_vpdc
             (d.id "foldablewithindex")
             "FoldableWithIndex"
@@ -24,6 +15,9 @@ let foldableWithIndex : tc.TClass =
             [ d.p (d.id "foldable") "Foldable" [ d.v "f" ] ]
             (d.deps1 (d.v "f") (d.v "i"))
             d.tt2c
+    , info = "A Foldable with an additional index."
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , statements =
         [
             { left = e.call1 "foldr" (e.f "f") -- foldr f

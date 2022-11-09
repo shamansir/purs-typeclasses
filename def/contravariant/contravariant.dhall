@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Contravariant f where
 
 let contravariant : tc.TClass =
-    { id = "contravariant"
-    , name = "Contravariant"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , info = "A way of changing the input type of a consumer of input"
-    , module = [ "Data", "Functor" ]
-    , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Functor.Contravariant"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "contravariant")
             "Contravariant"
             [ d.v "f" ]
             d.t2c
+    , info = "A way of changing the input type of a consumer of input"
+    , module = [ "Data", "Functor" ]
+    , package = tc.pkmj "purescript-contravariant" +3
     , laws =
         [
             { law = "identity"
@@ -96,6 +91,6 @@ let contravariant : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements /\ tc.noInstances
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements /\ tc.noInstances
 
 in contravariant

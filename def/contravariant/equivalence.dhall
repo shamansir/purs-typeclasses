@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Equivalence a
 
 let equivalence : tc.TClass =
-    { id = "equivalence"
-    , name = "Equivalence"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "equivalence") "Equivalence" [ d.v "a" ]
     , info = "An adaptor allowing >$< to map over the inputs of an equivalence function"
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Equivalence"
-    , spec = d.nt (d.id "equivalence") "Equivalence" [ d.v "a" ]
     , members =
         [
             { name = "Equivalence"
@@ -55,6 +50,6 @@ let equivalence : tc.TClass =
         , i.instanceA "Semigroup" "Equivalence"
         , i.instanceA "Monoid" "Equivalence"
         ]
-    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in equivalence

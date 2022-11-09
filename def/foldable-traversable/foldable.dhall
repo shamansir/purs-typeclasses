@@ -7,20 +7,15 @@ let i = ./../../instances.dhall
 -- class Foldable f where
 
 let foldable : tc.TClass =
-    { id = "foldable"
-    , name = "Foldable"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , info = "Represents data structures which can be folded."
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
-    , link = "purescript-foldable-traversable/5.0.1/docs/Data.Foldable"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "foldable")
             "Foldable"
             [ d.v "f" ]
             d.t2c
+    , info = "Represents data structures which can be folded."
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , members =
         [
             { name = "foldr"
@@ -509,6 +504,6 @@ let foldable : tc.TClass =
         , i.instanceReqASubj "App" "Foldable"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in foldable

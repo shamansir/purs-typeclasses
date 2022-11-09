@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Bifunctor f where
 
 let bifunctor : tc.TClass =
-    { id = "bifunctor"
-    , name = "Bifunctor"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , info = "Functor from the Pair category"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-bifunctors" +5
-    , link = "purescript-bifunctors/5.0.0/docs/Data.Bifunctor"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "bifunctor")
             "Bifunctor"
             [ d.v "f" ]
             d.t3c
+    , info = "Functor from the Pair category"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-bifunctors" +5
     , laws =
         [
             { law = "identity"
@@ -101,6 +96,6 @@ let bifunctor : tc.TClass =
         , i.instanceSubj "Const" "Bifunctor"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
 
 in bifunctor

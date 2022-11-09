@@ -7,15 +7,7 @@ let e = ./../../build_expr.dhall
 
 
 let index : tc.TClass =
-    { id = "index"
-    , name = "Index"
-    , what = tc.What.Class_
-    , vars = [ "m", "a", "b" ]
-    , info = "Index is a type class whose instances are optics used when there might be no focus or you cannot add/delete elements"
-    , module = [ "Data", "Lens", "Index" ]
-    , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Index"
-    , spec =
+    { spec =
         d.class_vd
             (d.id "index")
             "Index"
@@ -23,6 +15,9 @@ let index : tc.TClass =
             [ d.dep1 (d.v "m") (d.v "a")
             , d.dep1 (d.v "m") (d.v "b")
             ]
+    , info = "Index is a type class whose instances are optics used when there might be no focus or you cannot add/delete elements"
+    , module = [ "Data", "Lens", "Index" ]
+    , package = tc.pkmj "purescript-profunctor-lenses" +8
     , members =
         [
             { name = "ix"
@@ -38,7 +33,7 @@ let index : tc.TClass =
                     -- (set (ix "k") "new" $ Map.empty) == Map.empty
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 
 

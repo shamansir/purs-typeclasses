@@ -15,15 +15,10 @@ let cexpr =
         -- Strong p => Choice p => Optic p s t a b
 
 let affinetraversal : tc.TClass =
-    { id = "affinetraversal"
-    , name = "AffineTraversal"
-    , what = tc.What.Type_
-    , vars = [ "s", "t", "a", "b" ]
+    { spec = d.t (d.id "affinetraversal") "AffineTraversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "An affine traversal (has at most one focus, but is not a prism)."
     , module = [ "Data", "Lens", "AffineTraversal" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.AffineTraversal"
-    , spec = d.t (d.id "affinetraversal") "AffineTraversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "AffineTraversal"
@@ -41,6 +36,6 @@ let affinetraversal : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in affinetraversal

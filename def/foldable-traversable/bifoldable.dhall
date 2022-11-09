@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Bifoldable p where
 
 let bifoldable : tc.TClass =
-    { id = "bifoldable"
-    , name = "Bifoldable"
-    , what = tc.What.Class_
-    , vars = [ "p" ]
-    , info = "Represents data structures with two type arguments which can be folded."
-    , module = [ "Control" ]
-    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
-    , link = "purescript-foldable-traversable/5.0.1/docs/Data.Bifoldable"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "bifoldable")
             "Bifoldable"
             [ d.v "p" ]
             d.t3c
+    , info = "Represents data structures with two type arguments which can be folded."
+    , module = [ "Control" ]
+    , package = tc.pk "purescript-foldable-traversable" +5 +0 +1
     , members =
         [
             { name = "bifoldr"
@@ -205,6 +200,6 @@ let bifoldable : tc.TClass =
         , i.instanceSubj "Const" "Bifoldable"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in bifoldable

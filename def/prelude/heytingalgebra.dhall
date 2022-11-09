@@ -6,19 +6,14 @@ let e = ./../../build_expr.dhall
 -- class HeytingAlgebra a where
 
 let heytingAlgebra : tc.TClass =
-    { id = "heytingalgebra"
-    , name = "HeytingAlgebra"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , info = "Bounded lattices, boolean starters"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.HeytingAlgebra"
-    , spec =
+    { spec =
         d.class_v
             (d.id "heytingalgebra")
             "HeytingAlgebra"
             [ d.v "a" ]
+    , info = "Bounded lattices, boolean starters"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "ff"
@@ -186,6 +181,6 @@ let heytingAlgebra : tc.TClass =
         , i.instanceFn
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
 
 in heytingAlgebra

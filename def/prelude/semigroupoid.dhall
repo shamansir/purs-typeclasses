@@ -7,20 +7,15 @@ let e = ./../../build_expr.dhall
 -- class Semigroupoid a where
 
 let semigroupoid : tc.TClass =
-    { id = "semigroupoid"
-    , name = "Semigroupoid"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , info = "Category without identity"
-    , module = [ "Control" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Control.Semigroupoid"
-    , spec =
+    { spec =
         d.class_vc
             (d.id "semigroupoid")
             "Semigroupoid"
             [ d.v "a" ]
             d.kktc
+    , info = "Category without identity"
+    , module = [ "Control" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "compose"
@@ -72,6 +67,6 @@ let semigroupoid : tc.TClass =
             } /\ tc.noLaws /\ tc.noExamples
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
 
 in semigroupoid

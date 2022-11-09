@@ -6,21 +6,15 @@ let e = ./../../build_expr.dhall
 -- class (HeytingAlgebra a) <= BooleanAlgebra a
 
 let booleanAlgebra : tc.TClass =
-    { id = "booleanalgebra"
-    , name = "BooleanAlgebra"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , parents = [ "heytingalgebra" ]
-    , info = "Behave like boolean"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.BooleanAlgebra"
-    , spec =
+    { spec =
         d.class_vp
             (d.id "booleanalgebra")
             "BooleanAlgebra"
             [ d.v "a" ]
             [ d.p (d.id "heytingalgebra") "HeytingAlgebra" [ d.v "a" ] ]
+    , info = "Behave like boolean"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , laws =
         [
             { law = "excluded middle"

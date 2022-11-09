@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Product f g a
 
 let product : tc.TClass =
-    { id = "product"
-    , name = "Product"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "g", "a" ]
+    { spec = d.nt_c (d.id "product") "Product" [ d.v "f", d.v "g", d.v "a" ] d.kt_kt_kt
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Product"
-    , spec = d.nt_c (d.id "product") "Product" [ d.v "f", d.v "g", d.v "a" ] d.kt_kt_kt
     , members =
         [
             { name = "Product"
@@ -72,6 +67,6 @@ let product : tc.TClass =
         -- (Monad f, Monad g) => Monad (Product f g)
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in product

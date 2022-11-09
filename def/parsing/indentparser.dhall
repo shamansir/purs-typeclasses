@@ -20,15 +20,10 @@ let ipstra = e.subj "IndentParser" [ e.classE "String", e.n "a" ]       -- Inden
 let ipstra2ipstra = e.fn2 ipstra ipstra                                 -- IndentParser String a -> IndentParser String a
 
 let indentparser : tc.TClass =
-    { id = "indentparser"
-    , name = "IndentParser"
-    , vars = [ "s", "a" ]
-    , what = tc.What.Type_
+    { spec = d.t (d.id "indentparser") "IndentParser" [ d.v "s", d.v "a" ] cexpr
     , info = "The `Parser s` monad with a monad transformer parameter m."
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.t (d.id "indentparser") "IndentParser" [ d.v "s", d.v "a" ] cexpr
     , members =
         [
             { name = "IndentParser"
@@ -160,6 +155,6 @@ let indentparser : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in indentparser

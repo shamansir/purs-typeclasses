@@ -6,19 +6,14 @@ let e = ./../../build_expr.dhall
 -- class Show a where
 
 let show : tc.TClass =
-    { id = "show"
-    , name ="Show"
-    , what = tc.What.Class_
-    , vars = [ "a" ]
-    , info = "Displaying values"
-    , module = [ "Data" ]
-    , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Show"
-    , spec =
+    { spec =
         d.class_v
             (d.id "show")
             "Show"
             [ d.v "a" ]
+    , info = "Displaying values"
+    , module = [ "Data" ]
+    , package = tc.pk "purescript-prelude" +5 +0 +1
     , members =
         [
             { name = "show"
@@ -36,6 +31,6 @@ let show : tc.TClass =
         , i.instanceReqASubj "Array" "Show"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in show

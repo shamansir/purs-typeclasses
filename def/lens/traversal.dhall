@@ -17,15 +17,10 @@ let cexpr =
 
 
 let traversal : tc.TClass =
-    { id = "traversal"
-    , name = "Traversal"
-    , what = tc.What.Type_
-    , vars = [ "s", "t", "a", "b" ]
+    { spec = d.t (d.id "traversal") "Traversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "An indexed traversal."
     , module = [ "Data", "Lens", "Types" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Types"
-    , spec = d.t (d.id "traversal") "Traversal" [ d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "Traversal"
@@ -43,6 +38,6 @@ let traversal : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in traversal

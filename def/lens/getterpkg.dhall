@@ -11,14 +11,10 @@ let agstcd = e.class "AGetter" [ e.n "s", e.n "t", e.n "c", e.n "d" ] -- AGetter
 let ifistab_br = \(first : e_.Expr) -> e.class "IndexedFold" [ e.br first, e.n "i", e.n "s", e.n "t", e.n "a", e.n "b" ] -- IndexedFold (<first>) i s t a b
 
 let getterpkg : tc.TClass =
-    { id = "getterpkg"
-    , name = "Lens.Getter"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "getterpkg") "Lens.Getter"
     , info = "Getters"
     , module = [ "Data", "Lens", "Getter" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Getter"
-    , spec = d.pkg (d.id "getterpkg") "Lens.Getter"
     , members =
         [
             { name = "viewOn"
@@ -91,6 +87,6 @@ let getterpkg : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noVars /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in getterpkg

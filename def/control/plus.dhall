@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Alt f) <= Plus f where
 
 let plus : tc.TClass =
-    { id = "plus"
-    , name = "Plus"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "alt" ]
-    , info = "Left and Right identity for Alt"
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Control.Plus"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "plus")
             "Plus"
             [ d.v "f" ]
             [ d.p (d.id "alt") "Alt" [ d.v "f" ] ]
             d.t2c
+    , info = "Left and Right identity for Alt"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-control" +5
     , members =
         [
             { name = "empty"

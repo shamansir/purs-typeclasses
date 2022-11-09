@@ -16,15 +16,10 @@ let cexpr =
     -- forall p. Wander p => IndexedOptic p i s t a b
 
 let indexedtraversal : tc.TClass =
-    { id = "indexedtraversal"
-    , name = "IndexedTraversal"
-    , what = tc.What.Type_
-    , vars = [ "i", "s", "t", "a", "b" ]
+    { spec = d.t (d.id "indexedtraversal") "IndexedTraversal" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , info = "An indexed traversal."
     , module = [ "Data", "Lens", "Types" ]
     , package = tc.pkmj "purescript-profunctor-lenses" +8
-    , link = "purescript-profunctor-lenses/8.0.0/docs/Data.Lens.Types"
-    , spec = d.t (d.id "indexedtraversal") "IndexedTraversal" [ d.v "i", d.v "s", d.v "t", d.v "a", d.v "b" ] cexpr
     , members =
         [
             { name = "IndexedTraversal"
@@ -42,6 +37,6 @@ let indexedtraversal : tc.TClass =
             , belongs = tc.Belongs.Constructor
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in indexedtraversal

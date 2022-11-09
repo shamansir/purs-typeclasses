@@ -7,16 +7,7 @@ let e = ./../../build_expr.dhall
 -- class (Decide f, Divisible f) <= Decidable f where
 
 let decidable : tc.TClass =
-    { id = "decidable"
-    , name = "Decidable"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "decide", "divisible" ]
-    , info = "Contravariant analogue of Alternative"
-    , module = [ "Data" ]
-    , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Decidable"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "decidable")
             "Decidable"
@@ -25,6 +16,9 @@ let decidable : tc.TClass =
             , d.p (d.id "divisible") "Divisible" [ d.v "f" ]
             ]
             d.t2c
+    , info = "Contravariant analogue of Alternative"
+    , module = [ "Data" ]
+    , package = tc.pkmj "purescript-contravariant" +3
     , members =
         [
             { name = "lose"

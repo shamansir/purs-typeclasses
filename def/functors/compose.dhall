@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Compose f g a
 
 let compose : tc.TClass =
-    { id = "compose"
-    , name = "Compose"
-    , what = tc.What.Newtype_
-    , vars = [ "f", "g", "a" ]
+    { spec = d.nt_c (d.id "compose") "Compose" [ d.v "f", d.v "g", d.v "a" ] d.k12kt
     , info = ""
     , module = [ "Data", "Functor" ]
     , package = tc.pk "purescript-functors" +4 +1 +1
-    , link = "purescript-functors/4.1.1/docs/Data.Functor.Compose"
-    , spec = d.nt_c (d.id "compose") "Compose" [ d.v "f", d.v "g", d.v "a" ] d.k12kt
     , members =
         [
             { name = "Compose"
@@ -62,6 +57,6 @@ let compose : tc.TClass =
         -- (Alternative f, Applicative g) => Alternative (Compose f g)
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in compose

@@ -11,14 +11,10 @@ let atopos = (e.br (e.fn2 (e.n "a") (e.classE "Position"))) -- (a -> Position)
 let atobool = (e.br (e.fn2 (e.n "a") (e.classE "Position"))) -- (a -> Boolean)
 
 let tokenParsers : tc.TClass =
-    { id = "tokenparsers"
-    , name = "Token"
-    , what = tc.What.Package_
+    { spec = d.pkg (d.id "tokenparsers") "Parsing.Token"
     , info = "Primitive parsers for working with streams of tokens."
     , module = [ "Parsing", "Token" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.pkg (d.id "tokenparsers") "Parsing.Token"
     , members =
         [
             { name = "token"
@@ -57,6 +53,6 @@ let tokenParsers : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noVars /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in tokenParsers

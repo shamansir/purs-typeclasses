@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 -- data Effect t0
 
 let effect : tc.TClass =
-    { id = "effect"
-    , name = "Effect"
-    , what = tc.What.Data_
+    { spec = d.data (d.id "effect") "Effect" [ d.v "t0" ]
     , info = "A native effect"
     , module = [ "Data" ] -- FIXME: wrong module?
     , package = tc.pkmj "purescript-effect" +3
-    , link = "purescript-effect/3.0.0/docs/Effect"
-    , spec = d.data (d.id "effect") "Effect" [ d.v "t0" ]
     , members =
         [
             { name = "Effect"
@@ -72,6 +68,6 @@ let effect : tc.TClass =
         , i.instanceReqA "Monoid" "Effect"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noVars /\ tc.noValues
+    } /\ tc.aw /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in effect

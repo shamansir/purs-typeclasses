@@ -6,14 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Void
 
 let void : tc.TClass =
-    { id = "void"
-    , name = "Void"
-    , what = tc.What.Newtype_
+    { spec = d.nt_e (d.id "void") "Void"
     , info = "Uninhabited data type"
     , module = [ "Data" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Void"
-    , spec = d.nt_e (d.id "void") "Void"
     , members =
         [
             { name = "absurd"
@@ -27,6 +23,6 @@ let void : tc.TClass =
         [ i.instance "Show" "Void"
         ]
 
-    } /\ tc.aw /\ tc.noParents /\ tc.noLaws /\ tc.noValues /\ tc.noStatements /\ tc.noVars
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in void

@@ -8,15 +8,10 @@ let e = ./../../build_expr.dhall
 let cexpr = e.class "ParserT" [ e.n "s", e.classE "Identity" ] -- ParserT s Identity
 
 let parser : tc.TClass =
-    { id = "parser"
-    , name = "Parser"
-    , vars = [ "s" ]
-    , what = tc.What.Type_
+    { spec = d.t (d.id "parser") "Parser" [ d.v "s" ] cexpr
     , info = "The `Parser s` monad, where `s` is the type of the input stream"
     , module = [ "Parsing" ]
     , package = tc.pkmj "purescript-parsing" +10
-    , link = "purescript-parsing/10.0.0/docs/Parsing"
-    , spec = d.t (d.id "parser") "Parser" [ d.v "s" ] cexpr
     , members =
         [
             { name = "Parser"
@@ -32,6 +27,6 @@ let parser : tc.TClass =
             , belongs = tc.Belongs.No
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
-    } /\ tc.aw /\ tc.noInstances /\ tc.noParents /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
+    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noStatements /\ tc.noValues
 
 in parser

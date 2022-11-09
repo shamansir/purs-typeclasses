@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Dual a
 
 let dual : tc.TClass =
-    { id = "dual"
-    , name = "Dual"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "dual") "Dual" [ d.v "a" ]
     , info = "Monoid under dualism"
     , module = [ "Data", "Monoid" ]
     , package = tc.pk "purescript-prelude" +5 +0 +1
-    , link = "purescript-prelude/5.0.1/docs/Data.Monoid.Dual"
-    , spec = d.nt (d.id "dual") "Dual" [ d.v "a" ]
     , members =
         [
             { name = "Dual a"
@@ -63,6 +58,6 @@ let dual : tc.TClass =
         , i.instanceReqA "Monoid" "Dual"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noParents
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
 
 in dual

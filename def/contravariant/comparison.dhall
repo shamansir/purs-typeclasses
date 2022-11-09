@@ -6,15 +6,10 @@ let e = ./../../build_expr.dhall
 -- newtype Comparison a
 
 let comparison : tc.TClass =
-    { id = "comparison"
-    , name = "Comparison"
-    , what = tc.What.Newtype_
-    , vars = [ "a" ]
+    { spec = d.nt (d.id "comparison") "Comparison" [ d.v "a" ]
     , info = "An adaptor allowing >$< to map over the inputs of a comparison function"
     , module = [ "Data" ]
     , package = tc.pkmj "purescript-contravariant" +3
-    , link = "purescript-contravariant/3.0.0/docs/Data.Comparison"
-    , spec = d.nt (d.id "comparison") "Comparison" [ d.v "a" ]
     , members =
         [
             { name = "Comparison"
@@ -39,6 +34,6 @@ let comparison : tc.TClass =
         , i.instanceA "Semigroup" "Comparison"
         , i.instanceA "Monoid" "Comparison"
         ]
-    } /\ tc.aw /\ tc.noLaws /\ tc.noParents /\ tc.noValues /\ tc.noStatements
+    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in comparison

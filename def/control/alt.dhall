@@ -7,22 +7,16 @@ let e = ./../../build_expr.dhall
 -- class (Functor f) <= Alt f where
 
 let alt : tc.TClass =
-    { id = "alt"
-    , name = "Alt"
-    , what = tc.What.Class_
-    , vars = [ "f" ]
-    , parents = [ "functor" ]
-    , info = "Associative operation on a constructor"
-    , module = [ "Control" ]
-    , package = tc.pkmj "purescript-control" +5
-    , link = "purescript-control/5.0.0/docs/Control.Alt#t:Alt"
-    , spec =
+    { spec =
         d.class_vpc
             (d.id "alt")
             "Alt"
             [ d.v "f" ]
             [ d.p (d.id "functor") "Functor" [ d.v "f" ] ]
             d.t2c
+    , info = "Associative operation on a constructor"
+    , module = [ "Control" ]
+    , package = tc.pkmj "purescript-control" +5
     , members =
         [
             { name = "alt"
