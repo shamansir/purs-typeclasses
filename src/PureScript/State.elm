@@ -21,6 +21,7 @@ type alias State =
     , controlCollapsed : Bool
     , showInstances : Bool
     , showLinks : Bool
+    -- , showTOC : Bool -- TODO
     }
 
 

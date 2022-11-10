@@ -1,6 +1,6 @@
 * Reflectable : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Reflectable
-* Symbol (prelude) : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Symbol
 * Prim : https://pursuit.purescript.org/builtins/docs/Prim
+* Symbol (prelude) : https://pursuit.purescript.org/packages/purescript-prelude/6.0.1/docs/Data.Symbol
 * Newtype : https://pursuit.purescript.org/packages/purescript-newtype/5.0.0
 * Functions : https://pursuit.purescript.org/packages/purescript-functions/6.0.0
 * Maybe : https://pursuit.purescript.org/packages/purescript-maybe

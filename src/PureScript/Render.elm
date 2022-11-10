@@ -15,8 +15,9 @@ import IntDict as ID
 import PureScript.TypeClass exposing
     ( TypeClass, Member, Law, Statement, LawExample(..), Instance, Var, Link, Package )
 import PureScript.Render.Setup exposing (..)
-import PureScript.Render.Forest as Render
-import PureScript.Render.Graph as Render
+import Graph.Geometry.Make as Render
+import Graph.Render.Svg.Defs as Render
+import Graph.Render.Svg.Graph as Render
 import PureScript.Graph exposing (Extends)
 import PureScript.Tokenize as T
 import Dict
@@ -540,9 +541,9 @@ graph state g =
                 , if state.showConnections then edges state.collapsed sizes positions outgoing else Svg.g [] []
                 ]
 
-    in Render.graph
+    in Render.graphWithDefs
         arrowHeadDefs
-        (Render.Gap 10)
+        Render.defaultWay
         renderCtx
         .size
         graphPrepared
