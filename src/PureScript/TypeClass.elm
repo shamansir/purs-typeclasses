@@ -40,6 +40,15 @@ type alias What = String
 type alias Package = { name : String, version : List Int }
 
 
+type alias ParentRef = { name : String, id : String }
+
+
+type alias VarWithKind = { kind : String, name : String }
+
+
+type alias Connection = { parent : ParentRef, vars : List VarWithKind }
+
+
 type alias Instance = String
 
 
@@ -74,6 +83,8 @@ type alias TypeClass =
     , what : What
     , vars : List Var
     , link : Link
+    , weight : Float
+    , connections : List Connection
     , parents : List Parent
     , package : Package
     , module_ : List Module

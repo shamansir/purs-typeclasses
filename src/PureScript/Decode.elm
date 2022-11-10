@@ -10,9 +10,9 @@ import PureScript.TypeClass exposing (..)
 
 decode : D.Decoder TypeClass
 decode =
-    D.map6
-        (\id name info what vars link ->
-            { id = id, name = name, info = info, what = what, vars = vars, link = link }
+    D.map8
+        (\id name info what vars link weight connections ->
+            { id = id, name = name, info = info, what = what, vars = vars, link = link, weight = weight, connections = connections }
         )
         (D.field "id" D.string)
         (D.field "name" D.string)
@@ -20,10 +20,12 @@ decode =
         (D.field "what" D.string)
         (D.field "vars" <| D.list D.string)
         (D.field "link" D.string)
+        (D.field "weight" D.float)
+        (D.field "connections" <| D.list decodeConnection)
     |> D.andThen
-        (\{ id, name, info, what, vars, link } ->
+        (\{ id, name, info, what, vars, link, weight, connections } ->
             D.map8
-                (TypeClass id name info what vars link)
+                (TypeClass id name info what vars link weight connections )
                 (D.field "parents" <| D.list D.string)
                 (D.field "package"
                     <| D.map2 Package
@@ -126,3 +128,21 @@ maybeListOf itemDecoder field =
     |> D.field field
     |> D.maybe
     |> D.map (Maybe.withDefault [])
+
+
+decodeConnection : D.Decoder Connection
+decodeConnection =
+    D.map2
+        Connection
+        (D.field "parent" <|
+            D.map2
+                ParentRef
+                (D.field "id" D.string)
+                (D.field "name" D.string)
+        )
+        (D.field "vars" <| D.list <|
+            D.map2
+                VarWithKind
+                (D.field "kind" D.string)
+                (D.field "name" D.string)
+        )
