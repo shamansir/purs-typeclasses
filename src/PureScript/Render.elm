@@ -7,7 +7,6 @@ import Html.Events as Html
 import Svg exposing (Svg)
 import Svg.Attributes as Svg
 import Graph exposing (Graph, Adjacency)
-import Graph.Tree.Geometry as TreeGeometry
 import Graph.Extra as Graph
 import IntDict as ID
 

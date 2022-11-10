@@ -4,6 +4,9 @@ module Graph.Extra exposing (..)
 import Graph exposing (Graph)
 
 
+-- FIMXE: expose from `Graph` package: https://github.com/shamansir/elm-graph-render/blob/1.0.0/src/Graph/Extra.elm
+
+
 filterMap : (n1 -> Maybe n2) -> Graph n1 e -> Graph n2 e
 filterMap filterFn graph =
     let
