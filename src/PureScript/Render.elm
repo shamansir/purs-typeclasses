@@ -11,7 +11,7 @@ import Graph.Extra as Graph
 import IntDict as ID
 
 
-import PureScript.TypeClass exposing
+import PureScript.TypeClass as TC exposing
     ( TypeClass, Member, Law, Statement, LawExample(..), Instance, Var, Link, Package )
 import PureScript.Render.Setup exposing (..)
 import Graph.Geometry.Make as Render
@@ -176,10 +176,10 @@ package_ =
         ]
 
 
-parents : List String -> Svg msg
+parents : List TC.Id -> Svg msg
 parents ps =
     if not <| List.isEmpty ps then
-        "(" ++ String.join "," ps ++ ")"
+        "(" ++ String.join "," (List.map TC.idToString ps) ++ ")"
             |> Svg.text
             |> List.singleton
             |> Svg.text_

@@ -3,12 +3,12 @@ module PureScript.Graph exposing (..)
 import Graph as G
 import Dict exposing (Dict)
 
-import PureScript.TypeClass exposing (..)
+import PureScript.TypeClass as TC exposing (..)
 
 
 type alias Extends =
-    { parentId : ( G.NodeId, String )
-    , childId : ( G.NodeId, String )
+    { parentId : ( G.NodeId, TC.Id )
+    , childId : ( G.NodeId, TC.Id )
     }
 
 
@@ -21,28 +21,30 @@ toGraph : Dict String TypeClass -> EGraph
 toGraph dict =
   let
 
-        indexed : List (Int, (String, TypeClass))
+        indexed : List (Int, (TC.Id, TypeClass))
         indexed =
             dict
                 |> Dict.toList
+                |> List.map (Tuple.mapFirst TC.Id)
+                |> List.sortBy (Tuple.second >> .weight >> (*) -1)
                 |> List.indexedMap Tuple.pair
 --                |> Debug.log "indexed"
 
-        nameToIndex : Dict String Int
-        nameToIndex =
+        idToIndex : Dict String Int
+        idToIndex =
             indexed
                 |> List.map (Tuple.mapSecond Tuple.first)
                 |> List.foldl
-                    (\(index, name) ntoi ->
-                        ntoi |> Dict.insert name index
+                    (\(index, id) ntoi ->
+                        ntoi |> Dict.insert (TC.idToString id) index
                     )
                     Dict.empty
 
-        parentsToEdges : ( Int, String ) -> List String -> List (G.Edge Extends)
+        parentsToEdges : ( Int, TC.Id ) -> List TC.Id -> List (G.Edge Extends)
         parentsToEdges ( childIdx, childId ) =
             List.map
                 (\parentId ->
-                    Dict.get parentId nameToIndex
+                    Dict.get (TC.idToString parentId) idToIndex
                         |> Maybe.map
                             (\parentIdx ->
                                 G.Edge parentIdx childIdx

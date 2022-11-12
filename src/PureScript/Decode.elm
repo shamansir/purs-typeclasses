@@ -14,7 +14,7 @@ decode =
         (\id name info what vars link weight connections ->
             { id = id, name = name, info = info, what = what, vars = vars, link = link, weight = weight, connections = connections }
         )
-        (D.field "id" D.string)
+        (D.field "id" D.string |> D.map Id)
         (D.field "name" D.string)
         (D.field "info" D.string)
         (D.field "what" D.string)
@@ -26,7 +26,7 @@ decode =
         (\{ id, name, info, what, vars, link, weight, connections } ->
             D.map8
                 (TypeClass id name info what vars link weight connections )
-                (D.field "parents" <| D.list D.string)
+                (D.field "parents" <| D.list <| D.map Id <| D.string)
                 (D.field "package"
                     <| D.map2 Package
                         (D.field "name" D.string)
@@ -118,7 +118,7 @@ decodeMany : D.Decoder (Dict String TypeClass)
 decodeMany =
     -- D.dict decode
     (D.field "defs" <| D.list decode)
-        |> D.map (List.map <| \tc -> ( tc.id, tc ))
+        |> D.map (List.map <| \tc -> ( idToString tc.id, tc ))
         |> D.map Dict.fromList
 
 
@@ -137,8 +137,8 @@ decodeConnection =
         (D.field "parent" <|
             D.map2
                 ParentRef
-                (D.field "id" D.string)
                 (D.field "name" D.string)
+                (D.field "id" D.string |> D.map Id)
         )
         (D.field "vars" <| D.list <|
             D.map2

@@ -1,7 +1,11 @@
 module PureScript.TypeClass exposing (..)
 
 
-type alias Id = String
+type Id = Id String
+
+
+idToString : Id -> String
+idToString (Id id) = id
 
 
 type LawExample
@@ -40,7 +44,7 @@ type alias What = String
 type alias Package = { name : String, version : List Int }
 
 
-type alias ParentRef = { name : String, id : String }
+type alias ParentRef = { name : String, id : Id }
 
 
 type alias VarWithKind = { kind : String, name : String }
@@ -67,7 +71,7 @@ type alias Op = String
 type alias Link = String
 
 
-type alias Parent = String
+type alias Parent = Id
 
 
 type alias Var = String

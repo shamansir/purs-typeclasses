@@ -5,10 +5,10 @@ module PureScript.State exposing (..)
 import Dict exposing (Dict)
 import Graph exposing (Node, NodeId)
 
-import PureScript.TypeClass exposing (TypeClass)
+import PureScript.TypeClass as TC exposing (TypeClass)
 
 
-type alias TypeClassId = String
+type alias TypeClassId = TC.Id
 
 
 type alias PackageId = String
@@ -25,7 +25,7 @@ type alias State =
     }
 
 
-type alias PackagesShown = Dict TypeClassId Bool
+type alias PackagesShown = Dict PackageId Bool
 
 
 type Collapsed
@@ -163,8 +163,8 @@ isCollapsed collapsed tcId =
     case collapsed of
         AllExpanded -> False
         AllCollapsed -> True
-        AllCollapsedExcept clases -> not <| List.member tcId clases
-        AllExpandedExcept clases -> List.member tcId clases
+        AllCollapsedExcept classes -> not <| List.member tcId classes
+        AllExpandedExcept classes -> List.member tcId classes
 
 
 isShown : PackagesShown -> PackageId -> Bool
