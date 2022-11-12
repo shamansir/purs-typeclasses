@@ -532,10 +532,25 @@ graph state g =
                     (\{ id, label } -> ID.insert id label.size)
                     ID.empty
 
-        renderCtx {x, y} positions { node, incoming, outgoing } =
+        idToNodeId =
+            graphPrepared
+                |> Graph.nodes
+                |> List.foldl
+                    (\{ id, label } -> Dict.insert (TC.idToString label.tc.id) id)
+                    Dict.empty
+
+        positionTypeClass positions { x, y } =
+            case state.focusAt of
+                Just (TC.Id tcId) ->
+                    case idToNodeId |> Dict.get tcId |> Maybe.andThen (\nodeId -> ID.get nodeId positions) of
+                        Just p -> groupAndTranslate (x - p.x) (y - p.y) -- TODO: groupAndTranslate x y
+                        Nothing -> groupAndTranslate x y
+                Nothing -> groupAndTranslate x y
+
+        renderCtx pos positions { node, incoming, outgoing } =
             Svg.g
                 [ ]
-                [ typeClass node.label.state node.label.tc |> groupAndTranslate x y
+                [ typeClass node.label.state node.label.tc |> positionTypeClass positions pos
                 , if state.showConnections then edges state.collapsed sizes positions incoming else Svg.g [] []
                 , if state.showConnections then edges state.collapsed sizes positions outgoing else Svg.g [] []
                 ]

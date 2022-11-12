@@ -21,6 +21,7 @@ type alias State =
     , controlCollapsed : Bool
     , showInstances : Bool
     , showLinks : Bool
+    , focusAt : Maybe TC.Id
     -- , showTOC : Bool -- TODO
     }
 
@@ -70,6 +71,7 @@ init =
     , controlCollapsed = False
     , showInstances = False
     , showLinks = True
+    , focusAt = Just <| TC.Id "functor"
     }
 
 
