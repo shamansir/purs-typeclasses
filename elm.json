@@ -18,7 +18,7 @@
             "elm/svg": "1.0.1",
             "elm-community/graph": "6.0.0",
             "elm-community/intdict": "3.0.0",
-            "shamansir/elm-graph-render": "1.0.0",
+            "shamansir/elm-graph-render": "1.1.0",
             "terezka/line-charts": "2.0.1"
         },
         "indirect": {
