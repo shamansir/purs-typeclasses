@@ -729,3 +729,49 @@ stateControl state =
             ]
             [ expandCollapseStateButton
             ]
+
+
+toc : State -> Html Msg
+toc state =
+    let
+        tocHeight = 100
+        leftPos = if state.controlCollapsed then 30 else 160
+
+        expandCollapseTocButton =
+            Html.span
+                [ Html.style "position" "absolute"
+                , Html.style "right" "5px"
+                , Html.style "top" "3px"
+                , Html.onClick <| SwitchToc
+                ]
+                [ Html.text <| if state.tocCollapsed then "📕" else "📖"
+                ]
+    in
+        if not state.tocCollapsed then
+        Html.div
+            [ Html.style "position" "fixed"
+            , Html.style "width" "150px"
+            , Html.style "height" <| String.fromInt tocHeight ++ "px"
+            , Html.style "border" "1px solid black"
+            , Html.style "border-radius" "5px"
+            , Html.style "bottom" "10px"
+            , Html.style "background" "white"
+            , Html.style "cursor" "pointer"
+            , Html.style "left" <| String.fromInt leftPos ++ "px"
+            ]
+            [ expandCollapseTocButton
+            ]
+    else
+        Html.div
+            [ Html.style "position" "fixed"
+            , Html.style "width" "20px"
+            , Html.style "height" "20px"
+            , Html.style "border" "1px solid black"
+            , Html.style "border-radius" "5px"
+            , Html.style "bottom" "10px"
+            , Html.style "background" "white"
+            , Html.style "cursor" "pointer"
+            , Html.style "left" <| String.fromInt leftPos ++ "px"
+            ]
+            [ expandCollapseTocButton
+            ]

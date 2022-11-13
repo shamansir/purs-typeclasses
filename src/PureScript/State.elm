@@ -24,6 +24,7 @@ type alias State =
     , showConnections : Bool
     , packagesShown : PackagesShown
     , controlCollapsed : Bool
+    , tocCollapsed : Bool
     , showInstances : Bool
     , showLinks : Bool
     , focus : Focus
@@ -74,9 +75,10 @@ init =
         |> List.map (\package -> ( package, (package == "prelude") ) )
         |> Dict.fromList
     , controlCollapsed = False
+    , tocCollapsed = True
     , showInstances = False
     , showLinks = True
-    , focus = FocusedAt (TC.Id "functor")
+    , focus = NotFocused -- FocusedAt (TC.Id "functor")
     }
 
 
@@ -101,6 +103,7 @@ type Msg
     | SwitchConnections
     | SwitchInstances
     | SwitchLinks
+    | SwitchToc
 
 
 update : Msg -> State -> State
@@ -162,7 +165,10 @@ update msg state =
             { state
             | showLinks = not state.showLinks
             }
-
+        SwitchToc ->
+            { state
+            | tocCollapsed = not state.tocCollapsed
+            }
 
 
 isCollapsed : Collapsed -> TypeClassId -> Bool
