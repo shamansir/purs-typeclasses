@@ -14,6 +14,11 @@ type alias TypeClassId = TC.Id
 type alias PackageId = String
 
 
+type Focus
+    = FocusedAt TypeClassId
+    | NotFocused
+
+
 type alias State =
     { collapsed : Collapsed
     , showConnections : Bool
@@ -21,7 +26,7 @@ type alias State =
     , controlCollapsed : Bool
     , showInstances : Bool
     , showLinks : Bool
-    , focusAt : Maybe TC.Id
+    , focus : Focus
     -- , showTOC : Bool -- TODO
     }
 
@@ -71,7 +76,7 @@ init =
     , controlCollapsed = False
     , showInstances = False
     , showLinks = True
-    , focusAt = Just <| TC.Id "functor"
+    , focus = FocusedAt (TC.Id "functor")
     }
 
 

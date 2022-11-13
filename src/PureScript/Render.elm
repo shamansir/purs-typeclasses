@@ -19,8 +19,12 @@ import Graph.Render.Svg.Defs as Render
 import Graph.Render.Svg.Graph as Render
 import PureScript.Graph exposing (Extends)
 import PureScript.Tokenize as T
-import Dict
+import Dict exposing (Dict)
 import PureScript.State as State exposing (State, TCState, Msg(..), knownPackages)
+import Graph.Geometry exposing (Position)
+
+
+type alias IdToNodeId = Dict String Int
 
 
 member : Member -> Svg Msg
@@ -481,10 +485,21 @@ edge collapsed sizes positions { parentId, childId } =
             []
         ]
 
+focusPosition : IdToNodeId -> Render.NodesPositions -> State.Focus -> Maybe Position
+focusPosition idToNodeId positions focus =
+    case focus of
+        State.FocusedAt (TC.Id tcId) ->
+            idToNodeId |> Dict.get tcId |> Maybe.andThen (\nodeId -> ID.get nodeId positions)
+        State.NotFocused -> Nothing
 
-edges : State.Collapsed -> NodesSizes -> Render.NodesPositions -> Adjacency Extends -> Html Msg
-edges collapsed sizes positions adjacency =
-    Svg.g []
+
+edges : IdToNodeId -> NodesSizes -> Render.NodesPositions -> State.Focus -> State.Collapsed -> Adjacency Extends -> Html Msg
+edges idToNodeId sizes positions focus collapsed adjacency =
+    Svg.g
+        ( case focusPosition idToNodeId positions focus of
+            Just p -> [ Svg.transform <| translateTo (-1 * p.x) (-1 * p.y) ]
+            Nothing -> []
+        )
         <| List.map (Tuple.second >> edge collapsed sizes positions)
         <| ID.toList adjacency
 
@@ -540,19 +555,16 @@ graph state g =
                     Dict.empty
 
         positionTypeClass positions { x, y } =
-            case state.focusAt of
-                Just (TC.Id tcId) ->
-                    case idToNodeId |> Dict.get tcId |> Maybe.andThen (\nodeId -> ID.get nodeId positions) of
-                        Just p -> groupAndTranslate (x - p.x) (y - p.y) -- TODO: groupAndTranslate x y
-                        Nothing -> groupAndTranslate x y
+            case focusPosition idToNodeId positions state.focus of
+                Just p -> groupAndTranslate (x - p.x) (y - p.y)
                 Nothing -> groupAndTranslate x y
 
         renderCtx pos positions { node, incoming, outgoing } =
             Svg.g
                 [ ]
                 [ typeClass node.label.state node.label.tc |> positionTypeClass positions pos
-                , if state.showConnections then edges state.collapsed sizes positions incoming else Svg.g [] []
-                , if state.showConnections then edges state.collapsed sizes positions outgoing else Svg.g [] []
+                , if state.showConnections then edges idToNodeId sizes positions state.focus state.collapsed incoming else Svg.g [] []
+                , if state.showConnections then edges idToNodeId sizes positions state.focus state.collapsed outgoing else Svg.g [] []
                 ]
 
     in Render.graphWithDefs
