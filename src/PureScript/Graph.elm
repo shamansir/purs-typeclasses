@@ -17,7 +17,7 @@ type alias UGraph = G.Graph TypeClass ()
 type alias EGraph = G.Graph TypeClass Extends
 
 
-toGraph : Dict String TypeClass -> EGraph
+toGraph : Dict TC.TextId TypeClass -> EGraph
 toGraph dict =
   let
 
@@ -67,9 +67,23 @@ toGraph dict =
             -> G.fromNodesAndEdges nodes edges
 
 
-toUGraph : Dict String TypeClass -> UGraph
+toUGraph : Dict TC.TextId TypeClass -> UGraph
 toUGraph =
   toGraph >> G.mapEdges (always ())
+
+
+extractToc : G.Graph TypeClass a -> Dict TC.PackageName (List TC.Id)
+extractToc =
+    G.nodes
+        >> List.foldl
+            (\node ->
+                Dict.update node.label.package.name
+                    <| Maybe.map
+                        ((::) node.label.id)
+                        >> Maybe.withDefault (List.singleton node.label.id)
+                        >> Just
+            )
+            Dict.empty
 
 
 noParentsNodes : G.Graph n e -> List G.NodeId

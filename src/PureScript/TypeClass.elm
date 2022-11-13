@@ -4,7 +4,10 @@ module PureScript.TypeClass exposing (..)
 type Id = Id String
 
 
-idToString : Id -> String
+type alias TextId = String
+
+
+idToString : Id -> TextId
 idToString (Id id) = id
 
 
@@ -41,13 +44,25 @@ type alias Member =
 type alias What = String
 
 
-type alias Package = { name : String, version : List Int }
+type alias PackageName = String
 
 
-type alias ParentRef = { name : String, id : Id }
+type alias Package = { name : PackageName, version : List Int }
 
 
-type alias VarWithKind = { kind : String, name : String }
+type alias ParentName = String
+
+
+type alias ParentRef = { name : ParentName, id : Id }
+
+
+type alias VarName = String
+
+
+type alias VarKind = String
+
+
+type alias VarWithKind = { kind : VarKind, name : VarName }
 
 
 type alias Connection = { parent : ParentRef, vars : List VarWithKind }

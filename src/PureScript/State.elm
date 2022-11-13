@@ -35,6 +35,9 @@ type alias State =
 type alias PackagesShown = Dict PackageId Bool
 
 
+type alias Toc = Dict PackageId (List TypeClassId)
+
+
 type Collapsed
     = AllCollapsed
     | AllExpanded
