@@ -74,11 +74,16 @@ toUGraph =
 
 extractToc : G.Graph TypeClass a -> Toc
 extractToc =
+    let
+        dropPSName pkg  =
+            if (String.startsWith "purescript-" pkg) then String.dropLeft (String.length "purescript-") pkg
+            else pkg
+    in
     G.nodes
         >> List.foldl
             (\node ->
                 let idAndName = ( node.label.id, node.label.name )
-                in Dict.update node.label.package.name
+                in Dict.update (dropPSName node.label.package.name)
                     <| Maybe.map
                         ((::) idAndName)
                         >> Maybe.withDefault (List.singleton idAndName)

@@ -768,7 +768,8 @@ toc state tocDict =
                     ]
                 :: prevSections
                 )
-
+        isPackageShown ( pkg, _ ) =
+            Dict.get pkg state.packagesShown |> Maybe.withDefault False
     in
         if not state.tocCollapsed then
         Html.div
@@ -791,7 +792,10 @@ toc state tocDict =
                 , Html.style "padding" "0 0 0 10px"
                 , Html.style "list-style-type" "disclosure-open"
                 ]
-                <| Tuple.second <| List.foldr renderSection ( 0, [] ) <| Dict.toList tocDict
+                <| Tuple.second
+                <| List.foldr renderSection ( 0, [] )
+                <| List.filter isPackageShown
+                <| Dict.toList tocDict
             ]
     else
         Html.div
