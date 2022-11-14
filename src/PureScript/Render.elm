@@ -731,10 +731,10 @@ stateControl state =
             ]
 
 
-toc : State -> Html Msg
-toc state =
+toc : State -> State.Toc -> Html Msg
+toc state tocDict =
     let
-        tocHeight = 100
+        tocHeight = 200
         leftPos = if state.controlCollapsed then 30 else 160
 
         expandCollapseTocButton =
@@ -746,6 +746,20 @@ toc state =
                 ]
                 [ Html.text <| if state.tocCollapsed then "📕" else "📖"
                 ]
+        renderTC ( tcId, tcName ) =
+            Html.li [] [ Html.text tcName ]
+        renderSection ( packageName, typeClasses ) ( offset, prevSections ) =
+            let curOffset = 10 + List.length typeClasses * 10
+            in
+                ( offset + curOffset
+                , Html.ul
+                    []
+                    ( Html.text packageName
+                    :: List.map renderTC typeClasses
+                    )
+                :: prevSections
+                )
+
     in
         if not state.tocCollapsed then
         Html.div
@@ -758,8 +772,14 @@ toc state =
             , Html.style "background" "white"
             , Html.style "cursor" "pointer"
             , Html.style "left" <| String.fromInt leftPos ++ "px"
+            -- , Html.style "overflow" "scroll"
             ]
             [ expandCollapseTocButton
+            , Html.div
+                [ Html.style "height" <| String.fromInt tocHeight ++ "px"
+                , Html.style "overflow" "scroll"
+                ]
+                <| Tuple.second <| List.foldl renderSection ( 0, [] ) <| Dict.toList tocDict
             ]
     else
         Html.div

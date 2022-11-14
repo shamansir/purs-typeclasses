@@ -8,14 +8,12 @@ import Graph exposing (Node, NodeId)
 import PureScript.TypeClass as TC exposing (TypeClass)
 
 
-type alias TypeClassId = TC.Id
-
 
 type alias PackageId = String
 
 
 type Focus
-    = FocusedAt TypeClassId
+    = FocusedAt TC.Id
     | NotFocused
 
 
@@ -35,14 +33,14 @@ type alias State =
 type alias PackagesShown = Dict PackageId Bool
 
 
-type alias Toc = Dict PackageId (List TypeClassId)
+type alias Toc = Dict PackageId (List ( TC.Id, TC.Name ))
 
 
 type Collapsed
     = AllCollapsed
     | AllExpanded
-    | AllExpandedExcept (List TypeClassId)
-    | AllCollapsedExcept (List TypeClassId)
+    | AllExpandedExcept (List TC.Id)
+    | AllCollapsedExcept (List TC.Id)
 
 
 knownPackages =
@@ -78,7 +76,7 @@ init =
         |> List.map (\package -> ( package, (package == "prelude") ) )
         |> Dict.fromList
     , controlCollapsed = False
-    , tocCollapsed = True
+    , tocCollapsed = False
     , showInstances = False
     , showLinks = True
     , focus = NotFocused -- FocusedAt (TC.Id "functor")
@@ -95,8 +93,8 @@ type alias TCState =
 
 
 type Msg
-    = Expand TypeClassId
-    | Collapse TypeClassId
+    = Expand TC.Id
+    | Collapse TC.Id
     | ExpandAll
     | CollapseAll
     | HideAll
@@ -174,7 +172,7 @@ update msg state =
             }
 
 
-isCollapsed : Collapsed -> TypeClassId -> Bool
+isCollapsed : Collapsed -> TC.Id -> Bool
 isCollapsed collapsed tcId =
     case collapsed of
         AllExpanded -> False

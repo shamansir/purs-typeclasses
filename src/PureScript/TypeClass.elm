@@ -1,10 +1,16 @@
 module PureScript.TypeClass exposing (..)
 
 
+import Dict exposing (Dict)
+
+
 type Id = Id String
 
 
 type alias TextId = String
+
+
+type alias Name = String
 
 
 idToString : Id -> TextId
@@ -97,7 +103,7 @@ type alias Example = String
 
 type alias TypeClass =
     { id : Id
-    , name : String
+    , name : Name
     , info : String
     , what : What
     , vars : List Var
@@ -113,3 +119,6 @@ type alias TypeClass =
     , values : List Value
     , laws : List Law
     }
+
+
+type alias Toc = Dict PackageName (List ( Id, Name ))

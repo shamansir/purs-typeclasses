@@ -72,15 +72,16 @@ toUGraph =
   toGraph >> G.mapEdges (always ())
 
 
-extractToc : G.Graph TypeClass a -> Dict TC.PackageName (List TC.Id)
+extractToc : G.Graph TypeClass a -> Toc
 extractToc =
     G.nodes
         >> List.foldl
             (\node ->
-                Dict.update node.label.package.name
+                let idAndName = ( node.label.id, node.label.name )
+                in Dict.update node.label.package.name
                     <| Maybe.map
-                        ((::) node.label.id)
-                        >> Maybe.withDefault (List.singleton node.label.id)
+                        ((::) idAndName)
+                        >> Maybe.withDefault (List.singleton idAndName)
                         >> Just
             )
             Dict.empty

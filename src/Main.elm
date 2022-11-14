@@ -182,7 +182,7 @@ view model =
                 (Html.div
                   [ ]
                   [ PS.stateControl state
-                  , PS.toc state
+                  , PS.toc state <| PS.extractToc <| Graph.mapNodes Tuple.second <| graph
                   , PS.graph state <| Graph.mapNodes Tuple.second <| graph
                   ]) |> Html.map ToPS
             Nothing -> div [] []
