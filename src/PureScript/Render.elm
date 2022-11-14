@@ -747,6 +747,16 @@ toc state tocDict =
                 ]
                 [ Html.text <| if state.tocCollapsed then "📕" else "📖"
                 ]
+        resetFocusButton =
+            Html.span
+                [ Html.style "position" "absolute"
+                , Html.style "right" "20px"
+                , Html.style "top" "2px"
+                , Html.style "cursor" "pointer"
+                , Html.onClick <| ResetFocus
+                ]
+                [ Html.text "🎯"
+                ]
         renderTC ( tcId, tcName ) =
             Html.li
                 [ Html.style "cursor" "pointer"
@@ -783,7 +793,8 @@ toc state tocDict =
             , Html.style "left" <| String.fromInt leftPos ++ "px"
             -- , Html.style "overflow" "scroll"
             ]
-            [ expandCollapseTocButton
+            [ resetFocusButton
+            , expandCollapseTocButton
             , Html.ul
                 [ Html.style "height" <| String.fromInt (tocHeight - 5) ++ "px"
                 , Html.style "overflow" "scroll"
@@ -800,7 +811,7 @@ toc state tocDict =
     else
         Html.div
             [ Html.style "position" "fixed"
-            , Html.style "width" "20px"
+            , Html.style "width" "35px"
             , Html.style "height" "20px"
             , Html.style "border" "1px solid black"
             , Html.style "border-radius" "5px"
@@ -809,5 +820,6 @@ toc state tocDict =
             , Html.style "cursor" "pointer"
             , Html.style "left" <| String.fromInt leftPos ++ "px"
             ]
-            [ expandCollapseTocButton
+            [ resetFocusButton
+            , expandCollapseTocButton
             ]

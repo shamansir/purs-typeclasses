@@ -101,6 +101,7 @@ type Msg
     | ShowAll
     | Switch PackageId
     | FocusOn TC.Id
+    | ResetFocus
     | SwitchStateControl
     | SwitchConnections
     | SwitchInstances
@@ -154,6 +155,10 @@ update msg state =
         FocusOn tClass ->
             { state
             | focus = FocusedAt tClass
+            }
+        ResetFocus ->
+            { state
+            | focus = NotFocused
             }
         SwitchStateControl ->
             { state
