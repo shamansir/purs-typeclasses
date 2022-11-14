@@ -140,6 +140,6 @@ let applicative : tc.TClass =
         , i.instanceArrowR
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.9 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in applicative

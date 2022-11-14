@@ -127,7 +127,7 @@ let bind : tc.TClass =
         , i.instanceArrowR
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.7 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
     : tc.TClass
 
 in bind

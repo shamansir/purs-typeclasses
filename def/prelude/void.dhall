@@ -23,6 +23,6 @@ let void : tc.TClass =
         [ i.instance "Show" "Void"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.05 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in void

@@ -67,6 +67,6 @@ let semigroupoid : tc.TClass =
             } /\ tc.noLaws /\ tc.noExamples
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.3 /\ tc.noLaws /\ tc.noInstances /\ tc.noValues /\ tc.noStatements
 
 in semigroupoid

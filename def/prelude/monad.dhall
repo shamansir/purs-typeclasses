@@ -103,6 +103,6 @@ let monad : tc.TClass =
         , i.instanceCl "Array"
         ]
 
-    } /\ tc.aw /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.6 /\ tc.noValues /\ tc.noStatements
 
 in monad

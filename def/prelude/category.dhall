@@ -41,6 +41,6 @@ let category : tc.TClass =
         , i.instance "Function" "Category"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.6 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in category

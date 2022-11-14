@@ -164,6 +164,6 @@ let ord : tc.TClass =
             } /\ tc.noOps /\ tc.noLaws /\ tc.noExamples
         ]
 
-    } /\ tc.aw /\ tc.noInstances /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.1 /\ tc.noInstances /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in ord

@@ -76,6 +76,6 @@ let endo : tc.TClass =
             -- (Category c) => Monoid (Endo c a)
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues
+    } /\ tc.w 1.05 /\ tc.noLaws /\ tc.noValues
 
 in endo

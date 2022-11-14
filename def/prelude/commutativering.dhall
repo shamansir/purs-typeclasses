@@ -34,6 +34,6 @@ let commutativeRing : tc.TClass =
         , i.instanceReqSubjArrow "CommutativeRing"
         ]
 
-    } /\ tc.aw /\ tc.noMembers /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.05 /\ tc.noMembers /\ tc.noValues /\ tc.noStatements
 
 in commutativeRing

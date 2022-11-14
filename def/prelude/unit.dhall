@@ -21,6 +21,6 @@ let unit : tc.TClass =
         [ i.instance "Show" "Unit"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.05 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in unit

@@ -135,6 +135,6 @@ let functor : tc.TClass =
         , i.instanceArrowR
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 2.0 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in functor

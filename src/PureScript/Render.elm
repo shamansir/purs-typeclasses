@@ -774,7 +774,9 @@ toc state tocDict =
                         [ Html.style "margin" "5px 0 10px 10px"
                         , Html.style "padding" "0"
                         ]
-                        <| List.map renderTC typeClasses
+                        <| List.map renderTC
+                        <| List.sortBy Tuple.second
+                        <| typeClasses
                     ]
                 :: prevSections
                 )

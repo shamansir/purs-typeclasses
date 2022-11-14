@@ -77,6 +77,6 @@ let monoid : tc.TClass =
         , i.instanceReqSubjArrow "Monoid"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 1.4 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in monoid
