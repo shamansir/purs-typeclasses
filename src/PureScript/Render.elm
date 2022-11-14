@@ -742,21 +742,30 @@ toc state tocDict =
                 [ Html.style "position" "absolute"
                 , Html.style "right" "5px"
                 , Html.style "top" "3px"
+                , Html.style "cursor" "pointer"
                 , Html.onClick <| SwitchToc
                 ]
                 [ Html.text <| if state.tocCollapsed then "📕" else "📖"
                 ]
         renderTC ( tcId, tcName ) =
-            Html.li [] [ Html.text tcName ]
+            Html.li
+                [ Html.style "cursor" "pointer"
+                , Html.onClick <| FocusOn tcId
+                ]
+                [ Html.text tcName ]
         renderSection ( packageName, typeClasses ) ( offset, prevSections ) =
             let curOffset = 10 + List.length typeClasses * 10
             in
                 ( offset + curOffset
-                , Html.ul
-                    []
-                    ( Html.text packageName
-                    :: List.map renderTC typeClasses
-                    )
+                , Html.li
+                    [ ]
+                    [ Html.text packageName
+                    , Html.ul
+                        [ Html.style "margin" "5px 0 10px 10px"
+                        , Html.style "padding" "0"
+                        ]
+                        <| List.map renderTC typeClasses
+                    ]
                 :: prevSections
                 )
 
@@ -770,16 +779,19 @@ toc state tocDict =
             , Html.style "border-radius" "5px"
             , Html.style "bottom" "10px"
             , Html.style "background" "white"
-            , Html.style "cursor" "pointer"
             , Html.style "left" <| String.fromInt leftPos ++ "px"
             -- , Html.style "overflow" "scroll"
             ]
             [ expandCollapseTocButton
-            , Html.div
-                [ Html.style "height" <| String.fromInt tocHeight ++ "px"
+            , Html.ul
+                [ Html.style "height" <| String.fromInt (tocHeight - 5) ++ "px"
                 , Html.style "overflow" "scroll"
+                , Html.style "left" "-20px"
+                , Html.style "margin" "5px 0 0 10px"
+                , Html.style "padding" "0 0 0 10px"
+                , Html.style "list-style-type" "disclosure-open"
                 ]
-                <| Tuple.second <| List.foldl renderSection ( 0, [] ) <| Dict.toList tocDict
+                <| Tuple.second <| List.foldr renderSection ( 0, [] ) <| Dict.toList tocDict
             ]
     else
         Html.div

@@ -100,6 +100,7 @@ type Msg
     | HideAll
     | ShowAll
     | Switch PackageId
+    | FocusOn TC.Id
     | SwitchStateControl
     | SwitchConnections
     | SwitchInstances
@@ -149,6 +150,10 @@ update msg state =
         ShowAll ->
             { state
             | packagesShown = state.packagesShown |> (Dict.map <| always <| always True)
+            }
+        FocusOn tClass ->
+            { state
+            | focus = FocusedAt tClass
             }
         SwitchStateControl ->
             { state

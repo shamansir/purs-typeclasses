@@ -85,6 +85,7 @@ extractToc =
                         >> Just
             )
             Dict.empty
+        >> Dict.map (always List.reverse)
 
 
 noParentsNodes : G.Graph n e -> List G.NodeId
