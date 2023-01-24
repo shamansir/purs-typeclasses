@@ -196,6 +196,6 @@ let traversable : tc.TClass =
         , i.instanceReqASubj "App" "Traversable"
         ]
 
-    } /\ tc.aw /\ tc.noValues /\ tc.noLaws
+    } /\ tc.w 1.8 /\ tc.noValues /\ tc.noLaws
 
 in traversable

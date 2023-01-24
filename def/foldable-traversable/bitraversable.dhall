@@ -129,6 +129,6 @@ let bitraversable : tc.TClass =
         , i.instanceSubj "Const" "Bitraversable"
         ]
 
-    } /\ tc.aw /\ tc.noStatements /\ tc.noValues /\ tc.noLaws
+    } /\ tc.w 1.7 /\ tc.noStatements /\ tc.noValues /\ tc.noLaws
 
 in bitraversable

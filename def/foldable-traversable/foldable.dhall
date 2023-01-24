@@ -504,6 +504,6 @@ let foldable : tc.TClass =
         , i.instanceReqASubj "App" "Foldable"
         ]
 
-    } /\ tc.aw /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
+    } /\ tc.w 2.0 /\ tc.noLaws /\ tc.noValues /\ tc.noStatements
 
 in foldable
