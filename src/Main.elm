@@ -52,7 +52,7 @@ main =
 metaContent = "application/json"
 
 
-serverUrl = "http://localhost:8042/"
+serverUrl = "https://shamansir.github.io/purs-typeclasses/gen/"
 
 
 type alias Convert a =
