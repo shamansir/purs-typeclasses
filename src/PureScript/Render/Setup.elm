@@ -18,8 +18,9 @@ infoFontSize = 12
 parentFontSize = floor <| classNameFontSize * 0.8
 instanceFontSize = 13
 statementFontSize = lawExampleFontSize
-memberNameFontSize = 14
-memberDefFontSize = 12
+memberNameFontSize = 12
+memberDefFontSize = 10
+operatorFontSize = 10
 lawNameFontSize = 14
 
 lawExampleFontSize = 12
@@ -81,7 +82,10 @@ instancesY tc
 classNameFont = "Bangla MN"
 parentClassFont = classNameFont
 infoFont = "\"Bodoni 72\""
-memberNameFont = "'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"
+memberNameFont = "Menlo, Monaco, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif"
+operatorFont = memberNameFont
+lawFont = memberNameFont
+lawExampleFont = memberNameFont
 memberDefFont = ""
 
 

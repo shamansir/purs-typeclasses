@@ -51,6 +51,13 @@ jobs:
         with:
           path: '.'
 
+      - name: Serve Files
+        uses: Eun/http-server-action@v1
+        with:
+            directory: ./gen
+            port: 8042
+            # cors: true
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

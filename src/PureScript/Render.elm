@@ -62,6 +62,8 @@ member m =
                     , Svg.text_
                         [ Svg.x <| String.fromFloat secondOpX
                         , Svg.textAnchor "middle"
+                        , Svg.fontFamily operatorFont
+                        , Svg.fontSize <| String.fromInt operatorFontSize
                         ]
                         [ Svg.text operator ]
                     ]
@@ -70,6 +72,7 @@ member m =
         , Svg.text_
             [ Svg.transform <| translateTo memberPadding 2
             , Svg.fontSize <| String.fromInt memberNameFontSize
+            , Svg.fontFamily memberNameFont
             ] <|
             [ Svg.tspan
                 [ Svg.fontWeight "600"
@@ -144,7 +147,9 @@ lawExample le =
 law : Law -> Svg msg
 law l =
     Svg.g
-        [ Svg.fontSize <| String.fromInt lawExampleFontSize ]
+        [ Svg.fontFamily lawExampleFont
+        , Svg.fontSize <| String.fromInt lawExampleFontSize
+        ]
         [ highlightTokens_
             [ ]
             <| T.tokenize <| l.law

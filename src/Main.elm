@@ -82,7 +82,7 @@ init _ =
 tryLoadingLocalJson : String -> D.Decoder a -> (a -> Data) -> Cmd Msg
 tryLoadingLocalJson path decoder toData =
   Http.get
-    { url = "http://localhost:8042/" ++ path
+    { url = serverUrl ++ path
     , expect =
         Http.expectJson
           (\result ->
