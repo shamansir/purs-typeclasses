@@ -32,11 +32,25 @@
           '';
         };
 
+        buildApp = pkgs.writeShellApplication {
+          name = "purs-typeclasses-build";
+          runtimeInputs = [ pkgs.elmPackages.elm pkgs.dhall-json ];
+          text = ''
+            dhall-to-json --file ./classes.dhall > ./gen/purs-typeclasses.json
+            elm make src/Main.elm --optimize --output=app.js
+          '';
+        };
+
       in
         {
           apps.default = {
             type = "app";
             program = "${devApp}/bin/purs-typeclasses-dev";
+          };
+
+          apps.build = {
+            type = "app";
+            program = "${buildApp}/bin/purs-typeclasses-build";
           };
 
           devShells.default = pkgs.mkShell {
